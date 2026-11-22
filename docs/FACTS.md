@@ -160,4 +160,4 @@ xcodebuild build -quiet \
 ## 13. 页面禁词（`check:out` 会扫产物）
 
 `SimpleX`（任意大小写）、`VPN`、`代理`、`专网`、`军工`、`Bitchat`、任何本地绝对路径（`/Users/…`）。
-注意 iOS 源码里有 226 行 `Copyright © … SimpleX Chat` 之类的历史残留，以及旧 bundle id / 旧 URL scheme —— 这些都是**不能**出现在门户产物里的字符串，引用源码路径时也要避开含旧名的目录名。
+注意 iOS 源码里有大量 `SimpleX Chat` 历史残留，以及旧 bundle id / 旧 URL scheme —— 这些都是**不能**出现在门户产物里的字符串，引用源码路径时也要避开含旧名的目录名。数量按配方实测（2026-11-23，客户端仓库 `master`）：`git grep -c "SimpleX Chat" -- 'apps/ios/**.swift'` 逐文件相加 = **225 行**；大小写不敏感、不限文件类型、覆盖 iOS 工程全部目录的匹配 = **945 行 / 374 个文件**。引用这个数字时必须带上其中一种配方，光写一个行数无法复现。
