@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Global layer for the POPOPX main portal.
+ *
+ * Everything here is local: no @font-face, no @import of a remote stylesheet,
+ * no url() pointing off-origin. The page must render identically with the
+ * network unplugged.
+ */
+
+@layer base {
+  :root {
+    --ink: #07080d;
+    --brand: #6e3ff3;
+    --brand-soft: #9b7bff;
+    --mesh: #10b981;
+    --mesh-soft: #34e0b4;
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink text-[#e9e9f5] antialiased;
+    background-image:
+      radial-gradient(70% 50% at 50% -10%, rgba(110, 63, 243, 0.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 100% 20%, rgba(16, 185, 129, 0.10) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Anchor targets sit under the sticky glass navbar. */
+  section[id] {
+    scroll-margin-top: 88px;
+  }
+
+  ::selection {
+    background: rgba(155, 123, 255, 0.35);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  code,
+  pre {
+    font-variant-ligatures: none;
+  }
+
+  /* A Chinese heading must not break inside a word: "端到端加密通 / 讯" reads as
+     a typo, not a line break. CJK may break between any two characters by
+     default, so keep-all removes those break points and leaves only the
+     punctuation and the spaces; overflow-wrap restores a last-resort break for a
+     heading that still cannot fit a narrow screen. */
+  html[lang^="zh"] :is(h1, h2, h3) {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  pre {
+    @apply text-[13px] leading-relaxed;
+  }
+}
+
+@layer components {
+  /* 1px highlight glassmorphism card — the house surface. */
+  .glass {
+    @apply rounded-2xl border border-hair bg-white/[0.035] shadow-glass backdrop-blur-xl;
+  }
+
+  .glass-hover {
+    @apply transition-colors duration-200 hover:border-brand/45 hover:bg-white/[0.06];
+  }
+
+  .glass-inset {
+    @apply rounded-xl border border-hair bg-black/40;
+  }
+
+  .hairline-top {
+    @apply border-t border-hair;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-hair bg-white/[0.05] px-3 py-1 text-xs text-mute;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-brand/60 bg-brand/20 px-5 py-2.5 text-sm font-medium text-white transition-colors duration-200 hover:border-brand-soft hover:bg-brand/35;
+  }
+
+  .btn-mesh {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-mesh/60 bg-mesh/15 px-5 py-2.5 text-sm font-medium text-white transition-colors duration-200 hover:border-mesh-soft hover:bg-mesh/30;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-hair bg-white/[0.04] px-5 py-2.5 text-sm text-mute transition-colors duration-200 hover:border-hair-strong hover:text-white;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-hair bg-black/30 px-2.5 py-1 text-[11px] font-medium tracking-wide;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-soft;
+  }
+
+  .section-wrap {
+    @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8;
+  }
+
+  .code-surface {
+    @apply overflow-x-auto rounded-xl border border-hair bg-black/55 p-4 font-mono text-[12.5px] leading-relaxed text-[#d7d7ea];
+  }
+
+  /* Animated light-flow used by the hero phone and the crypto data-flow rails. */
+  .flow-line {
+    @apply absolute h-px w-full overflow-hidden;
+  }
+
+  .flow-line::after {
+    content: "";
+    @apply absolute inset-y-0 w-1/3 animate-flow-x;
+  }
+
+  .flow-brand::after {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(155, 123, 255, 0.85) 45%,
+      rgba(155, 123, 255, 0.85) 55%,
+      transparent 100%
+    );
+  }
+
+  .flow-mesh::after {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(52, 224, 180, 0.8) 45%,
+      rgba(52, 224, 180, 0.8) 55%,
+      transparent 100%
+    );
+  }
+
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-white via-brand-soft to-brand bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .grain {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-flow-x,
+    .animate-pulse-soft,
+    .animate-spin-slow,
+    .animate-rise-in {
+      animation: none !important;
+    }
+  }
+}

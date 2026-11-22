@@ -1,0 +1,8 @@
+# POPOPX main portal — crawler policy.
+# Served from this origin only; there is no third-party endpoint to protect.
+User-agent: *
+Allow: /
+
+# Canonical host for SEO metadata, Open Graph and this sitemap: popopx.chat
+# (the single source of truth is SITE_HOST / SITE_ORIGIN in src/lib/site.ts).
+Sitemap: https://popopx.chat/sitemap.xml
