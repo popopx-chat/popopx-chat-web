@@ -2,12 +2,11 @@
 
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
-import { BOT_STUDIO_REPO_URL, IOS_REPO_URL, MP_PORTAL_URL, NODE_PORTAL_URL, NODE_REPO_URL, SITE_HOST, SUITE_REPO_URL } from "@/lib/site";
+import { BOT_STUDIO_HOST, BOT_STUDIO_REPO_URL, BOT_STUDIO_URL, IOS_REPO_URL, MP_PORTAL_URL, NODE_PORTAL_URL, NODE_REPO_URL, SITE_HOST, SUITE_REPO_URL } from "@/lib/site";
 import { SectionHeading, StatusDot } from "@/components/ui";
 
 /**
- * EcosystemHub — section `ecosystem`: one project, three official hosts and one
- * project that is only a repository so far (Bot Studio, ledger §14).
+ * EcosystemHub — section `ecosystem`: one project, four official hosts.
  *
  * Every claim is read out of the sibling projects, not written for the page: ledger §11 of
  * `docs/FACTS.md` plus `src/lib/site.ts` (hosts, licences, unregistered marks); Mac Node
@@ -15,11 +14,13 @@ import { SectionHeading, StatusDot } from "@/components/ui";
  * ladder, release asset with its digest, AGPL-3.0-only) and its `src/data/enginesCatalog.ts`;
  * Service Suite `../popopx-service-suite-web/README.md:9-16,143-148` (gateway, billing, channel
  * envelope encryption, five ready plugins, admin console, three install paths) and `src/lib/site.ts:11-17`;
+ * Bot Studio `docs/FACTS.md` §15 (the vhost, the redirect, the certificate and the two
+ * repositories measured there — the card links the portal and repeats none of its claims);
  * iOS client: ledger §1 (18 localizations), §2 (five tabs; English is the key itself), §3 (no phone
  * number, no e-mail, no global public key), §10 (iOS 17.0), §11 (AGPL-3.0, unregistered marks).
  * Sibling hosts are only ever linked — nothing loads from another origin, and the diagram below is
- * divs plus one inline SVG: no image, no library, no extra copy slot. The bus stays with the three
- * hosts on purpose: a name that does not resolve is not drawn as a node of a running network.
+ * divs plus one inline SVG: no image, no library, no extra copy slot. Every card the bus draws is a
+ * name that answers over HTTPS; a host that serves nothing is not a node of a running network.
  */
 
 type Tone = "brand" | "mesh" | "warn" | "alert";
@@ -27,8 +28,6 @@ type Tone = "brand" | "mesh" | "warn" | "alert";
 /** `name`, `host`, `href`, `source` and `chips` stay locale-free identifiers. */
 type Portal = {
   name: string;
-  /** `hosted` = a live origin (drawn on the bus); `source` = repository only. */
-  kind: "hosted" | "source";
   host: string;
   href: string;
   external: boolean;
@@ -41,66 +40,66 @@ type Portal = {
 };
 
 const EYEBROW: Localized<string> = {
-  en: "Three-in-one ecosystem",
-  ru: "Экосистема из трёх частей",
-  de: "Ökosystem aus drei Teilen",
-  fr: "Écosystème en trois parties",
-  it: "Ecosistema in tre parti",
-  nl: "Ecosysteem in drie delen",
-  cs: "Ekosystém ze tří částí",
-  "zh-Hans": "三位一体生态",
-  "zh-Hant": "三位一體生態",
-  es: "Ecosistema de tres piezas",
-  pl: "Ekosystem z trzech części",
-  ja: "三位一体のエコシステム",
-  th: "ระบบนิเวศสามส่วน",
-  fi: "Kolmiosainen ekosysteemi",
-  uk: "Екосистема з трьох частин",
-  bg: "Екосистема от три части",
-  tr: "Üç parçalı ekosistem",
-  hu: "Három részes ökoszisztéma",
+  en: "Four-in-one ecosystem",
+  ru: "Экосистема из четырёх частей",
+  de: "Ökosystem aus vier Teilen",
+  fr: "Écosystème en quatre parties",
+  it: "Ecosistema in quattro parti",
+  nl: "Ecosysteem in vier delen",
+  cs: "Ekosystém ze čtyř částí",
+  "zh-Hans": "四位一体生态",
+  "zh-Hant": "四位一體生態",
+  es: "Ecosistema de cuatro piezas",
+  pl: "Ekosystem z czterech części",
+  ja: "四位一体のエコシステム",
+  th: "ระบบนิเวศสี่ส่วน",
+  fi: "Nelosainen ekosysteemi",
+  uk: "Екосистема з чотирьох частин",
+  bg: "Екосистема от четири части",
+  tr: "Dört parçalı ekosistem",
+  hu: "Négy részes ökoszisztéma",
 };
 
 const TITLE: Localized<string> = {
-  en: "One POPOPX, three official hosts",
-  ru: "Один POPOPX — три официальных сайта",
-  de: "Ein POPOPX, drei offizielle Hosts",
-  fr: "Un POPOPX, trois hôtes officiels",
-  it: "Un POPOPX, tre host ufficiali",
-  nl: "Eén POPOPX, drie officiële hosts",
-  cs: "Jeden POPOPX, tři oficiální weby",
-  "zh-Hans": "一个 POPOPX，三个官方站点",
-  "zh-Hant": "一個 POPOPX，三個官方網站",
-  es: "Un POPOPX, tres sitios oficiales",
-  pl: "Jeden POPOPX, trzy oficjalne witryny",
-  ja: "ひとつの POPOPX、3 つの公式サイト",
-  th: "POPOPX หนึ่งเดียว กับสามเว็บไซต์ทางการ",
-  fi: "Yksi POPOPX, kolme virallista sivusto-osoitetta",
-  uk: "Один POPOPX — три офіційні сайти",
-  bg: "Един POPOPX, три официални сайта",
-  tr: "Tek POPOPX, üç resmî site",
-  hu: "Egy POPOPX, három hivatalos weboldal",
+  en: "One POPOPX, four official hosts",
+  ru: "Один POPOPX — четыре официальных сайта",
+  de: "Ein POPOPX, vier offizielle Hosts",
+  fr: "Un POPOPX, quatre hôtes officiels",
+  it: "Un POPOPX, quattro host ufficiali",
+  nl: "Eén POPOPX, vier officiële hosts",
+  cs: "Jeden POPOPX, čtyři oficiální weby",
+  "zh-Hans": "一个 POPOPX，四个官方站点",
+  "zh-Hant": "一個 POPOPX，四個官方網站",
+  es: "Un POPOPX, cuatro sitios oficiales",
+  pl: "Jeden POPOPX, cztery oficjalne witryny",
+  ja: "ひとつの POPOPX、4 つの公式サイト",
+  th: "POPOPX หนึ่งเดียว กับสี่เว็บไซต์ทางการ",
+  fi: "Yksi POPOPX, neljä virallista sivusto-osoitetta",
+  uk: "Один POPOPX — чотири офіційні сайти",
+  bg: "Един POPOPX, четири официални сайта",
+  tr: "Tek POPOPX, dört resmî site",
+  hu: "Egy POPOPX, négy hivatalos weboldal",
 };
 
 const LEAD: Localized<string> = {
-  en: "The client in your pocket, the compute on your Mac, the service-account suite on a server you run yourself: three independent static portals that link to one another and load nothing from each other.",
-  ru: "Клиент в кармане, вычисления на Mac, набор сервисных аккаунтов на сервере, который вы держите сами: три независимых статичных портала, связанных ссылками и ничего друг у друга не загружающих.",
-  de: "Der Client in der Tasche, die Rechenleistung auf dem Mac, die Dienstkonten-Suite auf dem eigenen Server: drei unabhängige statische Portale, die einander verlinken und nichts voneinander laden.",
-  fr: "Le client dans la poche, le calcul sur le Mac, la suite de comptes de service sur un serveur qui vous appartient : trois portails statiques indépendants qui se lient entre eux et ne chargent rien les uns des autres.",
-  it: "Il client in tasca, la potenza di calcolo sul Mac, la suite degli account di servizio su un server che gestite voi: tre portali statici indipendenti che si collegano tra loro e non caricano nulla gli uni dagli altri.",
-  nl: "De client in je zak, de rekenkracht op je Mac, de dienstaccountsuite op een server die je zelf draait: drie onafhankelijke statische portalen die naar elkaar verwijzen en niets van elkaar laden.",
-  cs: "Klient v kapse, výkon na Macu, sada služebních účtů na serveru, který provozujete sami: tři nezávislé statické portály, které se navzájem odkazují a navzájem si nic nenačítají.",
-  "zh-Hans": "口袋里的客户端、Mac 上的本地算力、你自己服务器上的服务号套件：三个各自独立部署的静态站点，彼此之间只有链接，不会从对方加载任何资源。",
-  "zh-Hant": "口袋裡的客戶端、Mac 上的本機算力、你自己伺服器上的服務號套件：三個各自獨立部署的靜態網站，彼此之間只有連結，不會從對方載入任何資源。",
-  es: "El cliente en el bolsillo, el cálculo en el Mac y la suite de cuentas de servicio en un servidor propio: tres portales estáticos independientes que se enlazan entre sí y no cargan nada unos de otros.",
-  pl: "Klient w kieszeni, obliczenia na Maku, pakiet kont serwisowych na serwerze, który prowadzisz sam: trzy niezależne statyczne portale, które się wzajemnie linkują i niczego od siebie nie pobierają.",
-  ja: "ポケットの中のクライアント、Mac の上のローカル計算、自分のサーバーの上のサービスアカウント一式——相互にリンクするだけの独立した 3 つの静的ポータルで、互いのサイトから何も読み込みません。",
-  th: "ไคลเอนต์อยู่ในกระเป๋า การคำนวณอยู่บน Mac ชุดบัญชีบริการอยู่บนเซิร์ฟเวอร์ที่คุณรันเอง: พอร์ทัลสถิตอิสระสามแห่งที่ลิงก์หากัน โดยไม่ได้โหลดสิ่งใดจากกัน",
-  fi: "Asiakas taskussa, laskenta Macissä, palvelutilien paketti omalla palvelimellasi: kolme toisiaan linkittävää itsenäistä staattista portaalia, jotka eivät lataa toisiltaan mitään.",
-  uk: "Клієнт у кишені, обчислення на Mac, набір сервісних акаунтів на сервері, який ви тримаєте самі: три незалежні статичні портали, пов’язані посиланнями й нічого один в одного не завантажують.",
-  bg: "Клиентът в джоба, изчислението на Mac, пакетът за сервисни акаунти на сървър, който пускате сами: три независими статични портала, свързани с препратки и нищо едно от друго не зареждащи.",
-  tr: "Cepte istemci, Mac’te hesaplama gücü, hizmet hesapları paketi kendi sunucunuzda: birbirine link veren, birbirinden hiçbir şey yüklemeyen üç bağımsız statik portal.",
-  hu: "Az ügyfél a zsebedben, a számítás a Macen, a szolgáltatási fiókok csomagja a saját szerveredben: három egymásra linkelő, egymástól semmit be nem töltő önálló statikus portál.",
+  en: "The client in your pocket, the compute on your Mac, the service-account suite on a server you run yourself, the bot workbench on a host of its own: four independent static portals that link to one another and load nothing from each other.",
+  ru: "Клиент в кармане, вычисления на Mac, набор сервисных аккаунтов на сервере, который вы держите сами, и мастерская ботов на отдельном хосте: четыре независимых статичных портала, связанных ссылками и ничего друг у друга не загружающих.",
+  de: "Der Client in der Tasche, die Rechenleistung auf dem Mac, die Dienstkonten-Suite auf dem eigenen Server, die Bot-Werkstatt auf einem eigenen Host: vier unabhängige statische Portale, die einander verlinken und nichts voneinander laden.",
+  fr: "Le client dans la poche, le calcul sur le Mac, la suite de comptes de service sur un serveur qui vous appartient, l’atelier de robots sur un hôte qui est le sien : quatre portails statiques indépendants qui se lient entre eux et ne chargent rien les uns des autres.",
+  it: "Il client in tasca, la potenza di calcolo sul Mac, la suite degli account di servizio su un server che gestite voi, l’officina di bot su un host tutto suo: quattro portali statici indipendenti che si collegano tra loro e non caricano nulla gli uni dagli altri.",
+  nl: "De client in je zak, de rekenkracht op je Mac, de dienstaccountsuite op een server die je zelf draait, de botwerkplaats op een eigen host: vier onafhankelijke statische portalen die naar elkaar verwijzen en niets van elkaar laden.",
+  cs: "Klient v kapse, výkon na Macu, sada služebních účtů na serveru, který provozujete sami, a dílna na boty na samostatném hostiteli: čtyři nezávislé statické portály, které se navzájem odkazují a navzájem si nic nenačítají.",
+  "zh-Hans": "口袋里的客户端、Mac 上的本地算力、你自己服务器上的服务号套件、独立域名上的机器人工作台：四个各自独立部署的静态站点，彼此之间只有链接，不会从对方加载任何资源。",
+  "zh-Hant": "口袋裡的客戶端、Mac 上的本機算力、你自己伺服器上的服務號套件、獨立網域上的機器人工作台：四個各自獨立部署的靜態網站，彼此之間只有連結，不會從對方載入任何資源。",
+  es: "El cliente en el bolsillo, el cálculo en el Mac, la suite de cuentas de servicio en un servidor que mantienes tú y el taller de bots en un host con nombre propio: cuatro portales estáticos independientes que se enlazan entre sí y no cargan nada unos de otros.",
+  pl: "Klient w kieszeni, obliczenia na Maku, pakiet kont serwisowych na serwerze, który prowadzisz sam, i warsztat botów na własnym hoście: cztery niezależne statyczne portale, które się wzajemnie linkują i niczego od siebie nie pobierają.",
+  ja: "ポケットの中のクライアント、Mac の上のローカル計算、自分のサーバーの上のサービスアカウント一式、専用のホストの上の Bot 作業台——相互にリンクするだけの独立した 4 つの静的ポータルで、互いのサイトから何も読み込みません。",
+  th: "ไคลเอนต์อยู่ในกระเป๋า การคำนวณอยู่บน Mac ชุดบัญชีบริการอยู่บนเซิร์ฟเวอร์ที่คุณรันเอง เวิร์กช็อปบอตอยู่บนโฮสต์ของมันเอง: พอร์ทัลสถิตอิสระสี่แห่งที่ลิงก์หากัน โดยไม่ได้โหลดสิ่งใดจากกัน",
+  fi: "Asiakas taskussa, laskenta Macissä, palvelutilien paketti omalla palvelimellasi ja bottien työpaja omalla isäntäpalvelimellaan: neljä toisiaan linkittävää itsenäistä staattista portaalia, jotka eivät lataa toisiltaan mitään.",
+  uk: "Клієнт у кишені, обчислення на Mac, набір сервісних акаунтів на сервері, який ви тримаєте самі, і майстерня ботів на окремому хості: чотири незалежні статичні портали, пов’язані посиланнями й нічого один в одного не завантажують.",
+  bg: "Клиентът в джоба, изчислението на Mac, пакетът за сервисни акаунти на сървър, който пускате сами, и работилницата за ботове на собствен хост: четири независими статични портала, свързани с препратки и нищо едно от друго не зареждащи.",
+  tr: "Cepte istemci, Mac’te hesaplama gücü, hizmet hesapları paketi kendi sunucunuzda, bot atölyesi kendine ait bir host’ta: birbirine link veren, birbirinden hiçbir şey yüklemeyen dört bağımsız statik portal.",
+  hu: "Az ügyfél a zsebedben, a számítás a Macen, a szolgáltatási fiókok csomagja a saját szerveredben, a botműhely a saját hostján: négy egymásra linkelő, egymástól semmit be nem töltő önálló statikus portál.",
 };
 
 const LINK_SOURCE: Localized<string> = {
@@ -128,7 +127,6 @@ const LINK_SOURCE: Localized<string> = {
 const PORTALS: Portal[] = [
   {
     name: "POPOPX iOS",
-    kind: "hosted",
     host: SITE_HOST,
     href: "#top",
     external: false,
@@ -198,7 +196,6 @@ const PORTALS: Portal[] = [
   },
   {
     name: "POPOPX Mac Node",
-    kind: "hosted",
     host: "node.popopx.chat",
     href: NODE_PORTAL_URL,
     external: true,
@@ -268,7 +265,6 @@ const PORTALS: Portal[] = [
   },
   {
     name: "POPOPX Service Suite",
-    kind: "hosted",
     host: "mp.popopx.chat",
     href: MP_PORTAL_URL,
     external: true,
@@ -338,73 +334,72 @@ const PORTALS: Portal[] = [
   },
   {
     name: "POPOPX Bot Studio",
-    kind: "source",
-    host: "github.com/popopx-chat/popopx-bot-studio",
-    href: BOT_STUDIO_REPO_URL,
+    host: BOT_STUDIO_HOST,
+    href: BOT_STUDIO_URL,
     external: true,
     source: BOT_STUDIO_REPO_URL,
-    tone: "alert",
+    tone: "brand",
     role: {
-      en: "Bot workbench, repository only",
-      ru: "Мастерская ботов — только репозиторий",
-      de: "Bot-Werkstatt — bisher nur das Repository",
-      fr: "Atelier de robots — le dépôt seul",
-      it: "Officina di bot — solo il repository",
-      nl: "Botwerkplaats — alleen de bronopslag",
-      cs: "Dílna na boty — zatím jen repozitář",
-      "zh-Hans": "机器人工作台：目前只有仓库",
-      "zh-Hant": "機器人工作台：目前只有倉庫",
-      es: "Taller de bots — solo el repositorio",
-      pl: "Warsztat botów — tylko repozytorium",
-      ja: "Bot 作業台 — リポジトリのみ",
-      th: "เวิร์กช็อปบอต — มีเพียงรีโป",
-      fi: "Bot-paja — toistaiseksi vain arkisto",
-      uk: "Майстерня ботів — поки що лише сховище",
-      bg: "Работилница за ботове — само хранилище",
-      tr: "Bot atölyesi — yalnızca depo",
-      hu: "Botműhely — egyelőre csak a tároló",
+      en: "Self-hosted bot workbench",
+      ru: "Мастерская ботов на собственном сервере",
+      de: "Bot-Werkstatt auf dem eigenen Server",
+      fr: "Atelier de robots auto-hébergé",
+      it: "Officina di bot sul server che gestite voi",
+      nl: "Botwerkplaats op eigen server",
+      cs: "Dílna na boty na vlastním serveru",
+      "zh-Hans": "自托管机器人工作台",
+      "zh-Hant": "自託管機器人工作台",
+      es: "Taller de bots en servidor propio",
+      pl: "Warsztat botów na własnym serwerze",
+      ja: "自分のサーバーで動かす Bot 作業台",
+      th: "เวิร์กช็อปบอตที่คุณโฮสต์เอง",
+      fi: "Bot-paja omalla palvelimella",
+      uk: "Майстерня ботів на власному сервері",
+      bg: "Работилница за ботове на собствен сървър",
+      tr: "Kendi sunucunuzda barındırılan bot atölyesi",
+      hu: "Saját szerveren futó botműhely",
     },
     desc: {
-      en: "A workbench for bots you run on your own machine. As of 2026-11-24 the published tree of this repository is its AGPL-3.0-only license, and bot.popopx.chat resolves to the shared server without serving a site of its own, so no feature is claimed here — the card reports what exists and links to it.",
-      ru: "Верстак для ботов на вашей собственной машине. По замеру 2026-11-24 опубликованное дерево этого репозитория — файл лицензии AGPL-3.0-only, а bot.popopx.chat уже указывает на общий сервер, но своего сайта там нет; поэтому возможности здесь не заявляются: карточка сообщает о том, что есть, и ведёт туда.",
-      de: "Eine Werkbank für Bots, die auf dem eigenen Rechner laufen. Stand 2026-11-24 ist der veröffentlichte Baum dieses Repositorys die Lizenzdatei AGPL-3.0-only, und bot.popopx.chat zeigt auf den geteilten Server, ohne dort eine eigene Site zu bedienen; deshalb wird hier keine Funktion behauptet — die Karte meldet, was existiert, und verlinkt darauf.",
-      fr: "Un atelier pour des robots que vous faites tourner sur votre propre machine. Mesuré le 2026-11-24, l’arbre publié de ce dépôt est le fichier de licence AGPL-3.0-only, et bot.popopx.chat pointe vers le serveur partagé sans site à lui : aucune fonction n’est donc revendiquée ici — la carte dit ce qui existe et y mène.",
-      it: "Un banco da lavoro per bot che eseguite sulla vostra macchina. Al 2026-11-24 l’albero pubblicato di questo repository è il file della licenza AGPL-3.0-only, e bot.popopx.chat punta al server condiviso senza un sito tutto suo: qui non si rivendica alcuna funzione — la scheda dice ciò che esiste e punta lì.",
-      nl: "Een werkplaats voor bots die je op je eigen machine draait. Per 2026-11-24 is de gepubliceerde boom van deze bronopslag het AGPL-3.0-only-licentiebestand, en bot.popopx.chat wijst naar de gedeelde server zonder eigen site; hier wordt dus geen functie beweerd — het kaartje meldt wat er is en wijst ernaar toe.",
-      cs: "Dílna pro boty, které běží na vašem vlastním počítači. K 2026-11-24 je zveřejněným stromem tohoto repozitáře soubor s licencí AGPL-3.0-only a bot.popopx.chat míří na sdílený server, ale vlastní web tam neslouží — zde se tedy žádná funkce netvrdí: karta hlásí, co existuje, a odkazuje na to.",
-      "zh-Hans": "在自己机器上跑的机器人工作台。2026-11-24 实测，这个仓库已发布的目录就是那份 AGPL-3.0-only 许可证文件；bot.popopx.chat 已经指向那台共用的服务器，但还没有自己的站点，所以这里不声称任何功能：卡片只报已有之物，并把链接指向它。",
-      "zh-Hant": "在自己機器上跑的機器人工作台。2026-11-24 實測，這個倉庫已發布的目錄就是那份 AGPL-3.0-only 授權條款檔案；bot.popopx.chat 已經指向那台共用的伺服器，但還沒有自己的網站，所以這裡不宣稱任何功能：卡片只回報已有之物，並將連結指向它。",
-      es: "Un taller para bots que ejecutas en tu propia máquina. Según lo medido el 2026-11-24, el árbol publicado de este repositorio es el archivo de la licencia AGPL-3.0-only, y bot.popopx.chat apunta al servidor compartido sin servir un sitio propio, así que aquí no se reclama ninguna función: la ficha dice lo que hay y enlaza a ello.",
-      pl: "Warsztat do botów uruchamianych na własnym komputerze. Stan na 2026-11-24: opublikowanym drzewem tego repozytorium jest plik licencji AGPL-3.0-only, a bot.popopx.chat wskazuje na współdzielony serwer, nie serwując własnej strony, więc nie ogłaszamy tu żadnych funkcji — karta mówi, co istnieje, i tam prowadzi.",
-      ja: "自分のマシンで動かすボットのための作業台です。2026-11-24 の実測では、このリポジトリの公開済みツリーは AGPL-3.0-only のライセンスファイルひとつで、bot.popopx.chat は共用サーバーを指しますが独自のサイトはまだ出していません。ここでは機能を謳わず、あるものだけをカードに書いてそちらへ繋ぎます。",
-      th: "โต๊ะทำงานสำหรับบอตที่คุณรันบนเครื่องของคุณเอง ณ 2026-11-24 ต้นไม้ที่เผยแพร่ของรีโปนี้เป็นไฟล์สัญญาอนุญาต AGPL-3.0-only เพียงไฟล์เดียว และ bot.popopx.chat ชี้ไปยังเซิร์ฟเวอร์ที่ใช้ร่วมกันแต่ยังไม่มีเว็บไซต์ของเราเอง ที่นี่จึงไม่อ้างคุณสมบัติใด — การ์ดบอกเฉพาะสิ่งที่มีอยู่แล้วลิงก์ไปหาสิ่งนั้น",
-      fi: "Työpaja boteille, joita pyörität omalla koneellasi. 2026-11-24 mitattuna tämän arkiston julkaistu puu on AGPL-3.0-only-lisenssin tiedosto, eikä bot.popopx.chat vielä palvela omaa sivustoaan osoittaessaan jaetulle palvelimelle — tässä ei siis väitetä yhtään ominaisuutta: kortti kertoo, mitä on, ja linkittää siihen.",
-      uk: "Майстерня для ботів, які ви запускаєте на власній машині. Станом на 2026-11-24 опубліковане дерево цього сховища — файл ліцензії AGPL-3.0-only, а bot.popopx.chat уже вказує на спільний сервер, але власного сайту там немає, тому тут не заявляємо жодної можливості: картка повідомляє, що є, і веде туди.",
-      bg: "Работилница за ботове, които пускате на собствената си машина. Към 2026-11-24 публикуваното дърво на това хранилище е файлът с лиценза AGPL-3.0-only, а bot.popopx.chat сочи към споделения сървър, но не обслужва собствен сайт, затова тук не се твърди нито една функция: картката казва какво има и сочи натам.",
-      tr: "Kendi makinenizde çalıştırdığınız botlar için bir tezgâh. 2026-11-24 itibarıyla bu deponun yayımlanan ağacı AGPL-3.0-only lisans dosyasından ibaret ve bot.popopx.chat paylaşılan sunucuyu gösteriyor ama kendi sitesini sunmuyor; burada bu yüzden hiçbir özellik iddia edilmiyor — kart olanı söylüyor ve ona bağlıyor.",
-      hu: "Munkaasztal a saját gépeden futó botokhoz. 2026-11-24-en a tároló közzétett fája az AGPL-3.0-only licencfájlt tartalmazza, és a bot.popopx.chat a közös szerverre mutat, de saját oldalt még nem kiszolgál, ezért itt egyetlen funkciót sem állítunk: a kártya azt mondja el, ami megvan, és arra linkel.",
+      en: "A workbench for the bots you run on your own server. Measured 2026-11-24, bot.popopx.chat is a site of its own: plain HTTP redirects to HTTPS, port 443 answers HTTP/2 200 under a certificate issued for that name, and the page loads nothing but its own files — so this card links the portal itself.",
+      ru: "Верстак для ботов на вашей собственной машине. По замеру 2026-11-24 bot.popopx.chat — самостоятельный сайт: обычный HTTP перенаправляет на HTTPS, на порту 443 сервер отвечает HTTP/2 с кодом 200 под сертификатом, выпущенным именно на это имя, и страница грузит только собственные файлы; поэтому карточка ведёт на сам портал.",
+      de: "Eine Werkbank für Bots, die auf dem eigenen Rechner laufen. Stand 2026-11-24 ist bot.popopx.chat eine eigene Site: einfaches HTTP leitet auf HTTPS um, Port 443 antwortet mit HTTP/2 und Code 200 unter einem auf genau diesen Namen ausgestellten Zertifikat, und die Seite lädt nichts als ihre eigenen Dateien — deshalb verlinkt diese Karte das Portal selbst.",
+      fr: "Un atelier pour des robots que vous faites tourner sur votre propre machine. Mesuré le 2026-11-24, bot.popopx.chat est un site à part entière : le HTTP simple redirige vers HTTPS, le port 443 répond HTTP/2 avec le code 200 sous un certificat émis pour ce nom, et la page ne charge que ses propres fichiers — aussi cette carte pointe-t-elle vers le portail lui-même.",
+      it: "Un banco da lavoro per bot che eseguite sulla vostra macchina. Al 2026-11-24 bot.popopx.chat è un sito tutto suo: l’HTTP semplice reindirizza a HTTPS, la porta 443 risponde HTTP/2 con codice 200 sotto un certificato emesso per quel nome, e la pagina carica soltanto i propri file — quindi questa scheda punta al portale in sé.",
+      nl: "Een werkplaats voor bots die je op je eigen machine draait. Per 2026-11-24 is bot.popopx.chat een eigen site: gewone HTTP verwijst door naar HTTPS, poort 443 antwoordt met HTTP/2 en statuscode 200 onder een certificaat uitgereikt voor die naam, en de pagina laadt enkel haar eigen bestanden — daarom linkt dit kaartje naar het portal zelf.",
+      cs: "Dílna pro boty, které běží na vašem vlastním počítači. K 2026-11-24 je bot.popopx.chat samostatný web: prosté HTTP přesměrovává na HTTPS, port 443 odpovídá HTTP/2 kódem 200 pod certifikátem vydaným na toto jméno a stránka si načítá jen vlastní soubory — karta proto odkazuje na portál samotný.",
+      "zh-Hans": "在自己服务器上跑的机器人工作台。2026-11-24 实测，bot.popopx.chat 已是一个独立站点：普通 HTTP 跳到 HTTPS，443 端口以 HTTP/2 返回 200，证书正是按这个名字签发的，页面也只加载自己目录里的文件——所以这张卡片链接的是门户本身。",
+      "zh-Hant": "在自己伺服器上跑的機器人工作台。2026-11-24 實測，bot.popopx.chat 已是一個獨立網站：普通 HTTP 跳到 HTTPS，443 埠以 HTTP/2 返回 200，憑證正是依這個名稱簽發，頁面也只載入自己目錄裡的檔案——所以這張卡片連結的是入口網站本身。",
+      es: "Un taller para bots que ejecutas en tu propia máquina. Según lo medido el 2026-11-24, bot.popopx.chat es un sitio propio: el HTTP simple redirige a HTTPS, el puerto 443 responde HTTP/2 con código 200 bajo un certificado emitido para ese nombre, y la página no carga más que sus propios archivos — así que esta ficha enlaza al portal en sí.",
+      pl: "Warsztat do botów uruchamianych na własnym komputerze. Stan na 2026-11-24: bot.popopx.chat jest własną stroną — zwykłe HTTP przekierowuje na HTTPS, port 443 odpowiada HTTP/2 kodem 200 pod certyfikatem wydanym na tę nazwę, a strona wczytuje wyłącznie własne pliki; dlatego karta prowadzi do samego portalu.",
+      ja: "自分のマシンで動かすボットのための作業台です。2026-11-24 の実測では、bot.popopx.chat はそれ自体が一つのサイトになっています: 平文の HTTP は HTTPS へリダイレクトされ、443 番ポートはその名義で発行された証明書の元 HTTP/2 の 200 を返し、ページは自分のファイル以外は読み込みません。このカードが結ぶのは、ポータルそのものです。",
+      th: "โต๊ะทำงานสำหรับบอตที่คุณรันบนเครื่องของคุณเอง วัดเมื่อ 2026-11-24 bot.popopx.chat เป็นเว็บไซต์ของตัวเอง: HTTP ธรรมดาเปลี่ยนเส้นทางไป HTTPS พอร์ต 443 ตอบ HTTP/2 ด้วยโค้ด 200 ใต้ใบรับรองที่ออกตามชื่อนี้ และเพจโหลดเฉพาะไฟล์ของตัวเองเท่านั้น — การ์ดนี้จึงลิงก์ไปยังตัวพอร์ทัลโดยตรง",
+      fi: "Työpaja boteille, joita pyörität omalla koneellasi. 2026-11-24 mitattuna bot.popopx.chat on oma sivustonsa: tavallinen HTTP ohjaa HTTPS:ään, portti 443 vastaa HTTP/2:lla koodilla 200 sen nimisen varmenteen alla, ja sivu lataa ainoastaan omat tiedostonsa — joten tämä kortti linkittää suoraan portaalille.",
+      uk: "Майстерня для ботів, які ви запускаєте на власній машині. Станом на 2026-11-24 bot.popopx.chat — самостійний сайт: звичайний HTTP переспрямовує на HTTPS, порт 443 відповідає HTTP/2 з кодом 200 під сертифікатом, виданим саме на це ім’я, а сторінка завантажує лише власні файли — тому ця картка веде на сам портал.",
+      bg: "Работилница за ботове, които пускате на собствената си машина. Измерено на 2026-11-24, bot.popopx.chat е самостоятелен сайт: обикновеният HTTP пренасочва към HTTPS, порт 443 отговаря с HTTP/2 и код 200 под сертификат, издаден за това име, а страницата зарежда само собствени файлове — затова картката сочи към самия портал.",
+      tr: "Kendi makinenizde çalıştırdığınız botlar için bir tezgâh. 2026-11-24 ölçümüne göre bot.popopx.chat kendi sitesidir: düz HTTP, HTTPS’e yönlendiriyor; 443 portu, bu ada çıkarılmış sertifika altında HTTP/2 ve 200 yanıtı veriyor; sayfa yalnızca kendi dosyalarını yüklüyor — bu yüzden kart portalın kendisine bağlıyor.",
+      hu: "Munkaasztal a saját gépeden futó botokhoz. A 2026-11-24-i mérés szerint a bot.popopx.chat önálló weboldal: a sima HTTP HTTPS-re irányít, a 443-as port az erre a névre kiállított tanúsítvány alatt HTTP/2 200 választ ad, az oldal pedig csak a saját fájljait tölti be — ezért a kártya magára a portálra linkel.",
     },
     lives: {
-      en: "Public today: the repository and its license file — nothing else was measured. The name resolves to the same box as the other two portals, yet plain HTTP only returns that server's default page and its certificate does not cover the name; the site link goes on the day bot.popopx.chat serves its own portal over HTTPS.",
-      ru: "Открыто сегодня: репозиторий и его файл лицензии — больше ничего не измерялось. Имя указывает на ту же машину, что и два других портала, но по HTTP отдаётся только служебная страница сервера, а сертификат имя не покрывает; ссылка на сайт появится в тот день, когда bot.popopx.chat начнёт отдавать собственный портал по HTTPS.",
-      de: "Öffentlich heute: das Repository und seine Lizenzdatei — sonst nichts wurde gemessen. Der Name zeigt auf dieselbe Maschine wie die anderen beiden Portale, doch über HTTP kommt nur die Standardseite des Servers, und das Zertifikat deckt den Namen nicht. Der Website-Link kommt an dem Tag, an dem bot.popopx.chat sein eigenes Portal über HTTPS ausliefert.",
-      fr: "Public aujourd’hui : le dépôt et son fichier de licence — rien d’autre n’a été mesuré. Le nom pointe sur la même machine que les deux autres portails, mais en HTTP simple ce n’est que la page par défaut du serveur, et le certificat ne couvre pas le nom. Le lien du site viendra le jour où bot.popopx.chat servira son propre portail en HTTPS.",
-      it: "Pubblico oggi: il repository e il suo file di licenza — nient’altro è stato misurato. Il nome punta alla stessa macchina degli altri due portali, ma in HTTP semplice restituisce solo la pagina predefinita del server e il certificato non copre il nome. Il link del sito arriverà il giorno in cui bot.popopx.chat servirà il proprio portale in HTTPS.",
-      nl: "Vandaag open: de bronopslag en haar licentiebestand — verder niets gemeten. De naam wijst naar dezelfde machine als de andere twee portalen, maar via gewone HTTP komt alleen de standaardpagina van de server en het certificaat dekt de naam niet. De sitelink komt op de dag dat bot.popopx.chat zijn eigen portaal via HTTPS verbindt.",
-      cs: "Veřejné dnes: repozitář a jeho soubor s licencí — nic dalšího nebylo změřeno. Název míří na stejný stroj jako ostatní dva portály, ale přes obyčejné HTTP vrací jen výchozí stránku serveru a certifikát jej nepokrývá. Odkaz na web přibude ve dne, kdy bot.popopx.chat začne obsluhovat vlastní portál přes HTTPS.",
-      "zh-Hans": "今天公开的是：这个仓库和它的许可证文件——除此之外没有测到别的。这个域名已经指向另外两个门户所在的那台机器，但走普通 HTTP 只会拿到服务器的默认页面，证书也还没覆盖这个名字。等 bot.popopx.chat 能用 HTTPS 返回自己的站点，这张卡片再加上站点链接。",
-      "zh-Hant": "今天公開的是：這個倉庫和它的授權條款檔案——除此之外沒有測到別的。這個域名已經指向另外兩個門戶所在的那台伺服器，但走普通 HTTP 只會拿到伺服器的預設頁面，憑證也還沒覆蓋這個名字。等 bot.popopx.chat 能用 HTTPS 返回自己的網站，這張卡片再加上網站連結。",
-      es: "Público hoy: el repositorio y su archivo de licencia — nada más fue medido. El nombre apunta a la misma máquina de los otros dos portales, pero en HTTP simple solo devuelve la página por defecto del servidor y el certificado no cubre el nombre. El enlace al sitio se añadirá el día en que bot.popopx.chat sirva su propio portal por HTTPS.",
-      pl: "Publiczne dziś: repozytorium i jego plik licencji — nic więcej nie zmierzono. Nazwa wskazuje na tę samą maszynę co pozostałe dwa portale, ale przez zwykłe HTTP zwraca tylko domyślną stronę serwera, a certyfikat jej nie obejmuje. Link do strony dołączy w dniu, gdy bot.popopx.chat zacznie serwować własny portal przez HTTPS.",
-      ja: "今日公開されているのはリポジトリとライセンスファイルのみ — それ以上は計測されていません。この名前は他の 2 つのポータルと同じマシンを指しますが、通常の HTTP ではサーバーの既定ページが返るだけで、証明書もこの名前を覆っていません。bot.popopx.chat が HTTPS で独自のポータルを返し始めた日に、このカードへサイトのリンクが足されます。",
-      th: "วันนี้ที่เปิดให้ชมคือรีโปและไฟล์สัญญาอนุญาต — ไม่ได้วัดสิ่งอื่นเพิ่ม ชื่อชี้ไปยังเครื่องเดียวกับอีกสองพอร์ทัล แต่ HTTP ธรรมดาตอบกลับแค่เพจเริ่มต้นของเครื่อง และใบรับรองก็ยังไม่คลุมชื่อนี้ ลิงก์เว็บไซต์จะถูกใส่ในวันที่ bot.popopx.chat ให้บริการพอร์ทัลของตนเองผ่าน HTTPS",
-      fi: "Tänään julkisina: arkisto ja sen lisenssitiedosto — mitään muuta ei mitattu. Nimi osoittaa samalle koneelle kuin muut kaksi portaalia, mutta tavallisella HTTP:lla palautuu vain palvelimen oletussivu, eikä varmenne kata nimeä. Sivuston linkki tulee sinä päivänä, kun bot.popopx.chat palveli omaa portaaliaan HTTPS:n yli.",
-      uk: "Відкрито сьогодні: сховище та його файл ліцензії — більше нічого не вимірювалось. Ім'я вказує на ту саму машину, що й інші два портали, але звичайний HTTP віддає лише типову сторінку сервера, а сертифікат імя не покриває. Посилання на сайт з'явиться того дня, коли bot.popopx.chat почне обслуговувати власний портал через HTTPS.",
-      bg: "Публично днес: хранилището и файлът с лиценза — нищо друго не е измерено. Името сочи към същата машина като другите два портала, но обикновеният HTTP връща само началната страница на сървъра, а сертификатът не покрива името. Връзката към сайта ще се появи на деня, когато bot.popopx.chat започне да обслужва собствения си портал през HTTPS.",
-      tr: "Bugün açık: depo ve lisans dosyası — başkaca bir şey ölçülmedi. Ad, diğer iki portalın bulunduğu makineyi gösteriyor ama düz HTTP yalnızca sunucunun varsayılan sayfasını döndürüyor ve sertifika adı kapsamıyor. Site bağlantısı, bot.popopx.chat kendi portalını HTTPS üzerinden sunduğu gün eklenecek.",
-      hu: "Ma publikus: a tároló és a licencfájlja — ennél többet nem mértünk. A név ugyanarra a gépre mutat, mint a másik két portal, de a sima HTTP csak a kiszolgáló alaplapját adja vissza, a tanúsítvány pedig nem fedi le a nevet. A weboldal-link akkor kerül a kártyára, amikor a bot.popopx.chat a saját portálját HTTPS-en tölti ki.",
+      en: "Live since 2026-11-24, with the page itself published in a repository of its own. What the product offers is written there and is not restated here: the engine repository this card links still publishes one file, its AGPL-3.0-only license — recipe in ledger §15.",
+      ru: "В сети с 2026-11-24, и сама страница опубликована в отдельном репозитории. Что предлагает продукт — написано там и здесь не пересказывается: репозиторий движка, куда ведёт эта карточка, по-прежнему публикует один файл, свою лицензию AGPL-3.0-only; рецепт — в реестре §15.",
+      de: "Online seit 2026-11-24, und die Seite selbst liegt in einem eigenen Repository. Was das Produkt bietet, steht dort und wird hier nicht nachgeschrieben: Das Repository des Engines, auf das diese Karte verlinkt, veröffentlicht weiterhin nur eine Datei, seine Lizenz AGPL-3.0-only — Rezept im Ledger §15.",
+      fr: "En ligne depuis 2026-11-24, et la page elle-même est publiée dans un dépôt à part. Ce que propose le produit s’écrit là et ne se répète pas ici : le dépôt du moteur que cette carte pointe ne publie encore qu’un fichier, sa licence AGPL-3.0-only — recette dans le registre §15.",
+      it: "Online dal 2026-11-24, e la pagina stessa è pubblicata in un repository proprio. Cosa offre il prodotto è scritto lì e qui non viene ripetuto: il repository del motore a cui punta questa scheda pubblica ancora un solo file, la sua licenza AGPL-3.0-only — ricetta nel registro §15.",
+      nl: "Live sinds 2026-11-24, en de pagina zelf verschijnt in een eigen bronopslag. Wat het product biedt, staat er en wordt hier niet herhaald: de bronopslag van de engine waar dit kaartje naar linkt, publiceert nog steeds één bestand, haar AGPL-3.0-only-licentie — recept in het ledger §15.",
+      cs: "Online od 2026-11-24 a samotná stránka má vlastní repozitář. Co produkt nabízí, stojí tam a zde se to neopakuje: repozitář enginu, na který karta odkazuje, i nadále zveřejňuje jen jediný soubor, a to licenci AGPL-3.0-only — recept v deníku §15.",
+      "zh-Hans": "2026-11-24 起上线，页面本身另有独立的仓库。产品提供什么由那边写明，本站不转述：这张卡片链接的引擎仓库目前公开的仍只有一个文件——AGPL-3.0-only 许可证。复测配方见台账 §15。",
+      "zh-Hant": "2026-11-24 起上線，頁面本身另有獨立的倉庫。產品提供什麼由那邊寫明，本站不轉述：這張卡片連結的引擎倉庫目前公開的仍只有一個檔案——AGPL-3.0-only 授權條款。複測配方見台帳 §15。",
+      es: "En línea desde 2026-11-24, y la propia página se publica en un repositorio aparte. Lo que ofrece el producto está escrito allí y aquí no se repite: el repositorio del motor al que enlaza esta ficha sigue publicando un solo archivo, su licencia AGPL-3.0-only — receta en el registro §15.",
+      pl: "Dostępne od 2026-11-24, a sama strona ma własne repozytorium. Co oferuje produkt, napisano tam i nie powtarzamy tego tutaj: repozytorium silnika, do którego linkuje ta karta, nadal publikuje tylko jeden plik, swoją licencję AGPL-3.0-only; przepis w rejestrze §15.",
+      ja: "2026-11-24 から稼働しており、ページ自体も独立したリポジトリで公開されています。製品が何を提供するかはそちらに書かれており、ここでは繰り返しません。このカードが結ぶエンジン用のリポジトリが今も公開しているのは 1 ファイル、AGPL-3.0-only のライセンスのみです。再測定のレシピは台帳の §15 に。",
+      th: "ออนไลน์ตั้งแต่ 2026-11-24 และตัวเพจเองก็มีรีโปเป็นของมันเอง สิ่งที่ผลิตภัณฑ์นำเสนอเขียนไว้ในนั้นโดยไม่พูดย้ำที่นี่ — รีโปของเอนจินที่การ์ดนี้ลิงก์ไปยังคงเผยแพร่เพียงไฟล์เดียว คือสัญญาอนุญาต AGPL-3.0-only สูตรวัดซ้ำอยู่ในบัญชี §15",
+      fi: "Paikalla 2026-11-24 lähtien, ja sivu itsessään on omassa arkistossaan. Mitä tuote tarjoaa, lukee siellä, eikä sitä toisteta täällä: moottoriarkisto, jolle tämä kortti linkittää, julkaisee yhä edelleen vain yhden tiedoston, AGPL-3.0-only-lisenssin — ohje kirjanpidossa §15.",
+      uk: "Працює з 2026-11-24, і сама сторінка опублікована у власному сховищі. Що пропонує продукт — написано там і не переказується тут: сховище рушія, на яке веде ця картка, досі публікує лише один файл, свою ліцензію AGPL-3.0-only; рецепт — у реєстрі §15.",
+      bg: "Онлайн от 2026-11-24, като самата страница си има собствено хранилище. Какво предлага продуктът, пише там и не се преразказва тук: хранилището на движка, към което сочи тази карта, все още публикува само един файл, лицензът AGPL-3.0-only — рецептата е в регистъра §15.",
+      tr: "2026-11-24’ten beri yayında ve sayfanın kendisi de ayrı bir depoda yayımlanmış. Ürünün ne sunduğu orada yazılı, burada tekrar edilmiyor: bu kartın bağlandığı motor deposu hâlâ tek bir dosya yayımlıyor, AGPL-3.0-only lisansı — tarif defterde §15.",
+      hu: "2026-11-24 óta él, és maga az oldal is külön tárolóban jelenik meg. Amit a termék tud, ott van leírva, itt nem ismételjük: a motortároló, amelyre ez a kártya linkel, még mindig egyetlen fájlt tesz közzé, az AGPL-3.0-only licencet — a recept a napló §15-ös bekezdésében.",
     },
-    chips: ["AGPL-3.0-only", "2026-11-24"],
+    chips: [BOT_STUDIO_HOST, "AGPL-3.0-only", "2026-11-24"],
   },
 ];
 
@@ -416,39 +411,60 @@ const TONES: Record<Tone, { ring: string; text: string }> = {
   alert: { ring: "border-alert/40 hover:border-alert/70", text: "text-alert" },
 };
 
-/** The bus above the cards only draws origins that answer. */
-const HOSTED_PORTALS = PORTALS.filter((portal) => portal.kind === "hosted");
+/** The bus above the cards draws every portal, because every one of them answers. */
+const BUS_SPAN = 720 / PORTALS.length;
+const nodeX = (index: number): number => BUS_SPAN * index + BUS_SPAN / 2;
+
+/** Circle fill per tone, so the diagram and the cards cannot drift apart. */
+const DOT_FILL: Record<Tone, string> = {
+  brand: "fill-brand",
+  mesh: "fill-mesh",
+  warn: "fill-warn",
+  alert: "fill-alert",
+};
 
 /**
  * The interconnection, drawn with the only primitives this portal allows: divs and
  * one inline SVG. Labels are the locale-free hostnames the cards already print, so
  * the diagram adds no translatable string and loads nothing from another origin.
- * It maps `HOSTED_PORTALS`, not `PORTALS`: the fourth card has no origin to place
- * on a bus of running hosts.
+ * Node positions come from `PORTALS` itself: add a fifth portal and the bus, the
+ * drops and the dots all move with it.
  */
 function Topology(): ReactElement {
   return (
     <div className="mt-9">
-      <div className="grid gap-3 sm:grid-cols-3">
-        {HOSTED_PORTALS.map((portal, index) => (
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {PORTALS.map((portal, index) => (
           <div
             key={portal.host}
             className={`glass-inset flex items-center gap-3 px-4 py-3 ${TONES[portal.tone].ring}`}
           >
             <StatusDot tone={portal.tone} pulse={index === 0} />
-            <span className="font-mono text-[12.5px] text-mute">{portal.host}</span>
-            <span className={`ml-auto font-mono text-[10.5px] ${TONES[portal.tone].text}`}>
-              {`0${index + 1} / 03`}
+            <span className="min-w-0 font-mono text-[12.5px] text-mute">{portal.host}</span>
+            <span className={`ml-auto shrink-0 font-mono text-[10.5px] ${TONES[portal.tone].text}`}>
+              {`0${index + 1} / 0${PORTALS.length}`}
             </span>
           </div>
         ))}
       </div>
       <svg aria-hidden viewBox="0 0 720 34" className="mt-3 h-8 w-full" fill="none" stroke="currentColor">
-        <path d="M120 26h480" strokeWidth="1" strokeDasharray="5 6" className="text-hair-strong" />
-        <path d="M120 26V10M360 26V10M600 26V10" strokeWidth="1" className="text-brand/45" />
-        <circle cx="120" cy="7" r="3.5" className="fill-brand" />
-        <circle cx="360" cy="7" r="3.5" className="fill-mesh" />
-        <circle cx="600" cy="7" r="3.5" className="fill-warn" />
+        <path
+          d={`M${nodeX(0)} 26h${nodeX(PORTALS.length - 1) - nodeX(0)}`}
+          strokeWidth="1"
+          strokeDasharray="5 6"
+          className="text-hair-strong"
+        />
+        {PORTALS.map((portal, index) => (
+          <path
+            key={portal.host}
+            d={`M${nodeX(index)} 26V10`}
+            strokeWidth="1"
+            className="text-brand/45"
+          />
+        ))}
+        {PORTALS.map((portal, index) => (
+          <circle key={portal.host} cx={nodeX(index)} cy={7} r={3.5} className={DOT_FILL[portal.tone]} />
+        ))}
       </svg>
       <div aria-hidden className="relative mt-1 h-px">
         <span className="flow-line flow-brand" />
@@ -482,20 +498,15 @@ function PortalCard({ portal, index }: { portal: Portal; index: number }): React
         >
           {portal.host}
         </a>
-        {/* A source-only card already links to its repository: no second link to it. */}
-        {portal.kind === "hosted" ? (
-          <>
-            <span className="text-[11px] text-faint">·</span>
-            <a
-              href={portal.source}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[12px] text-mute underline decoration-hair decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white"
-            >
-              {source}
-            </a>
-          </>
-        ) : null}
+        <span className="text-[11px] text-faint">·</span>
+        <a
+          href={portal.source}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[12px] text-mute underline decoration-hair decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white"
+        >
+          {source}
+        </a>
       </div>
       <ul className="flex flex-wrap gap-1.5">
         {portal.chips.map((chip) => (

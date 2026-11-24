@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type ReactElement } from "rea
 import { useCopy, type Localized } from "@/lib/i18n";
 import { LanguageMenu } from "@/components/LanguageMenu";
 import {
-  BOT_STUDIO_REPO_URL,
+  BOT_STUDIO_URL,
   IOS_REPO_URL,
   MP_PORTAL_URL,
   NAV_SECTIONS,
@@ -25,8 +25,8 @@ import {
  *  - The only image is the same-origin official logo (`/logo-popopx.png`, a
  *    byte-for-byte copy of the iOS app icon). No webfont, no icon font, no CDN:
  *    the GitHub, menu and chevron glyphs are inline SVG.
- *  - The ecosystem chips point at the *other* POPOPX properties: two hosted
- *    portals and the Bot Studio repository. They are navigation, so nothing is
+ *  - The ecosystem chips point at the *other* POPOPX properties: the three hosted
+ *    sibling portals. They are navigation, so nothing is
  *    loaded from another origin.
  *  - Copy is authored in all 18 locales the engine declares, typed as a total
  *    `Localized<string>` map, so the compiler rejects a missing variant.
@@ -248,24 +248,24 @@ const NAV_COPY: Record<
     hu: "Számfiókok és csatornák",
   },
   studioCaption: {
-    en: "Bot Studio: self-hosted bots — repository public, site not live yet",
-    ru: "Bot Studio: боты на своём сервере — репозиторий открыт, сайта ещё нет",
-    de: "Bot Studio: Bots auf eigenem Server — Repository offen, die Website fehlt noch",
-    fr: "Bot Studio : des robots sur votre serveur — dépôt ouvert, page web pas encore publiée",
-    it: "Bot Studio: bot sul tuo server — archivio pubblico, sito non ancora attivo",
-    nl: "Bot Studio: bots op eigen server — de bronopslag is open, de website staat nog niet",
-    cs: "Bot Studio: boti na vlastním serveru — repozitář je otevřený, web zatím neběží",
-    "zh-Hans": "Bot Studio：自托管机器人工作台，仓库已公开，站点尚未上线",
-    "zh-Hant": "Bot Studio：自託管機器人工作台，倉庫已公開，網站尚未上線",
-    es: "Bot Studio: bots en tu servidor — repositorio abierto, la web aún no existe",
-    pl: "Bot Studio: boty na własnym serwerze — repozytorium otwarte, strona jeszcze nie działa",
-    ja: "Bot Studio: 自分のサーバーで Bot を動かす工具。リポジトリは公開済み、サイトはまだ未稼働",
-    th: "Bot Studio: บอตบนเซิร์ฟเวอร์ของคุณ — เปิดให้ดูต้นฉบับแล้ว แต่ยังไม่มีหน้าเว็บ",
-    fi: "Bot Studio: omat botit omalla palvelimella — arkisto on julkinen, sivusto puuttuu vielä",
-    uk: "Bot Studio: боти на власному сервері — сховище відкрите, сайту ще немає",
-    bg: "Bot Studio: ботове на собствен сървър — хранилището е отворено, сайтът все още липсва",
-    tr: "Bot Studio: kendi sunucunuzda botlar — depo açık, site henüz yayında değil",
-    hu: "Bot Studio: saját szerveren futó botok — a tároló nyitott, a weboldal még nincs fönt",
+    en: "Self-hosted bot workbench",
+    ru: "Верстак ботов на своём сервере",
+    de: "Bot-Werkbank auf eigenem Server",
+    fr: "Atelier de bots auto-hébergés",
+    it: "Postazione bot sul tuo server",
+    nl: "Bot-workbench op eigen server",
+    cs: "Workbench botů na vlastním serveru",
+    "zh-Hans": "自托管机器人工作台",
+    "zh-Hant": "自託管機器人工作台",
+    es: "Taller de bots en tu servidor",
+    pl: "Warsztat botów na własnym serwerze",
+    ja: "セルフホストのボット作業台",
+    th: "ชุดเครื่องมือบอตบนเซิร์ฟเวอร์ของคุณ",
+    fi: "Bot-työtila omalla palvelimella",
+    uk: "Верстак ботів на власному сервері",
+    bg: "Работилница за ботове на своя сървър",
+    tr: "Kendi sunucunda bot tezgâhı",
+    hu: "Botműhely a saját szervereden",
   },
   repo: {
     en: "Open-source repository",
@@ -499,11 +499,11 @@ export function Navbar(): ReactElement {
               Service&nbsp;Suite
             </a>
             <a
-              href={BOT_STUDIO_REPO_URL}
+              href={BOT_STUDIO_URL}
               target="_blank"
               rel="noopener noreferrer"
               title={studioCaption}
-              className={`chip text-mute transition-colors hover:border-alert/50 hover:text-white ${FOCUS}`}
+              className={`chip text-mute transition-colors hover:border-brand/50 hover:text-white ${FOCUS}`}
             >
               Bot&nbsp;Studio
             </a>
@@ -575,7 +575,7 @@ export function Navbar(): ReactElement {
               <span className="text-mute">· {mpCaption}</span>
             </a>
             <a
-              href={BOT_STUDIO_REPO_URL}
+              href={BOT_STUDIO_URL}
               target="_blank"
               rel="noopener noreferrer"
               className={`btn-ghost px-4 py-2 text-[12.5px] ${FOCUS}`}

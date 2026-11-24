@@ -4,7 +4,9 @@ import type { ReactElement } from "react";
 import { LOCALE_COUNT, LOCALES, pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
 import {
   ASSETS_LICENSE_URL,
+  BOT_STUDIO_HOST,
   BOT_STUDIO_REPO_URL,
+  BOT_STUDIO_URL,
   IOS_REPO_URL,
   LICENSE_URL,
   MP_PORTAL_HOST,
@@ -21,14 +23,14 @@ import {
 
 /**
  * Footer — the compliance block: open source, marks, the zero-tracking promise
- * and the three official hosts.
+ * and the four official hosts.
  *
  * Every sentence is traceable to `docs/FACTS.md` or to a file in this repo:
- *   §11  three official hosts, five repositories, `LICENSE` = the full AGPL-3.0
+ *   §11  four official hosts, five repositories, `LICENSE` = the full AGPL-3.0
  *        text with no SPDX line, marks explicitly not registered, upstream's own
  *        images and marks not granted.
- *   §14  Bot Studio is listed as a repository, not as a host: its domain does
- *        not resolve and its published tree is its `LICENSE` alone.
+ *   §15  Bot Studio: the portal answers over HTTPS on its own name, while the
+ *        engine repository it points back to publishes its `LICENSE` alone.
  *   §1   the 18 locale tags and their order = the client's `CFBundleLocalizations`.
  *   src/lib/i18n.tsx  the language choice is persisted to `localStorage` under
  *        `popopx.locale`; no cookie is written, and switching is a re-render —
@@ -48,45 +50,45 @@ const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:rin
 const BUILD_YEAR = 2026;
 
 const TAGLINE: Localized<string> = {
-  en: "The open-source licence, the trademark notice, the zero-tracking promise and the three official hosts — in one place.",
-  ru: "Лицензия на исходный код, замечание о товарных знаках, обещание без отслеживания и три официальных сайта — в одном месте.",
-  de: "Quellcode-Lizenz, Markenhinweis, Tracking-Versprechen und die drei offiziellen Hosts – an einem Ort.",
-  fr: "La licence du code, la note sur les marques, la promesse zéro suivi et les trois hôtes officiels — au même endroit.",
-  it: "Licenza del codice, nota sui marchi, promessa senza tracciamento e i tre host ufficiali: tutto qui.",
-  nl: "De bronlicentie, de merknota, de belofte zonder tracking en de drie officiële hosts — op één plek.",
-  cs: "Licence zdrojového kódu, oznámení o ochranných známkách, slib bez sledování a tři oficiální weby — na jednom místě.",
-  "zh-Hans": "开源许可、商标声明、零追踪承诺与三大官方站点，都收在这里。",
-  "zh-Hant": "開源授權、商標聲明、零追蹤承諾與三大官方網站，都收在這裡。",
-  es: "La licencia del código, el aviso de marca, la promesa de cero rastreo y los tres sitios oficiales, en un solo lugar.",
-  pl: "Licencja kodu, nota o znakach towarowych, obietnica bez śledzenia i trzy oficjalne witryny — w jednym miejscu.",
-  ja: "ソースのライセンス、商標の告知、トラッキングゼロの約束、そして 3 つの公式サイトをひと所に。",
-  th: "สัญญาอนุญาตของซอร์ส ประกาศเรื่องเครื่องหมายการค้า คำมั่นว่าจะไม่ติดตาม และสามเว็บไซต์ทางการ — รวมไว้ที่เดียว",
-  fi: "Lähdekoodin lisenssi, tavaramerkkitiedote, lupaus ei-seurannasta ja kolme virallista osoitetta — yhdessä paikassa.",
-  uk: "Ліцензія на код, нотатка про торгові марки, обіцянка без відстеження й три офіційні сайти — в одному місці.",
-  bg: "Лицензът за кода, бележката за марките, обещанието без проследяване и трите официални сайта — на едно място.",
-  tr: "Kaynak kod lisansı, marka uyarısı, izleme yok sözü ve üç resmî site — hepsi bir arada.",
-  hu: "A forráslicenc, a védjegyértesítés, a követés nélküli ígéret és a három hivatalos oldal — egy helyen.",
+  en: "The open-source licence, the trademark notice, the zero-tracking promise and the four official hosts — in one place.",
+  ru: "Лицензия на исходный код, замечание о товарных знаках, обещание без отслеживания и четыре официальных сайта — в одном месте.",
+  de: "Quellcode-Lizenz, Markenhinweis, Tracking-Versprechen und die vier offiziellen Hosts – an einem Ort.",
+  fr: "La licence du code, la note sur les marques, la promesse zéro suivi et les quatre hôtes officiels — au même endroit.",
+  it: "Licenza del codice, nota sui marchi, promessa senza tracciamento e i quattro host ufficiali: tutto qui.",
+  nl: "De bronlicentie, de merknota, de belofte zonder tracking en de vier officiële hosts — op één plek.",
+  cs: "Licence zdrojového kódu, oznámení o ochranných známkách, slib bez sledování a čtyři oficiální weby — na jednom místě.",
+  "zh-Hans": "开源许可、商标声明、零追踪承诺与四个官方站点，都收在这里。",
+  "zh-Hant": "開源授權、商標聲明、零追蹤承諾與四個官方網站，都收在這裡。",
+  es: "La licencia del código, el aviso de marca, la promesa de cero rastreo y los cuatro sitios oficiales, en un solo lugar.",
+  pl: "Licencja kodu, nota o znakach towarowych, obietnica bez śledzenia i cztery oficjalne witryny — w jednym miejscu.",
+  ja: "ソースのライセンス、商標の告知、トラッキングゼロの約束、そして 4 つの公式サイトをひと所に。",
+  th: "สัญญาอนุญาตของซอร์ส ประกาศเรื่องเครื่องหมายการค้า คำมั่นว่าจะไม่ติดตาม และสี่เว็บไซต์ทางการ — รวมไว้ที่เดียว",
+  fi: "Lähdekoodin lisenssi, tavaramerkkitiedote, lupaus ei-seurannasta ja neljä virallista osoitetta — yhdessä paikassa.",
+  uk: "Ліцензія на код, нотатка про торгові марки, обіцянка без відстеження й чотири офіційні сайти — в одному місці.",
+  bg: "Лицензът за кода, бележката за марките, обещанието без проследяване и четирите официални сайта — на едно място.",
+  tr: "Kaynak kod lisansı, marka uyarısı, izleme yok sözü ve dört resmî site — hepsi bir arada.",
+  hu: "A forráslicenc, a védjegyértesítés, a követés nélküli ígéret és a négy hivatalos oldal — egy helyen.",
 };
 
 const H_ECOSYSTEM: Localized<string> = {
-  en: "Three official hosts",
-  ru: "Три официальных сайта",
-  de: "Drei offizielle Hosts",
-  fr: "Trois hôtes officiels",
-  it: "Tre host ufficiali",
-  nl: "Drie officiële hosts",
-  cs: "Tři oficiální weby",
-  "zh-Hans": "三个官方站点",
-  "zh-Hant": "三個官方網站",
-  es: "Tres sitios oficiales",
-  pl: "Trzy oficjalne witryny",
-  ja: "3 つの公式サイト",
-  th: "สามเว็บไซต์ทางการ",
-  fi: "Kolme virallista osoitetta",
-  uk: "Три офіційні сайти",
-  bg: "Три официални сайта",
-  tr: "Üç resmî site",
-  hu: "Három hivatalos oldal",
+  en: "Four official hosts",
+  ru: "Четыре официальных сайта",
+  de: "Vier offizielle Hosts",
+  fr: "Quatre hôtes officiels",
+  it: "Quattro host ufficiali",
+  nl: "Vier officiële hosts",
+  cs: "Čtyři oficiální weby",
+  "zh-Hans": "四个官方站点",
+  "zh-Hant": "四個官方網站",
+  es: "Cuatro sitios oficiales",
+  pl: "Cztery oficjalne witryny",
+  ja: "4 つの公式サイト",
+  th: "สี่เว็บไซต์ทางการ",
+  fi: "Neljä virallista osoitetta",
+  uk: "Чотири офіційні сайти",
+  bg: "Четири официални сайта",
+  tr: "Dört resmî site",
+  hu: "Négy hivatalos oldal",
 };
 
 const H_OPENSOURCE: Localized<string> = {
@@ -217,24 +219,24 @@ const BACK_TO_TOP: Localized<string> = {
 };
 
 const ECO_NOTE: Localized<string> = {
-  en: "Exactly three domains are official. This page links to the other two and loads nothing from them.",
-  ru: "Официальных доменов ровно три. Эта страница ссылается на два других и ничего у них не загружает.",
-  de: "Genau drei Domains sind offiziell. Diese Seite verlinkt die beiden anderen und lädt nichts von ihnen.",
-  fr: "Exactement trois domaines sont officiels. Cette page pointe vers les deux autres et ne charge rien chez eux.",
-  it: "Esattamente tre domini sono ufficiali. Questa pagina linka gli altri due e non carica nulla da loro.",
-  nl: "Precies drie domeinen zijn officieel. Deze pagina linkt de andere twee en laadt er niets van.",
-  cs: "Oficiální jsou přesně tři domény. Tato stránka odkazuje na další dva a nic z nich nenačítá.",
-  "zh-Hans": "官方域名只有三个。本页链接另外两个，但不从它们加载任何资源。",
-  "zh-Hant": "官方網域只有三個。本頁連結另外兩個，但不從它們載入任何資源。",
-  es: "Hay exactamente tres dominios oficiales. Esta página enlaza los otros dos y no carga nada de ellos.",
-  pl: "Oficjalne są dokładnie trzy domeny. Ta strona linkuje dwie pozostałe i niczego od nich nie pobiera.",
-  ja: "公式サイトはちょうど 3 つのドメインだけ。このページは残り 2 つへリンクするだけで、そこから何も読み込みません。",
-  th: "มีโดเมนอย่างเป็นทางการพอดี 3 แห่ง — หน้านี้ลิงก์ไปอีกสองแห่ง โดยไม่โหลดสิ่งใดจากที่นั่น",
-  fi: "Virallisia verkkotunnuksia on tasan kolme. Tämä sivu linkittää kahteen muuhun eikä lataa niiltä mitään.",
-  uk: "Офіційних доменів рівно три. Ця сторінка посилається на два інші й нічого в них не завантажує.",
-  bg: "Точно три домейна са официални. Тази страница сочи към другите два и не зарежда нищо от тях.",
-  tr: "Resmî olarak tam üç alan adı var. Bu sayfa diğer ikisine link verir, onlardan hiçbir şey yüklemez.",
-  hu: "Pontosan három hivatalos domain van. Ez az oldal a másik kettőre linkel, és tőlük semmit nem tölt be.",
+  en: "Exactly four domains are official. This page links to the other three and loads nothing from them.",
+  ru: "Официальных доменов ровно четыре. Эта страница ссылается на три других и ничего у них не загружает.",
+  de: "Genau vier Domains sind offiziell. Diese Seite verlinkt die drei anderen und lädt nichts von ihnen.",
+  fr: "Exactement quatre domaines sont officiels. Cette page pointe vers les trois autres et ne charge rien chez eux.",
+  it: "Esattamente quattro domini sono ufficiali. Questa pagina linka gli altri tre e non carica nulla da loro.",
+  nl: "Precies vier domeinen zijn officieel. Deze pagina linkt de andere drie en laadt er niets van.",
+  cs: "Oficální jsou přesně čtyři domény. Tato stránka odkazuje na další tři a nic z nich nenačítá.",
+  "zh-Hans": "官方域名只有四个。本页链接另外三个，但不从它们加载任何资源。",
+  "zh-Hant": "官方網域只有四個。本頁連結另外三個，但不從它們載入任何資源。",
+  es: "Hay exactamente cuatro dominios oficiales. Esta página enlaza los otros tres y no carga nada de ellos.",
+  pl: "Oficjalne są dokładnie cztery domeny. Ta strona linkuje trzy pozostałe i niczego od nich nie pobiera.",
+  ja: "公式サイトはちょうど 4 つのドメインだけ。このページは残り 3 つへリンクするだけで、そこから何も読み込みません。",
+  th: "มีโดเมนอย่างเป็นทางการพอดี 4 แห่ง — หน้านี้ลิงก์ไปอีกสามแห่ง โดยไม่โหลดสิ่งใดจากที่นั่น",
+  fi: "Virallisia verkkotunnuksia on tasan neljä. Tämä sivu linkittää kolmeen muuhun eikä lataa niiltä mitään.",
+  uk: "Офіційних доменів рівно чотири. Ця сторінка посилається на три інші й нічого в них не завантажує.",
+  bg: "Точно четири домейна са официални. Тази страница сочи към другите три и не зарежда нищо от тях.",
+  tr: "Resmî olarak tam dört alan adı var. Bu sayfa diğer üçüne link verir, onlardan hiçbir şey yüklemez.",
+  hu: "Pontosan négy hivatalos domain van. Ez az oldal a másik háromra linkel, és tőlük semmit nem tölt be.",
 };
 
 const BLURB_MAIN: Localized<string> = {
@@ -298,6 +300,27 @@ const BLURB_MP: Localized<string> = {
   bg: "Порталът на пакета — сервисни акаунти и канали с нулево знание на собствения ви сървър.",
   tr: "Suite portalı — kendi sunucunuzda hizmet hesapları ve sıfır bilgi kanalları.",
   hu: "A csomag portálja — szolgáltatási fiókok és nullaismeret-csatornák a saját szervereden.",
+};
+
+const BLURB_STUDIO: Localized<string> = {
+  en: "The Bot Studio portal — the bot workbench you run on your own server.",
+  ru: "Портал Bot Studio — мастерская ботов, работающая на вашем собственном сервере.",
+  de: "Das Portal von Bot Studio — die Werkbank für Bots, die auf dem eigenen Server läuft.",
+  fr: "Le portail Bot Studio — un atelier de bots que vous faites tourner sur votre propre serveur.",
+  it: "Il portale Bot Studio — il banco da lavoro per i bot, in esecuzione sul vostro server.",
+  nl: "Het portal van Bot Studio — de werkbank voor bots die je op je eigen server draait.",
+  cs: "Portál Bot Studio — dílna pro boty, kterou provozujete na vlastním serveru.",
+  "zh-Hans": "Bot Studio 门户：在自己服务器上跑的机器人工作台。",
+  "zh-Hant": "Bot Studio 入口網站：在自己伺服器上跑的機器人工作台。",
+  es: "El portal de Bot Studio — el banco de trabajo de bots que ejecutas en tu propio servidor.",
+  pl: "Portal Bot Studio — warsztat botów, który uruchamiasz na własnym serwerze.",
+  ja: "Bot Studio のポータル——自分のサーバーで動かすボットのワークベンチ。",
+  th: "พอร์ทัล Bot Studio — โต๊ะทำงานบอตที่คุณรันบนเซิร์ฟเวอร์ของตัวเอง",
+  fi: "Bot Studio -portaali — bottien työpöytä, jonka ajat omalla palvelimellasi.",
+  uk: "Портал Bot Studio — майстерня ботів, що працює на вашому власному сервері.",
+  bg: "Порталът Bot Studio — работилницата за ботове, която пускате на собствения ви сървър.",
+  tr: "Bot Studio portalı — kendi sunucunuzda çalıştırdığınız bot tezgâhı.",
+  hu: "A Bot Studio portál — a botműhely, amelyet a saját szervereden futtatsz.",
 };
 
 const L_LICENSE: Localized<string> = {
@@ -691,6 +714,7 @@ const ECOSYSTEM: readonly PortalLink[] = [
   { host: SITE_HOST, href: SITE_URL, external: false, blurb: BLURB_MAIN },
   { host: NODE_PORTAL_HOST, href: NODE_PORTAL_URL, external: true, blurb: BLURB_NODE },
   { host: MP_PORTAL_HOST, href: MP_PORTAL_URL, external: true, blurb: BLURB_MP },
+  { host: BOT_STUDIO_HOST, href: BOT_STUDIO_URL, external: true, blurb: BLURB_STUDIO },
 ];
 
 const SOURCE_LINKS: readonly { readonly href: string; readonly label: Localized<string> }[] = [

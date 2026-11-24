@@ -117,7 +117,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 | 部署目标 iOS 17.0：构建设置取 `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`，产物 `MinimumOSVersion = 17.0` 只在重新构建后才是可核对的事实（旧的 `apps/ios/build/artifacts/…` 已被清理，不再是出处） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2776`、`apps/ios/Shared/Navigation/MainTabView.swift:44-46` |
 | `SWIFT_VERSION = 5.0`（12 处）；`PopopxMeshKit` 包用 `swift-tools-version: 6.0` 且包内最低 `.iOS(.v15)`（仅包侧，不要写成 App 支持 iOS 15） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2789`、`apps/ios/PopopxMeshKit/Package.swift:1,12-13` |
 | Xcode 版本没有被钉死，CI 只打印 `xcodebuild -version` | `.github/workflows/ios-sim.yml:101,116` |
-| 真实构建命令（CI 用，先跑 `scripts/ci/ios-stub-libs.sh`） | `.github/workflows/build.yml:1400-1408` |
+| 真实构建命令（CI 用，先跑 `scripts/ci/ios-stub-libs.sh` 与 `scripts/ci/ios-stub-mlpackage.sh`） | `.github/workflows/build.yml:1011-1012,1016-1026` |
 | 共享 scheme：`POPOPX (iOS)`、`POPOPX NSE`、`POPOPX SE` | `apps/ios/POPOPX.xcodeproj/xcshareddata/xcschemes/` |
 | 辅助脚本目录 `scripts/ios/`：`prepare.sh`、`download-libs.sh`、`server-config-mint.swift` | `scripts/ios/prepare.sh`、`scripts/ios/download-libs.sh`、`scripts/ios/server-config-mint.swift` |
 | `apps/ios/README.md` 是**过期文档**（仍在讲旧工程名与 iOS 15+），主站严禁以它为事实来源 | `apps/ios/README.md` |
@@ -145,7 +145,7 @@ xcodebuild build -quiet \
 | `ASSETS_LICENSE-POPOPX.md` 存在 | 仓库根 |
 | 仓库公开、默认分支 `master`（`api.github.com/repos/popopx-chat/popopx-chat` → HTTP 200、`private: false`） | GitHub API |
 | 门户自身仓库 `https://github.com/popopx-chat/popopx-chat-web`（默认分支 `main`）；服务号套件 `popopx-service-suite`（`main`）；Mac Node `popopx-mac-node`（`main`） | GitHub API |
-| 三个官方站点：`popopx.chat`（本站）、`node.popopx.chat`、`mp.popopx.chat`（后两者的 `server_name` 实测自同级工程 nginx 配置） | `../node-popopx-chat-web/deploy/centos/nginx-node.popopx.chat.conf:64`、`../popopx-service-suite-web/src/lib/site.ts:11` |
+| 四个官方站点：`popopx.chat`（本站）、`node.popopx.chat`、`mp.popopx.chat`、`bot.popopx.chat`（第二、第三者的 `server_name` 实测自同级工程配置，第四者按 §15 的 vhost 与证书实测） | `../node-popopx-chat-web/deploy/centos/nginx-node.popopx.chat.conf:64`、`../popopx-service-suite-web/src/lib/site.ts:11`、`../popopx-bot-studio-web/index.html:6` |
 
 ## 12. 发行状态（严禁编造商店链接）
 
@@ -177,20 +177,35 @@ xcodebuild build -quiet \
 
 这三条严禁写成「双栈」「Mesh 组网」「加密备份上传」「云同步」：`.bak` 只在设备磁盘上，不是异地备份；口令保护的是本机数据库文件。
 
-## 15. Bot Studio 发布状态（门户只列仓库，不列站点）
+## 15. Bot Studio 发布状态（门户已上线，引擎仓库仍只发布许可证）
 
 | 事实 | 出处 |
 | --- | --- |
-| `https://github.com/popopx-chat/popopx-bot-studio` 公开可访问，但**已发布的树只有 `LICENSE`（AGPL-3.0-only）一个条目**：无 README、无源码目录，因此门户不转述它宣称的任何功能 | GitHub API（配方见下） |
-| `bot.popopx.chat` 已解析到本站同一台服务器（与 `node.popopx.chat`、`mp.popopx.chat` 同 IP），但**没有它自己的站点**：普通 HTTP 返回该机的 nginx 默认测试页（`Server: nginx/1.14.1`，`Last-Modified` 2019-10-07），443 上的证书 `CN=popopx.chat` 不覆盖这个子域，TLS 直接以名称不匹配失败 | 本机 `dig +short` + `curl` 实测 |
+| `bot.popopx.chat` 与 `popopx.chat`、`node.popopx.chat` 解析到同一台服务器（43.129.40.33） | 本机 `dig +short` 实测（2026-11-24） |
+| 门户已上线：普通 HTTP 返回 301，跳转目标是 `Location: https://bot.popopx.chat/`（`Server: nginx/1.14.1`），不再是该机的 nginx 默认测试页 | 本机 `curl --noproxy '*' -sI http://bot.popopx.chat` |
+| 443 以 HTTP/2 返回 200：`content-length: 30246`、`last-modified: 2026-11-24 10:01:15 GMT`，并带 `x-frame-options: DENY` 与 `x-content-type-options: nosniff` | 本机 `curl --noproxy '*' -sI https://bot.popopx.chat` |
+| 证书就是按这个域名签的：`subject: CN=bot.popopx.chat`，SAN 命中，verify ok，签发者 `O=Let's Encrypt; CN=YR1`，有效期到 2027-02-22 | 本机 `curl --noproxy '*' -sv https://bot.popopx.chat` |
+| 页面只加载自己目录里的文件：css、js、图标全是相对路径；两个 js 里绝对 URL 0 个、fetch 0 次，产物里没有任何第三方主机与统计脚本 | 本机对线上 HTML 与 assets/js/app.js、assets/js/i18n.js 的 grep |
+| 站点是零构建静态页、自带 18 语文案：无框架、无打包器、无 CDN、无 Web 字体请求、无统计脚本 | `../popopx-bot-studio-web/README.md:3-4` |
+| 线上首屏的标题与描述由站点仓库写出：POPOPX Bot Studio，self-hosted bot factory | `../popopx-bot-studio-web/index.html:6-7` |
+| 引擎仓库 `https://github.com/popopx-chat/popopx-bot-studio`（默认分支 main）公开可访问，但**已发布的树只有 `LICENSE`（AGPL-3.0-only）一个条目**：无 README、无源码目录，因此门户不转述它宣称的任何功能 | GitHub API（配方见下） |
+| **未上文案，记录给下一位**：站点仓库自称正式域名是 apex，即 `CNAME`、canonical、全部 hreflang、og:url、robots 的 Sitemap 行与 sitemap 的 loc 写的都是 popopx.chat，而 apex 由本站 nginx 的 server_name 持有（本仓库 deploy/centos/nginx-popopx-main.conf 的 80 与 443 两块）。两个站点对同一个 apex 同时主张归属是 SEO 冲突，应由该站改掉；主站文案不引用这一点 | `../popopx-bot-studio-web/README.md:6-8`、`../popopx-bot-studio-web/CNAME:1`、`../popopx-bot-studio-web/index.html:10-11,33`、`../popopx-bot-studio-web/robots.txt:7`、`../popopx-bot-studio-web/sitemap.xml:6` |
 
-复测配方（2026-11-24 实测；域名与仓库内容都会变，引用时必须重跑并改日期。注意本机 curl 走 SOCKS5 代理会让 TLS 探测假超时，直连需 `--noproxy '*'`）：
+复测配方（2026-11-24 实测；域名、证书与仓库内容都会变，引用时必须重跑并改日期。注意本机 curl 走 SOCKS5 代理会让 TLS 探测假超时，直连需 `--noproxy '*'`）：
 
 ```
+dig +short bot.popopx.chat popopx.chat node.popopx.chat mp.popopx.chat
+curl --noproxy '*' -sI http://bot.popopx.chat | head -6                 # 301 + Location
+curl --noproxy '*' -sI https://bot.popopx.chat | head -10               # HTTP/2 200 与响应头
+curl --noproxy '*' -sv https://bot.popopx.chat 2>&1 | grep -i "subject\|issuer\|altname\|expire\|verify ok"
+curl --noproxy '*' -s https://bot.popopx.chat | grep -oE '(src|href)="[^"]*"' | sort -u
+for f in assets/js/app.js assets/js/i18n.js; do
+  curl --noproxy '*' -s "https://bot.popopx.chat/$f" | grep -c "http"   # 两个都是 0
+done
 curl -s "https://api.github.com/repos/popopx-chat/popopx-bot-studio/git/trees/main?recursive=1" | jq -r '.tree[].path'      # 只有 LICENSE
-dig +short bot.popopx.chat node.popopx.chat mp.popopx.chat
-curl --noproxy '*' -sI http://bot.popopx.chat | head -4        # nginx 默认页
-curl --noproxy '*' -sv https://bot.popopx.chat 2>&1 | grep -i "subject\|altname\|SSL:"
+curl -s "https://api.github.com/repos/popopx-chat/popopx-bot-studio-web/git/trees/main?recursive=1" | jq -r '.tree[].path' | head -12
+grep -c "server_name  popopx.chat;" deploy/centos/nginx-popopx-main.conf   # 2（本站持有 apex）
+curl -s "https://api.github.com/repos/popopx-chat/popopx-chat" | jq -r '.default_branch, .private'                        # master / false
 grep -c "MARKETING_VERSION = 1.2.0" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 2
 grep -c "MARKETING_VERSION = 7.1.2" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 8
 awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift | wc -l   # 13
