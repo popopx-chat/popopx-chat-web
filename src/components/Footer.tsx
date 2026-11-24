@@ -4,6 +4,7 @@ import type { ReactElement } from "react";
 import { LOCALE_COUNT, LOCALES, pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
 import {
   ASSETS_LICENSE_URL,
+  BOT_STUDIO_REPO_URL,
   IOS_REPO_URL,
   LICENSE_URL,
   MP_PORTAL_HOST,
@@ -23,9 +24,11 @@ import {
  * and the three official hosts.
  *
  * Every sentence is traceable to `docs/FACTS.md` or to a file in this repo:
- *   §11  three official hosts, four repositories, `LICENSE` = the full AGPL-3.0
+ *   §11  three official hosts, five repositories, `LICENSE` = the full AGPL-3.0
  *        text with no SPDX line, marks explicitly not registered, upstream's own
  *        images and marks not granted.
+ *   §14  Bot Studio is listed as a repository, not as a host: its domain does
+ *        not resolve and its published tree is its `LICENSE` alone.
  *   §1   the 18 locale tags and their order = the client's `CFBundleLocalizations`.
  *   src/lib/i18n.tsx  the language choice is persisted to `localStorage` under
  *        `popopx.locale`; no cookie is written, and switching is a re-render —
@@ -444,6 +447,27 @@ const R_NODE: Localized<string> = {
   hu: "Mac Node — forrás",
 };
 
+const R_STUDIO: Localized<string> = {
+  en: "Bot Studio — source",
+  ru: "Bot Studio — исходники",
+  de: "Bot Studio — Quellcode",
+  fr: "Bot Studio — code source",
+  it: "Bot Studio — sorgente",
+  nl: "Bot Studio — broncode",
+  cs: "Bot Studio — zdroj",
+  "zh-Hans": "Bot Studio 源码",
+  "zh-Hant": "Bot Studio 原始碼",
+  es: "Bot Studio — código",
+  pl: "Bot Studio — kod",
+  ja: "Bot Studio——ソース",
+  th: "Bot Studio — ซอร์ส",
+  fi: "Bot Studio — lähde",
+  uk: "Bot Studio — код",
+  bg: "Bot Studio — код",
+  tr: "Bot Studio — kaynak",
+  hu: "Bot Studio — forrás",
+};
+
 const P_COOKIE: Localized<string> = {
   en: "No cookie is ever set. The language you choose is written to localStorage under the key popopx.locale and nowhere else.",
   ru: "Ни один cookie не устанавливается. Выбранный язык записывается в localStorage под ключом popopx.locale и больше никуда.",
@@ -677,6 +701,7 @@ const SOURCE_LINKS: readonly { readonly href: string; readonly label: Localized<
   { href: WEB_REPO_URL, label: R_WEB },
   { href: SUITE_REPO_URL, label: R_SUITE },
   { href: NODE_REPO_URL, label: R_NODE },
+  { href: BOT_STUDIO_REPO_URL, label: R_STUDIO },
 ];
 
 const PROMISES: readonly Localized<string>[] = [

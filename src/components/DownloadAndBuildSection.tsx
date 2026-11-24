@@ -250,6 +250,241 @@ const BUILD_TITLE: Localized<string> = {
   hu: "Fordítás a nyilvános forrásból",
 };
 
+const ROW_VERSION: Localized<string> = {
+  en: "App MARKETING_VERSION",
+  ru: "MARKETING_VERSION приложения",
+  de: "MARKETING_VERSION der App",
+  fr: "MARKETING_VERSION de l’app",
+  it: "MARKETING_VERSION dell’app",
+  nl: "MARKETING_VERSION van de app",
+  cs: "MARKETING_VERSION aplikace",
+  "zh-Hans": "App 的 MARKETING_VERSION",
+  "zh-Hant": "App 的 MARKETING_VERSION",
+  es: "MARKETING_VERSION de la app",
+  pl: "MARKETING_VERSION aplikacji",
+  ja: "アプリの MARKETING_VERSION",
+  th: "MARKETING_VERSION ของแอป",
+  fi: "Appin MARKETING_VERSION",
+  uk: "MARKETING_VERSION застосунку",
+  bg: "MARKETING_VERSION на приложението",
+  tr: "Uygulamanın MARKETING_VERSION’ı",
+  hu: "Az app MARKETING_VERSION értéke",
+};
+
+/**
+ * What v1.2.0 is and what it is not: the fork's own number, adopted on
+ * 2026-11-24, changing the published version string and nothing on the wire —
+ * ledger §10 and `CHANGELOG-POPOPX.md:8-11`. It is written into the app target
+ * only: the eight extension configurations still print the old number, and the
+ * store record that would let this page link the release is still `resultCount: 0`.
+ */
+const FACT_VERSION: Localized<string> = {
+  en: "v1.2.0 is this fork’s own number, adopted on 2026-11-24. It replaced the inherited one in the app target’s build settings only; the SMP and XFTP handshake versions and the database schema were left alone, so the client still talks to the relays as before. No store link comes with it.",
+  ru: "v1.2.0 — собственное число этого форка, введённое 2026-11-24. Оно заменило унаследованное только в настройках цели сборки приложения; версии рукопожатия SMP и XFTP и схема базы данных не менялись, так что клиент по-прежнему говорит с релеями как раньше. Ссылки в магазин это не даёт.",
+  de: "v1.2.0 ist die eigene Nummer dieses Forks, eingeführt am 2026-11-24. Sie ersetzt die geerbte nur in den Build-Einstellungen des App-Ziels; die SMP- und XFTP-Handshake-Versionen und das Datenbankschema blieben unverändert, der Client spricht also weiterhin wie zuvor mit den Relays. Ein Store-Link ergibt sich daraus nicht.",
+  fr: "v1.2.0 est le numéro propre à ce fork, adopté le 2026-11-24. Il remplace l’hérité seulement dans les réglages de build de la cible app ; les versions de poignée de main SMP et XFTP et le schéma de base sont restés tels quels, donc le client parle toujours aux relays comme avant. Cela n’apporte aucun lien de store.",
+  it: "v1.2.0 è il numero proprio di questo fork, adottato il 2026-11-24. Sostituisce quello ereditato solo nelle build settings del target app; le versioni di handshake SMP e XFTP e lo schema del database sono lasciati invariati, quindi il client parla ancora ai relay come prima. Nessun link dello store ne deriva.",
+  nl: "v1.2.0 is het eigen nummer van deze fork, aangenomen op 2026-11-24. Het vervangt het geërfde alleen in de buildinstellingen van het app-target; de SMP- en XFTP-handshakesversies en het databaseschema bleven ongewijzigd, dus de client praat nog steeds tegen de relays zoals voorheen. Er komt geen storelink bij.",
+  cs: "v1.2.0 je vlastní číslo tohoto forku, zavedené 2026-11-24. Nahrazuje zděděné číslo pouze v nastavení buildu cíle aplikace; verze handshake SMP a XFTP i schéma databáze zůstaly nedotčené, klient tedy mluví s relayi stále stejně jako dřív. Odkaz do obchodu z toho neplyne.",
+  "zh-Hans": "v1.2.0 是这个分支自己的编号，2026-11-24 启用。它只替换了 App 构建配置里继承来的那个号，SMP 与 XFTP 的握手版本、数据库 Schema 都没有改动，客户端照旧和已部署的中继通信。这个数字不附带任何商店链接。",
+  "zh-Hant": "v1.2.0 是這個分支自己的編號，2026-11-24 啟用。它只替換了 App 建置設定裡繼承來的那個號，SMP 與 XFTP 的握手版本、資料庫 Schema 都沒有改動，客戶端照舊和已部署的中繼通訊。這個數字不附帶任何商店連結。",
+  es: "v1.2.0 es el número propio de este fork, adoptado el 2026-11-24. Reemplaza al heredado solo en la configuración de build del target de la app; las versiones de handshake SMP y XFTP y el esquema de la base de datos quedan intactos, así que el cliente sigue hablando con los relays como antes. Esto no trae ningún enlace de tienda.",
+  pl: "v1.2.0 to własny numer tego forka, przyjęty 2026-11-24. Zastępuje przejęty numer tylko w ustawieniach buildu celu aplikacji; wersje handshaku SMP i XFTP oraz schemat bazy danych pozostały bez zmian, więc klient rozmawia z relayami jak dotąd. Nie wiąże się z nim żaden link do sklepu.",
+  ja: "v1.2.0 はこのフォーク独自の番号で、2026-11-24 に採用されました。アプリのターゲットのビルド設定で継承先の番号を置き換えただけのもので、SMP と XFTP のハンドシェイク版やデータベース スキーマはそのままなので、クライアントは今まで通りリレーと通信します。ストアのリンクは付いてきません。",
+  th: "v1.2.0 คือเลขของฟอร์กนี้เอง เริ่มใช้เมื่อ 2026-11-24 มันแทนเลขที่รับมาใน build setting ของแอป target เท่านั้น ส่วนเวอร์ชันแฮนด์เชกของ SMP และ XFTP กับสคีมาของฐานข้อมูลไม่ได้แตะ ไคลเอนต์จึงคุยกับ relay เหมือนเดิม และไม่มีลิงก์สโตร์มาพร้อมเลขนี้",
+  fi: "v1.2.0 on tämän forkin oma numero, otettu käyttöön 2026-11-24. Se korvaa perityn numeron vain app-tavoitteen build-asetuksissa; SMP- ja XFTP-käsipversion sekä tietokantakaavan jätettiin ennalleen, joten asiakas puhuu releille kuten ennenkin. Tähän ei kuulu kauppalinkkiä.",
+  uk: "v1.2.0 — власне число цього форка, введене 2026-11-24. Воно замінило успадковане лише в налаштуваннях збірки цілі застосунку; версії handshak SMP і XFTP та схему бази даних не чіпали, тож клієнт говорить із релями як раніше. Посилання в магазин із цим не йде.",
+  bg: "v1.2.0 е собственото число на този форк, прието на 2026-11-24. То замества наслепеното само в настройките за сглобяване на целта на приложението; версиите на SMP и XFTP ръкостискане и схемата на базата остават недокоснати, така че клиентът говори с релетата както преди. Никаква магазинска връзка не идва с него.",
+  tr: "v1.2.0 bu fork’un kendi numarası ve 2026-11-24’te benimsendi. Devralınan numarayı yalnızca uygulama hedefinin build ayarlarında değiştirdi; SMP ve XFTP el sıkışma sürümleriyle veritabanı şemasına dokunulmadı, yani istemci röle’lerle eskisi gibi konuşmaya devam ediyor. Bununla birlikte bir mağaza bağlantısı gelmiyor.",
+  hu: "a v1.2.0 ennek a forknak a saját száma, 2026-11-24-én bevezetve. Az örökölt számot csak az app target build beállításaiban váltotta; az SMP és XFTP kézfogás verziói és az adatbázis sémája érintetlen, úgyhogy az ügyfél ugyanúgy beszél a relékkel, mint eddig. Bolti link hozzá nem jár.",
+};
+
+const RELEASE_TITLE: Localized<string> = {
+  en: "What the release notes actually claim",
+  ru: "Что реально говорят заметки о релизе",
+  de: "Was die Release-Notes wirklich behaupten",
+  fr: "Ce que les notes de version affirment vraiment",
+  it: "Cosa dicono davvero le note di rilascio",
+  nl: "Wat de releasenotes werkelijk beweren",
+  cs: "Co poznámky k vydání opravdu tvrdí",
+  "zh-Hans": "版本说明里真正写了的三件事",
+  "zh-Hant": "版本說明裡真正寫了的三件事",
+  es: "Lo que las notas de la versión realmente afirman",
+  pl: "Co naprawdę mówią notki wydania",
+  ja: "リリースノートが実際に書いている三つ",
+  th: "สามสิ่งที่โน้ตเวอร์ชันกล่าวไว้จริง",
+  fi: "Mitä julkaisun tiedot todella väittävät",
+  uk: "Що насправді кажуть нотатки релізу",
+  bg: "Това, което бележките за изданието реално твърдят",
+  tr: "Sürüm notlarının gerçekten iddia ettiği üç şey",
+  hu: "Amit a kiadási jegyzetek valójában állítanak",
+};
+
+const RELEASE_LEAD: Localized<string> = {
+  en: "Three lines, each one read out of the shipping Swift source rather than a changelog heading. The file and line under each is the place a reader can go and check.",
+  ru: "Три строки, каждая прочитана из рабочего Swift-кода, а не из заголовка чейнджлога. Файл и строка под каждой — то место, где читатель может проверить.",
+  de: "Drei Zeilen, jede dem ausgelieferten Swift-Quellcode gelesen, nicht einer Changelog-Überschrift. Datei und Zeile darunter sind die Stelle, die jemand nachprüfen kann.",
+  fr: "Trois lignes, chacune lue dans le source Swift livré plutôt que dans un titre de changelog. Le fichier et la ligne dessous sont l’endroit où le lecteur peut vérifier.",
+  it: "Tre righe, ciascuna letta nel sorgente Swift pubblicato invece che in un titolo del changelog. File e riga sotto ogni voce sono il punto dove il lettore può verificare.",
+  nl: "Drie regels, elk uit de meegeleverde Swift-broncode gelezen, niet uit een changelogkop. Bestand en regel eronder zijn plek die een lezer kan nalopen.",
+  cs: "Tři řádky, každý čtený ze dodaného Swiftového zdroje, ne z nadpisu changelogu. Soubor a řádek pod každým jsou místo, kde se dá ověřit.",
+  "zh-Hans": "三行说明，每一行都读自出厂的 Swift 源码，而不是变更日志的标题。每条下面标的文件与行号，就是读者可以去核对的地方。",
+  "zh-Hant": "三行說明，每一行都讀自出廠的 Swift 原始碼，而不是變更日誌的標題。每條下面標的檔案與行號，就是讀者可以去核對的地方。",
+  es: "Tres líneas, cada una leída del código Swift publicado y no de un título del changelog. El archivo y la línea de cada una son el lugar donde el lector puede comprobar.",
+  pl: "Trzy linijki, każdą wyczytano z dostarczonego Swifta, nie z nagłówka changelogu. Plik i numer linii pod każdym z nich to miejsce, które można sprawdzić.",
+  ja: "三つの行はいずれも 変更履歴の見出しではなく、出荷済みの Swift ソースから読みました。各項目の下に書いたファイルと行番号が、確認しに行ける場所です。",
+  th: "สามบรรทัด แต่ละบรรทัดอ่านจากซอร์ส Swift ที่ส่งออกจริง ไม่ใช่จากหัวบันทึกการเปลี่ยนแปลง ไฟล์และหมายเลขบรรทัดที่เขียนใต้แต่ละข้อ คือจุดที่ผู้อ่านไปตรวจได้",
+  fi: "Kolme riviä, kukin luettuna toimitetusta Swift-lähdekoodista changelogin otsikon sijaan. Tiedosto ja rivinumero jokaisen alla ovat paikka, jossa lukija voi tarkistaa.",
+  uk: "Три рядки, кожен прочитаний із надісланого Swift-коду, а не з заголовка чейнджлогу. Файл і рядок під кожним — те місце, де читач може перевірити.",
+  bg: "Три реда, всеки прочетен от доставения Swift код, а не от заглавие на списък с промени. Файлът и редът под всеки са мястото, където читателят може да провери.",
+  tr: "Üç satır, her biri changelog başlığından değil dağıtılan Swift kaynağından okundu. Her birinin altındaki dosya ve satır, okuyanın gidip doğrulayacağı yer.",
+  hu: "Három sor, mindegyiket a szállított Swift forrásból olvastuk ki, nem egy changelog-címből. A fájl és a sorszám mindegyik alatt az a hely, ahol az olvasó utánanézhet.",
+};
+
+const REL_DUAL_NAME: Localized<string> = {
+  en: "Two-channel routing",
+  ru: "Двухканальная маршрутизация",
+  de: "Zwei-Kanal-Routing",
+  fr: "Routage à deux canaux",
+  it: "Routing a due canali",
+  nl: "Tweekanaalsrouting",
+  cs: "Směrování dvěma kanály",
+  "zh-Hans": "双通道路由",
+  "zh-Hant": "雙通道路由",
+  es: "Enrutado por dos canales",
+  pl: "Trasa dwoma kanałami",
+  ja: "二経路のルーティング",
+  th: "การกำหนดเส้นทางสองช่องทาง",
+  fi: "Kaksikanavareititys",
+  uk: "Маршрутизація двома каналами",
+  bg: "Двуканално насочване",
+  tr: "İki kanallı yönlendirme",
+  hu: "Kétcsatornás útvonalválasztás",
+};
+
+const REL_DUAL_BODY: Localized<string> = {
+  en: "SMP stays the default. When it does not answer inside three seconds, the very same message goes out over Bluetooth at the same time — concurrently, never instead; and when Bluetooth reports no BLE_ACK after five seconds, the send continues over SMP under the original message ID.",
+  ru: "SMP остаётся каналом по умолчанию. Если он не отвечает в течение трёх секунд, то же сообщение параллельно уходит по Bluetooth — параллельно, а не вместо; если же Bluetooth не даёт BLE_ACK за пять секунд, отправка продолжается через SMP под прежним идентификатором.",
+  de: "SMP bleibt der Standard. Antwortet es nicht binnen drei Sekunden, geht dieselbe Nachricht gleichzeitig auch über Bluetooth raus – parallel, nie stattdessen; meldet Bluetooth nach fünf Sekunden keinen BLE_ACK, läuft der Versand unter derselben message-ID über SMP weiter.",
+  fr: "SMP reste le canal par défaut. S’il ne répond pas dans les trois secondes, le même message part aussi en Bluetooth en parallèle — jamais à la place ; et si Bluetooth ne donne pas de BLE_ACK au bout de cinq secondes, l’envoi continue sur SMP sous l’identifiant d’origine.",
+  it: "SMP resta il canale predefinito. Se non risponde entro tre secondi, lo stesso messaggio esce anche via Bluetooth, in parallelo, mai in vece; e se Bluetooth non dà un BLE_ACK dopo cinque secondi, l’invio continua su SMP sotto lo stesso message ID.",
+  nl: "SMP blijft de standaard. Antwoordt het niet binnen drie seconden, dan gaat hetzelfde bericht tegelijk ook over Bluetooth — parallel, nooit in de plaats; en als Bluetooth na vijf seconden geen BLE_ACK geeft, loopt de verzending onder hetzelfde message-ID over SMP verder.",
+  cs: "SMP zůstává výchozí kanál. Neodpoví-li do tří sekund, táž zpráva jde současně i Bluetoothem — souběžně, nikdy namísto; a když Bluetooth nedá BLE_ACK do pěti sekund, odesílání pokračuje přes SMP pod původním ID zprávy.",
+  "zh-Hans": "SMP 仍是默认通道。它若在三秒内没有应答，同一条消息就同时再走蓝牙——是并行，不是替换；蓝牙五秒内没等到 BLE_ACK 时，发送又回到 SMP，沿用原来的 message ID。",
+  "zh-Hant": "SMP 仍是預設通道。它若在三秒內沒有應答，同一條訊息就同時再走藍牙——是並行，不是取代；藍牙五秒內沒等到 BLE_ACK 時，發送又回到 SMP，沿用原來的 message ID。",
+  es: "SMP sigue siendo el canal por defecto. Si no responde en tres segundos, el mismo mensaje sale también por Bluetooth, en paralelo, nunca en su lugar; y si Bluetooth no da un BLE_ACK tras cinco segundos, el envío continúa por SMP con el ID de mensaje original.",
+  pl: "SMP pozostaje kanałem domyślnym. Jeśli nie odpowie w trzy sekundy, ta sama wiadomość leci jednocześnie Bluetoothem — równolegle, nie zamiast; a gdy Bluetooth nie da BLE_ACK po pięciu sekundach, wysyłka idzie dalej przez SMP pod pierwotnym ID.",
+  ja: "既定の通信路は SMP のまま。3 秒以内に答えが無いと、同じメッセージが Bluetooth へ同時に流れます——併走であって切替えではありません。逆に Bluetooth が 5 秒以内に BLE_ACK を返さなければ、送信は元のメッセージ ID のまま SMP で続きます。",
+  th: "SMP ยังเป็นช่องทางเริ่มต้น ถ้าไม่ตอบในสามวินาที ข้อความเดิมจะถูกส่งผ่านบลูทูธไปด้วยพร้อมกัน — ส่งคู่กัน ไม่ใช่ส่งแทน และถ้าบลูทูธไม่ส่ง BLE_ACK ภายในห้าวินาที การส่งจะไปต่อผ่าน SMP ด้วย message ID เดิม",
+  fi: "SMP pysyy oletuskanavana. Jos se ei vastaa kolmessa sekunnissa, sama viesti lähtee yhtä aikaa Bluetoothilla — rinnan, ei sen tilalla; eikä Bluetoothin antaessa BLE_ACK:ia viidessä sekunnissa lähetys jatkuu SMP:llä alkuperäisellä message-ID:llä.",
+  uk: "SMP лишається каналом типовим. Якщо він не відповість за три секунди, те саме сообщение паралельно іде Bluetooth — паралельно, а не замість; якщо ж Bluetooth не дасть BLE_ACK за п’ять секунд, надсилання продовжується через SMP під тим самим ID.",
+  bg: "SMP си остава каналът по подразбиране. Ако не отговори в рамките на три секунди, същото съобщение излиза едновременно и по Bluetooth — успоредно, а не вместо; и ако Bluetooth не даде BLE_ACK след пет секунди, изпращането продължава през SMP под първоначалното ID.",
+  tr: "SMP varsayılan kanal olarak kalıyor. Üç saniye içinde yanıt vermezse aynı mesaj Bluetooth üzerinden aynı anda da gönderiliyor — eşzamanlı, yerine değil; Bluetooth beş saniyede bir BLE_ACK vermezse gönderim, orijinal mesaj kimliğiyle SMP üzerinden sürüyor.",
+  hu: "Az SMP marad az alapértelmezett csatorna. Ha három másodpercen belül nem válaszol, ugyanaz az üzenet egyszerre Bluetoothon is kijön — párhuzamosan, nem helyette; ha a Bluetooth öt másodperc múlva sem ad BLE_ACK-t, a küldés SMP-n megy tovább az eredeti üzenetazonosítóval.",
+};
+
+const REL_BADGE_NAME: Localized<string> = {
+  en: "StoreKit 2 privacy-node badge",
+  ru: "Бейдж приватного узла на StoreKit 2",
+  de: "StoreKit-2-Datenschutzknoten-Abzeichen",
+  fr: "Badge de nœud privé via StoreKit 2",
+  it: "Badge nodo-privacy con StoreKit 2",
+  nl: "Privacyknooppunt-badge via StoreKit 2",
+  cs: "Odznak soukromého uzlu přes StoreKit 2",
+  "zh-Hans": "StoreKit 2 动态隐私节点徽章",
+  "zh-Hant": "StoreKit 2 動態隱私節點徽章",
+  es: "Insignia de nodo privado con StoreKit 2",
+  pl: "Odznaka węzła prywatności w StoreKit 2",
+  ja: "StoreKit 2 のプライバシーノードバッジ",
+  th: "ป้ายโหนดส่วนตัวบน StoreKit 2",
+  fi: "StoreKit 2 -privacyntoon merkki",
+  uk: "Значок приватного вузла на StoreKit 2",
+  bg: "Значка на поверителен възел чрез StoreKit 2",
+  tr: "StoreKit 2 gizlilik düğümü rozeti",
+  hu: "StoreKit 2-ös privát csomó jelvény",
+};
+
+const REL_BADGE_BODY: Localized<string> = {
+  en: "The thirteen node-badge products are read from StoreKit at launch, so price and availability come from Apple rather than a table in the app; the capsule shows free, trial or lit with the time left, and the renewal switch stays Apple’s. Buying writes a local ledger record first, and only then is the transaction finished.",
+  ru: "Тринадцать продуктов бейджа читаются из StoreKit при старте, поэтому цена и наличие приходят от Apple, а не из таблицы в приложении; капсула показывает «свободен», «пробный» или «активен» с остатком времени, а переключатель продления остаётся у Apple. Покупка сначала пишет локальную запись, и только потом завершается транзакция.",
+  de: "Die dreizehn Badge-Produkte werden beim Start von StoreKit gelesen, Preis und Verfügbarkeit kommen also von Apple und nicht aus einer Tabelle in der App; die Kapsel zeigt frei, Test oder aktiv mit Restzeit, und der Verlängerungsschalter bleibt Apples. Ein Kauf schreibt zuerst den lokalen Ledger-Eintrag und schließt die Transaktion erst danach ab.",
+  fr: "Les treize produits du badge sont lus dans StoreKit au lancement, prix et disponibilité viennent donc d’Apple et non d’un tableau de l’app ; la capsule affiche libre, essai ou actif avec le temps restant, et l’interrupteur de renouvellement reste chez Apple. Un achat écrit d’abord le registre local, puis seulement la transaction est terminée.",
+  it: "I tredici prodotti del badge si leggono da StoreKit all’avvio, quindi prezzo e disponibilità vengono da Apple e non da una tabella nell’app; la capsula mostra libero, prova o attivo col tempo residuo, e l’interruttore di rinnovo resta quello di Apple. Un acquisto scrive prima il registro locale, poi e solo allora la transazione è conclusa.",
+  nl: "De dertien badgeproducten worden bij opstarten uit StoreKit gelezen, dus prijs en beschikbaarheid komen van Apple en niet uit een tabel in de app; de capsule toont vrij, proef of aan met de resterende tijd, en de verlengk nop blijft van Apple. Een aankoop schrijft eerst de lokale ledger, en pas daarna wordt de transactie afgerond.",
+  cs: "Třináct produktů odznaku se při startu čte ze StoreKitu, takže cena a dostupnost přicházejí od Applu, ne z tabulky v aplikaci; kapsle ukazuje volný, zkušební nebo aktivní se zbývajícím časem a přepínač obnovy zůstává Applovský. Nákup nejprve zapíše místní účetní záznam a teprve pak je transakce dokončena.",
+  "zh-Hans": "徽章的十三个商品在启动时从 StoreKit 读取，价格与可售状态来自 Apple，而不是 App 里的表；胶囊显示空闲、试用或已点亮并带上剩余时间，续订开关仍归 Apple。购买先写入本地账本记录，之后才把那笔交易标记完成。",
+  "zh-Hant": "徽章的十三個商品在啟動時從 StoreKit 讀取，價格與可售狀態來自 Apple，而不是 App 裡的表；膠囊顯示空閒、試用或已點亮並帶上剩餘時間，續訂開關仍歸 Apple。購買先寫入本地帳本記錄，之後才把那筆交易標記完成。",
+  es: "Los trece productos del badge se leen de StoreKit al arrancar, así que precio y disponibilidad vienen de Apple y no de una tabla en la app; la cápsula muestra libre, prueba o encendido con el tiempo restante, y el interruptor de renovación sigue siendo de Apple. La compra escribe primero el registro local y solo después se cierra la transacción.",
+  pl: "Trzynaście produktów odznaki odczytywanych jest z StoreKit przy starcie, więc cena i dostępność przychodzą od Apple, nie z tabelki w aplikacji; kapsuła pokazuje wolny, próbny lub aktywny z pozostałym czasem, a przełącznik odnowienia zostaje u Apple. Zakup najpierw zapisuje lokalny rejestr, a dopiero potem transakcja jest zamykana.",
+  ja: "バッジの 13 品目は起動時に StoreKit から読むため、価格も販売状況も Apple 側のもので、アプリ内の表ではありません。カプセルは未契約・試用・点灯のいずれかを残り時間付きで示し、更新のスイッチは Apple のまま。購入では最初にロー台帳へ書き込み、その後で取引を確定します。",
+  th: "สินค้าของป้ายทั้งสิบสามตัวอ่านจาก StoreKit ตอนเปิดแอป ราคาและสถานะการขายจึงมาจาก Apple ไม่ใช่ตารางในแอป; แคปซูลแสดงสถานะว่าง ทดลองใช้งาน หรือเปิดใช้พร้อมเวลาที่เหลือ สวิตช์ต่ออายุยังอยู่ที่ Apple และการซื้อจะเขียนลงบัญชีในเครื่องก่อน แล้วจึงจบทรานแซกชัน",
+  fi: "Kolmetoista badge-tuotetta luetaan StoreKitista käynnistyksessä, joten hinta ja saatavuus tulevat Applelta eivätkä taulukosta sovelluksessa; kapseli näyttää vapaa, kokeilu tai sytytetty jäljellä olevan ajan kanssa, ja jatkamisen valitsin on Applella. Ostoksesta kirjoitetaan ensin paikallinen kirjaus, vasta sen jälkeen transaktio suljetaan.",
+  uk: "Тринадцять продуктів значка читаються з StoreKit при запуску, тому ціна й наявність приходять від Apple, а не з таблиці в додатку; капсула показує вільний, пробний чи активний із залишком часу, а перемикач продовження лишається в Apple. Покупка спершу пише локальний запис, і лише тоді транзакція завершується.",
+  bg: "Тринайсетте продукта за значката се четат от StoreKit при стартиране, така че цената и наличността идват от Apple, а не от таблица в приложението; капсулата показва свободен, пробен или светнал с оставащото време, а превключвателят за подновяване си остава на Apple. Купуването първо записва в локалния регистър и чак тогава транзакцията се приключва.",
+  tr: "Rozetin on üç ürünü açılışta StoreKit’ten okunur, yani fiyat ve bulunabilirlik uygulamadaki bir tablodan değil Apple’dan gelir; kapsül boş, deneme ya da yanık durumunda kalan süreyle gösterilir ve yenileme anahtarı Apple’da kalır. Satın alma önce yerel defter kaydını yazar, işlem ancak ondan sonra tamamlanır.",
+  hu: "A jelvény tizenhárom termékét induláskor a StoreKitből olvassuk, így az ár és a elérhetőség Apple-től jön, nem egy az appben lévő táblázatból; a kapszula szabad, próba vagy világuló állapotot mutat a hátralévő idővel, az újítás kapcsolója pedig Apple-nél marad. A vásárlás előbb a helyi naplóba ír, s csak utána zárul a tranzakció.",
+};
+
+const REL_BACKUP_NAME: Localized<string> = {
+  en: "Local passphrase and database copies",
+  ru: "Локальный пароль и копии базы данных",
+  de: "Lokales Passwort und Datenbankkopien",
+  fr: "Mot de passe local et copies de base",
+  it: "Passphrase locale e copie del database",
+  nl: "Lokaal wachtwoord en databankkopies",
+  cs: "Místní heslový klíč a kopie databáze",
+  "zh-Hans": "本机口令加密与数据库副本",
+  "zh-Hant": "本機口令加密與資料庫副本",
+  es: "Frase local y copias de la base de datos",
+  pl: "Lokalne hasło i kopie bazy danych",
+  ja: "ローカルのパスフレーズ暗号化とデータベースの複写",
+  th: "รหัสผ่านในเครื่องและสำเนาฐานข้อมูล",
+  fi: "Paikallinen salasana ja tietokantakopiot",
+  uk: "Локальний пароль і копії бази даних",
+  bg: "Локална парола и копия на базата данни",
+  tr: "Yerel parola ve veritabanı kopyaları",
+  hu: "Helyi jelmondat és adatbázismásolatok",
+};
+
+const REL_BACKUP_BODY: Localized<string> = {
+  en: "The chat database takes a passphrase you set yourself, with the option to keep it in the Keychain, and both databases are copied to .bak files on disk that the app can check and roll back. This is local protection only: identity keys, credits and badges stay on the device and are never uploaded — reinstalling without a backup still loses them.",
+  ru: "База чата получает пароль, который задаёте вы, с опцией хранить его в Keychain, а обе базы копируются в .bak-файлы на диске, которые приложение может проверить и откатить. Это только локальная защита: ключи, кредиты и бейджи остаются на устройстве и никуда не загружаются — переустановка без резервной копии всё равно их потеряет.",
+  de: "Die Chat-Datenbank bekommt ein selbst gesetztes Passwort, das optional im Schlüsselbund liegt, und beide Datenbanken werden als .bak-Dateien auf die Platte kopiert, die die App prüfen und zurückspielen kann. Das ist nur lokaler Schutz: Identitätsschlüssel, Guthaben und Abzeichen bleiben auf dem Gerät und werden nie hochgeladen – ohne Backup geht ein Neuaufsetzen trotzdem verloren.",
+  fr: "La base de chat reçoit une phrase secrète que vous fixez vous-même, avec l’option de la garder dans le trousseau, et les deux bases sont copiées en fichiers .bak sur le disque, que l’app peut vérifier et restaurer. Ce n’est qu’une protection locale : clés d’identité, crédits et badges restent sur l’appareil et ne sont jamais téléversés — réinstaller sans sauvegarde les perd quand même.",
+  it: "Il database della chat riceve una passphrase che impostate voi, con l’opzione di tenerla nel Keychain, e entrambi i database vengono copiati in file .bak su disco che l’app può controllare e ripristinare. È solo protezione locale: chiavi d’identità, crediti e badge restano sul dispositivo e non vengono mai caricati — reinstallare senza backup li perde comunque.",
+  nl: "De chatdatabank krijgt een zelf gekozen wachtwoordzin, desgewenst bewaard in de Sleutelhanger, en beide databanken worden als .bak-bestanden op schijf gezet die de app kan controleren en terugzetten. Dit is alleen lokale bescherming: identiteitssleutels, tegoed en badges blijven op het apparaat en worden nooit geüpload — herinstalleren zonder backup verliest ze alsnog.",
+  cs: "Databáze chatu dostane heslový klíč, který si nastavíte sami, volitelně uložený v Keychainu, a obě databáze se kopírují do souborů .bak na disku, které aplikace umí zkontrolovat a vrátit zpět. Jde pouze o místní ochranu: identitní klíče, kredity i odznaky zůstávají v zařízení a nikam se nenahrávají — přeinstalace bez zálohy je stejně ztratí.",
+  "zh-Hans": "聊天数据库使用你自己设定的口令，可选择把口令存进钥匙串；两个数据库都会在数据库文件旁边留下 .bak 副本，App 能检查它、也能回滚它。这只是本机保护：身份密钥、算力点与徽章都留在设备上，永不上传——没有备份就重装，它们照样会丢。",
+  "zh-Hant": "聊天資料庫使用你自己設定的口令，可選擇把口令存進鑰匙串；兩個資料庫都會在資料庫檔案旁邊留下 .bak 副本，App 能檢查它、也能回滾它。這只是本機保護：身份金鑰、算力點與徽章都留在裝置上，永不上傳——沒有備份就重安裝，它們照樣會丟。",
+  es: "La base de datos del chat recibe una frase que defines tú, con la opción de guardarla en el llavero, y ambas bases se copian a archivos .bak en disco que la app puede comprobar y revertir. Esto es solo protección local: claves de identidad, créditos y insignias se quedan en el dispositivo y nunca se suben — reinstalar sin copia los pierde igualmente.",
+  pl: "Baza czatów dostaje hasło, które ustawiasz sam, z opcją trzymania go w Kluczu, a obie bazy są kopiowane do plików .bak na dysku, które aplikacja może sprawdzić i cofnąć. To tylko ochrona lokalna: klucze tożsamości, kredyty i odznaki zostają na urządzeniu i nigdy nie są przesyłane — reinstalacja bez kopii i tak je zgubi.",
+  ja: "チャットのデータベースには自分で決めた暗号化パスフレーズを使い、Keychain に保存する選択肢もあります。二つのデータベースはいずれもディスク上に .bak として複写され、アプリはその確認と巻き戻しができます。守るのはローカルだけ: 身元鍵・計算クレジット・バッジはデバイスに残り、アップロードされません。バックアップ無しで再インストールすれば失われます。",
+  th: "ฐานข้อมูลแชทใช้รหัสผ่านที่คุณตั้งเอง โดยมีตัวเลือกให้เก็บใน Keychain และทั้งสองฐานจะถูกคัดลอกเป็นไฟล์ .bak บนดิสก์ที่แอปตรวจและย้อนกลับได้ นี่คือเกราะเฉพาะในเครื่อง: คีย์ประจำตัว เครดิต และป้ายอยู่ในอุปกรณ์ ไม่ถูกอัปโหลด — ติดตั้งใหม่โดยไม่มีสำเนาก็ยังหายไป",
+  fi: "Keskustelutietokanta saa itse asettamasi salasanan, ja sen voi halutessaan pitää avainnauhassa, ja molemmat tietokannat kopioidaan levyn .bak-tiedostoiksi, jotka appi voi tarkistaa ja palauttaa. Tämä on vain paikallista suojaa: identiteettiavaimet, krediitapisteet ja merkit pysyvät laitteella eivätkä lähetetä — uudelleenasennus ilman varmuuskopiota hukkaa ne edelleen.",
+  uk: "База чатів отримує пароль, який ви задаєте самі, з опцією зберігати його в Keychain, а обидві бази копіюються у файли .bak на диску, які додаток може перевірити й відкотити. Це лише локальний захист: ключі особи, кредити і значки лишаються на пристрої й нікуди не вантажаться — перевстановлення без копії їх усе одно втратить.",
+  bg: "Чат базата данни получава парола, която задавате сами, с опция да я пази в Keychain, и двете бази се копират като .bak файлове на диска, които приложението може да провери и върне. Това е само локална защита: ключовете за самоличност, кредитите и значките остават в устройството и не се качват никъде — преинсталиране без копие пак ги губи.",
+  tr: "Sohbet veritabanı sizin belirlediğiniz bir parolayı alır, istenirse bu parola Anahtar Zinciri’nde tutulur, ve her iki veritabanı diskin .bak dosyalarına kopyalanır; uygulama bunları denetleyip geri alabilir. Bu yalnızca yerel bir koruma: kimlik anahtarları, krediler ve rozetler cihazda kalır, hiçbir yere yüklenmez — yedek almadan yeniden kurmak yine de kaybeder.",
+  hu: "A csevegés adatbázisa saját jelmondatot kap, amely kérésre a Kulcskarikában tárolható, és mindkét adatbázis .bak fájlokként kimásolódik a lemezre, amelyeket az app ellenőrizhet és visszaállíthat. Ez csak helyi védelem: az identitáskulcsok, kreditpontok és jelvények az eszközön maradnak, fel sem töltődnek — mentés nélküli újratelepítés őket is elveszi.",
+};
+
+const RELEASE_ITEMS: { name: Localized<string>; body: Localized<string>; cite: string }[] = [
+  {
+    name: REL_DUAL_NAME,
+    body: REL_DUAL_BODY,
+    cite: "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:10-11,19,271",
+  },
+  {
+    name: REL_BADGE_NAME,
+    body: REL_BADGE_BODY,
+    cite: "apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:145-163 · apps/ios/Shared/Features/BadgeCredits/PopopxStoreKitManager.swift:9,130-137,354-359",
+  },
+  {
+    name: REL_BACKUP_NAME,
+    body: REL_BACKUP_BODY,
+    cite: "apps/ios/Shared/Views/Database/DatabaseEncryptionView.swift:73,91,95 · apps/ios/POPOPXChat/FileUtils.swift:50,52,215-231",
+  },
+];
+
 const ROW_TARGET: Localized<string> = {
   en: "Deployment target",
   ru: "Целевая платформа",
@@ -269,6 +504,27 @@ const ROW_TARGET: Localized<string> = {
   bg: "Целева платформа",
   tr: "Hedef sürüm",
   hu: "Célplatform",
+};
+
+const RELEASE_NOTE: Localized<string> = {
+  en: "Every path above is relative to the client repository root — the same root the fact ledger cites. git grep -n finds each line; no row here is a reworded changelog heading.",
+  ru: "Все пути выше — относительно корня репозитория клиента, того же корня, который цитирует журнал фактов. git grep -n находит каждый ряд; здесь ничего не переписано из заголовков чейнджлога.",
+  de: "Alle Pfade oben sind relativ zur Wurzel des Client-Repos — dieselbe Wurzel, die das Faktenledger zitiert. git grep -n findet jede Zeile; keine Zeile hier ist eine umformulierte Changelog-Überschrift.",
+  fr: "Les chemins ci-dessus sont relatifs à la racine du dépôt client — la même racine que cite le journal des faits. git grep -n trouve chaque ligne ; aucune ici n'est un titre de journal des modifications réécrit.",
+  it: "I percorsi qui sopra sono relativi alla radice del repository client, la stessa citata dal registro dei fatti. git grep -n trova ogni riga; nessuna riga è un titolo del changelog riscritto.",
+  nl: "Alle paden hierboven zijn relatief aan de root van de client-repo — dezelfde root die het feitenregister citeert. git grep -n vindt elke regel; geen enkele regel hier is een hertaalde changelog-kop.",
+  cs: "Všechny cesty výše jsou relativní ke kořenu repozitáře klienta, tedy ke stejnému kořenu, jaký cituje evidence faktů. git grep -n najde každý řádek; žádný řádek zde není přepsaným nadpisem changelogu.",
+  "zh-Hans": "上面每条路径都相对客户端仓库根目录，和事实台账引用的是同一个根。用 git grep -n 就能定位到行；这里没有哪一行是改写自变更日志的标题。",
+  "zh-Hant": "上面每條路徑都相對於客戶端倉庫根目錄，和事實台帳引用的同一個根。用 git grep -n 就能定位到行；這裡沒有哪一行是改寫自變更日誌的標題。",
+  es: "Las rutas de arriba son relativas a la raíz del repositorio del cliente — la misma raíz que cita el registro de hechos. git grep -n encuentra cada línea; ninguna fila es un título del changelog reescrito.",
+  pl: "Wszystkie ścieżki powyżej są względem katalogu głównego repo klienta — tego samego, który cytuje rejestr faktów. git grep -n znajdzie każdy wiersz; żaden wiersz nie jest przepisany z nagłówka changelogu.",
+  ja: "上のパスはいずれもクライアント リポジトリのルートからの相対で、事実台帳が引くのと同じルートです。git grep -n で各行を見つけられます。ここには変更履歴の見出しを書き換えた行はありません。",
+  th: "พาธทั้งหมดด้านบนเทียบจากรูทของรีโปไคลเอนต์ ซึ่งเป็นรูทเดียวกับที่บัญชีข้อเท็จจริงอ้างอิง ใช้ git grep -n หาแต่ละบรรทัดได้ และไม่มีบรรทัดไหนเป็นพาดหัวบันทึกการเปลี่ยนแปลงที่ถูกเขียนใหม่",
+  fi: "Kaikki yllä olevat polut ovat suhteessa asiakasrepón juureen — samaan juureen, jonka fact-luettelo lainaa. git grep -n löytää jokaisen rivin; yksikään rivi ei ole muotoiltu changelogin otsikosta uudelleen.",
+  uk: "Усі шляхи вище — відносно кореню репозиторія клієнта, того самого, який цитує журнал фактів. git grep -n знаходить кожен рядок; тут жоден рядок не переписаний із заголовків чейнджлогу.",
+  bg: "Всички пътища по-горе са относителни към корена на клиентското хранилище — същия корен, който цитира регистърът на фактите. git grep -n намира всеки ред; нито един ред не е преработено заглавие от списък с промени.",
+  tr: "Yukarıdaki yolların tamamı istemci deposunun köküne göre — kayıt defterinin alıntıladığı aynı kök. git grep -n her satırı bulur; burada hiçbir satır changelog başlığının yeniden yazımı değil.",
+  hu: "A fenti útvonalak mind a kliens repó gyökeréhez viszonyítottak — ugyanahhoz a gyökérhez, amit a ténytár idéz. A git grep -n minden sort megtalál; egyik sor sem a changelog címszavának átírása.",
 };
 
 const ROW_SWIFT: Localized<string> = {
@@ -524,6 +780,7 @@ const LANG_NOTE: Localized<string> = {
 };
 
 const FACT_ROWS = [
+  { label: ROW_VERSION, value: "v1.2.0" },
   { label: ROW_TARGET, value: "iOS 17.0" },
   { label: ROW_SWIFT, value: "SWIFT_VERSION = 5.0" },
   { label: ROW_XCODE, value: "xcodebuild -version" },
@@ -574,12 +831,39 @@ function FactRow({ label, value }: { label: Localized<string>; value: string }):
   );
 }
 
+function ReleaseItem({
+  item,
+  index,
+}: {
+  item: { name: Localized<string>; body: Localized<string>; cite: string };
+  index: number;
+}): ReactElement {
+  const name = useCopy(item.name);
+  const body = useCopy(item.body);
+  return (
+    <div className="glass-inset min-w-0 p-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <h4 className="text-[13.5px] font-semibold text-white">{name}</h4>
+        <span className="shrink-0 font-mono text-[10.5px] text-faint">
+          {`0${index + 1} / 03`}
+        </span>
+      </div>
+      <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{body}</p>
+      <p className="mt-3 break-all font-mono text-[10.5px] text-faint">{item.cite}</p>
+    </div>
+  );
+}
+
 export function DownloadAndBuildSection(): ReactElement {
   const availTitle = useCopy(AVAIL_TITLE);
   const availBody = useCopy(AVAIL_BODY);
   const availRuling = useCopy(AVAIL_RULING);
   const availHow = useCopy(AVAIL_HOW);
   const buildTitle = useCopy(BUILD_TITLE);
+  const versionFact = useCopy(FACT_VERSION);
+  const releaseTitle = useCopy(RELEASE_TITLE);
+  const releaseLead = useCopy(RELEASE_LEAD);
+  const releaseNote = useCopy(RELEASE_NOTE);
   const unpinned = useCopy(FACT_UNPINNED);
   const kitOnly = useCopy(FACT_KIT_ONLY);
   const scheme = useCopy(BUILD_SCHEME);
@@ -616,7 +900,22 @@ export function DownloadAndBuildSection(): ReactElement {
           <QrCard />
         </div>
 
-        {/* 3 · Build from source — measured versions, verbatim CI command. */}
+        {/* 3 · v1.2.0 — three lines, each one read out of the shipped Swift. */}
+        <div className="mt-12">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 className="text-[15px] font-semibold text-white">{releaseTitle}</h3>
+            <span className="chip font-mono text-[10.5px] text-faint">v1.2.0</span>
+          </div>
+          <p className="mt-3 max-w-4xl text-[12.5px] leading-relaxed text-mute">{releaseLead}</p>
+          <div className="mt-5 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-3">
+            {RELEASE_ITEMS.map((item, index) => (
+              <ReleaseItem key={item.cite} item={item} index={index} />
+            ))}
+          </div>
+          <p className="mt-4 max-w-4xl text-[11.5px] leading-relaxed text-faint">{releaseNote}</p>
+        </div>
+
+        {/* 4 · Build from source — measured versions, verbatim CI command. */}
         <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
           <article className="glass p-5 sm:p-6">
             <div className="flex items-center gap-2">
@@ -628,6 +927,7 @@ export function DownloadAndBuildSection(): ReactElement {
                 <FactRow key={row.value} label={row.label} value={row.value} />
               ))}
             </dl>
+            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{versionFact}</p>
             <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{unpinned}</p>
             <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{kitOnly}</p>
             <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{scheme}</p>
@@ -660,7 +960,7 @@ export function DownloadAndBuildSection(): ReactElement {
           </div>
         </div>
 
-        {/* 4 · The 18-language wall: the client's own tags, names in their own script. */}
+        {/* 5 · The 18-language wall: the client's own tags, names in their own script. */}
         <div className="glass mt-12 p-5 sm:p-6">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h3 className="text-[15px] font-semibold text-white">{langTitle}</h3>

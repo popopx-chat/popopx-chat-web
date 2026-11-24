@@ -2,11 +2,12 @@
 
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
-import { IOS_REPO_URL, MP_PORTAL_URL, NODE_PORTAL_URL, NODE_REPO_URL, SITE_HOST, SUITE_REPO_URL } from "@/lib/site";
+import { BOT_STUDIO_REPO_URL, IOS_REPO_URL, MP_PORTAL_URL, NODE_PORTAL_URL, NODE_REPO_URL, SITE_HOST, SUITE_REPO_URL } from "@/lib/site";
 import { SectionHeading, StatusDot } from "@/components/ui";
 
 /**
- * EcosystemHub — section `ecosystem`: one project, three official hosts.
+ * EcosystemHub — section `ecosystem`: one project, three official hosts and one
+ * project that is only a repository so far (Bot Studio, ledger §14).
  *
  * Every claim is read out of the sibling projects, not written for the page: ledger §11 of
  * `docs/FACTS.md` plus `src/lib/site.ts` (hosts, licences, unregistered marks); Mac Node
@@ -17,14 +18,17 @@ import { SectionHeading, StatusDot } from "@/components/ui";
  * iOS client: ledger §1 (18 localizations), §2 (five tabs; English is the key itself), §3 (no phone
  * number, no e-mail, no global public key), §10 (iOS 17.0), §11 (AGPL-3.0, unregistered marks).
  * Sibling hosts are only ever linked — nothing loads from another origin, and the diagram below is
- * divs plus one inline SVG: no image, no library, no extra copy slot.
+ * divs plus one inline SVG: no image, no library, no extra copy slot. The bus stays with the three
+ * hosts on purpose: a name that does not resolve is not drawn as a node of a running network.
  */
 
-type Tone = "brand" | "mesh" | "warn";
+type Tone = "brand" | "mesh" | "warn" | "alert";
 
 /** `name`, `host`, `href`, `source` and `chips` stay locale-free identifiers. */
 type Portal = {
   name: string;
+  /** `hosted` = a live origin (drawn on the bus); `source` = repository only. */
+  kind: "hosted" | "source";
   host: string;
   href: string;
   external: boolean;
@@ -124,6 +128,7 @@ const LINK_SOURCE: Localized<string> = {
 const PORTALS: Portal[] = [
   {
     name: "POPOPX iOS",
+    kind: "hosted",
     host: SITE_HOST,
     href: "#top",
     external: false,
@@ -193,6 +198,7 @@ const PORTALS: Portal[] = [
   },
   {
     name: "POPOPX Mac Node",
+    kind: "hosted",
     host: "node.popopx.chat",
     href: NODE_PORTAL_URL,
     external: true,
@@ -262,6 +268,7 @@ const PORTALS: Portal[] = [
   },
   {
     name: "POPOPX Service Suite",
+    kind: "hosted",
     host: "mp.popopx.chat",
     href: MP_PORTAL_URL,
     external: true,
@@ -329,6 +336,76 @@ const PORTALS: Portal[] = [
     },
     chips: ["mp.popopx.chat", "AGPL-3.0-only", "127.0.0.1:8080", "popopx://"],
   },
+  {
+    name: "POPOPX Bot Studio",
+    kind: "source",
+    host: "github.com/popopx-chat/popopx-bot-studio",
+    href: BOT_STUDIO_REPO_URL,
+    external: true,
+    source: BOT_STUDIO_REPO_URL,
+    tone: "alert",
+    role: {
+      en: "Bot workbench, repository only",
+      ru: "Мастерская ботов — только репозиторий",
+      de: "Bot-Werkstatt — bisher nur das Repository",
+      fr: "Atelier de robots — le dépôt seul",
+      it: "Officina di bot — solo il repository",
+      nl: "Botwerkplaats — alleen de bronopslag",
+      cs: "Dílna na boty — zatím jen repozitář",
+      "zh-Hans": "机器人工作台：目前只有仓库",
+      "zh-Hant": "機器人工作台：目前只有倉庫",
+      es: "Taller de bots — solo el repositorio",
+      pl: "Warsztat botów — tylko repozytorium",
+      ja: "Bot 作業台 — リポジトリのみ",
+      th: "เวิร์กช็อปบอต — มีเพียงรีโป",
+      fi: "Bot-paja — toistaiseksi vain arkisto",
+      uk: "Майстерня ботів — поки що лише сховище",
+      bg: "Работилница за ботове — само хранилище",
+      tr: "Bot atölyesi — yalnızca depo",
+      hu: "Botműhely — egyelőre csak a tároló",
+    },
+    desc: {
+      en: "A workbench for bots you run on your own machine. As of 2026-11-24 the published tree of this repository is its AGPL-3.0-only license, and bot.popopx.chat resolves to the shared server without serving a site of its own, so no feature is claimed here — the card reports what exists and links to it.",
+      ru: "Верстак для ботов на вашей собственной машине. По замеру 2026-11-24 опубликованное дерево этого репозитория — файл лицензии AGPL-3.0-only, а bot.popopx.chat уже указывает на общий сервер, но своего сайта там нет; поэтому возможности здесь не заявляются: карточка сообщает о том, что есть, и ведёт туда.",
+      de: "Eine Werkbank für Bots, die auf dem eigenen Rechner laufen. Stand 2026-11-24 ist der veröffentlichte Baum dieses Repositorys die Lizenzdatei AGPL-3.0-only, und bot.popopx.chat zeigt auf den geteilten Server, ohne dort eine eigene Site zu bedienen; deshalb wird hier keine Funktion behauptet — die Karte meldet, was existiert, und verlinkt darauf.",
+      fr: "Un atelier pour des robots que vous faites tourner sur votre propre machine. Mesuré le 2026-11-24, l’arbre publié de ce dépôt est le fichier de licence AGPL-3.0-only, et bot.popopx.chat pointe vers le serveur partagé sans site à lui : aucune fonction n’est donc revendiquée ici — la carte dit ce qui existe et y mène.",
+      it: "Un banco da lavoro per bot che eseguite sulla vostra macchina. Al 2026-11-24 l’albero pubblicato di questo repository è il file della licenza AGPL-3.0-only, e bot.popopx.chat punta al server condiviso senza un sito tutto suo: qui non si rivendica alcuna funzione — la scheda dice ciò che esiste e punta lì.",
+      nl: "Een werkplaats voor bots die je op je eigen machine draait. Per 2026-11-24 is de gepubliceerde boom van deze bronopslag het AGPL-3.0-only-licentiebestand, en bot.popopx.chat wijst naar de gedeelde server zonder eigen site; hier wordt dus geen functie beweerd — het kaartje meldt wat er is en wijst ernaar toe.",
+      cs: "Dílna pro boty, které běží na vašem vlastním počítači. K 2026-11-24 je zveřejněným stromem tohoto repozitáře soubor s licencí AGPL-3.0-only a bot.popopx.chat míří na sdílený server, ale vlastní web tam neslouží — zde se tedy žádná funkce netvrdí: karta hlásí, co existuje, a odkazuje na to.",
+      "zh-Hans": "在自己机器上跑的机器人工作台。2026-11-24 实测，这个仓库已发布的目录就是那份 AGPL-3.0-only 许可证文件；bot.popopx.chat 已经指向那台共用的服务器，但还没有自己的站点，所以这里不声称任何功能：卡片只报已有之物，并把链接指向它。",
+      "zh-Hant": "在自己機器上跑的機器人工作台。2026-11-24 實測，這個倉庫已發布的目錄就是那份 AGPL-3.0-only 授權條款檔案；bot.popopx.chat 已經指向那台共用的伺服器，但還沒有自己的網站，所以這裡不宣稱任何功能：卡片只回報已有之物，並將連結指向它。",
+      es: "Un taller para bots que ejecutas en tu propia máquina. Según lo medido el 2026-11-24, el árbol publicado de este repositorio es el archivo de la licencia AGPL-3.0-only, y bot.popopx.chat apunta al servidor compartido sin servir un sitio propio, así que aquí no se reclama ninguna función: la ficha dice lo que hay y enlaza a ello.",
+      pl: "Warsztat do botów uruchamianych na własnym komputerze. Stan na 2026-11-24: opublikowanym drzewem tego repozytorium jest plik licencji AGPL-3.0-only, a bot.popopx.chat wskazuje na współdzielony serwer, nie serwując własnej strony, więc nie ogłaszamy tu żadnych funkcji — karta mówi, co istnieje, i tam prowadzi.",
+      ja: "自分のマシンで動かすボットのための作業台です。2026-11-24 の実測では、このリポジトリの公開済みツリーは AGPL-3.0-only のライセンスファイルひとつで、bot.popopx.chat は共用サーバーを指しますが独自のサイトはまだ出していません。ここでは機能を謳わず、あるものだけをカードに書いてそちらへ繋ぎます。",
+      th: "โต๊ะทำงานสำหรับบอตที่คุณรันบนเครื่องของคุณเอง ณ 2026-11-24 ต้นไม้ที่เผยแพร่ของรีโปนี้เป็นไฟล์สัญญาอนุญาต AGPL-3.0-only เพียงไฟล์เดียว และ bot.popopx.chat ชี้ไปยังเซิร์ฟเวอร์ที่ใช้ร่วมกันแต่ยังไม่มีเว็บไซต์ของเราเอง ที่นี่จึงไม่อ้างคุณสมบัติใด — การ์ดบอกเฉพาะสิ่งที่มีอยู่แล้วลิงก์ไปหาสิ่งนั้น",
+      fi: "Työpaja boteille, joita pyörität omalla koneellasi. 2026-11-24 mitattuna tämän arkiston julkaistu puu on AGPL-3.0-only-lisenssin tiedosto, eikä bot.popopx.chat vielä palvela omaa sivustoaan osoittaessaan jaetulle palvelimelle — tässä ei siis väitetä yhtään ominaisuutta: kortti kertoo, mitä on, ja linkittää siihen.",
+      uk: "Майстерня для ботів, які ви запускаєте на власній машині. Станом на 2026-11-24 опубліковане дерево цього сховища — файл ліцензії AGPL-3.0-only, а bot.popopx.chat уже вказує на спільний сервер, але власного сайту там немає, тому тут не заявляємо жодної можливості: картка повідомляє, що є, і веде туди.",
+      bg: "Работилница за ботове, които пускате на собствената си машина. Към 2026-11-24 публикуваното дърво на това хранилище е файлът с лиценза AGPL-3.0-only, а bot.popopx.chat сочи към споделения сървър, но не обслужва собствен сайт, затова тук не се твърди нито една функция: картката казва какво има и сочи натам.",
+      tr: "Kendi makinenizde çalıştırdığınız botlar için bir tezgâh. 2026-11-24 itibarıyla bu deponun yayımlanan ağacı AGPL-3.0-only lisans dosyasından ibaret ve bot.popopx.chat paylaşılan sunucuyu gösteriyor ama kendi sitesini sunmuyor; burada bu yüzden hiçbir özellik iddia edilmiyor — kart olanı söylüyor ve ona bağlıyor.",
+      hu: "Munkaasztal a saját gépeden futó botokhoz. 2026-11-24-en a tároló közzétett fája az AGPL-3.0-only licencfájlt tartalmazza, és a bot.popopx.chat a közös szerverre mutat, de saját oldalt még nem kiszolgál, ezért itt egyetlen funkciót sem állítunk: a kártya azt mondja el, ami megvan, és arra linkel.",
+    },
+    lives: {
+      en: "Public today: the repository and its license file — nothing else was measured. The name resolves to the same box as the other two portals, yet plain HTTP only returns that server's default page and its certificate does not cover the name; the site link goes on the day bot.popopx.chat serves its own portal over HTTPS.",
+      ru: "Открыто сегодня: репозиторий и его файл лицензии — больше ничего не измерялось. Имя указывает на ту же машину, что и два других портала, но по HTTP отдаётся только служебная страница сервера, а сертификат имя не покрывает; ссылка на сайт появится в тот день, когда bot.popopx.chat начнёт отдавать собственный портал по HTTPS.",
+      de: "Öffentlich heute: das Repository und seine Lizenzdatei — sonst nichts wurde gemessen. Der Name zeigt auf dieselbe Maschine wie die anderen beiden Portale, doch über HTTP kommt nur die Standardseite des Servers, und das Zertifikat deckt den Namen nicht. Der Website-Link kommt an dem Tag, an dem bot.popopx.chat sein eigenes Portal über HTTPS ausliefert.",
+      fr: "Public aujourd’hui : le dépôt et son fichier de licence — rien d’autre n’a été mesuré. Le nom pointe sur la même machine que les deux autres portails, mais en HTTP simple ce n’est que la page par défaut du serveur, et le certificat ne couvre pas le nom. Le lien du site viendra le jour où bot.popopx.chat servira son propre portail en HTTPS.",
+      it: "Pubblico oggi: il repository e il suo file di licenza — nient’altro è stato misurato. Il nome punta alla stessa macchina degli altri due portali, ma in HTTP semplice restituisce solo la pagina predefinita del server e il certificato non copre il nome. Il link del sito arriverà il giorno in cui bot.popopx.chat servirà il proprio portale in HTTPS.",
+      nl: "Vandaag open: de bronopslag en haar licentiebestand — verder niets gemeten. De naam wijst naar dezelfde machine als de andere twee portalen, maar via gewone HTTP komt alleen de standaardpagina van de server en het certificaat dekt de naam niet. De sitelink komt op de dag dat bot.popopx.chat zijn eigen portaal via HTTPS verbindt.",
+      cs: "Veřejné dnes: repozitář a jeho soubor s licencí — nic dalšího nebylo změřeno. Název míří na stejný stroj jako ostatní dva portály, ale přes obyčejné HTTP vrací jen výchozí stránku serveru a certifikát jej nepokrývá. Odkaz na web přibude ve dne, kdy bot.popopx.chat začne obsluhovat vlastní portál přes HTTPS.",
+      "zh-Hans": "今天公开的是：这个仓库和它的许可证文件——除此之外没有测到别的。这个域名已经指向另外两个门户所在的那台机器，但走普通 HTTP 只会拿到服务器的默认页面，证书也还没覆盖这个名字。等 bot.popopx.chat 能用 HTTPS 返回自己的站点，这张卡片再加上站点链接。",
+      "zh-Hant": "今天公開的是：這個倉庫和它的授權條款檔案——除此之外沒有測到別的。這個域名已經指向另外兩個門戶所在的那台伺服器，但走普通 HTTP 只會拿到伺服器的預設頁面，憑證也還沒覆蓋這個名字。等 bot.popopx.chat 能用 HTTPS 返回自己的網站，這張卡片再加上網站連結。",
+      es: "Público hoy: el repositorio y su archivo de licencia — nada más fue medido. El nombre apunta a la misma máquina de los otros dos portales, pero en HTTP simple solo devuelve la página por defecto del servidor y el certificado no cubre el nombre. El enlace al sitio se añadirá el día en que bot.popopx.chat sirva su propio portal por HTTPS.",
+      pl: "Publiczne dziś: repozytorium i jego plik licencji — nic więcej nie zmierzono. Nazwa wskazuje na tę samą maszynę co pozostałe dwa portale, ale przez zwykłe HTTP zwraca tylko domyślną stronę serwera, a certyfikat jej nie obejmuje. Link do strony dołączy w dniu, gdy bot.popopx.chat zacznie serwować własny portal przez HTTPS.",
+      ja: "今日公開されているのはリポジトリとライセンスファイルのみ — それ以上は計測されていません。この名前は他の 2 つのポータルと同じマシンを指しますが、通常の HTTP ではサーバーの既定ページが返るだけで、証明書もこの名前を覆っていません。bot.popopx.chat が HTTPS で独自のポータルを返し始めた日に、このカードへサイトのリンクが足されます。",
+      th: "วันนี้ที่เปิดให้ชมคือรีโปและไฟล์สัญญาอนุญาต — ไม่ได้วัดสิ่งอื่นเพิ่ม ชื่อชี้ไปยังเครื่องเดียวกับอีกสองพอร์ทัล แต่ HTTP ธรรมดาตอบกลับแค่เพจเริ่มต้นของเครื่อง และใบรับรองก็ยังไม่คลุมชื่อนี้ ลิงก์เว็บไซต์จะถูกใส่ในวันที่ bot.popopx.chat ให้บริการพอร์ทัลของตนเองผ่าน HTTPS",
+      fi: "Tänään julkisina: arkisto ja sen lisenssitiedosto — mitään muuta ei mitattu. Nimi osoittaa samalle koneelle kuin muut kaksi portaalia, mutta tavallisella HTTP:lla palautuu vain palvelimen oletussivu, eikä varmenne kata nimeä. Sivuston linkki tulee sinä päivänä, kun bot.popopx.chat palveli omaa portaaliaan HTTPS:n yli.",
+      uk: "Відкрито сьогодні: сховище та його файл ліцензії — більше нічого не вимірювалось. Ім'я вказує на ту саму машину, що й інші два портали, але звичайний HTTP віддає лише типову сторінку сервера, а сертифікат імя не покриває. Посилання на сайт з'явиться того дня, коли bot.popopx.chat почне обслуговувати власний портал через HTTPS.",
+      bg: "Публично днес: хранилището и файлът с лиценза — нищо друго не е измерено. Името сочи към същата машина като другите два портала, но обикновеният HTTP връща само началната страница на сървъра, а сертификатът не покрива името. Връзката към сайта ще се появи на деня, когато bot.popopx.chat започне да обслужва собствения си портал през HTTPS.",
+      tr: "Bugün açık: depo ve lisans dosyası — başkaca bir şey ölçülmedi. Ad, diğer iki portalın bulunduğu makineyi gösteriyor ama düz HTTP yalnızca sunucunun varsayılan sayfasını döndürüyor ve sertifika adı kapsamıyor. Site bağlantısı, bot.popopx.chat kendi portalını HTTPS üzerinden sunduğu gün eklenecek.",
+      hu: "Ma publikus: a tároló és a licencfájlja — ennél többet nem mértünk. A név ugyanarra a gépre mutat, mint a másik két portal, de a sima HTTP csak a kiszolgáló alaplapját adja vissza, a tanúsítvány pedig nem fedi le a nevet. A weboldal-link akkor kerül a kártyára, amikor a bot.popopx.chat a saját portálját HTTPS-en tölti ki.",
+    },
+    chips: ["AGPL-3.0-only", "2026-11-24"],
+  },
 ];
 
 /** Ring + text classes per tone; the diagram and the cards share them. */
@@ -336,18 +413,24 @@ const TONES: Record<Tone, { ring: string; text: string }> = {
   brand: { ring: "border-brand/45 hover:border-brand-soft/70", text: "text-brand-soft" },
   mesh: { ring: "border-mesh/45 hover:border-mesh-soft/70", text: "text-mesh-soft" },
   warn: { ring: "border-warn/40 hover:border-warn-soft/70", text: "text-warn-soft" },
+  alert: { ring: "border-alert/40 hover:border-alert/70", text: "text-alert" },
 };
+
+/** The bus above the cards only draws origins that answer. */
+const HOSTED_PORTALS = PORTALS.filter((portal) => portal.kind === "hosted");
 
 /**
  * The interconnection, drawn with the only primitives this portal allows: divs and
  * one inline SVG. Labels are the locale-free hostnames the cards already print, so
  * the diagram adds no translatable string and loads nothing from another origin.
+ * It maps `HOSTED_PORTALS`, not `PORTALS`: the fourth card has no origin to place
+ * on a bus of running hosts.
  */
 function Topology(): ReactElement {
   return (
     <div className="mt-9">
       <div className="grid gap-3 sm:grid-cols-3">
-        {PORTALS.map((portal, index) => (
+        {HOSTED_PORTALS.map((portal, index) => (
           <div
             key={portal.host}
             className={`glass-inset flex items-center gap-3 px-4 py-3 ${TONES[portal.tone].ring}`}
@@ -391,23 +474,28 @@ function PortalCard({ portal, index }: { portal: Portal; index: number }): React
       </div>
       <p className="text-[13.5px] leading-relaxed text-mute">{desc}</p>
       <p className="hairline-top pt-4 text-[12.5px] leading-relaxed text-faint">{lives}</p>
-      <div className="mt-auto flex flex-wrap items-center gap-2">
+      <div className="mt-auto flex min-w-0 flex-wrap items-center gap-2">
         <a
           href={portal.href}
           {...(portal.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className={`font-mono text-[13px] underline decoration-hair-strong decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white ${tone.text}`}
+          className={`min-w-0 break-all font-mono text-[13px] underline decoration-hair-strong decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white ${tone.text}`}
         >
           {portal.host}
         </a>
-        <span className="text-[11px] text-faint">·</span>
-        <a
-          href={portal.source}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[12px] text-mute underline decoration-hair decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white"
-        >
-          {source}
-        </a>
+        {/* A source-only card already links to its repository: no second link to it. */}
+        {portal.kind === "hosted" ? (
+          <>
+            <span className="text-[11px] text-faint">·</span>
+            <a
+              href={portal.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] text-mute underline decoration-hair decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white"
+            >
+              {source}
+            </a>
+          </>
+        ) : null}
       </div>
       <ul className="flex flex-wrap gap-1.5">
         {portal.chips.map((chip) => (
@@ -426,7 +514,8 @@ export function EcosystemHub(): ReactElement {
       <div className="section-wrap">
         <SectionHeading eyebrow={EYEBROW} title={TITLE} subtitle={LEAD} />
         <Topology />
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {/* Four cards make a square, not a row with an orphan in it. */}
+        <div className="mt-12 grid gap-5 md:grid-cols-2">
           {PORTALS.map((portal, index) => (
             <PortalCard key={portal.host} portal={portal} index={index} />
           ))}

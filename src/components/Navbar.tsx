@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type ReactElement } from "rea
 import { useCopy, type Localized } from "@/lib/i18n";
 import { LanguageMenu } from "@/components/LanguageMenu";
 import {
+  BOT_STUDIO_REPO_URL,
   IOS_REPO_URL,
   MP_PORTAL_URL,
   NAV_SECTIONS,
@@ -24,8 +25,9 @@ import {
  *  - The only image is the same-origin official logo (`/logo-popopx.png`, a
  *    byte-for-byte copy of the iOS app icon). No webfont, no icon font, no CDN:
  *    the GitHub, menu and chevron glyphs are inline SVG.
- *  - The two ecosystem links point at the *other* POPOPX portals; they are
- *    navigation, so nothing is loaded from another origin.
+ *  - The ecosystem chips point at the *other* POPOPX properties: two hosted
+ *    portals and the Bot Studio repository. They are navigation, so nothing is
+ *    loaded from another origin.
  *  - Copy is authored in all 18 locales the engine declares, typed as a total
  *    `Localized<string>` map, so the compiler rejects a missing variant.
  */
@@ -134,7 +136,15 @@ const SECTION_LABELS: Record<NavSectionId, Localized<string>> = {
 };
 
 const NAV_COPY: Record<
-  "skip" | "sections" | "portals" | "nodeCaption" | "mpCaption" | "repo" | "openMenu" | "closeMenu",
+  | "skip"
+  | "sections"
+  | "portals"
+  | "nodeCaption"
+  | "mpCaption"
+  | "studioCaption"
+  | "repo"
+  | "openMenu"
+  | "closeMenu",
   Localized<string>
 > = {
   skip: {
@@ -236,6 +246,26 @@ const NAV_COPY: Record<
     bg: "Акаунти за услуги и канали",
     tr: "Hizmet hesapları ve kanallar",
     hu: "Számfiókok és csatornák",
+  },
+  studioCaption: {
+    en: "Bot Studio: self-hosted bots — repository public, site not live yet",
+    ru: "Bot Studio: боты на своём сервере — репозиторий открыт, сайта ещё нет",
+    de: "Bot Studio: Bots auf eigenem Server — Repository offen, die Website fehlt noch",
+    fr: "Bot Studio : des robots sur votre serveur — dépôt ouvert, page web pas encore publiée",
+    it: "Bot Studio: bot sul tuo server — archivio pubblico, sito non ancora attivo",
+    nl: "Bot Studio: bots op eigen server — de bronopslag is open, de website staat nog niet",
+    cs: "Bot Studio: boti na vlastním serveru — repozitář je otevřený, web zatím neběží",
+    "zh-Hans": "Bot Studio：自托管机器人工作台，仓库已公开，站点尚未上线",
+    "zh-Hant": "Bot Studio：自託管機器人工作台，倉庫已公開，網站尚未上線",
+    es: "Bot Studio: bots en tu servidor — repositorio abierto, la web aún no existe",
+    pl: "Bot Studio: boty na własnym serwerze — repozytorium otwarte, strona jeszcze nie działa",
+    ja: "Bot Studio: 自分のサーバーで Bot を動かす工具。リポジトリは公開済み、サイトはまだ未稼働",
+    th: "Bot Studio: บอตบนเซิร์ฟเวอร์ของคุณ — เปิดให้ดูต้นฉบับแล้ว แต่ยังไม่มีหน้าเว็บ",
+    fi: "Bot Studio: omat botit omalla palvelimella — arkisto on julkinen, sivusto puuttuu vielä",
+    uk: "Bot Studio: боти на власному сервері — сховище відкрите, сайту ще немає",
+    bg: "Bot Studio: ботове на собствен сървър — хранилището е отворено, сайтът все още липсва",
+    tr: "Bot Studio: kendi sunucunuzda botlar — depo açık, site henüz yayında değil",
+    hu: "Bot Studio: saját szerveren futó botok — a tároló nyitott, a weboldal még nincs fönt",
   },
   repo: {
     en: "Open-source repository",
@@ -364,6 +394,7 @@ export function Navbar(): ReactElement {
   const portalsLabel = useCopy(NAV_COPY.portals);
   const nodeCaption = useCopy(NAV_COPY.nodeCaption);
   const mpCaption = useCopy(NAV_COPY.mpCaption);
+  const studioCaption = useCopy(NAV_COPY.studioCaption);
   const repoLabel = useCopy(NAV_COPY.repo);
   const toggleLabel = useCopy(open ? NAV_COPY.closeMenu : NAV_COPY.openMenu);
 
@@ -437,10 +468,13 @@ export function Navbar(): ReactElement {
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
           {/* The bar is capped at 1180px by `section-wrap`, so its width does not
               grow with the viewport: once the five section links are inline, the
-              two sibling-portal chips cannot also fit — German and Russian need
-              the room and the language trigger would be squeezed instead. The
-              chips therefore live in the bar up to `xl` and in the drawer below
-              it, while the ecosystem section and the footer carry them always. */}
+              sibling chips cannot also fit — German and Russian need the room and
+              the language trigger would be squeezed instead. The three chips
+              therefore live in the bar up to `xl` and in the drawer below it,
+              while the ecosystem section and the footer carry them always. The
+              chip labels are locale-free host names and product names, so only
+              their `title` text changes with the language: the row measures the
+              same in all 18 tongues. */}
           <div
             role="group"
             aria-label={portalsLabel}
@@ -463,6 +497,15 @@ export function Navbar(): ReactElement {
               className={`chip text-mute transition-colors hover:border-brand/50 hover:text-white ${FOCUS}`}
             >
               Service&nbsp;Suite
+            </a>
+            <a
+              href={BOT_STUDIO_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={studioCaption}
+              className={`chip text-mute transition-colors hover:border-alert/50 hover:text-white ${FOCUS}`}
+            >
+              Bot&nbsp;Studio
             </a>
           </div>
 
@@ -530,6 +573,15 @@ export function Navbar(): ReactElement {
             >
               Service Suite
               <span className="text-mute">· {mpCaption}</span>
+            </a>
+            <a
+              href={BOT_STUDIO_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`btn-ghost px-4 py-2 text-[12.5px] ${FOCUS}`}
+            >
+              Bot Studio
+              <span className="text-mute">· {studioCaption}</span>
             </a>
           </div>
         </div>

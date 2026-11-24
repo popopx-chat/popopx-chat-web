@@ -14,7 +14,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 | `CFBundleLocalizations` 恰好 18 项，顺序 `en, ru, de, fr, it, nl, cs, zh-Hans, zh-Hant, es, pl, ja, th, fi, uk, bg, tr, hu` | `apps/ios/POPOPX--iOS--Info.plist:63-83` |
 | 打包产物里 18 个 `.lproj`（App、NSE、SE 各 18） | `apps/ios/*.lproj/`、`apps/ios/POPOPX NSE/`、`apps/ios/POPOPX SE/` |
 | `apps/ios/POPOPX Localizations` 里的 28 个 `.xcloc` 是导出给译者的工作目录，**不是** 28 种语言；页面严禁写 "28 语" | `apps/ios/POPOPX Localizations/` |
-| Xcode `developmentRegion = en`（源码 plist 无 `CFBundleDevelopmentRegion`）；主站默认语言 `zh-Hans` 是门户自己的选择 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:1923`、`apps/ios/build/artifacts/POPOPX-D15-cb311aea8.app/Info.plist` |
+| Xcode `developmentRegion = en`（源码 plist 无 `CFBundleDevelopmentRegion`，实测该行不存在）；主站默认语言 `zh-Hans` 是门户自己的选择 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:1921`、`apps/ios/POPOPX--iOS--Info.plist` |
 | URL scheme 为 `popopx` | `apps/ios/POPOPX--iOS--Info.plist`（`CFBundleURLSchemes`） |
 
 ## 2. 五栏导航（真实名称）
@@ -49,7 +49,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 | X25519 | 手写 Noise 握手 `Noise_XX_25519_ChaChaPoly_SHA256` 的密钥协商（基于 CryptoKit），以及 Mesh 节点身份 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,356,618-632,644`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxMeshIdentity.swift:9,12-19,35-59` |
 | ChaCha20-Poly1305 | 三处：BLE/Mesh 传输帧（nonce = 4 字节 0 + 小端计数器）、离线群组消息（每 epoch 群组密钥 + AAD）、服务号频道信封 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:125,128,175,219`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupCrypto.swift:123,153-157`、`apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,196` |
 | AES-256-GCM | 仅队列载荷层；**严禁**说成 BLE 通道加密 | `apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123` |
-| Ed25519 | 校验服务器集群配置：签名域 `popopx|popx_srv_cfg_v1|` + 压缩字节；信任根是**硬编码固定的** 32 字节公钥，key id `k-ad1dc5463a`（= `k-` + SHA-256 前 10 位十六进制），验证失败即拒绝（fail-closed） | `apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-387,392,396-400,403-413,415-425,516-523` |
+| Ed25519 | 校验服务器集群配置：签名域 `popopx|popx_srv_cfg_v1|` + 压缩字节；信任根是**硬编码固定的** 32 字节公钥，key id `k-ad1dc5463a`（= `k-` + SHA-256 前 10 位十六进制），验证失败即拒绝（fail-closed） | `apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-391,394-397,401-405,410-418,420-425,516-523` |
 | Ed25519（TOFU 一类） | 群组创建者签名、发现目录签名、频道密钥校验的公钥来自数据本身（首次信任），与上面的固定信任根不同 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupWire.swift:145`、`apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:596-600`、`apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:294-304` |
 | ECDSA P-256 | 商业徽章/积分签名，**不是** Ed25519 | `apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1535,1576-1578` |
 | HMAC-SHA256 | 服务号配对匿名 H5 授权：原文形如 `uid=<pairwise_uid>&ts=<unix-seconds>`，密钥为该联系人会话密钥（Keychain） | `apps/ios/Shared/Features/ServiceAccount/PopopxH5Launcher.swift:7,120-122,130-142` |
@@ -114,8 +114,8 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 
 | 事实 | 出处 |
 | --- | --- |
-| 部署目标 iOS 17.0（构建设置取 `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`，产物 `MinimumOSVersion = 17.0`） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2760`、`apps/ios/build/artifacts/POPOPX-D15-cb311aea8.app/Info.plist`、`apps/ios/Shared/Navigation/MainTabView.swift:44-46` |
-| `SWIFT_VERSION = 5.0`（12 处）；`PopopxMeshKit` 包用 `swift-tools-version: 6.0` 且包内最低 `.iOS(.v15)`（仅包侧，不要写成 App 支持 iOS 15） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2773`、`apps/ios/PopopxMeshKit/Package.swift:1,12-13` |
+| 部署目标 iOS 17.0：构建设置取 `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`，产物 `MinimumOSVersion = 17.0` 只在重新构建后才是可核对的事实（旧的 `apps/ios/build/artifacts/…` 已被清理，不再是出处） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2776`、`apps/ios/Shared/Navigation/MainTabView.swift:44-46` |
+| `SWIFT_VERSION = 5.0`（12 处）；`PopopxMeshKit` 包用 `swift-tools-version: 6.0` 且包内最低 `.iOS(.v15)`（仅包侧，不要写成 App 支持 iOS 15） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2789`、`apps/ios/PopopxMeshKit/Package.swift:1,12-13` |
 | Xcode 版本没有被钉死，CI 只打印 `xcodebuild -version` | `.github/workflows/ios-sim.yml:101,116` |
 | 真实构建命令（CI 用，先跑 `scripts/ci/ios-stub-libs.sh`） | `.github/workflows/build.yml:1400-1408` |
 | 共享 scheme：`POPOPX (iOS)`、`POPOPX NSE`、`POPOPX SE` | `apps/ios/POPOPX.xcodeproj/xcshareddata/xcschemes/` |
@@ -161,3 +161,38 @@ xcodebuild build -quiet \
 
 `SimpleX`（任意大小写）、`VPN`、`代理`、`专网`、`军工`、`Bitchat`、任何本地绝对路径（`/Users/…`）。
 注意 iOS 源码里有大量 `SimpleX Chat` 历史残留，以及旧 bundle id / 旧 URL scheme —— 这些都是**不能**出现在门户产物里的字符串，引用源码路径时也要避开含旧名的目录名。数量按配方实测（2026-11-23，客户端仓库 `master`）：`git grep -c "SimpleX Chat" -- 'apps/ios/**.swift'` 逐文件相加 = **225 行**；大小写不敏感、不限文件类型、覆盖 iOS 工程全部目录的匹配 = **945 行 / 374 个文件**。引用这个数字时必须带上其中一种配方，光写一个行数无法复现。
+
+## 14. v1.2.0 与发布说明三条（下载区，逐行读自出厂 Swift）
+
+| 事实 | 出处 |
+| --- | --- |
+| iOS App target 的两个构建配置里 `MARKETING_VERSION = 1.2.0`；**另外 8 个配置仍是 `7.1.2`**，所以主站只能写「App 的 MARKETING_VERSION」，严禁写「整个工程统一到 1.2.0」 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2782,2832,2851,2869,2904,2940,2989,3044,3085,3118` |
+| 分支自己的版本化裁定（2026-11-24）：脱离上游 7.1.x 编号，SMP/XFTP 握手版本与数据库 Schema 明确不变，iOS 侧由 Xcode Build Settings 手动改 | `CHANGELOG-POPOPX.md:6,10-13` |
+| Android / Desktop 侧的 1.2.0 确实写进了 gradle 属性（若要提「其他端也已改号」，只有这一行撑得住） | `apps/multiplatform/gradle.properties:28,31` |
+| 双通道路由：SMP ACK 超时 3 秒后同一条消息**并发**再走蓝牙（源码原话 "concurrently, never instead"）；蓝牙 5 秒等不到 BLE_ACK 就回到 SMP 并沿用原 `messageId`；状态名 `dualChannel` | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:10-11,19,271` |
+| 徽章商品**恰好 13 个** SKU（文档注释原话 "The 13 in-app purchase products"，枚举 13 个 `case`）；价格与在售状态启动时从 StoreKit 读，`fallbackPriceText` 只在读取失败时兜底 | `apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:145-163`、`apps/ios/Shared/Features/BadgeCredits/PopopxStoreKitManager.swift:130-137` |
+| 购买先写本地账本，`Transaction.finish()` **只在本地写入成功之后**被调用（文件头注释与 `finish` 注释两处写明） | `apps/ios/Shared/Features/BadgeCredits/PopopxStoreKitManager.swift:9,354-359` |
+| 聊天库口令由用户自设，「Save passphrase in Keychain」是可开关项；改口令入口 `Update database passphrase` | `apps/ios/Shared/Views/Database/DatabaseEncryptionView.swift:73,91,95` |
+| 两个数据库各有 `.bak` 副本（`_chat.db.bak`、`_agent.db.bak`，与主库同目录），`hasBackup` 检查、`restoreBackup` 回滚 | `apps/ios/POPOPXChat/FileUtils.swift:50,52,215-231` |
+
+这三条严禁写成「双栈」「Mesh 组网」「加密备份上传」「云同步」：`.bak` 只在设备磁盘上，不是异地备份；口令保护的是本机数据库文件。
+
+## 15. Bot Studio 发布状态（门户只列仓库，不列站点）
+
+| 事实 | 出处 |
+| --- | --- |
+| `https://github.com/popopx-chat/popopx-bot-studio` 公开可访问，但**已发布的树只有 `LICENSE`（AGPL-3.0-only）一个条目**：无 README、无源码目录，因此门户不转述它宣称的任何功能 | GitHub API（配方见下） |
+| `bot.popopx.chat` 已解析到本站同一台服务器（与 `node.popopx.chat`、`mp.popopx.chat` 同 IP），但**没有它自己的站点**：普通 HTTP 返回该机的 nginx 默认测试页（`Server: nginx/1.14.1`，`Last-Modified` 2019-10-07），443 上的证书 `CN=popopx.chat` 不覆盖这个子域，TLS 直接以名称不匹配失败 | 本机 `dig +short` + `curl` 实测 |
+
+复测配方（2026-11-24 实测；域名与仓库内容都会变，引用时必须重跑并改日期。注意本机 curl 走 SOCKS5 代理会让 TLS 探测假超时，直连需 `--noproxy '*'`）：
+
+```
+curl -s "https://api.github.com/repos/popopx-chat/popopx-bot-studio/git/trees/main?recursive=1" | jq -r '.tree[].path'      # 只有 LICENSE
+dig +short bot.popopx.chat node.popopx.chat mp.popopx.chat
+curl --noproxy '*' -sI http://bot.popopx.chat | head -4        # nginx 默认页
+curl --noproxy '*' -sv https://bot.popopx.chat 2>&1 | grep -i "subject\|altname\|SSL:"
+grep -c "MARKETING_VERSION = 1.2.0" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 2
+grep -c "MARKETING_VERSION = 7.1.2" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 8
+awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift | wc -l   # 13
+```
+

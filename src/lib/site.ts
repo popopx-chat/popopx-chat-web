@@ -7,11 +7,14 @@
  * and the Nginx `server_name` (see `deploy/centos/nginx-popopx-main.conf`), so
  * a crawler, a link unfolder and the web server all agree.
  *
- * The three official portals are separate origins and are linked as such — the
+ * The three hosted portals are separate origins and are linked as such — the
  * measured `server_name` of each sibling project, not a guess:
  *   popopx.chat        this portal (iOS flagship client)
  *   node.popopx.chat   Mac Node edge-services engine (`../node-popopx-chat-web`)
  *   mp.popopx.chat     service accounts & zero-knowledge channels (`../popopx-service-suite-web`)
+ *
+ * A fourth project, Bot Studio, is part of the ecosystem but is not a hosted
+ * portal yet, so it is linked as a repository only (see `BOT_STUDIO_REPO_URL`).
  */
 
 export const SITE_HOST = "popopx.chat";
@@ -40,6 +43,20 @@ export const WEB_REPO_URL = "https://github.com/popopx-chat/popopx-chat-web";
 export const SUITE_REPO_URL = "https://github.com/popopx-chat/popopx-service-suite";
 
 export const NODE_REPO_URL = "https://github.com/popopx-chat/popopx-mac-node";
+
+/**
+ * POPOPX Bot Studio — the self-hosted bot workbench.
+ *
+ * Linked as a repository, never as a site. `bot.popopx.chat` now resolves to
+ * this portal's own IP (measured 2026-11-24, recipe in `docs/FACTS.md` §15), but
+ * it serves nothing of its own: plain HTTP returns the box's default nginx page
+ * and the TLS certificate on 443 is issued for `popopx.chat`, which does not
+ * cover this subdomain. The published tree of the repository is a single file,
+ * its `AGPL-3.0-only` `LICENSE`. Switch this to `https://bot.popopx.chat` — and
+ * the §15 rows with it — once a `server_name` block and a matching certificate
+ * ship, so the portal never points a visitor at a hostname that cannot serve it.
+ */
+export const BOT_STUDIO_REPO_URL = "https://github.com/popopx-chat/popopx-bot-studio";
 
 export const LICENSE_URL = `${IOS_REPO_URL}/blob/master/LICENSE`;
 
