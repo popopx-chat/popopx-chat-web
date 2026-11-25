@@ -158,7 +158,7 @@ function mixedScriptTokens(text) {
  * Leading punctuation is deliberately left alone. `"/products"`, `target="_blank"`
  * and `-quiet` are route, attribute and flag literals; opening the front of the
  * chunk too would surface 137 further tokens in this tree and turn a review list
- * back into the noise machine the lists below exist to prevent.
+ * back into the noise machine these whitelists exist to prevent.
  *
  * Everything this deliberately drops is a token that legitimately stays Latin
  * inside translated copy — `xcodebuild -version`, `swift-tools-version: 6.0`,
