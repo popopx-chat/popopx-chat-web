@@ -23,7 +23,7 @@ import { SITE_ORIGIN } from "./site";
 
 /** The Hero's positioning line, imported by `HeroSection` so the tab and the page cannot drift. */
 export const BRAND_POSITIONING: Localized<string> = {
-  en: "Privacy-first intelligent connection platform",
+  en: "Privacy-First Intelligent Connection Platform",
   ru: "Платформа интеллектуальных соединений с приоритетом конфиденциальности",
   de: "Datenschutz-First intelligente Verbindungsplattform",
   fr: "Plateforme de connexion intelligente à confidentialité prioritaire",
@@ -44,7 +44,7 @@ export const BRAND_POSITIONING: Localized<string> = {
 };
 
 export const SEO_TITLE: Localized<string> = {
-  en: "POPOPX — Privacy-first intelligent connection platform",
+  en: "POPOPX — Privacy-First Intelligent Connection Platform",
   ru: "POPOPX — Платформа интеллектуальных соединений с приоритетом конфиденциальности",
   de: "POPOPX — Datenschutz-First intelligente Verbindungsplattform",
   fr: "POPOPX — Plateforme de connexion intelligente à confidentialité prioritaire",
