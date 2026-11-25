@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import Link from "next/link";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import { IOS_REPO_URL } from "@/lib/site";
@@ -791,6 +792,28 @@ const NOTE: Localized<string> = {
   hu: "A fenti minden sort sorról sorra ellenőrizhetjük a nyílt forráskódú kliensben: ugyanazok a fájlnevek, ugyanazok az állandók, ugyanazok a számok. A tárolóra itt található a hivatkozás, és ezen az oldalon egyetlen állítás sincs felnagyítva.",
 };
 
+/** Compact variant: entry to /security with full source ledger. */
+const SECURITY_ENTRY_COPY: Localized<string> = {
+  en: "View full security model & source ledger",
+  ru: "Просмотреть полную модель безопасности и реестр исходного кода",
+  de: "Vollständiges Sicherheitsmodell und Quellcode-Register anzeigen",
+  fr: "Voir le modèle de sécurité complet et le registre source",
+  it: "Visualizza il modello di sicurezza completo e il registro sorgente",
+  nl: "Bekijk volledig beveiligingsmodel en bronregister",
+  cs: "Zobrazit úplný model zabezpečení a registr zdrojového kódu",
+  "zh-Hans": "查看完整安全模型与源码台账",
+  "zh-Hant": "檢視完整安全模型與原始碼台帳",
+  es: "Ver modelo de seguridad completo y registro de código fuente",
+  pl: "Zobacz pełny model bezpieczeństwa i rejestr kodu źródłowego",
+  ja: "完全なセキュリティモデルとソースレッジャーを表示",
+  th: "ดูโมเดลความปลอดภัยเต็มรูปแบบและบัญชีแหล่งที่มา",
+  fi: "Näytä täydellinen tietoturvamalli ja lähdekoodirekisteri",
+  uk: "Переглянути повну модель безпеки та реєстр вихідного коду",
+  bg: "Преглед на пълния модел на сигурност и регистъра на изходния код",
+  tr: "Tam güvenlik modelini ve kaynak kaydını görüntüle",
+  hu: "Teljes biztonsági modell és forráskód-nyilvántartás megtekintése",
+};
+
 /** One fact bullet — a hook-free line with a dot in the card's tone. */
 function FactRow({ text, tone }: { text: Localized<string>; tone: "brand" | "mesh" }): ReactElement {
   const value = useCopy(text);
@@ -805,7 +828,7 @@ function FactRow({ text, tone }: { text: Localized<string>; tone: "brand" | "mes
 }
 
 /** One feature card: index, title, hook, three measured facts and a token chip. */
-function FeatureCard({ feature }: { feature: Feature }): ReactElement {
+function FeatureCard({ feature, compact = false }: { feature: Feature; compact?: boolean }): ReactElement {
   const title = useCopy(feature.title);
   const hook = useCopy(feature.hook);
 
@@ -828,11 +851,13 @@ function FeatureCard({ feature }: { feature: Feature }): ReactElement {
 
         <p className="text-[13px] leading-relaxed text-mute">{hook}</p>
 
-        <ul className="flex flex-col gap-2 text-[12px] leading-relaxed text-faint">
-          {feature.facts.map((fact, i) => (
-            <FactRow key={`${feature.index}-${i}`} text={fact} tone={feature.tone} />
-          ))}
-        </ul>
+        {!compact && (
+          <ul className="flex flex-col gap-2 text-[12px] leading-relaxed text-faint">
+            {feature.facts.map((fact, i) => (
+              <FactRow key={`${feature.index}-${i}`} text={fact} tone={feature.tone} />
+            ))}
+          </ul>
+        )}
 
         <footer className="hairline-top mt-auto flex items-center gap-2 pt-3">
           <code className="chip font-mono text-[10.5px] text-[#d7d7ea]">{feature.chip}</code>
@@ -842,10 +867,13 @@ function FeatureCard({ feature }: { feature: Feature }): ReactElement {
   );
 }
 
-export function FeaturesGrid(): ReactElement {
+export function FeaturesGrid({ variant = "full" }: { variant?: "compact" | "full" }): ReactElement {
   const sectionLabel = useCopy(HEAD.title);
   const note = useCopy(NOTE);
   const repoLabel = useCopy(REPO_LINK_LABEL);
+  const securityEntry = useCopy(SECURITY_ENTRY_COPY);
+
+  const isCompact = variant === "compact";
 
   return (
     <section id="features" aria-label={sectionLabel} className="py-16 sm:py-20">
@@ -857,31 +885,56 @@ export function FeaturesGrid(): ReactElement {
           titleAs="h1"
         />
 
-        <ul className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className={`mt-10 grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 ${isCompact ? "" : "lg:grid-cols-3"}`}>
           {FEATURES.map((feature) => (
-            <FeatureCard key={feature.index} feature={feature} />
+            <FeatureCard key={feature.index} feature={feature} compact={isCompact} />
           ))}
         </ul>
 
-        <div className="glass-inset mt-6 flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="flex gap-2 text-[12px] leading-relaxed text-faint">
-            <span className="mt-[6px] shrink-0">
-              <StatusDot tone="mesh" pulse />
-            </span>
-            <span>{note}</span>
-          </p>
-          <p className="flex shrink-0 items-center gap-2">
-            <a
-              href={IOS_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pill text-[12px] text-white"
+        {isCompact ? (
+          <div className="mt-8 flex justify-center">
+            <Link
+              href="/security/"
+              className="pill text-[13px] text-white hover:bg-white/10 transition-colors"
             >
-              {repoLabel}
-            </a>
-            <code className="chip font-mono text-[10.5px] text-[#d7d7ea]">AGPL-3.0</code>
-          </p>
-        </div>
+              {securityEntry}
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="ml-1.5 h-3.5 w-3.5"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        ) : (
+          <div className="glass-inset mt-6 flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="flex gap-2 text-[12px] leading-relaxed text-faint">
+              <span className="mt-[6px] shrink-0">
+                <StatusDot tone="mesh" pulse />
+              </span>
+              <span>{note}</span>
+            </p>
+            <p className="flex shrink-0 items-center gap-2">
+              <a
+                href={IOS_REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill text-[12px] text-white"
+              >
+                {repoLabel}
+              </a>
+              <code className="chip font-mono text-[10.5px] text-[#d7d7ea]">AGPL-3.0</code>
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
