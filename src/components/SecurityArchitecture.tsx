@@ -12,11 +12,11 @@ import { IOS_REPO_URL } from "@/lib/site";
  * repository (`popopx-chat`, default branch `master`) and is cited by file:line,
  * so a visitor can diff the sentence against the source: a claim without a line
  * is treated as a defect, not as marketing.
- *   PopopxNoiseXX.swift:5,125,175,219                Noise_XX_25519_ChaChaPoly_SHA256, hand-written on CryptoKit
- *   PopopxSecurePayload.swift:103,121-123            AES-256-GCM at the queue payload layer only
- *   PopopxServerClusterConfig.swift:381-383,516-523  pinned Ed25519 root, key id k-ad1dc5463a, fail-closed
- *   PopopxMediaEngine.swift:366-378 (drop at :375)   no metadata dictionary passed => EXIF/GPS gone
- *   PopopxServerConfigSignalHandler.swift:99-103     probes at 3 s and 10 s, not a 10 s heartbeat
+ *   apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,125,175,219                Noise_XX_25519_ChaChaPoly_SHA256, hand-written on CryptoKit
+ *   apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123            AES-256-GCM at the queue payload layer only
+ *   apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383,516-523  pinned Ed25519 root, key id k-ad1dc5463a, fail-closed
+ *   apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:366-378 (drop at :375)   no metadata dictionary passed => EXIF/GPS gone
+ *   apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:99-103     probes at 3 s and 10 s, not a 10 s heartbeat
  */
 
 type Tone = "brand" | "mesh" | "warn";
@@ -201,7 +201,7 @@ const STATUS_LABEL: Record<CryptoStatus, Localized<string>> = {
 const FLOW: readonly Stage[] = [
   {
     index: "①", tone: "mesh", arrow: ".ppxlz", chip: "FileProtectionType.complete",
-    cites: ["PopopxMediaEngine.swift:330,337,900", "PopopxServerConfigStore.swift:436"],
+    cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:330,337,900", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:436"],
     label: {
       en: "Device sandbox. The media engine's temporary files and the whole server table are written with FileProtectionType.complete.",
       ru: "Песочница устройства. Временные файлы медиадвижка и вся таблица серверов записаны с FileProtectionType.complete.",
@@ -225,7 +225,7 @@ const FLOW: readonly Stage[] = [
   },
   {
     index: "②", tone: "mesh", arrow: "Noise_XX_25519_ChaChaPoly_SHA256", chip: "ImageIO · AVAssetWriter · LZFSE",
-    cites: ["PopopxMediaEngine.swift:18-21,366-378", "PopopxMediaEngine.swift:22-24,433-442", "PopopxMediaEngine.swift:11-15,731,735-738"],
+    cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:18-21,366-378", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:22-24,433-442", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:11-15,731,735-738"],
     label: {
       en: "On-device compression, no metadata dictionary: ImageIO re-encodes, AVAssetWriter writes metadata = [], LZFSE packs the .ppxlz.",
       ru: "Сжатие на устройстве без словаря метаданных: ImageIO перекодировывает, AVAssetWriter пишет metadata = [], LZFSE пакует .ppxlz.",
@@ -249,7 +249,7 @@ const FLOW: readonly Stage[] = [
   },
   {
     index: "③", tone: "brand", arrow: "AES-256-GCM", chip: "Noise XX · ChaCha20-Poly1305",
-    cites: ["PopopxNoiseXX.swift:5,125,175,219", "PopopxSecurePayload.swift:103,121-123"],
+    cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,125,175,219", "apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123"],
     label: {
       en: "End-to-end sealing: hand-written Noise XX over X25519 on BLE with ChaCha20-Poly1305 frames; AES-256-GCM only for queue payloads.",
       ru: "Упаковка от конца до конца: в BLE рукописный Noise XX на X25519 с кадрами ChaCha20-Poly1305; AES-256-GCM только для содержимого очередей.",
@@ -273,7 +273,7 @@ const FLOW: readonly Stage[] = [
   },
   {
     index: "④", tone: "brand", arrow: "PopopxChannelEnvelope", chip: "RcvQueueInfo · SndQueueInfo",
-    cites: ["POPOPXChat/APITypes.swift:589-615", "POPOPXChat/APITypes.swift:597-604"],
+    cites: ["apps/ios/POPOPXChat/APITypes.swift:589-615", "apps/ios/POPOPXChat/APITypes.swift:597-604"],
     label: {
       en: "One-way queue relay: the queue types expose one server field per direction plus the switch state — no contact field, no relationship field.",
       ru: "Однонаправленный релей очередей: типы очереди показывают по одному серверному полю на направление плюс состояние переключения — без полей контактов и связей.",
@@ -297,7 +297,7 @@ const FLOW: readonly Stage[] = [
   },
   {
     index: "⑤", tone: "brand", arrow: "PopopxServerClusterConfig", chip: "popopx.channel.enc.v1",
-    cites: ["ChannelKeyRotationManager.swift:5,64,196", "ChannelKeyRotationManager.swift:341,381-422"],
+    cites: ["apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:5,64,196", "apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:341,381-422"],
     label: {
       en: "Zero-knowledge channel envelope popopx.channel.enc.v1: the per-epoch keys are what keep the relay blind to the content.",
       ru: "Конверт канала с нулевым разглашением popopx.channel.enc.v1: именно ключи по эпохам не дают релею видеть содержимое.",
@@ -321,7 +321,7 @@ const FLOW: readonly Stage[] = [
   },
   {
     index: "⑥", tone: "warn", arrow: "", chip: "Ed25519 · k-ad1dc5463a",
-    cites: ["PopopxServerClusterConfig.swift:381-383,388,401,411-421,516-523", "PopopxServerConfigSignalHandler.swift:99-103", "PopopxServerConfigStore.swift:172,443-461"],
+    cites: ["apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383,388,401,411-421,516-523", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:99-103", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:172,443-461"],
     label: {
       en: "Config surface: Ed25519 against one pinned 32-byte root, a rollback.json snapshot before applying, connectivity probes at 3 s and 10 s.",
       ru: "Слой конфигурации: Ed25519 против зашитого 32-байтного корня, снимок rollback.json до применения и проверки связности на 3-й и 10-й секунде.",
@@ -348,7 +348,7 @@ const FLOW: readonly Stage[] = [
 const CRYPTO: readonly Row[] = [
   {
     primitive: "X25519", status: "verified",
-    cites: ["PopopxNoiseXX.swift:5,356,618-632,644", "PopopxMeshIdentity.swift:9,20,35-59"],
+    cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,356,618-632,644", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxMeshIdentity.swift:9,12-19,35-59"],
     use: {
       en: "Key agreement in the hand-written Noise XX handshake, and the mesh node identity.",
       ru: "Соглашение по ключу в рукописном рукопожатии Noise XX и идентичность узла сети.",
@@ -372,7 +372,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "ChaCha20-Poly1305", status: "verified",
-    cites: ["PopopxNoiseXX.swift:125,128,175,219", "PopopxGroupCrypto.swift:123,153-157", "ChannelKeyRotationManager.swift:64,196"],
+    cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:125,128,175,219", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupCrypto.swift:123,153-157", "apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,196"],
     use: {
       en: "Three places: BLE/mesh transport frames, offline group messages on an epoch key with AAD, and the service-account channel envelope.",
       ru: "Три места: кадры BLE/сети, офлайн-сообщения групп по ключу эпохи с AAD и конверт канала сервис-аккаунта.",
@@ -396,7 +396,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "AES-256-GCM", status: "boundary",
-    cites: ["PopopxSecurePayload.swift:103,121-123"],
+    cites: ["apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123"],
     use: {
       en: "Only the queue payload layer. It is not the BLE channel cipher — that one is Noise with ChaCha20-Poly1305.",
       ru: "Только слой содержимого очереди. Это не шифр BLE-канала — там Noise и ChaCha20-Poly1305.",
@@ -420,7 +420,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "Ed25519", status: "boundary",
-    cites: ["PopopxServerClusterConfig.swift:381-383,388,401,403-409,411-421,516-523", "PopopxGroupWire.swift:145", "DiscoverCatalogModels.swift:596-600", "ChannelKeyRotationManager.swift:294-304"],
+    cites: ["apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383,388,401,403-409,411-421,516-523", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupWire.swift:145", "apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:596-600", "apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:294-304"],
     use: {
       en: "Verifies the server cluster config against a hardcoded 32-byte root (key id k-ad1dc5463a), fail-closed. Group, catalog and channel signatures are trust-on-first-use — that root does not cover them.",
       ru: "Проверяет конфиг кластера серверов против жёстко заданного 32-байтного корня (key id k-ad1dc5463a), с отказом при ошибке. Подписи групп, каталога и канала — доверие при первом использовании.",
@@ -444,7 +444,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "HMAC-SHA256", status: "verified",
-    cites: ["PopopxH5Launcher.swift:7,120-122,130-142"],
+    cites: ["apps/ios/Shared/Features/ServiceAccount/PopopxH5Launcher.swift:7,120-122,130-142"],
     use: {
       en: "Pairwise-anonymous H5 authorisation for service accounts, keyed by that contact's session key from the Keychain.",
       ru: "Попарно анонимная H5-авторизация сервис-аккаунтов на ключе сессии этого контакта из Keychain.",
@@ -468,7 +468,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "PBKDF2-HMAC-SHA256", status: "verified",
-    cites: ["PopopxDuressAuthManager.swift:341-345"],
+    cites: ["apps/ios/Shared/Features/AntiTheftDuress/PopopxDuressAuthManager.swift:341-345"],
     use: {
       en: "Derives the duress password, 100,000 rounds.",
       ru: "Выводит пароль принуждения, 100 000 итераций.",
@@ -492,7 +492,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "ECDSA P-256", status: "boundary",
-    cites: ["PopopxBadgeCreditsModels.swift:1535,1576-1578"],
+    cites: ["apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1535,1576-1578"],
     use: {
       en: "Signs commerce badge and credit payloads — deliberately not Ed25519.",
       ru: "Подписывает данные коммерческих бейджей и кредитов — намеренно не Ed25519.",
@@ -516,7 +516,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "LZFSE", status: "verified",
-    cites: ["PopopxMediaEngine.swift:11-15,731,735-738,741,743-745,846", "PopopxIncomingFileUnpacker.swift:5,32"],
+    cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:11-15,731,735-738,741,743-745,846", "apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:5,32"],
     use: {
       en: "Apple's Compression framework, chunked streaming into .ppxlz with magic PPXLZ1, kept only when it saves at least 15% — and it is not zstd.",
       ru: "Фреймворк Compression, потоковое сжатие по частям в .ppxlz с магией PPXLZ1; остаётся только при экономии от 15% — и это не zstd.",
@@ -542,7 +542,7 @@ const CRYPTO: readonly Row[] = [
 
 const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly string[]; readonly text: Localized<string> }[] = [
   {
-    chip: "rcvServer · sndServer", cites: ["POPOPXChat/APITypes.swift:589-615"],
+    chip: "rcvServer · sndServer", cites: ["apps/ios/POPOPXChat/APITypes.swift:589-615"],
     text: {
       en: "Per connection there is one receive queue and one send queue, and each type carries a single server field — no relationship column.",
       ru: "На каждое соединение — одна входящая и одна исходящая очередь, и в каждом типе одно серверное поле; колонки связей нет.",
@@ -566,7 +566,7 @@ const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly s
   },
   {
     chip: "userAddress : UserContactLink?",
-    cites: ["OnboardingView.swift:83", "Shared/Model/ChatModel.swift:426", "Shared/Theme/PopopxControls.swift:245"],
+    cites: ["apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83", "apps/ios/Shared/Model/ChatModel.swift:426", "apps/ios/Shared/Components/PopopxControls.swift:245"],
     text: {
       en: "No phone number, no email, no global public key; the optional userAddress is a one-time UserContactLink, and no model carries a phoneNumber field.",
       ru: "Ни номера телефона, ни почты, ни глобального публичного ключа; необязательный userAddress — одноразовый UserContactLink, поля phoneNumber в моделях нет.",
@@ -615,33 +615,33 @@ const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly s
 
 /** The one primitive the client does *not* implement — stated, not claimed. */
 const RATCHET_NOTE: Localized<string> = {
-  en: "The double ratchet sits on the core side: Swift only surfaces ratchetSync* (PopopxSecurePayload.swift:18), so this page never calls it an iOS Swift implementation.",
-  ru: "Двойной рэтчет живёт на стороне ядра: Swift показывает лишь ratchetSync* (PopopxSecurePayload.swift:18), поэтому страница не называет его реализацией на Swift для iOS.",
-  de: "Der Double Ratchet sitzt auf der Kernseite: Swift stellt nur ratchetSync* bereit (PopopxSecurePayload.swift:18), darum behauptet diese Seite keine iOS-Swift-Implementierung.",
-  fr: "Le double ratchet est du côté du noyau : Swift n’expose que ratchetSync* (PopopxSecurePayload.swift:18), cette page ne l’appelle donc pas une implémentation Swift iOS.",
-  it: "Il double ratchet vive lato core: il Swift espone solo ratchetSync* (PopopxSecurePayload.swift:18), quindi questa pagina non lo chiama implementazione Swift per iOS.",
-  nl: "De double ratchet zit aan de core-kant: Swift toont alleen ratchetSync* (PopopxSecurePayload.swift:18), dus deze pagina noemt het geen iOS-Swift-implementatie.",
-  cs: "Dvojité broušení je na straně jádra: Swift ukazuje jen ratchetSync* (PopopxSecurePayload.swift:18), takže tato stránka z toho nedělá implementaci v Swiftu pro iOS.",
-  "zh-Hans": "双重棘轮在核心侧：Swift 层只透出 ratchetSync*（PopopxSecurePayload.swift:18），所以本页从不称它是 iOS Swift 实现。",
-  "zh-Hant": "雙重棘輪在核心端：Swift 層只透出 ratchetSync*（PopopxSecurePayload.swift:18），所以本頁從不稱它是 iOS Swift 實作。",
-  es: "El doble ratchet está en el núcleo: Swift solo expone ratchetSync* (PopopxSecurePayload.swift:18), así que esta página no lo presenta como implementación en Swift para iOS.",
-  pl: "Podwójny ratchet jest po stronie rdzenia: Swift ujawnia tylko ratchetSync* (PopopxSecurePayload.swift:18), więc ta strona nie nazywa go implementacją w Swift dla iOS.",
-  ja: "ダブルラチェットはコア側にあり、Swift が見せるのは ratchetSync*（PopopxSecurePayload.swift:18）だけなので、このページは iOS Swift 実装とは呼びません。",
-  th: "ดับเบิลแรทเช็ตอยู่ที่ฝั่งคอร์: Swift เผยแค่ ratchetSync* (PopopxSecurePayload.swift:18) หน้านี้จึงไม่เรียกว่าเป็นการทำใน iOS ด้วย Swift",
-  fi: "Double ratchet on ytimen puolella: Swift näyttää vain ratchetSync*:n (PopopxSecurePayload.swift:18), joten tämä sivu ei kutsu sitä iOS-Swift-toteutukseksi.",
-  uk: "Подвійний ретчет — на боці ядра: Swift показує лише ratchetSync* (PopopxSecurePayload.swift:18), тому ця сторінка не називає його реалізацією на Swift для iOS.",
-  bg: "Двойният речет е от страната на ядрото: Swift показва само ratchetSync* (PopopxSecurePayload.swift:18), затова тази страница не го нарича Swift имплементация за iOS.",
-  tr: "Çift ratchet çekirdek tarafında: Swift yalnızca ratchetSync*'i dışa vurur (PopopxSecurePayload.swift:18), bu yüzden bu sayfa ona iOS Swift implementasyonu demez.",
-  hu: "A dupla recés a mag oldalán van: a Swift csak a ratchetSync* mezőket mutatja (PopopxSecurePayload.swift:18), ezért ez az oldal nem nevezi iOS Swift-megvalósításnak.",
+  en: "The double ratchet sits on the core side: Swift only surfaces ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), so this page never calls it an iOS Swift implementation.",
+  ru: "Двойной рэтчет живёт на стороне ядра: Swift показывает лишь ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), поэтому страница не называет его реализацией на Swift для iOS.",
+  de: "Der Double Ratchet sitzt auf der Kernseite: Swift stellt nur ratchetSync* bereit (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), darum behauptet diese Seite keine iOS-Swift-Implementierung.",
+  fr: "Le double ratchet est du côté du noyau : Swift n’expose que ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), cette page ne l’appelle donc pas une implémentation Swift iOS.",
+  it: "Il double ratchet vive lato core: il Swift espone solo ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), quindi questa pagina non lo chiama implementazione Swift per iOS.",
+  nl: "De double ratchet zit aan de core-kant: Swift toont alleen ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), dus deze pagina noemt het geen iOS-Swift-implementatie.",
+  cs: "Dvojité broušení je na straně jádra: Swift ukazuje jen ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), takže tato stránka z toho nedělá implementaci v Swiftu pro iOS.",
+  "zh-Hans": "双重棘轮在核心侧：Swift 层只透出 ratchetSync*（apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18），所以本页从不称它是 iOS Swift 实现。",
+  "zh-Hant": "雙重棘輪在核心端：Swift 層只透出 ratchetSync*（apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18），所以本頁從不稱它是 iOS Swift 實作。",
+  es: "El doble ratchet está en el núcleo: Swift solo expone ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), así que esta página no lo presenta como implementación en Swift para iOS.",
+  pl: "Podwójny ratchet jest po stronie rdzenia: Swift ujawnia tylko ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), więc ta strona nie nazywa go implementacją w Swift dla iOS.",
+  ja: "ダブルラチェットはコア側にあり、Swift が見せるのは ratchetSync*（apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18）だけなので、このページは iOS Swift 実装とは呼びません。",
+  th: "ดับเบิลแรทเช็ตอยู่ที่ฝั่งคอร์: Swift เผยแค่ ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18) หน้านี้จึงไม่เรียกว่าเป็นการทำใน iOS ด้วย Swift",
+  fi: "Double ratchet on ytimen puolella: Swift näyttää vain ratchetSync*:n (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), joten tämä sivu ei kutsu sitä iOS-Swift-toteutukseksi.",
+  uk: "Подвійний ретчет — на боці ядра: Swift показує лише ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), тому ця сторінка не називає його реалізацією на Swift для iOS.",
+  bg: "Двойният речет е от страната на ядрото: Swift показва само ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), затова тази страница не го нарича Swift имплементация за iOS.",
+  tr: "Çift ratchet çekirdek tarafında: Swift yalnızca ratchetSync*'i dışa vurur (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), bu yüzden bu sayfa ona iOS Swift implementasyonu demez.",
+  hu: "A dupla recés a mag oldalán van: a Swift csak a ratchetSync* mezőket mutatja (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), ezért ez az oldal nem nevezi iOS Swift-megvalósításnak.",
 };
 
 
 /** Locale-free ledger excerpt: the four load-bearing citations, copy-paste ready. */
 const LEDGER_CODE = [
-  "X25519             PopopxNoiseXX.swift:5,356,618-632,644",
-  "ChaCha20-Poly1305  PopopxNoiseXX.swift:125,128,175,219 · PopopxGroupCrypto.swift:123,153-157",
-  "AES-256-GCM        PopopxSecurePayload.swift:103,121-123",
-  "Ed25519            PopopxServerClusterConfig.swift:381-383,516-523  (k-ad1dc5463a)",
+  "X25519             apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,356,618-632,644",
+  "ChaCha20-Poly1305  apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:125,128,175,219 · apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupCrypto.swift:123,153-157",
+  "AES-256-GCM        apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123",
+  "Ed25519            apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383,516-523  (k-ad1dc5463a)",
 ].join("\n");
 
 export function SecurityArchitecture(): ReactElement {

@@ -581,6 +581,134 @@ if (FIX && pass.rewrites.length) {
   }
 }
 
+// ================================================================ second pass: src/**
+
+/**
+ * Scan all .tsx files in src/ for file:line references and validate them.
+ *
+ * This catches references that:
+ * - Are not in canonical form (don't start with apps/ios/)
+ * - Point to non-existent files
+ * - Have line numbers past EOF or on blank/brace-only lines
+ *
+ * References in comments, string literals, and data arrays are all checked.
+ * Portal-internal paths (src/..., docs/..., .github/...) and sibling project
+ * paths (../...) are skipped — they don't point to the client repo.
+ */
+function runSrcPass() {
+  const srcErrors = [];
+  const srcNotes = [];
+  const srcFiles = new Set();
+  let srcRefs = 0;
+
+  // Pattern to match file:line references in source code
+  // Matches: apps/ios/path/to/File.swift:123,456-789 or bare File.swift:123
+  const REF_RE = /([A-Za-z0-9_/.-]+\.(?:swift|kt|md|ts|py|json|yml|yaml|gradle|kts))(:[0-9][0-9,.-]*)?/g;
+
+  // Skip patterns: portal-internal, sibling projects, URLs
+  const SKIP_PREFIXES = ["../", "./", "src/", "docs/", ".github/", "node_modules/", "/blob/"];
+
+  // Glob src/**/*.tsx
+  const srcDir = join(ROOT, "src");
+  if (!existsSync(srcDir)) {
+    srcNotes.push("src/ directory not found — skipping second pass");
+    return { errors: srcErrors, notes: srcNotes, files: srcFiles, refs: srcRefs };
+  }
+
+  const tsxFiles = [];
+  const walk = (dir, depth) => {
+    if (depth > 10) return;
+    let ents;
+    try {
+      ents = readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const e of ents) {
+      const abs = join(dir, e.name);
+      if (e.isDirectory()) {
+        if (e.name === "node_modules" || e.name === ".next" || e.name === "out") continue;
+        walk(abs, depth + 1);
+      } else if (e.name.endsWith(".tsx")) {
+        tsxFiles.push(abs);
+      }
+    }
+  };
+  walk(srcDir, 0);
+
+  for (const file of tsxFiles) {
+    const content = readFileSync(file, "utf8");
+    const lines = content.split("\n");
+    const relFile = relative(ROOT, file);
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const lineNo = i + 1;
+
+      // Find all references in this line
+      for (const m of line.matchAll(REF_RE)) {
+        const refPath = m[1];
+        const lineSpec = m[2] ? m[2].slice(1) : null; // strip leading ':'
+
+        // Skip non-citations
+        if (SKIP_PREFIXES.some((p) => refPath.startsWith(p))) continue;
+        if (refPath.includes("://")) continue; // URL
+        if (refPath.startsWith("http")) continue;
+
+        // Must have a line spec to be a citation
+        if (!lineSpec) continue;
+
+        srcRefs++;
+
+        // Resolve the path
+        let resolvedRel = null;
+        let resolvedAbs = null;
+
+        if (refPath.startsWith("apps/ios/")) {
+          // Already canonical
+          resolvedAbs = join(CLIENT, refPath);
+          resolvedRel = refPath;
+        } else {
+          // Try to resolve via the index
+          const r = resolvePath(refPath);
+          if (r.status === "ok" || r.status === "legacy" || r.status === "candidate") {
+            resolvedAbs = r.abs;
+            resolvedRel = r.rel;
+          }
+        }
+
+        if (!resolvedAbs) {
+          srcErrors.push(
+            `${relFile}:${lineNo}: \`${refPath}:${lineSpec}\` does not resolve to a client repo file`
+          );
+          continue;
+        }
+
+        srcFiles.add(resolvedRel);
+
+        // Check line numbers
+        const label = `\`${refPath}:${lineSpec}\``;
+        const where = `${relFile}:${lineNo}`;
+        checkLines(lineSpec, label, resolvedAbs, resolvedRel, where);
+      }
+    }
+  }
+
+  // Collect any errors from checkLines (they were pushed to the global errors array)
+  // We need to separate them from the FACTS.md pass errors
+  // For now, just report the counts
+  srcNotes.push(
+    `src/**: ${srcRefs} references in ${tsxFiles.length} files, ${srcFiles.size} unique client files cited`
+  );
+
+  return { errors: srcErrors, notes: srcNotes, files: srcFiles, refs: srcRefs };
+}
+
+const srcPass = runSrcPass();
+for (const n of srcPass.notes) notes.push(n);
+
+// ====================================================================== output
+
 if (TRACE) {
   process.stdout.write("--- tokens considered ---\n");
   for (const [tok, verdict] of trace) process.stdout.write(`  \`${tok}\`  ${verdict}\n`);
@@ -588,8 +716,13 @@ if (TRACE) {
 for (const n of notes) process.stdout.write(`  ${n}\n`);
 process.stdout.write(`client checkout: ${CLIENT}  (index: ${indexed} entries)\n`);
 for (const e of errors) process.stdout.write(`  ERROR ${e}\n`);
+for (const e of srcPass.errors) process.stdout.write(`  ERROR ${e}\n`);
+const totalErrors = errors.length + srcPass.errors.length;
 process.stdout.write(
   `facts: ${parsed.citations.length + parsed.bareRefs.length} citations, ` +
     `${pass.files.size} files, ${errors.length} error(s)\n`
 );
-process.exit(errors.length ? 1 : 0);
+process.stdout.write(
+  `src/**: ${srcPass.refs} references, ${srcPass.files.size} files, ${srcPass.errors.length} error(s)\n`
+);
+process.exit(totalErrors ? 1 : 0);

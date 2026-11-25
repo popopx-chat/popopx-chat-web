@@ -11,11 +11,11 @@ import { IOS_REPO_URL } from "@/lib/site";
  * The POPOPX column is read out of the iOS client repository (`popopx-chat`,
  * default branch `master`); every one of its cells carries a `file:line`
  * citation so the sentence can be diffed against the source:
- *   Shared/Views/Onboarding/OnboardingView.swift:83        no phone number, no email, no global public key
- *   POPOPXChat/APITypes.swift:589-615,597-604              one RcvQueueInfo / SndQueueInfo pair per connection
- *   PopopxBLETransport.swift:5,26,45-49                    dual-role CoreBluetooth GATT, not the Mesh profile
- *   PopopxMediaEngine.swift:366-378 (drop at :375)         no metadata dictionary => EXIF/GPS gone
- *   Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42  two menu levels, 3 x 5 cap
+ *   apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83        no phone number, no email, no global public key
+ *   apps/ios/POPOPXChat/APITypes.swift:589-615,597-604              one RcvQueueInfo / SndQueueInfo pair per connection
+ *   apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:5,26,45-49                    dual-role CoreBluetooth GATT, not the Mesh profile
+ *   apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:366-378 (drop at :375)         no metadata dictionary => EXIF/GPS gone
+ *   apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42  two menu levels, 3 x 5 cap
  * The other two columns stay at category level on purpose: no product is named
  * and no internal detail of a third-party service is asserted.
  */
@@ -217,7 +217,7 @@ const VERDICTS: Record<Verdict, { readonly mark: string; readonly tone: "mesh" |
 const DIMENSIONS: readonly Dimension[] = [
   {
     id: "identity", mark: "01",
-    cites: ["Shared/Views/Onboarding/OnboardingView.swift:83", "Shared/Model/ChatModel.swift:426", "Shared/Views/AddContact/PopopxAddFriendView.swift:698"],
+    cites: ["apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83", "apps/ios/Shared/Model/ChatModel.swift:426", "apps/ios/Shared/Features/AddFriend/PopopxAddFriendView.swift:698"],
     label: {
       en: "Does the identity system require a phone number, an email or a global ID?",
       ru: "Требует ли система идентичности номер телефона, почту или глобальный ID?",
@@ -303,7 +303,7 @@ const DIMENSIONS: readonly Dimension[] = [
   },
   {
     id: "graph", mark: "02",
-    cites: ["POPOPXChat/APITypes.swift:589-615,597-604"],
+    cites: ["apps/ios/POPOPXChat/APITypes.swift:589-615,597-604"],
     label: {
       en: "Does the server side hold the social relationship?",
       ru: "Держит ли серверная сторона социальные связи?",
@@ -389,7 +389,7 @@ const DIMENSIONS: readonly Dimension[] = [
   },
   {
     id: "offline", mark: "03",
-    cites: ["PopopxBLETransport.swift:5,26,45-49", "Protocol/PopopxGCSFilter.swift:5-7", "Router/PopopxMessageRouter.swift:6-19,268"],
+    cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:5,26,45-49", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-7", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:6-19,268"],
     label: {
       en: "Can communication continue with no cellular and no Wi-Fi?",
       ru: "Продолжится ли связь без сотовой сети и без Wi-Fi?",
@@ -475,7 +475,7 @@ const DIMENSIONS: readonly Dimension[] = [
   },
   {
     id: "metadata", mark: "04",
-    cites: ["PopopxMediaEngine.swift:18-21,366-378 (drop at :375)", "PopopxMediaEngine.swift:22-24,433-442", "PopopxMediaEngine.swift:25-27"],
+    cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:18-21,366-378 (drop at :375)", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:22-24,433-442", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:25-27"],
     label: {
       en: "Is media compressed locally before upload, with EXIF/GPS stripped?",
       ru: "Сжимается ли медиа локально до загрузки и удаляются ли EXIF/GPS?",
@@ -561,7 +561,7 @@ const DIMENSIONS: readonly Dimension[] = [
   },
   {
     id: "accounts", mark: "05",
-    cites: ["Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42,137-138", "PopopxEcoModels.swift:487-495", "Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383"],
+    cites: ["apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42,137-138", "apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:487-495", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383"],
     label: {
       en: "Can the commercial service account be self-hosted?",
       ru: "Может ли коммерческий сервис-аккаунт быть самостоятельно размещённым?",
@@ -649,11 +649,11 @@ const DIMENSIONS: readonly Dimension[] = [
 
 /** Locale-free citation index for the POPOPX column — copy-paste ready. */
 const POPOPX_LEDGER = [
-  "identity    Shared/Views/Onboarding/OnboardingView.swift:83 · Shared/Model/ChatModel.swift:426",
-  "graph       POPOPXChat/APITypes.swift:589-615,597-604",
-  "offline     PopopxBLETransport.swift:5,26,45-49 · PopopxGCSFilter.swift:5-7 · PopopxMessageRouter.swift:6-19,268",
-  "metadata    PopopxMediaEngine.swift:18-24,366-378,433-442 · animated pass-through :25-27",
-  "accounts    BotMenuBarView.swift:40-42,137-138 · PopopxEcoModels.swift:487-495",
+  "identity    apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 · apps/ios/Shared/Model/ChatModel.swift:426",
+  "graph       apps/ios/POPOPXChat/APITypes.swift:589-615,597-604",
+  "offline     apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:5,26,45-49 · apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-7 · apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:6-19,268",
+  "metadata    apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:18-24,366-378,433-442 · animated pass-through :25-27",
+  "accounts    apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42,137-138 · apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:487-495",
 ].join("\n");
 
 export function ComparisonMatrix(): ReactElement {

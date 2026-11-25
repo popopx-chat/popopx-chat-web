@@ -16,7 +16,7 @@ import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
  *    full AGPL-3.0 text (§11);
  *  - the phone is an *illustration*, and says so: the five tab names, their
  *    order and their Chinese labels are read from
- *    `Shared/Navigation/MainTabView.swift` (§2), but nothing on the screen is a
+ *    `apps/ios/Shared/Navigation/MainTabView.swift` (§2), but nothing on the screen is a
  *    screenshot, and no invented contact, message or avatar appears;
  *  - the technical chips under each tab are protocol identifiers and constant
  *    names, so they are locale-free on purpose and identical in all 18
