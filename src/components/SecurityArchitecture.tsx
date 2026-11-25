@@ -726,14 +726,14 @@ export function SecurityArchitecture(): ReactElement {
         {/* ── what the client types say the relay sees ───────────────── */}
         <div className="glass mt-6 p-5 sm:p-7">
           <p className="eyebrow">{pick(HEAD.panel, locale)}</p>
-          <ul className="mt-4 grid gap-3 lg:grid-cols-3">
+          <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-3 lg:grid-cols-3">
             {PANEL_POINTS.map((point) => (
               <li key={point.chip} className="glass-inset flex flex-col gap-2 p-4">
-                <code className="font-mono text-[10.5px] text-white">{point.chip}</code>
+                <code className="break-words font-mono text-[10.5px] text-white">{point.chip}</code>
                 <p className="text-[12px] leading-relaxed text-mute">{pick(point.text, locale)}</p>
                 {point.cites.length > 0 ? (
                   <ul className="hairline-top flex flex-col gap-1 pt-2 font-mono text-[10px] text-faint">
-                    {point.cites.map((cite) => (<li key={cite}>{cite}</li>))}
+                    {point.cites.map((cite) => (<li key={cite} className="break-words">{cite}</li>))}
                   </ul>
                 ) : null}
               </li>

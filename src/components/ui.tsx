@@ -171,7 +171,7 @@ export function SectionHeading({
   const t = useCopy(title);
   const s = useCopy(subtitle ?? EMPTY);
   const className =
-    "mt-3 text-2xl font-semibold tracking-tight text-white sm:text-[32px] sm:leading-[1.25]";
+    "mt-3 break-words text-2xl font-semibold tracking-tight text-white sm:text-[32px] sm:leading-[1.25]";
 
   return (
     <header className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
@@ -210,7 +210,7 @@ export function CodeBlock({
         </div>
       ) : null}
       {caption ? (
-        <div className="hairline-top px-4 py-2.5 text-[11.5px] leading-relaxed text-faint">
+        <div className="hairline-top break-words px-4 py-2.5 text-[11.5px] leading-relaxed text-faint">
           {caption}
         </div>
       ) : null}
