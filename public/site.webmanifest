@@ -1,7 +1,7 @@
 {
   "name": "POPOPX",
   "short_name": "POPOPX",
-  "description": "POPOPX 官方主站 / POPOPX official portal — 无全局 ID 的端到端加密通讯与自托管商业网络",
+  "description": "POPOPX 官方主站 / POPOPX official portal — 隐私优先的智能连接平台 / privacy-first intelligent connection platform",
   "id": "/",
   "start_url": "/",
   "scope": "/",

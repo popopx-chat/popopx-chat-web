@@ -218,7 +218,7 @@ const BACK_TO_TOP: Localized<string> = {
   hu: "Vissza a tetejére",
 };
 
-const ECO_NOTE: Localized<string> = {
+export const ECO_NOTE: Localized<string> = {
   en: "Exactly four domains are official. This page links to the other three and loads nothing from them.",
   ru: "Официальных доменов ровно четыре. Эта страница ссылается на три других и ничего у них не загружает.",
   de: "Genau vier Domains sind offiziell. Diese Seite verlinkt die drei anderen und lädt nichts von ihnen.",
@@ -239,7 +239,7 @@ const ECO_NOTE: Localized<string> = {
   hu: "Pontosan négy hivatalos domain van. Ez az oldal a másik háromra linkel, és tőlük semmit nem tölt be.",
 };
 
-const BLURB_MAIN: Localized<string> = {
+export const BLURB_MAIN: Localized<string> = {
   en: "This portal — the POPOPX iOS flagship client and the source behind it.",
   ru: "Этот портал: флагманский iOS-клиент POPOPX и его исходный код.",
   de: "Dieses Portal: der iOS-Flaggschiff-Client POPOPX und sein Quellcode.",
@@ -260,7 +260,7 @@ const BLURB_MAIN: Localized<string> = {
   hu: "Ez a portál: a POPOPX iOS zászlóshajó ügyfél és a háttere.",
 };
 
-const BLURB_NODE: Localized<string> = {
+export const BLURB_NODE: Localized<string> = {
   en: "The Mac Node portal — the edge-services engine running beside the client.",
   ru: "Портал Mac Node — движок периферийных сервисов, работающий рядом с клиентом.",
   de: "Das Mac-Node-Portal — die Edge-Services-Engine neben dem Client.",
@@ -281,7 +281,7 @@ const BLURB_NODE: Localized<string> = {
   hu: "A Mac Node portál — az ügyfél mellett futó szélszolgáltatás-motor.",
 };
 
-const BLURB_MP: Localized<string> = {
+export const BLURB_MP: Localized<string> = {
   en: "The service-suite portal — service accounts and zero-knowledge channels, on your own server.",
   ru: "Портал набора сервисов — сервисные аккаунты и каналы с нулевым знанием на вашем сервере.",
   de: "Das Suite-Portal — Dienstkonten und Zero-Knowledge-Kanäle auf dem eigenen Server.",
@@ -302,7 +302,7 @@ const BLURB_MP: Localized<string> = {
   hu: "A csomag portálja — szolgáltatási fiókok és nullaismeret-csatornák a saját szervereden.",
 };
 
-const BLURB_STUDIO: Localized<string> = {
+export const BLURB_STUDIO: Localized<string> = {
   en: "The Bot Studio portal — the bot workbench you run on your own server.",
   ru: "Портал Bot Studio — мастерская ботов, работающая на вашем собственном сервере.",
   de: "Das Portal von Bot Studio — die Werkbank für Bots, die auf dem eigenen Server läuft.",

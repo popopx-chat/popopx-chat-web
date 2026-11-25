@@ -3,6 +3,7 @@
 import { useState, type ReactElement } from "react";
 import Link from "next/link";
 import { pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
+import { BRAND_POSITIONING } from "@/lib/seo";
 import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
 
 /**
@@ -32,26 +33,9 @@ const HERO_COPY: Record<
   "eyebrow" | "title" | "subtitle" | "ctaGet" | "ctaRepo" | "ctaSecurity",
   Localized<string>
 > = {
-  eyebrow: {
-    en: "Privacy-first intelligent connection platform",
-    ru: "Платформа интеллектуальных соединений с приоритетом конфиденциальности",
-    de: "Datenschutz-First intelligente Verbindungsplattform",
-    fr: "Plateforme de connexion intelligente à confidentialité prioritaire",
-    it: "Piattaforma di connessione intelligente con priorità alla privacy",
-    nl: "Privacy-first intelligent verbindingsplatform",
-    cs: "Platforma inteligentních spojení s prioritou soukromí",
-    "zh-Hans": "隐私优先的智能连接平台",
-    "zh-Hant": "隱私優先的智慧連接平台",
-    es: "Plataforma de conexión inteligente con prioridad de privacidad",
-    pl: "Platforma inteligentnych połączeń z priorytetem prywatności",
-    ja: "プライバシー優先のインテリジェント接続プラットフォーム",
-    th: "แพลตฟอร์มการเชื่อมต่ออัจฉริยะที่เน้นความเป็นส่วนตัว",
-    fi: "Yksityisyyden ensisijainen älykäs yhteysalusta",
-    uk: "Інтелектуальна платформа з’єднань з пріоритетом конфіденційності",
-    bg: "Интелигентна платформа за връзки с приоритет на поверителността",
-    tr: "Gizlilik öncelikli akıllı bağlantı platformu",
-    hu: "Adatvévelem-first intelligens kapcsolódási platform",
-  },
+  // One map with `SEO_TITLE` (`src/lib/seo.ts`): the Hero heading and the
+  // browser tab cannot drift apart.
+  eyebrow: BRAND_POSITIONING,
   title: {
     en: "Free connection · Private communication · Intelligent collaboration",
     ru: "Свободное соединение · Конфиденциальное общение · Интеллектуальное сотрудничество",

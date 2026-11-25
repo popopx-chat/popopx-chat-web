@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
+import { PortalCards } from "@/components/PortalCards";
 import { SectionPointers } from "@/components/SectionPointers";
 import { Footer } from "@/components/Footer";
 
@@ -13,6 +14,10 @@ import { Footer } from "@/components/Footer";
  * `SectionPointers` re-issues so an old `popopx.chat#security` bookmark still
  * lands somewhere readable, and the single-document rule that made this a static
  * export in the first place — seven HTML files, no router data, no server calls.
+ *
+ * `PortalCards` sits between the Hero and that index: four entries, one per
+ * official product, so the ecosystem is visible before a visitor scrolls to the
+ * prose about it.
  */
 export default function Page(): ReactElement {
   return (
@@ -20,6 +25,7 @@ export default function Page(): ReactElement {
       <Navbar />
       <main id="top">
         <HeroSection />
+        <PortalCards />
         <SectionPointers />
       </main>
       <Footer />

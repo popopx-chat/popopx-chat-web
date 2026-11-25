@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from "next";
 import type { ReactElement, ReactNode } from "react";
 import { LOCALES, HTML_LANG, DEFAULT_LOCALE } from "@/lib/locales";
 import { LocaleProvider } from "@/lib/i18n";
+import { SEO_DESCRIPTION, SEO_TITLE } from "@/lib/seo";
+import { LocaleMeta } from "@/components/LocaleMeta";
 import {
   BOT_STUDIO_URL,
   IOS_REPO_URL,
@@ -22,8 +24,10 @@ import {
  * The portal ships the same 18 languages as the POPOPX iOS client (see
  * `src/lib/i18n.tsx`). This is a static export, so the seven routes are seven
  * HTML documents and the language switch happens client-side: metadata and the
- * document `<html lang>` are emitted for the default locale (`zh-Hans`) and
- * `LocaleProvider` keeps `lang`/`dir` in sync at runtime. Nothing here reaches
+ * document `<html lang>` are emitted for the default locale (`zh-Hans`),
+ * `LocaleProvider` keeps `lang`/`dir` in sync at runtime and `LocaleMeta`
+ * mirrors the homepage title and description into the active language.
+ * Nothing here reaches
  * the network: the icon set, the manifest and every font are same-origin
  * assets, and the only third-party origins mentioned below are `sameAs`
  * declarations in the structured-data block, which a browser never fetches.
@@ -34,10 +38,16 @@ import {
  * the homepage.
  */
 
-const TITLE = "POPOPX · 无全局 ID 的端到端加密通讯与自托管商业网络";
+/**
+ * The crawl-facing strings. `LocaleMeta` renders the same `DEFAULT_LOCALE` slot
+ * as the document `<title>` while the server is still composing the homepage, so
+ * the exported HTML keeps a Simplified Chinese title and the six other routes
+ * keep their own; both the title and the Hero heading read the one
+ * `BRAND_POSITIONING` map, so they cannot drift apart.
+ */
+const TITLE = SEO_TITLE[DEFAULT_LOCALE];
 
-const DESCRIPTION =
-  "POPOPX 官方主站：iOS 旗舰客户端，不绑定手机号、邮箱或任何全局 ID；单向队列端到端加密、无网环境 BLE 直连中继、本地压缩并剥离 EXIF/GPS、Ed25519 签名的服务器配置热更新，AGPL-3.0 全栈开源、零追踪。";
+const DESCRIPTION = SEO_DESCRIPTION[DEFAULT_LOCALE];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -65,8 +75,14 @@ const jsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
+  // `default` is an empty string on purpose: `resolveTitle` turns it into an
+  // empty `absolute`, and Next then renders no `<title>` at all, which leaves
+  // `LocaleMeta` as the homepage's only title owner. Any real default would be
+  // re-applied by Next's own metadata pass and lose the race against the
+  // localized element. The `template` still shapes the six routes that set their
+  // own title through `pageMetadata`.
   title: {
-    default: TITLE,
+    default: "",
     template: "%s · POPOPX",
   },
   description: DESCRIPTION,
@@ -76,6 +92,8 @@ export const metadata: Metadata = {
   publisher: "POPOPX",
   keywords: [
     "POPOPX",
+    "隐私优先",
+    "智能连接平台",
     "端到端加密",
     "无全局 ID",
     "单向队列",
@@ -148,7 +166,10 @@ export default function RootLayout({ children }: { children: ReactNode }): React
           // initial HTML for crawlers reading the static export.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <LocaleProvider>{children}</LocaleProvider>
+        <LocaleProvider>
+          <LocaleMeta />
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

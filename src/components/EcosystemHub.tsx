@@ -23,7 +23,7 @@ import { SectionHeading, StatusDot } from "@/components/ui";
  * name that answers over HTTPS; a host that serves nothing is not a node of a running network.
  */
 
-type Tone = "brand" | "mesh" | "warn" | "alert";
+export type Tone = "brand" | "mesh" | "warn" | "alert";
 
 /** `name`, `host`, `href`, `source` and `chips` stay locale-free identifiers. */
 type Portal = {
@@ -404,7 +404,7 @@ const PORTALS: Portal[] = [
 ];
 
 /** Ring + text classes per tone; the diagram and the cards share them. */
-const TONES: Record<Tone, { ring: string; text: string }> = {
+export const TONES: Record<Tone, { ring: string; text: string }> = {
   brand: { ring: "border-brand/45 hover:border-brand-soft/70", text: "text-brand-soft" },
   mesh: { ring: "border-mesh/45 hover:border-mesh-soft/70", text: "text-mesh-soft" },
   warn: { ring: "border-warn/40 hover:border-warn-soft/70", text: "text-warn-soft" },
