@@ -246,6 +246,63 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 ```
 
 
+## 16. 四端协同链路的实测口径（首页生态全景图）
+
+首页 `EcosystemPanorama` 只画这一节撑得住的线：实线 = 下面某一行指得出源码，虚线 = 四个仓库里 grep 不到任何调用。
+以下出处在 2026-11-25 逐条 `sed` 回读过；配方在本节末，引用前重跑。
+
+| 事实 | 出处 |
+| --- | --- |
+| **Chat ↔ Mac Node 的真实通路不是手机连 18920，而是节点在本机拉起本 fork 的 `popopx-chat` 守护进程**：`--chat-server-port` 打开 WebSocket 控制口，节点写死 `5225`（客户端库用的就是这个值），plain `ws://`、无 TLS、无任何鉴权 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:60-64,66-67`、`src/Popopx/Chat/Options.hs:408`、`../popopxmq/src/Popopx/Messaging/Transport/Server.hs:169-171` |
+| 该 actor 拥着这条链的全部环节：守护进程生命周期（探测、常驻 `Process`、崩溃重启上限、SIGTERM→SIGKILL）、回环控制通道、Ed25519 节点身份密钥（0600 权限）、`PPXNODE1-…` 配对凭据、**已配对设备白名单（节点唯一真正掌控的授权门）**、把引擎结果送回 iOS（带磁盘 outbox 兜底） | `../PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift:7-15` |
+| 节点只驱动自己 fork 的 CLI：上游构建「说的是另一套线协议，探测它只会把一个看得见的缺失依赖变成一次无法解释的握手失败」，所以根本不去 probe | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:69-72` |
+| 邀请链接的 scheme 字面量是 `popopx:/`，协议侧同名同源；节点侧还有长度上限与敏感字符黑名单 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:74-76,81-84`、`../popopxmq/src/Popopx/Messaging/ServiceScheme.hs:23` |
+| 手机**从不**打开 `127.0.0.1:18920`：那是节点侧给同一台 Mac 上的工具用的本机控制台桥，配对屏上的这一段是「可复制的契约」，源码原话 "The app **never opens** that socket" 与 "on a phone that address is the phone" | `apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift:10-12,617-619` |
+| 客户端侧只是把这条契约原样展示（host、port、token 头名三个常量拼出地址串），没有任何连接测试 | `apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:69-73`、`apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift:647-648` |
+| 控制台被钉在回环是安全模型而不是偏好：`requiredInterfaceType = .loopback`、`acceptLocalOnly`、`includePeerToPeer = false`，注释写明这台机器上除了 bearer token 没有别的东西在鉴权 | `../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:3428-3434` |
+| 本机推理链有实现：Ollama 探活走 `http://127.0.0.1:11434`（一次回环往返）；装机步骤依次是 FFmpeg/ffprobe、uv、Ollama、按内存拉取适配的 Qwen、初始化 LTX-2.5 MLX 工作区、下载并校验权重、端到端自检 | `../PopopxMacNode/Sources/PopopxMacNode/Core/HardwareProfilerAndInstaller.swift:437-439,516-522` |
+| 模型清单恰好四项，控制台按此顺序列：`qwen3.8-27b-q8_0`、`qwen3.8-27b-q4_k_m`、`qwen3.8-9b-q4_k_m`、`inkling-2-mini`（约 20 GB 权重、建议 32 GB 起步；节点没发布参数量，`parameterBillions` 就留 `nil` 而不是猜一个进界面） | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:944-946,960-962,976-978,991-1000,1011-1012` |
+| 内存阶梯三档（≥96 / 48–95 / <48 GB）与每档的 LTX 权重写法、理由都是代码里的字面量；<48 GB 档的原话是「轻推理，重视频交给 mesh」 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:690-693,714-715,731-732,740-748` |
+| 每个任务的依赖都写明：需要本地模型的任务是 `["ffmpeg", "ollama"]`，不需要的只 `["ffmpeg"]`；另有一次性 `DispatchSource` kill switch，「卡死的 ffmpeg 永远 wedge 不住」后续流程 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:1737,3187` |
+| **Chat ↔ 服务号套件**这一头有客户端实现撑着：服务号两级菜单、动态业务卡片、进程外 `SFSafariViewController` 的 H5、零知识频道信封 `popopx.channel.enc.v1`（见 §9）；套件侧的对应说法是「线协议与出厂 iOS 客户端逐字节对齐」 | `apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42`、`../popopx-service-suite/README.en.md:9-12` |
+| 套件的五个组成是 README 自述：FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密、五个业务插件、浏览器管理台；且声明不链接、不修改、不重分发 node 的任何代码 | `../popopx-service-suite/README.en.md:9-13` |
+| 注意同名词：**套件脚本里的 `node` 指它自己在 `127.0.0.1:5225` 拉起的消息服务端**（gateway 在 8080），与 Mac 节点无关，全景图不把这两个 node 连成一条线 | `../popopx-service-suite/README.en.md:12-13,65,71` |
+| 五个插件是五个命名字段，默认 `web3_bridge` 关；`POPOPX_PLUGIN_<NAME>=0` 能把任意一个从 enabled 列表里摘掉，这套开关是网关自测逐条断言过的 | `../popopx-service-suite/gateway/app/config.py:250-255,811-814` |
+| **Bot Studio 是 `popopx-cli` 的 supervisor**，不是聊天客户端的扩展：一个进程经回环 WebSocket 管任意多个 bot 实例；仓库零内置二进制（"Zero binary bundling"），运行时只驱动外部 cli，安装器可按需把二进制取到系统可执行目录（README 给了具体路径） | `../popopx-bot-studio/README.en.md:3-12` |
+| Studio 的控制面同样只在回环：控制台默认 `127.0.0.1:8090`，非回环绑定必须显式 `STUDIO_ALLOW_LAN=1` 或 `--lan`；bot 控制端口从 `BOT_WS_PORT_BASE`（默认 5230）起到 5299 止，"never 0.0.0.0"；compose 也只发布回环 | `../popopx-bot-studio/README.en.md:26,41,51-52,139-140` |
+| SMP Agent 协议既有规范也有服务端实现：规范头两行是 "Version 7, 2025-01-24" 与 "# SMP agent protocol - duplex communication over SMP protocol"；实现侧 Agent.hs 4558 行、Agent/Protocol.hs 2412 行，`data AgentErrorType` 是错误词汇表本体 | `../popopxmq/protocol/agent-protocol.md:1-3`、`../popopxmq/src/Popopx/Messaging/Agent.hs:1`、`../popopxmq/src/Popopx/Messaging/Agent/Protocol.hs:2161` |
+| iOS 侧对 agent 层的可见面只有 Decodable 镜像（`AgentErrorType` 与八个 `A_*` 的 `SMPAgentError`）——「客户端能解码 agent 层错误」可以写，「客户端已实现跨组件编排」不可以写 | `apps/ios/POPOPXChat/APITypes.swift:1021,1185-1193` |
+| **跨组件自动调度 0 处证据。**popopx-bot-studio 的 .py 里 grep `service-suite|POPX-CP|mp\.popopx` 0 命中；popopx-service-suite/gateway 里 grep `bot-studio|bot\.popopx|8090` 0 命中；PopopxMacNode/Sources 里 grep `bot-studio|service-suite` 0 命中（唯一命中的 5225 是它自己的本机守护进程端口）。全景图这三条一律虚线 + Planned | 本机 grep（配方见下） |
+
+复测配方（在四个仓库的公共父目录里跑，即同时放着 `popopx-chat` 与 `popopx-chat-web` 的那一级）：
+
+```sh
+sed -n '60,64p;69,72p;74,76p' PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift
+sed -n '57,58p;85,92p;690,693p;944,946p;991,1000p;1011,1012p;1737p;3187p' PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift
+sed -n '7,15p' PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift
+sed -n '437,439p;516,522p' PopopxMacNode/Sources/PopopxMacNode/Core/HardwareProfilerAndInstaller.swift
+sed -n '3428,3434p' PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift
+sed -n '8,12p;616,620p;646,650p' popopx-chat/apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift
+sed -n '69,73p' popopx-chat/apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift
+sed -n '408p' popopx-chat/src/Popopx/Chat/Options.hs
+sed -n '169,171p' popopxmq/src/Popopx/Messaging/Transport/Server.hs
+sed -n '23p' popopxmq/src/Popopx/Messaging/ServiceScheme.hs
+sed -n '1,3p' popopxmq/protocol/agent-protocol.md
+sed -n '2161p' popopxmq/src/Popopx/Messaging/Agent/Protocol.hs
+wc -l popopxmq/src/Popopx/Messaging/Agent.hs popopxmq/src/Popopx/Messaging/Agent/Protocol.hs
+sed -n '9,13p;65p;71p' popopx-service-suite/README.en.md
+sed -n '250,255p;811,814p' popopx-service-suite/gateway/app/config.py
+sed -n '3,12p;26p;41p;51,52p;139,140p' popopx-bot-studio/README.en.md
+sed -n '1021p;1185,1193p' popopx-chat/apps/ios/POPOPXChat/APITypes.swift
+grep -rlE "service-suite|POPX-CP|mp\.popopx" popopx-bot-studio --include="*.py" | wc -l    # 0
+grep -rlE "bot-studio|bot\.popopx|8090" popopx-service-suite/gateway | wc -l              # 0
+grep -rlE "bot-studio|service-suite" PopopxMacNode/Sources | wc -l                        # 0
+```
+
+三条严禁：不得写成「手机经 127.0.0.1 直连 Mac 节点」（§16 第 5 行否掉了）；不得把套件脚本里的 `node`
+当成 Mac 节点（第 14 行）；不得把跨组件自动调度、PAP、任何「四端已自动协同」写成实线或既成事实（第 20 行）。
+另外「企业服务 / 企业治理」在四个仓库里 0 处证据，一律不写——套件侧可写的是五个业务插件与 POPX-CP 计量。
+
 ## 20. 资源页文档矩阵（/resources/，2026-11-25 实测）
 
 `ResourceLibrary.tsx` 列出的每一条路径，都在当日通过 GitHub Contents API 核实存在。复测配方：

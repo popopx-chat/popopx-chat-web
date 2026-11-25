@@ -10,6 +10,12 @@ import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
  * Hero.
  *
  * What is true here, and where it comes from (`docs/FACTS.md`):
+ *  - the `<h1>` is the positioning sentence and the only place on the page that
+ *    states it; the document head carries the same sentence as `POPOPX — …`
+ *    (`SEO_TITLE` in `src/lib/seo.ts`), so the first screen and the tab cannot
+ *    drift in any of the 18 languages. The subtitle is brand framing, not a
+ *    technical claim — the claims a visitor could check are the four badges,
+ *    each with its own source in the ledger;
  *  - the four badges are the four claims the client code supports — no global
  *    user ID (§3), queue payload encrypted with AES-256-GCM and the Bluetooth
  *    link with a Noise XX handshake (§4, §6), dual-role CoreBluetooth GATT
@@ -33,10 +39,9 @@ const HERO_COPY: Record<
   "eyebrow" | "title" | "subtitle" | "ctaGet" | "ctaRepo" | "ctaSecurity",
   Localized<string>
 > = {
-  // One map with `SEO_TITLE` (`src/lib/seo.ts`): the Hero heading and the
-  // browser tab cannot drift apart.
-  eyebrow: BRAND_POSITIONING,
-  title: {
+  // The three pillars, now the line above the heading rather than the heading
+  // itself: the `<h1>` took over the positioning sentence, so the slogan moved up.
+  eyebrow: {
     en: "Free connection · Private communication · Intelligent collaboration",
     ru: "Свободное соединение · Конфиденциальное общение · Интеллектуальное сотрудничество",
     de: "Freie Verbindung · Private Kommunikation · Intelligente Zusammenarbeit",
@@ -56,25 +61,28 @@ const HERO_COPY: Record<
     tr: "Özgür bağlantı · Özel iletişim · Akıllı işbirliği",
     hu: "Szabad kapcsolat · Privát kommunikáció · Intelligens együttműködés",
   },
+  // One sentence with `SEO_TITLE` (`src/lib/seo.ts`): the heading states it as a
+  // sentence, the document head states it as `POPOPX — <positioning>`.
+  title: BRAND_POSITIONING,
   subtitle: {
-    en: "POPOPX is a privacy-first intelligent connection platform. Queue-based addressing, end-to-end encryption, and zero tracking — connect freely, communicate privately, collaborate intelligently.",
-    ru: "POPOPX — это платформа интеллектуальных соединений с приоритетом конфиденциальности. Адресация на основе очередей, сквозное шифрование и полное отсутствие отслеживания — соединяйтесь свободно, общайтесь конфиденциально, сотрудничайте интеллектуально.",
-    de: "POPOPX ist eine datenschutzorientierte intelligente Verbindungsplattform. Queue-basierte Adressierung, Ende-zu-Ende-Verschlüsselung und null Tracking — verbinden Sie sich frei, kommunizieren Sie privat, arbeiten Sie intelligent zusammen.",
-    fr: "POPOPX est une plateforme de connexion intelligente à confidentialité prioritaire. Adressage par file, chiffrement de bout en bout et zéro suivi — connectez-vous librement, communiquez en privé, collaborez intelligemment.",
-    it: "POPOPX è una piattaforma di connessione intelligente con priorità alla privacy. Indirizzamento basato su code, crittografia end-to-end e zero tracciamento — connettiti liberamente, comunica in privato, collabora in modo intelligente.",
-    nl: "POPOPX is een privacy-first intelligent verbindingsplatform. Op wachtrij gebaseerde adressering, end-to-end versleuteling en nul tracking — verbind vrij, communiceer privé, werk intelligent samen.",
-    cs: "POPOPX je platforma inteligentních spojení s prioritou soukromí. Adresace založená na frontách, end-to-end šifrování a nulové sledování — spojujte se svobodně, komunikujte soukromě, spolupracujte chytře.",
-    "zh-Hans": "POPOPX 是隐私优先的智能连接平台。基于队列的寻址、端到端加密、零追踪——自由连接、私密沟通、智能协作。",
-    "zh-Hant": "POPOPX 是隱私優先的智慧連接平台。基於佇列的位址配置、端到端加密、零追蹤——自由連接、私密溝通、智能協作。",
-    es: "POPOPX es una plataforma de conexión inteligente con prioridad de privacidad. Direccionamiento basado en colas, cifrado de extremo a extremo y cero seguimiento — conéctese libremente, comuníquese en privado, colabore inteligentemente.",
-    pl: "POPOPX to platforma inteligentnych połączeń z priorytetem prywatności. Adresowanie oparte na kolejkach, szyfrowanie end-to-end i zerowe śledzenie — łącz się swobodnie, komunikuj prywatnie, współpracuj inteligentnie.",
-    ja: "POPOPX はプライバシー優先のインテリジェント接続プラットフォームです。キューベースのアドレッシング、エンドツーエンドの暗号化、トラッキングゼロ——自由に接続し、プライベートに通信し、インテリジェントに協働しましょう。",
-    th: "POPOPX เป็นแพลตฟอร์มการเชื่อมต่ออัจฉริยะที่เน้นความเป็นส่วนตัว การที่อยู่ตามคิว การเข้ารหัสแบบ end-to-end และการไม่มีการติดตาม — เชื่อมต่ออย่างอิสระ สื่อสารส่วนตัว และร่วมมืออย่างอัจฉริยะ",
-    fi: "POPOPX on yksityisyyden ensisijainen älykäs yhteysalusta. Jonoihin perustuva osoitus, päästä päähän -salaus ja nolla seuranta — yhdistä vapaasti, viesti yksityisesti, tee älykästä yhteistyötä.",
-    uk: "POPOPX — це інтелектуальна платформа з'єднань з пріоритетом конфіденційності. Адресація на основі черг, наскрізне шифрування та нульове відстеження — з'єднуйтесь вільно, спілкуйтесь приватно, співпрацюйте інтелектуально.",
-    bg: "POPOPX е интелигентна платформа за връзки с приоритет на поверителността. Адресиране базирано на опашки, криптиране от край до край и нулево проследяване — свързвайте се свободно, комуникирайте частно, сътрудничете си интелигентно.",
-    tr: "POPOPX, gizlilik öncelikli akıllı bir bağlantı platformudur. Kuyruk tabanlı adresleme, uçtan uca şifreleme ve sıfır izleme — özgürce bağlanın, özel olarak iletişim kurun, akıllıca işbirliği yapın.",
-    hu: "A POPOPX egy adatvédelem-first intelligens kapcsolódási platform. Sor-alapú címzés, végponttól végpontig terjedő titkosítás és nulla követés — kapcsolódjon szabadon, kommunikáljon privátban, működjön együtt intelligensen.",
+    en: "Securely connecting people, people and AI, and AI with tools and services — for freer communication and smarter collaboration.",
+    ru: "Безопасные связи: людей друг с другом, людей с ИИ, ИИ с инструментами и сервисами — ради свободного общения и умного сотрудничества.",
+    de: "Sichere Verbindungen — zwischen Menschen, zwischen Mensch und KI, zwischen KI mit Werkzeugen und Diensten: für freie Kommunikation und intelligente Zusammenarbeit.",
+    fr: "Des connexions sécurisées : entre les personnes, entre les personnes et l’IA, entre l’IA, les outils et les services — pour communiquer plus librement et collaborer plus intelligemment.",
+    it: "Connessioni sicure: tra persone, tra persone e IA, tra IA, strumenti e servizi — per comunicare più liberamente e collaborare in modo più intelligente.",
+    nl: "Veilige verbindingen: tussen mensen, tussen mensen en AI, en tussen AI, tools en services — voor vrijere communicatie en slimmere samenwerking.",
+    cs: "Bezpečná spojení: mezi lidmi, mezi lidmi a AI a mezi AI, nástroji a službami — pro svobodnější komunikaci a chytřejší spolupráci.",
+    "zh-Hans": "安全连接人与人、人与 AI、AI 与工具和服务，让沟通更自由，协作更智能。",
+    "zh-Hant": "安全連接人與人、人與 AI、AI 與工具和服務，讓溝通更自由，協作更智能。",
+    es: "Conexiones seguras: entre personas, entre personas e IA, y entre la IA, las herramientas y los servicios — para comunicarse con más libertad y colaborar de forma más inteligente.",
+    pl: "Bezpieczne połączenia: między ludźmi, między ludźmi a AI oraz między AI, narzędziami i usługami — dla swobodniejszej komunikacji i mądrzejszej współpracy.",
+    ja: "人と人、人と AI、そして AI とツールやサービスを安全につなぎ、より自由なコミュニケーションとよりスマートな協働を実現します。",
+    th: "เชื่อมต่ออย่างปลอดภัย ระหว่างคนกับคน คนกับ AI และ AI กับเครื่องมือและบริการ เพื่อให้การสื่อสารอิสระยิ่งขึ้นและการทำงานร่วมกันฉลาดยิ่งขึ้น",
+    fi: "Turvallisia yhteyksiä: ihmisten välillä, ihmisten ja tekoälyn välillä sekä tekoälyn, työkalujen ja palveluiden välillä — vapaampaa viestintää ja älykkäämpää yhteistyötä.",
+    uk: "Безпечні зв’язки: людей між собою, людей зі ШІ, ШІ з інструментами та сервісами — задля вільнішого спілкування й розумнішої співпраці.",
+    bg: "Безопасни връзки: между хората, между хората и ИИ, и между ИИ, инструментите и услугите — за по-свободна комуникация и по-умно сътрудничество.",
+    tr: "Güvenli bağlantılar: insanlar arasında, insanlar ile yapay zekâ arasında ve yapay zekânın araçlar ile hizmetlerle arasında — daha özgür iletişim, daha akıllı işbirliği.",
+    hu: "Biztonságos kapcsolatok: emberek között, emberek és MI között, valamint MI, eszközök és szolgáltatások között — szabadabb kommunikációért és intelligensebb együttműködésért.",
   },
   ctaGet: {
     en: "Get the client & build it",
@@ -676,7 +684,14 @@ export function HeroSection(): ReactElement {
       <div className="section-wrap grid grid-cols-[minmax(0,1fr)] gap-12 pb-16 pt-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 lg:pb-24 lg:pt-20">
         <div>
           <p className="eyebrow">{eyebrow}</p>
-          <h1 className="mt-4 max-w-[22ch] text-[clamp(2.15rem,5vw,3.6rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-balance">
+          <h1 className="mt-4 max-w-[22ch] break-words hyphens-auto text-[clamp(2.15rem,5vw,3.6rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-balance">
+            {/* The sentence is longer than the slogan it replaced, and Russian,
+                Ukrainian and Finnish put 16-to-18-letter words in it. Without
+                `break-words` those words are cut by `overflow-hidden` on the
+                section at 300px instead of wrapping (measured: ru lost 30px).
+                `hyphens-auto` is what keeps the break readable: German and
+                Dutch hyphenate at their own compound boundary — `datenschutz-
+                orientierte` — instead of splitting a word mid-syllable. */}
             {title}
           </h1>
           <p className="mt-6 max-w-[64ch] text-[15px] leading-[1.75] text-mute">{subtitle}</p>

@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { PortalCards } from "@/components/PortalCards";
+import { EcosystemPanorama } from "@/components/EcosystemPanorama";
 import { SectionPointers } from "@/components/SectionPointers";
 import { Footer } from "@/components/Footer";
 
@@ -17,7 +18,8 @@ import { Footer } from "@/components/Footer";
  *
  * `PortalCards` sits between the Hero and that index: four entries, one per
  * official product, so the ecosystem is visible before a visitor scrolls to the
- * prose about it.
+ * prose about it. `EcosystemPanorama` continues the same block — how those four
+ * relate, which links a source line backs and which are still plans.
  */
 export default function Page(): ReactElement {
   return (
@@ -26,6 +28,7 @@ export default function Page(): ReactElement {
       <main id="top">
         <HeroSection />
         <PortalCards />
+        <EcosystemPanorama />
         <SectionPointers />
       </main>
       <Footer />
