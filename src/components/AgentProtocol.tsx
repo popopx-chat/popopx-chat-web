@@ -107,7 +107,7 @@ const PAP_STATUS: Localized<string> = {
   "zh-Hant": "PAP（POPOPX Agent 協定）：僅為規劃方向。目前程式碼庫中零出現。尚未實作。",
   es: "PAP (POPOPX Agent Protocol): solo dirección de planificación. Cero ocurrencias en la base de código actual. Aún no implementado.",
   pl: "PAP (POPOPX Agent Protocol): tylko kierunek planowania. Zero wystąpień w aktualnej bazie kodu. Jeszcze nie zaimplementowane.",
-  ja: "PAP（POPOPX Agent プロトコル）：計画方向のみ。現在のコードベースでは 0  occurrences。まだ実装されていません。",
+  ja: "PAP（POPOPX Agent プロトコル）：計画方向のみ。現在のコードベースでは 0 件の実装。まだ実装されていません。",
   th: "PAP (POPOPX Agent Protocol): เฉพาะทิศทางการวางแผน ไม่มีการเกิดขึ้นในฐานรหัสปัจจุบัน ยังไม่ได้ดำเนินการ",
   fi: "PAP (POPOPX Agent Protocol): vain suunnittelusuunta. Nolla esiintymää nykyisessä koodipohjassa. Ei vielä toteutettu.",
   uk: "PAP (POPOPX Agent Protocol): лише напрямок планування. Нуль входжень у поточній кодовій базі. Ще не реалізовано.",
