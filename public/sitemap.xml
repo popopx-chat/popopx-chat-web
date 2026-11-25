@@ -2,16 +2,50 @@
 <!--
   POPOPX main portal sitemap.
 
-  The portal is a single-page static export: every module is an anchor on `/`
-  (#features, #security, #comparison, #ecosystem, #download), and the 18
-  languages are switched client-side rather than by URL. So there is exactly one
-  indexable location — listing anchors or per-language URLs here would point
-  crawlers at pages that do not exist.
+  Seven routes, seven documents (`ROUTES` in `src/lib/site.ts`, one
+  `out/<route>/index.html` each). Paths carry the trailing slash because
+  `next.config.mjs` sets `trailingSlash: true` — without it the URL costs a
+  redirect. The 18 languages are switched client-side from `localStorage`, not by
+  URL, so there are no per-language entries and no `hreflang` alternates here:
+  listing them would point crawlers at addresses the export does not produce.
+
+  `tools/check-links.mjs` asserts that this set equals the built documents minus
+  `404.html`, so a new route that is not listed here fails the build gate.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://popopx.chat/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/products/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/security/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/download/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/ecosystem/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/developers/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/resources/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

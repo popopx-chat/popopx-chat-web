@@ -650,7 +650,12 @@ export function SecurityArchitecture(): ReactElement {
   return (
     <section id="security" aria-label={pick(HEAD.title, locale)} className="py-16 sm:py-20">
       <div className="section-wrap">
-        <SectionHeading eyebrow={HEAD.eyebrow} title={HEAD.title} subtitle={HEAD.subtitle} />
+        <SectionHeading
+          eyebrow={HEAD.eyebrow}
+          title={HEAD.title}
+          subtitle={HEAD.subtitle}
+          titleAs="h1"
+        />
         {/* ── data flow, device to relay ─────────────────────────────── */}
         <div className="glass mt-10 p-5 sm:p-7">
           <p className="eyebrow">{pick(HEAD.flowTitle, locale)}</p>

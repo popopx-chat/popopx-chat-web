@@ -12,8 +12,9 @@
     "typecheck": "tsc --noEmit",
     "check:i18n": "node tools/check-i18n.mjs",
     "check:out": "node tools/scan-compliance.mjs",
-    "check:controls": "node tools/scan-compliance.mjs --self-test && node tools/check-i18n.mjs --self-test",
-    "check:facts": "node tools/check-facts.mjs"
+    "check:controls": "node tools/scan-compliance.mjs --self-test && node tools/check-i18n.mjs --self-test && node tools/check-links.mjs --self-test",
+    "check:facts": "node tools/check-facts.mjs",
+    "check:links": "node tools/check-links.mjs"
   },
   "dependencies": {
     "next": "15.5.4",

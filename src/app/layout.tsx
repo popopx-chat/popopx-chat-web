@@ -4,8 +4,10 @@ import type { ReactElement, ReactNode } from "react";
 import { LOCALES, HTML_LANG, DEFAULT_LOCALE } from "@/lib/locales";
 import { LocaleProvider } from "@/lib/i18n";
 import {
+  BOT_STUDIO_URL,
   IOS_REPO_URL,
   MP_PORTAL_URL,
+  MQ_REPO_URL,
   NODE_PORTAL_URL,
   SITE_ORIGIN,
   SITE_URL,
@@ -18,13 +20,18 @@ import {
  * Root layout.
  *
  * The portal ships the same 18 languages as the POPOPX iOS client (see
- * `src/lib/i18n.tsx`). Because this is a static export only ONE HTML document
- * exists: the language switch happens client-side, so metadata and the document
- * `<html lang>` are emitted for the default locale (`zh-Hans`) and
+ * `src/lib/i18n.tsx`). This is a static export, so the seven routes are seven
+ * HTML documents and the language switch happens client-side: metadata and the
+ * document `<html lang>` are emitted for the default locale (`zh-Hans`) and
  * `LocaleProvider` keeps `lang`/`dir` in sync at runtime. Nothing here reaches
  * the network: the icon set, the manifest and every font are same-origin
  * assets, and the only third-party origins mentioned below are `sameAs`
  * declarations in the structured-data block, which a browser never fetches.
+ *
+ * The `alternates` and `openGraph.url` below are the homepage's. Every other
+ * route overrides its own canonical in `page.tsx` through `pageMetadata`
+ * (`src/lib/seo.ts`); inheriting this one would make six documents claim to be
+ * the homepage.
  */
 
 const TITLE = "POPOPX · 无全局 ID 的端到端加密通讯与自托管商业网络";
@@ -48,8 +55,10 @@ const jsonLd = {
       WEB_REPO_URL,
       SUITE_REPO_URL,
       NODE_REPO_URL,
+      MQ_REPO_URL,
       NODE_PORTAL_URL,
       MP_PORTAL_URL,
+      BOT_STUDIO_URL,
     ],
   },
 };
@@ -77,11 +86,11 @@ export const metadata: Metadata = {
     "E2EE",
   ],
   alternates: {
-    canonical: SITE_URL,
+    canonical: `${SITE_ORIGIN}/`,
   },
   openGraph: {
     type: "website",
-    url: SITE_URL,
+    url: `${SITE_ORIGIN}/`,
     siteName: "POPOPX",
     locale: "zh_CN",
     title: TITLE,

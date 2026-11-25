@@ -854,6 +854,7 @@ export function FeaturesGrid(): ReactElement {
           eyebrow={HEAD.eyebrow}
           title={HEAD.title}
           subtitle={HEAD.subtitle}
+          titleAs="h1"
         />
 
         <ul className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3">

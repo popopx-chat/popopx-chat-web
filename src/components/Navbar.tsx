@@ -1,97 +1,88 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
+import Link from "next/link";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { LanguageMenu } from "@/components/LanguageMenu";
 import {
   BOT_STUDIO_URL,
   IOS_REPO_URL,
   MP_PORTAL_URL,
-  NAV_SECTIONS,
   NODE_PORTAL_URL,
-  type NavSectionId,
+  ROUTES,
+  type RouteId,
 } from "@/lib/site";
 
 /**
  * Sticky glass navbar.
  *
  * Honest constraints this file keeps:
- *  - Every in-page link is a plain `#hash` jump: no router, no history API, no
- *    scroll listener. The portal is one anchored page, so the browser does the
- *    work and the static export stays a single HTML document.
- *  - There is deliberately no active-section highlight. That would need an
- *    IntersectionObserver over the sections, and this bar does not run one, so
- *    it never claims to know where you are.
+ *  - The seven first-level routes are real documents (`/products/` etc.), so the
+ *    bar links them with `next/link` and `prefetch={false}`. Client-side
+ *    navigation is not decoration here: the stored locale is applied in a
+ *    `useEffect`, so a full document reload repaints one frame in `zh-Hans`
+ *    before the reader's own language comes back. No request is added —
+ *    `prefetch={false}` keeps the export from fetching sibling routes.
+ *  - There is deliberately no active-route highlight driven by the scroll
+ *    position, and no `IntersectionObserver`. The bar claims only what the URL
+ *    knows.
  *  - The only image is the same-origin official logo (`/logo-popopx.png`, a
  *    byte-for-byte copy of the iOS app icon). No webfont, no icon font, no CDN:
  *    the GitHub, menu and chevron glyphs are inline SVG.
- *  - The ecosystem chips point at the *other* POPOPX properties: the three hosted
- *    sibling portals. They are navigation, so nothing is
- *    loaded from another origin.
+ *  - The sibling portals live in the drawer, the ecosystem page and the footer.
+ *    They used to sit in the bar as chips, but `section-wrap` caps the bar at
+ *    1180 px and seven locale-dependent labels already use it, so the chips
+ *    moved out rather than the labels being clipped.
  *  - Copy is authored in all 18 locales the engine declares, typed as a total
  *    `Localized<string>` map, so the compiler rejects a missing variant.
  */
 
-const SECTION_LABELS: Record<NavSectionId, Localized<string>> = {
-  features: {
-    en: "Core features",
-    ru: "Ключевые возможности",
-    de: "Kernfunktionen",
-    fr: "Fonctionnalités clés",
-    it: "Funzionalità principali",
-    nl: "Kernfuncties",
-    cs: "Klíčové funkce",
-    "zh-Hans": "核心功能",
-    "zh-Hant": "核心功能",
-    es: "Funciones principales",
-    pl: "Funkcje główne",
-    ja: "コア機能",
-    th: "ฟีเจอร์หลัก",
-    fi: "Keskeiset",
-    uk: "Ключові можливості",
-    bg: "Основни функции",
-    tr: "Temel özellikler",
-    hu: "Alapfunkciók",
+/**
+ * The seven first-level nav labels, in the brief's own short register (zh-Hans:
+ * 首页 / 产品 / 生态 / 隐私与安全 / 开发者 / 资源 / 下载). The bar is 1180 px wide
+ * at most, so these are deliberately not the page titles: the security page is
+ * headed 「隐私与安全」 in prose and the download page 「下载与源码构建」.
+ */
+export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
+  home: {
+    en: "Home",
+    ru: "Главная",
+    de: "Start",
+    fr: "Accueil",
+    it: "Home",
+    nl: "Start",
+    cs: "Domů",
+    "zh-Hans": "首页",
+    "zh-Hant": "首頁",
+    es: "Inicio",
+    pl: "Start",
+    ja: "ホーム",
+    th: "หน้าแรก",
+    fi: "Etusivu",
+    uk: "Головна",
+    bg: "Начало",
+    tr: "Ana sayfa",
+    hu: "Kezdőlap",
   },
-  security: {
-    en: "Security",
-    ru: "Безопасность",
-    de: "Sicherheit",
-    fr: "Sécurité",
-    it: "Sicurezza",
-    nl: "Beveiliging",
-    cs: "Zabezpečení",
-    "zh-Hans": "安全壁垒",
-    "zh-Hant": "安全壁壘",
-    es: "Seguridad",
-    pl: "Bezpieczeństwo",
-    ja: "セキュリティ",
-    th: "ความปลอดภัย",
-    fi: "Tietoturva",
-    uk: "Безпека",
-    bg: "Сигурност",
-    tr: "Güvenlik",
-    hu: "Biztonság",
-  },
-  comparison: {
-    en: "Architecture",
-    ru: "Архитектура",
-    de: "Architektur",
-    fr: "Architecture",
-    it: "Architettura",
-    nl: "Architectuur",
-    cs: "Architektura",
-    "zh-Hans": "架构优势",
-    "zh-Hant": "架構優勢",
-    es: "Arquitectura",
-    pl: "Architektura",
-    ja: "アーキテクチャ",
-    th: "สถาปัตยกรรม",
-    fi: "Arkkitehtuuri",
-    uk: "Архітектура",
-    bg: "Архитектура",
-    tr: "Mimari",
-    hu: "Architektúra",
+  products: {
+    en: "Products",
+    ru: "Продукты",
+    de: "Produkte",
+    fr: "Produits",
+    it: "Prodotti",
+    nl: "Producten",
+    cs: "Produkty",
+    "zh-Hans": "产品",
+    "zh-Hant": "產品",
+    es: "Productos",
+    pl: "Produkty",
+    ja: "プロダクト",
+    th: "ผลิตภัณฑ์",
+    fi: "Tuotteet",
+    uk: "Продукти",
+    bg: "Продукти",
+    tr: "Ürünler",
+    hu: "Termékek",
   },
   ecosystem: {
     en: "Ecosystem",
@@ -101,8 +92,8 @@ const SECTION_LABELS: Record<NavSectionId, Localized<string>> = {
     it: "Ecosistema",
     nl: "Ecosysteem",
     cs: "Ekosystém",
-    "zh-Hans": "全景生态",
-    "zh-Hant": "全景生態",
+    "zh-Hans": "生态",
+    "zh-Hant": "生態",
     es: "Ecosistema",
     pl: "Ekosystem",
     ja: "エコシステム",
@@ -113,25 +104,85 @@ const SECTION_LABELS: Record<NavSectionId, Localized<string>> = {
     tr: "Ekosistem",
     hu: "Ökoszisztéma",
   },
+  security: {
+    en: "Security",
+    ru: "Безопасность",
+    de: "Sicherheit",
+    fr: "Sécurité",
+    it: "Sicurezza",
+    nl: "Beveiliging",
+    cs: "Zabezpečení",
+    "zh-Hans": "隐私与安全",
+    "zh-Hant": "隱私與安全",
+    es: "Seguridad",
+    pl: "Bezpieczeństwo",
+    ja: "セキュリティ",
+    th: "ความปลอดภัย",
+    fi: "Tietoturva",
+    uk: "Безпека",
+    bg: "Сигурност",
+    tr: "Güvenlik",
+    hu: "Biztonság",
+  },
+  developers: {
+    en: "Developers",
+    ru: "Разработчикам",
+    de: "Entwickler",
+    fr: "Développeurs",
+    it: "Sviluppatori",
+    nl: "Ontwikkelaars",
+    cs: "Vývojáři",
+    "zh-Hans": "开发者",
+    "zh-Hant": "開發者",
+    es: "Desarrolladores",
+    pl: "Programiści",
+    ja: "開発者",
+    th: "นักพัฒนา",
+    fi: "Kehittäjille",
+    uk: "Розробникам",
+    bg: "Разработчици",
+    tr: "Geliştiriciler",
+    hu: "Fejlesztők",
+  },
+  resources: {
+    en: "Resources",
+    ru: "Ресурсы",
+    de: "Ressourcen",
+    fr: "Ressources",
+    it: "Risorse",
+    nl: "Bronnen",
+    cs: "Zdroje",
+    "zh-Hans": "资源",
+    "zh-Hant": "資源",
+    es: "Recursos",
+    pl: "Zasoby",
+    ja: "リソース",
+    th: "ทรัพยากร",
+    fi: "Materiaalit",
+    uk: "Ресурси",
+    bg: "Ресурси",
+    tr: "Kaynaklar",
+    hu: "Források",
+  },
   download: {
-    en: "Download & source",
-    ru: "Загрузки и код",
-    de: "Download & Quellcode",
-    fr: "Téléchargement et code",
-    it: "Download e codice",
-    nl: "Download en broncode",
-    cs: "Stahování a kód",
-    "zh-Hans": "下载与开源",
-    "zh-Hant": "下載與開源",
-    es: "Descarga y código",
-    pl: "Pobieranie i kod",
-    ja: "ダウンロードとソース",
-    th: "ดาวน์โหลดและซอร์ส",
-    fi: "Lataus ja lähdekoodi",
-    uk: "Завантаження й код",
-    bg: "Изтегляне и код",
-    tr: "İndir ve kaynak",
-    hu: "Letöltés és forrás",
+    en: "Download",
+    ru: "Загрузки",
+    de: "Download",
+    fr: "Télécharger",
+    it: "Download",
+    nl: "Download",
+    cs: "Stáhnout",
+    "zh-Hans": "下载",
+    "zh-Hant": "下載",
+    es: "Descarga",
+    pl: "Pobierz",
+    ja: "ダウンロード",
+    th: "ดาวน์โหลด",
+    fi: "Lataus",
+    uk: "Завантаження",
+    bg: "Изтегляне",
+    tr: "İndir",
+    hu: "Letöltés",
   },
 };
 
@@ -367,21 +418,21 @@ function MenuBars({ open }: { open: boolean }): ReactElement {
   );
 }
 
-/** One nav entry: a plain anchor jump whose label comes from the locale engine. */
-function SectionLink({
-  id,
+/** One nav entry: a client-side route link whose label comes from the locale engine. */
+function RouteLink({
+  route,
   onClick,
   className,
 }: {
-  id: NavSectionId;
+  route: { id: RouteId; href: string };
   onClick?: () => void;
   className: string;
 }): ReactElement {
-  const label = useCopy(SECTION_LABELS[id]);
+  const label = useCopy(ROUTE_LABELS[route.id]);
   return (
-    <a href={`#${id}`} onClick={onClick} className={className}>
+    <Link href={route.href} prefetch={false} onClick={onClick} className={className}>
       {label}
-    </a>
+    </Link>
   );
 }
 
@@ -438,8 +489,9 @@ export function Navbar(): ReactElement {
         aria-label={sectionsLabel}
         className="section-wrap flex h-[64px] items-center gap-2 sm:gap-3"
       >
-        <a
-          href="#top"
+        <Link
+          href="/"
+          prefetch={false}
           onClick={close}
           className={`flex shrink-0 items-center gap-2.5 rounded-xl px-1 py-1 text-white ${FOCUS}`}
           title={BRAND}
@@ -452,63 +504,20 @@ export function Navbar(): ReactElement {
             className="h-[30px] w-[30px] rounded-[8px] ring-1 ring-hair-strong"
           />
           <span className="text-[15px] font-semibold tracking-[0.14em]">{BRAND}</span>
-        </a>
+        </Link>
 
         <ul className="ml-2 hidden flex-1 items-center gap-1 xl:flex">
-          {NAV_SECTIONS.map((section) => (
-            <li key={section.id}>
-              <SectionLink
-                id={section.id}
-                className={`inline-block whitespace-nowrap rounded-full px-3 py-2 text-[13px] text-mute transition-colors duration-200 hover:bg-white/[0.06] hover:text-white ${FOCUS}`}
+          {ROUTES.map((route) => (
+            <li key={route.id}>
+              <RouteLink
+                route={route}
+                className={`inline-block whitespace-nowrap rounded-full px-2.5 py-2 text-[13px] text-mute transition-colors duration-200 hover:bg-white/[0.06] hover:text-white ${FOCUS}`}
               />
             </li>
           ))}
         </ul>
 
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
-          {/* The bar is capped at 1180px by `section-wrap`, so its width does not
-              grow with the viewport: once the five section links are inline, the
-              sibling chips cannot also fit — German and Russian need the room and
-              the language trigger would be squeezed instead. The three chips
-              therefore live in the bar up to `xl` and in the drawer below it,
-              while the ecosystem section and the footer carry them always. The
-              chip labels are locale-free host names and product names, so only
-              their `title` text changes with the language: the row measures the
-              same in all 18 tongues. */}
-          <div
-            role="group"
-            aria-label={portalsLabel}
-            className="hidden items-center gap-1.5 md:flex xl:hidden"
-          >
-            <a
-              href={NODE_PORTAL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={nodeCaption}
-              className={`chip text-mute transition-colors hover:border-mesh/50 hover:text-white ${FOCUS}`}
-            >
-              Mac&nbsp;Node
-            </a>
-            <a
-              href={MP_PORTAL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={mpCaption}
-              className={`chip text-mute transition-colors hover:border-brand/50 hover:text-white ${FOCUS}`}
-            >
-              Service&nbsp;Suite
-            </a>
-            <a
-              href={BOT_STUDIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={studioCaption}
-              className={`chip text-mute transition-colors hover:border-brand/50 hover:text-white ${FOCUS}`}
-            >
-              Bot&nbsp;Studio
-            </a>
-          </div>
-
           <LanguageMenu align="right" />
 
           <a
@@ -544,10 +553,10 @@ export function Navbar(): ReactElement {
           className="animate-rise-in border-t border-hair bg-ink/95 pb-4 backdrop-blur-xl xl:hidden"
         >
           <ul className="section-wrap grid gap-1 pt-3">
-            {NAV_SECTIONS.map((section) => (
-              <li key={section.id}>
-                <SectionLink
-                  id={section.id}
+            {ROUTES.map((route) => (
+              <li key={route.id}>
+                <RouteLink
+                  route={route}
                   onClick={close}
                   className={`block rounded-xl border border-transparent bg-white/[0.03] px-3 py-2.5 text-[14px] text-mute transition-colors hover:border-hair-strong hover:text-white ${FOCUS}`}
                 />

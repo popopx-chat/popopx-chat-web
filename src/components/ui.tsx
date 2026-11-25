@@ -146,28 +146,37 @@ export function CopyButton({
   );
 }
 
-/** Section header: eyebrow + title + optional one-line subtitle. */
+/**
+ * Section header: eyebrow + title + optional one-line subtitle.
+ *
+ * `titleAs` exists because a section that used to sit inside the single page is
+ * now the whole document: the component that leads a route renders its heading
+ * as the `<h1>`, and every section after it stays an `<h2>`. Default `h2` keeps
+ * the homepage's hierarchy untouched.
+ */
 export function SectionHeading({
   eyebrow,
   title,
   subtitle,
   align = "left",
+  titleAs = "h2",
 }: {
   eyebrow: Localized<string>;
   title: Localized<string>;
   subtitle?: Localized<string>;
   align?: "left" | "center";
+  titleAs?: "h1" | "h2";
 }): ReactElement {
   const e = useCopy(eyebrow);
   const t = useCopy(title);
   const s = useCopy(subtitle ?? EMPTY);
+  const className =
+    "mt-3 text-2xl font-semibold tracking-tight text-white sm:text-[32px] sm:leading-[1.25]";
 
   return (
     <header className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       <p className="eyebrow">{e}</p>
-      <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-[32px] sm:leading-[1.25]">
-        {t}
-      </h2>
+      {titleAs === "h1" ? <h1 className={className}>{t}</h1> : <h2 className={className}>{t}</h2>}
       {s.length > 0 ? <p className="mt-3 text-[15px] leading-relaxed text-mute">{s}</p> : null}
     </header>
   );

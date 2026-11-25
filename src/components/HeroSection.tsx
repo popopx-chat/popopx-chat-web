@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
+import Link from "next/link";
 import { pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
 import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
 
@@ -697,8 +698,9 @@ export function HeroSection(): ReactElement {
           <p className="mt-6 max-w-[64ch] text-[15px] leading-[1.75] text-mute">{subtitle}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-2.5">
-            <a
-              href="#download"
+            <Link
+              href="/download/"
+              prefetch={false}
               className={`btn-primary ${FOCUS}`}
             >
               {ctaGet}
@@ -716,7 +718,7 @@ export function HeroSection(): ReactElement {
               >
                 <path d="M12 5v14M6 13l6 6 6-6" />
               </svg>
-            </a>
+            </Link>
             <a
               href={IOS_REPO_URL}
               target="_blank"
@@ -725,9 +727,9 @@ export function HeroSection(): ReactElement {
             >
               {ctaRepo}
             </a>
-            <a href="#security" className={`btn-mesh ${FOCUS}`}>
+            <Link href="/security/" prefetch={false} className={`btn-mesh ${FOCUS}`}>
               {ctaSecurity}
-            </a>
+            </Link>
           </div>
 
           <dl aria-label={badgeRowLabel} className="mt-10 grid gap-2.5 sm:grid-cols-2">

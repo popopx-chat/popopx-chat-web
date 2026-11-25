@@ -23,13 +23,19 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 
 | 序号 | 枚举 | zh-Hans | zh-Hant | 英文（即 key 本身） | 出处（zh-Hans 语言包行号） |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `.chats` | 消息 | 訊息 | Messages | `apps/ios/zh-Hans.lproj/Localizable.strings:4065` |
-| 2 | `.contacts` | 联系人 | 聯絡人 | Contacts | `apps/ios/zh-Hans.lproj/Localizable.strings:1802` |
-| 3 | `.cabin` | 厢语 | 廂語 | Cabin | `apps/ios/zh-Hans.lproj/Localizable.strings:8472` |
-| 4 | `.discover` | 发现 | 發現 | Discover | `apps/ios/zh-Hans.lproj/Localizable.strings:8309` |
-| 5 | `.me` | 我 | 我 | Me | `apps/ios/zh-Hans.lproj/Localizable.strings:8063` |
+| 1 | `.chats` | 消息 | 訊息 | Messages | `apps/ios/zh-Hans.lproj/Localizable.strings:4064` |
+| 2 | `.contacts` | 联系人 | 聯絡人 | Contacts | `apps/ios/zh-Hans.lproj/Localizable.strings:1801` |
+| 3 | `.cabin` | 厢语 | 廂語 | Cabin | `apps/ios/zh-Hans.lproj/Localizable.strings:8470` |
+| 4 | `.discover` | 发现 | 發現 | Discover | `apps/ios/zh-Hans.lproj/Localizable.strings:8307` |
+| 5 | `.me` | 我 | 我 | Me | `apps/ios/zh-Hans.lproj/Localizable.strings:8061` |
 
 第 2 栏是「联系人」，**不是**「通讯」。第 3 栏 `厢语 / Cabin` 是 C 位。
+
+五个行号按 2026-11-25 复测：`grep -n '^"Messages" = ' apps/ios/zh-Hans.lproj/Localizable.strings` → `4064:"Messages" = "消息";`，
+`Contacts` → 1801、`Cabin` → 8470、`Discover` → 8307、`Me` → 8061，五者在全文件中各只命中一次。
+⚠️ 这一节是「静默漂移」的样本：改名前那五条锚点整体 +1，`8472` 仍指向有内容的行，但读出来是
+`"Cabin offline mesh"`，`8309` 是 `"Erase now"`，`8063` 是 `"Identity number"`——`check:facts` 全都不报错。
+所以引用行号必须用上面的 `grep -n '^"键名" = '` 复现，不能只信门禁的绿色。
 
 ## 3. 身份与队列
 
@@ -139,13 +145,17 @@ xcodebuild build -quiet \
 
 | 事实 | 出处 |
 | --- | --- |
-| 客户端仓库根 `LICENSE` 是 AGPL-3.0 全文；文件内**没有** SPDX 行，README 的措辞是 "GNU Affero General Public License version 3 (AGPLv3)" | `LICENSE:1-2`、`README.md:394-395` |
-| 上游自有的图片与商标不授予 | `README.md:400-403` |
+| 客户端仓库根 `LICENSE` 是 AGPL-3.0 全文；文件内**没有** SPDX 行，README 的措辞是 "GNU Affero General Public License version 3 (AGPLv3)" | `LICENSE:1-2`、`README.md:271-272` |
+| 上游自有的名称、logo 与图片资产不在本许可之内 | `README.md:277-281` |
 | `TRADEMARK-POPOPX.md` 存在，并明确商标**尚未注册** | `TRADEMARK-POPOPX.md:5-7` |
-| `ASSETS_LICENSE-POPOPX.md` 存在 | 仓库根 |
+| `ASSETS_LICENSE.md` 存在（2026-11-25 起去掉 `-POPOPX` 后缀），且它只授予本分支自己画的图，**不释放**其中列出的与上游同名的文件 | `ASSETS_LICENSE.md:3-5`、`README.md:284-286` |
 | 仓库公开、默认分支 `master`（`api.github.com/repos/popopx-chat/popopx-chat` → HTTP 200、`private: false`） | GitHub API |
 | 门户自身仓库 `https://github.com/popopx-chat/popopx-chat-web`（默认分支 `main`）；服务号套件 `popopx-service-suite`（`main`）；Mac Node `popopx-mac-node`（`main`） | GitHub API |
 | 四个官方站点：`popopx.chat`（本站）、`node.popopx.chat`、`mp.popopx.chat`、`bot.popopx.chat`（第二、第三者的 `server_name` 实测自同级工程配置，第四者按 §15 的 vhost 与证书实测） | `../node-popopx-chat-web/deploy/centos/nginx-node.popopx.chat.conf:64`、`../popopx-service-suite-web/src/lib/site.ts:11`、`../popopx-bot-studio-web/index.html:6` |
+
+⚠️ `README.md:277-281` 这一段原文含上游名称与上游仓库 URL，属 §13 的禁词范围。台账可以指过去，
+**页面上只能转述「上游自有的名称与美术资产不在本许可之内」这一层意思，严禁原样引用或链接过去**。
+
 
 ## 12. 发行状态（严禁编造商店链接）
 
@@ -160,14 +170,32 @@ xcodebuild build -quiet \
 ## 13. 页面禁词（`check:out` 会扫产物）
 
 `SimpleX`（任意大小写）、`VPN`、`代理`、`专网`、`军工`、`Bitchat`、任何本地绝对路径（`/Users/…`）。
-注意 iOS 源码里有大量 `SimpleX Chat` 历史残留，以及旧 bundle id / 旧 URL scheme —— 这些都是**不能**出现在门户产物里的字符串，引用源码路径时也要避开含旧名的目录名。数量按配方实测（2026-11-23，客户端仓库 `master`）：`git grep -c "SimpleX Chat" -- 'apps/ios/**.swift'` 逐文件相加 = **225 行**；大小写不敏感、不限文件类型、覆盖 iOS 工程全部目录的匹配 = **945 行 / 374 个文件**。引用这个数字时必须带上其中一种配方，光写一个行数无法复现。
+注意 iOS 源码里有大量上游历史残留，以及旧 bundle id / 旧 URL scheme —— 这些都是**不能**出现在门户产物里的字符串，引用源码路径时也要避开含旧名的目录名。数量按配方实测（2026-11-25，客户端仓库 `master`，HEAD 含 11-25 的文档合并提交）：
+
+```sh
+git grep -c "SimpleX Chat" -- 'apps/ios/**.swift' | awk -F: '{s+=$NF} END {print s" 行 / "NR" 文件"}'   # → 223 行 / 221 文件
+git grep -i -c "SimpleX"   -- 'apps/ios'           | awk -F: '{s+=$NF} END {print s" 行 / "NR" 文件"}'   # → 882 行 / 369 文件
+```
+
+上一版记录的是 225 行与 945 行 / 374 个文件（2026-11-23 实测）；11-25 客户端把根目录文档合并、删掉一份规划稿，行数随之变小。
+引用这两个数字时必须连命令一起写出来——光一个行数无法复现。
 
 ## 14. v1.2.0 与发布说明三条（下载区，逐行读自出厂 Swift）
 
 | 事实 | 出处 |
 | --- | --- |
-| iOS App target 的两个构建配置里 `MARKETING_VERSION = 1.2.0`；**另外 8 个配置仍是 `7.1.2`**，所以主站只能写「App 的 MARKETING_VERSION」，严禁写「整个工程统一到 1.2.0」 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2782,2832,2851,2869,2904,2940,2989,3044,3085,3118` |
-| 分支自己的版本化裁定（2026-11-24）：脱离上游 7.1.x 编号，SMP/XFTP 握手版本与数据库 Schema 明确不变，iOS 侧由 Xcode Build Settings 手动改 | `CHANGELOG-POPOPX.md:6,10-13` |
+| 10 处 `MARKETING_VERSION` 实测是 **6 处 `1.2.0` / 4 处 `7.1.2`**：App、NSE、SE 三个 target 都已改号（各 Debug+Release 两条），仍留 `7.1.2` 的是 iOS Tests 与 `POPOPXChat` framework target。主站严禁写「整个工程统一到 1.2.0」，也严禁写「只有 App target 改号」（这句是 2026-11-23 的旧状态，客户端 `056aff908`（2026-11-25）之后不再成立） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2782,2832,2851,2869,2904,2940,2989,3044,3085,3118` |
+
+复测配方（两条都要跑，光看行号看不出配属）：
+
+```sh
+grep -o 'MARKETING_VERSION = [0-9.]*' apps/ios/POPOPX.xcodeproj/project.pbxproj | sort | uniq -c
+grep -n -A14 'MARKETING_VERSION' apps/ios/POPOPX.xcodeproj/project.pbxproj | grep -E 'MARKETING_VERSION|PRODUCT_BUNDLE_IDENTIFIER'
+```
+
+⚠️ NSE 与 SE 的 `PRODUCT_BUNDLE_IDENTIFIER` 字面量里含上游旧名（形如 `com.popopxchat.popopx` + 旧名 + `-NSE`）。
+台账写得出，产物写不得——下载页与产品页一律不得渲染 bundle id。
+| 分支自己的版本化裁定（2026-11-24）：脱离上游 7.1.x 编号，SMP/XFTP 握手版本与数据库 Schema 明确不变，iOS 侧由 Xcode Build Settings 手动改 | `CHANGELOG.md:144,147-148` |
 | Android / Desktop 侧的 1.2.0 确实写进了 gradle 属性（若要提「其他端也已改号」，只有这一行撑得住） | `apps/multiplatform/gradle.properties:28,31` |
 | 双通道路由：SMP ACK 超时 3 秒后同一条消息**并发**再走蓝牙（源码原话 "concurrently, never instead"）；蓝牙 5 秒等不到 BLE_ACK 就回到 SMP 并沿用原 `messageId`；状态名 `dualChannel` | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:10-11,19,271` |
 | 徽章商品**恰好 13 个** SKU（文档注释原话 "The 13 in-app purchase products"，枚举 13 个 `case`）；价格与在售状态启动时从 StoreKit 读，`fallbackPriceText` 只在读取失败时兜底 | `apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:145-163`、`apps/ios/Shared/Features/BadgeCredits/PopopxStoreKitManager.swift:130-137` |
@@ -176,8 +204,9 @@ xcodebuild build -quiet \
 | 两个数据库各有 `.bak` 副本（`_chat.db.bak`、`_agent.db.bak`，与主库同目录），`hasBackup` 检查、`restoreBackup` 回滚 | `apps/ios/POPOPXChat/FileUtils.swift:50,52,215-231` |
 
 这三条严禁写成「双栈」「Mesh 组网」「加密备份上传」「云同步」：`.bak` 只在设备磁盘上，不是异地备份；口令保护的是本机数据库文件。
+另需注意 `CHANGELOG.md:147` 原文自己写了「双栈」这个词——台账指得过去，页面上绝不能原样引用那一行。
 
-## 15. Bot Studio 发布状态（门户已上线，引擎仓库仍只发布许可证）
+## 15. Bot Studio 发布状态（门户已上线，引擎仓库已公开源码）
 
 | 事实 | 出处 |
 | --- | --- |
@@ -188,10 +217,13 @@ xcodebuild build -quiet \
 | 页面只加载自己目录里的文件：css、js、图标全是相对路径；两个 js 里绝对 URL 0 个、fetch 0 次，产物里没有任何第三方主机与统计脚本 | 本机对线上 HTML 与 assets/js/app.js、assets/js/i18n.js 的 grep |
 | 站点是零构建静态页、自带 18 语文案：无框架、无打包器、无 CDN、无 Web 字体请求、无统计脚本 | `../popopx-bot-studio-web/README.md:3-4` |
 | 线上首屏的标题与描述由站点仓库写出：POPOPX Bot Studio，self-hosted bot factory | `../popopx-bot-studio-web/index.html:6-7` |
-| 引擎仓库 `https://github.com/popopx-chat/popopx-bot-studio`（默认分支 main）公开可访问，但**已发布的树只有 `LICENSE`（AGPL-3.0-only）一个条目**：无 README、无源码目录，因此门户不转述它宣称的任何功能 | GitHub API（配方见下） |
+| 引擎仓库 `https://github.com/popopx-chat/popopx-bot-studio`（默认分支 main、AGPL-3.0-only）已公开源码：今日实测该树 **40 个条目 / 32 个文件**，顶层含 README.md、README.en.md、studio/、official_tools/、site/、docs/、docker-compose.yml、install_macos.sh、install_ubuntu22.sh。此前记录「树里只有 LICENSE 一个条目」是 2026-11-24 的状态，已失效 | GitHub API（配方见下） |
+| **服务端配置签名推送引擎（popopx-server-up-bot）源码待公开**：本次复测（2026-11-25）该仓库 API 返回 404，且不在 api.github.com/users/popopx-chat/repos 的 78 个公开仓库里；本地工作副本的 origin 指向它，说明尚未推送。门户按裁定保留对它的能力叙述，但必须带「开发中 / 源码待公开」标记，**不挂仓库链接**，也不写「已开源」 | GitHub API（配方见下） |
+| 两个易混点已核实：api.github.com/orgs/popopx-chat 返回 404，即 github.com/popopx-chat 是**用户账号**而非组织；popopx-bot-studio 内 0 处 cluster.json / SERVER_CFG / Ed25519 签名相关代码，它是 Bot 工厂与插件网关，**不能**用来指代上面那个签名引擎 | GitHub API、本机 `git grep` 实测（2026-11-25） |
+| 任务书点名的六个仓库全部公开（popopx-chat、popopx-chat-web、popopx-bot-studio、popopx-bot-studio-web、popopx-service-suite、popopx-mac-node）；产品页只渲染 API 的 name / default_branch / license / pushed_at，**严禁渲染 description 字段**——上游派生项目的描述含 §13 禁词 | `api.github.com/users/popopx-chat/repos`（2026-11-25） |
 | **未上文案，记录给下一位**：站点仓库自称正式域名是 apex，即 `CNAME`、canonical、全部 hreflang、og:url、robots 的 Sitemap 行与 sitemap 的 loc 写的都是 popopx.chat，而 apex 由本站 nginx 的 server_name 持有（本仓库 deploy/centos/nginx-popopx-main.conf 的 80 与 443 两块）。两个站点对同一个 apex 同时主张归属是 SEO 冲突，应由该站改掉；主站文案不引用这一点 | `../popopx-bot-studio-web/README.md:6-8`、`../popopx-bot-studio-web/CNAME:1`、`../popopx-bot-studio-web/index.html:10-11,33`、`../popopx-bot-studio-web/robots.txt:7`、`../popopx-bot-studio-web/sitemap.xml:6` |
 
-复测配方（2026-11-24 实测；域名、证书与仓库内容都会变，引用时必须重跑并改日期。注意本机 curl 走 SOCKS5 代理会让 TLS 探测假超时，直连需 `--noproxy '*'`）：
+复测配方（网络与仓库部分 2026-11-24 实测，GitHub 仓库状态部分 2026-11-25 复测；域名、证书与仓库内容都会变，引用时必须重跑并改日期。注意本机 curl 走 SOCKS5 代理会让 TLS 探测假超时，直连需 `--noproxy '*'`）：
 
 ```
 dig +short bot.popopx.chat popopx.chat node.popopx.chat mp.popopx.chat
@@ -202,12 +234,34 @@ curl --noproxy '*' -s https://bot.popopx.chat | grep -oE '(src|href)="[^"]*"' | 
 for f in assets/js/app.js assets/js/i18n.js; do
   curl --noproxy '*' -s "https://bot.popopx.chat/$f" | grep -c "http"   # 两个都是 0
 done
-curl -s "https://api.github.com/repos/popopx-chat/popopx-bot-studio/git/trees/main?recursive=1" | jq -r '.tree[].path'      # 只有 LICENSE
+curl -s "https://api.github.com/repos/popopx-chat/popopx-bot-studio/git/trees/main?recursive=1" | jq -r '.tree[].path'      # 2026-11-25 实测 40 条目 / 32 文件：README.md、studio/、official_tools/、site/、docs/ 等
 curl -s "https://api.github.com/repos/popopx-chat/popopx-bot-studio-web/git/trees/main?recursive=1" | jq -r '.tree[].path' | head -12
 grep -c "server_name  popopx.chat;" deploy/centos/nginx-popopx-main.conf   # 2（本站持有 apex）
 curl -s "https://api.github.com/repos/popopx-chat/popopx-chat" | jq -r '.default_branch, .private'                        # master / false
-grep -c "MARKETING_VERSION = 1.2.0" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 2
-grep -c "MARKETING_VERSION = 7.1.2" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 8
+curl -s -o /dev/null -w '%{http_code}\n' "https://api.github.com/repos/popopx-chat/popopx-server-up-bot"                   # 404 = 未公开（2026-11-25）
+curl -s "https://api.github.com/users/popopx-chat/repos?per_page=100" | jq -r '.[].name' | grep -c '^popopx'               # 公开仓库数；orgs/popopx-chat 则 404（是用户账号）
+grep -c "MARKETING_VERSION = 1.2.0" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 6（2026-11-25 起，含 NSE 与 SE）
+grep -c "MARKETING_VERSION = 7.1.2" apps/ios/POPOPX.xcodeproj/project.pbxproj   # 4（Tests 与 framework target）
 awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift | wc -l   # 13
 ```
 
+
+## 20. 资源页文档矩阵（/resources/，2026-11-25 实测）
+
+`ResourceLibrary.tsx` 列出的每一条路径，都在当日通过 GitHub Contents API 核实存在。复测配方：
+
+```sh
+# 客户端仓库根文档
+curl -s "https://api.github.com/repos/popopx-chat/popopx-chat/contents/?ref=master" \
+  | jq -r '.[].name' | grep -E '^(README|FORK|CHANGELOG|PRIVACY-POPOPX|AGPL-COMPLIANCE|LICENSE|TRADEMARK-POPOPX|ASSETS_LICENSE|NOTICE)(\.md)?$'
+
+# iOS 工程规格
+curl -s "https://api.github.com/repos/popopx-chat/popopx-chat/contents/apps/ios/spec?ref=master" \
+  | jq -r '.[].name' | grep -E '^(architecture|api|database|state|impact)\.md$'
+
+# popopxmq 协议规范
+curl -s "https://api.github.com/repos/popopx-chat/popopxmq/contents/protocol?ref=master" \
+  | jq -r '.[].name' | grep -E '^(agent-protocol|popopx-messaging|crypto-registry|security|pqdr|xftp|xrcp|push-notifications|overview-tjr)\.md$'
+```
+
+⚠️ 资源页只列文件路径，不做摘要。任何对文件内容的概括性描述都必须另起一条台账记录，并附 `sed -n` 或 `grep -n` 复测命令。

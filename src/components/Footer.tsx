@@ -112,7 +112,7 @@ const H_OPENSOURCE: Localized<string> = {
   hu: "Nyílt forráskód",
 };
 
-const H_PRIVACY: Localized<string> = {
+export const H_PRIVACY: Localized<string> = {
   en: "Zero tracking",
   ru: "Без отслеживания",
   de: "Kein Tracking",
@@ -133,7 +133,7 @@ const H_PRIVACY: Localized<string> = {
   hu: "Követés nélkül",
 };
 
-const H_LEGAL: Localized<string> = {
+export const H_LEGAL: Localized<string> = {
   en: "Licence and marks",
   ru: "Лицензия и знаки",
   de: "Lizenz und Marken",
@@ -728,7 +728,7 @@ const SOURCE_LINKS: readonly { readonly href: string; readonly label: Localized<
   { href: BOT_STUDIO_REPO_URL, label: R_STUDIO },
 ];
 
-const PROMISES: readonly Localized<string>[] = [
+export const PROMISES: readonly Localized<string>[] = [
   P_COOKIE,
   P_ANALYTICS,
   P_CDN,
@@ -737,7 +737,7 @@ const PROMISES: readonly Localized<string>[] = [
   P_SCAN,
 ];
 
-const LEGAL_NOTES: readonly Localized<string>[] = [NOTE_SPDX, NOTE_TRADEMARK, NOTE_ASSETS];
+export const LEGAL_NOTES: readonly Localized<string>[] = [NOTE_SPDX, NOTE_TRADEMARK, NOTE_ASSETS];
 
 const LINK_CLASS =
   "group inline-flex items-start gap-1.5 rounded text-[12.5px] leading-snug text-mute underline decoration-hair decoration-1 underline-offset-[3px] transition-colors duration-200 hover:text-white hover:decoration-hair-strong";

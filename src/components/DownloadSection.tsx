@@ -3,62 +3,54 @@
 import type { ReactElement } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { LOCALE_COUNT, LOCALES, LOCALE_NATIVE, useCopy, type Localized } from "@/lib/i18n";
-import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
-import { CodeBlock, CopyButton, SectionHeading, StatusDot } from "@/components/ui";
+import { SITE_URL } from "@/lib/site";
+import { CopyButton, SectionHeading } from "@/components/ui";
 
 /**
- * DownloadAndBuildSection — section `download`: availability, build from source, 18 languages.
+ * DownloadSection — `/download/`: store status, the local QR, v1.2.0 as written,
+ * and the 18-language wall.
  *
- * · Distribution: ledger §12 of `docs/FACTS.md` — the App Store record does not resolve
- *   (`itunes.apple.com/lookup` → `resultCount: 0`, re-measured 2026-11-22) and the standing ruling
- *   of 2026-11-16 (`../popopx.chat-site/README.md:97-101`) forbids rendering any store badge or
- *   link, or reusing another project's TestFlight code, until that record resolves on its own.
- * · QR: `qrcode.react` 4.2.0 in `package.json` renders inline SVG client-side, zero requests.
- * · Build: ledger §10 — `MinimumOSVersion = 17.0` and `SWIFT_VERSION = 5.0`
- *   (`apps/ios/POPOPX.xcodeproj/project.pbxproj`), `swift-tools-version: 6.0` + `.iOS(.v15)`
- *   (`apps/ios/PopopxMeshKit/Package.swift:1,10`, package-side only), Xcode not pinned
- *   (`.github/workflows/ios-sim.yml:101,116`), the CI command and `scripts/ci/ios-stub-libs.sh`
- *   (`.github/workflows/build.yml:1400-1408`), shared schemes
- *   (`apps/ios/POPOPX.xcodeproj/xcshareddata/xcschemes/`), helpers in `scripts/ios/`.
- * · Config engine: `../popopx-server-up-bot/README.md:3-4,7,159` — offline Ed25519 signature over
- *   `cluster.json`, SERVER_CFG_ACK receipts into coverage. Client side: ledger §7 — two tiers of
- *   storage, connectivity probed at 3 s and 10 s after apply. Never three layers.
- * · Languages: ledger §1 — `CFBundleLocalizations` in `apps/ios/POPOPX--iOS--Info.plist`.
+ * The build-from-source panel and the config-engine panel that used to sit here
+ * are on `/developers/` now (`src/components/DeveloperGuide.tsx`), together with
+ * the ledger anchors that back them.
+ *
+ * · Distribution: ledger §12 of `docs/FACTS.md` — the App Store record does not
+ *   resolve (`itunes.apple.com/lookup` → `resultCount: 0`, re-measured 2026-11-22)
+ *   and the standing ruling of 2026-11-16 (`../popopx.chat-site/README.md:97-101`)
+ *   forbids rendering any store badge or link, or reusing another project's
+ *   TestFlight code, until that record resolves on its own.
+ * · QR: `qrcode.react` 4.2.0 in `package.json` renders inline SVG client-side,
+ *   zero requests.
+ * · Release notes: ledger §14 — what `CHANGELOG.md` claims for v1.2.0, quoted with
+ *   its line numbers rather than summarised.
+ * · Languages: ledger §1 — `CFBundleLocalizations` in
+ *   `apps/ios/POPOPX--iOS--Info.plist`.
  */
+
+
 
 const QR_BG = "#07080D";
 const QR_FG = "#E9E9F5";
 
-/** Verbatim from the client repository's CI job — a command, so locale-free. */
-const BUILD_COMMAND =
-  "xcodebuild build -quiet \\\n" +
-  "  -project apps/ios/POPOPX.xcodeproj \\\n" +
-  "  -scheme \"POPOPX (iOS)\" \\\n" +
-  "  -configuration Debug \\\n" +
-  "  -destination \"generic/platform=iOS Simulator\" \\\n" +
-  "  -onlyUsePackageVersionsFromResolvedFile \\\n" +
-  "  -skipPackagePluginValidation -skipMacroValidation \\\n" +
-  "  ARCHS=arm64 CODE_SIGNING_ALLOWED=NO";
-
 const EYEBROW: Localized<string> = {
-  en: "Get it, build it",
-  ru: "Получение и сборка",
-  de: "Beziehen und Bauen",
-  fr: "Obtenir et construire",
-  it: "Ottenere e compilare",
-  nl: "Verkrijgen en bouwen",
-  cs: "Získání a sestavení",
-  "zh-Hans": "获取与构建",
-  "zh-Hant": "取得與建置",
-  es: "Obtenerlo y compilarlo",
-  pl: "Pobranie i zbudowanie",
-  ja: "入手とビルド",
-  th: "การรับและการสร้าง",
-  fi: "Hankinta ja kääntäminen",
-  uk: "Отримання й збірка",
-  bg: "Получаване и изграждане",
-  tr: "Edinme ve derleme",
-  hu: "Beszerzés és fordítás",
+  en: "Get it, and what is in it",
+  ru: "Как получить и что внутри",
+  de: "Beziehen und was enthalten ist",
+  fr: "Obtenir et ce qu'il contient",
+  it: "Ottenere e cosa contiene",
+  nl: "Verkrijgen en wat erin zit",
+  cs: "Získání a co je uvnitř",
+  "zh-Hans": "获取与内容",
+  "zh-Hant": "取得與內容",
+  es: "Obtenerlo y qué contiene",
+  pl: "Pobranie i co jest w środku",
+  ja: "入手と中身",
+  th: "การรับและสิ่งที่อยู่ข้างใน",
+  fi: "Hankinta ja sisältö",
+  uk: "Як отримати і що всередині",
+  bg: "Какво получавате и какво съдържа",
+  tr: "Edinme ve içeriği",
+  hu: "Beszerzés és ami benne van",
 };
 
 const TITLE: Localized<string> = {
@@ -82,25 +74,30 @@ const TITLE: Localized<string> = {
   hu: "Még nincs áruházi hivatkozás — a forráskód már ma nyitott",
 };
 
+/*
+ * The build-from-source panel moved to `/developers/` with the route split, so
+ * this lead sends the reader there instead of describing a compiler invocation
+ * the page no longer shows.
+ */
 const LEAD: Localized<string> = {
-  en: "Two honest panels and one language wall: what you can get today, what a build really needs, and the 18 localizations the client ships with.",
-  ru: "Две честные панели и одна стена языков: что можно получить сегодня, что действительно нужно для сборки и 18 локализаций клиента.",
-  de: "Zwei ehrliche Panels und eine Sprachwand: was es heute gibt, was der Build wirklich braucht, und die 18 Lokalisierungen des Clients.",
-  fr: "Deux volets honnêtes et un mur de langues : ce qu'on obtient aujourd'hui, ce que la construction exige vraiment, et les 18 localizations du client.",
-  it: "Due pannelli onesti e una parete di lingue: cosa si ottiene oggi, cosa serve davvero per compilare, e le 18 localizzazioni del client.",
-  nl: "Eerlijke panelen en een taalmuur: wat je vandaag kunt krijgen, wat de build werkelijk nodig heeft, en de 18 lokalisaties van de client.",
-  cs: "Dvě upřímné panely a zeď jazyků: co dnes dostanete, co skutečně potřebuje sestavení, a 18 lokalizací klienta.",
-  "zh-Hans": "两块老实的面板与一面语言墙：今天能拿到什么、构建到底需要什么、客户端自带的 18 种本地化。",
-  "zh-Hant": "兩塊老實的面板與一面語言牆：今天能拿到什麼、建置到底需要什麼、客戶端自帶的 18 種本地化。",
-  es: "Dos paneles honestos y un muro de idiomas: qué se puede obtener hoy, qué necesita de verdad la compilación y las 18 localizaciones del cliente.",
-  pl: "Dwie uczciwe sekcje i ściana języków: co dziś można dostać, czego naprawdę wymaga zbudowanie, i 18 lokalizacji klienta.",
-  ja: "誠実な2枚のパネルと言語の壁。今日入手できるもの、ビルドに本当に必要なもの、クライアント同梱の 18 のローカライズ。",
-  th: "สองพาเนลซื่อสัตย์และกำแพงภาษาหนึ่งแนว: วันนี้ติดตั้งอะไรได้จริง การสร้างต้องใช้อะไร และการรองรับ 18 ภาษาที่มากับไคลเอนต์",
-  fi: "Rehellinen kaksi paneelia ja kieliseinä: mitä tänään saa, mitä kääntäminen oikeasti vaatii, ja asiakkaan mukana tulevat 18 kieliversiota.",
-  uk: "Два чесні блоки та стіна мов: що доступне сьогодні, що справді потрібне для збірки, й 18 локалізацій клієнта.",
-  bg: "Два честни блока и една езикова стена: какво можете да получите днес, от какво наистина има нужда изграждането, и 18-те локализации на клиента.",
-  tr: "İki dürüst bölüm ve bir dil duvarı: bugün ne alınabilir, derleme gerçekten ne istiyor, ve istemcinin yayımladığı 18 yerelleştirme.",
-  hu: "Két becsületes panel és egy nyelvfall: ma mit kaphatsz, mire van valóban szükség a fordításhoz, és az ügyfél 18 lokalizációja.",
+  en: "Two honest panels and one language wall: what you can get today, what the v1.2.0 notes really claim, and the 18 localizations the client ships with. Building from source is on the developers page.",
+  ru: "Две честные панели и стена языков: что можно получить сегодня, что действительно сказано в заметках v1.2.0, и 18 локализаций клиента. Сборка из исходников — на странице для разработчиков.",
+  de: "Zwei ehrliche Panels und eine Sprachwand: was es heute gibt, was die v1.2.0-Notes wirklich behaupten, und die 18 Lokalisierungen des Clients. Der Build aus dem Quellcode steht auf der Entwicklerseite.",
+  fr: "Deux volets honnêtes et un mur de langues : ce qu'on obtient aujourd'hui, ce que les notes v1.2.0 affirment vraiment, et les 18 localizations du client. La compilation depuis le source est sur la page développeurs.",
+  it: "Due pannelli onesti e una parete di lingue: cosa si ottiene oggi, cosa dichiarano davvero le note v1.2.0, e le 18 localizzazioni del client. La compilazione dal sorgente è nella pagina per gli sviluppatori.",
+  nl: "Eerlijke panelen en een taalmuur: wat je vandaag kunt krijgen, wat de v1.2.0-notities werkelijk beweren, en de 18 lokalisaties van de client. Bouwen uit broncode staat op de ontwikkelaarspagina.",
+  cs: "Dvě upřímné panely a zeď jazyků: co dnes dostanete, co poznámky v1.2.0 skutečně tvrdí, a 18 lokalizací klienta. Sestavení ze zdroje je na vývojářské stránce.",
+  "zh-Hans": "两块老实的面板与一面语言墙：今天能拿到什么、v1.2.0 的说明里真正写了什么、客户端自带的 18 种本地化。从源码构建在开发者页面。",
+  "zh-Hant": "兩塊老實的面板與一面語言牆：今天能拿到什麼、v1.2.0 的說明裡真正寫了什麼、客戶端自帶的 18 種本地化。從原始碼建置在開發者頁面。",
+  es: "Dos paneles honestos y un muro de idiomas: qué se puede obtener hoy, qué afirman de verdad las notas de v1.2.0 y las 18 localizaciones del cliente. Compilar desde el código está en la página para desarrolladores.",
+  pl: "Dwie uczciwe sekcje i ściana języków: co dziś można dostać, co naprawdę twierdzą notatki v1.2.0, i 18 lokalizacji klienta. Budowanie z kodu jest na stronie dla programistów.",
+  ja: "誠実な 2 枚のパネルと言語の壁。今日入手できるもの、v1.2.0 のノートが実際に述べていること、クライアント同梱の 18 のローカライズ。ソースからのビルドは開発者ページにあります。",
+  th: "สองพาเนลซื่อสัตย์และกำแพงภาษาหนึ่งแนว: วันนี้ติดตั้งอะไรได้จริง โน้ต v1.2.0 พูดไว้อย่างไร และการรองรับ 18 ภาษาที่มากับไคลเอนต์ การสร้างจากซอร์สอยู่ที่หน้าสำหรับนักพัฒนา",
+  fi: "Rehellinen kaksi paneelia ja kieliseinä: mitä tänään saa, mitä v1.2.0:n huomautukset oikeasti väittävät, ja asiakkaan mukana tulevat 18 kieliversiota. Kääntäminen lähteestä on kehittäjäsivulla.",
+  uk: "Два чесні блоки та стіна мов: що доступне сьогодні, що справді стверджують нотатки v1.2.0, й 18 локалізацій клієнта. Збірка з коду — на сторінці для розробників.",
+  bg: "Два честни блока и една езикова стена: какво можете да получите днес, какво наистина твърдят бележките за v1.2.0, и 18-те локализации на клиента. Изграждането от код е в страницата за разработчици.",
+  tr: "İki dürüst bölüm ve bir dil duvarı: bugün ne alınabilir, v1.2.0 notları gerçekte ne iddia ediyor, ve istemcinin yayımladığı 18 yerelleştirme. Kaynaktan derleme geliştirici sayfasında.",
+  hu: "Két becsületes panel és egy nyelvfall: ma mit kaphatsz, mit állítanak valójában a v1.2.0 jegyzetek, és az ügyfél 18 lokalizációja. A forrásból fordítás a fejlesztői oldalon van.",
 };
 
 const AVAIL_TITLE: Localized<string> = {
@@ -227,76 +224,6 @@ const QR_NOTE: Localized<string> = {
   bg: "QR кодът се рисуе във вашия браузър от qrcode.react като вграден SVG: без QR услуга, без заявка за изображение, нищо не напуска този сайт.",
   tr: "QR, qrcode.react tarafından tarayıcınızda satır içi SVG olarak çizilir: QR servisi yok, resim isteği yok, bu kaynaktan hiçbir şey çıkmıyor.",
   hu: "A QR-kódot a qrcode.react a böngésződben rajzolja beágyazott SVG-ként: nincs QR-szolgáltatás, nincs kép-kérés, semmi nem hagyja el ezt az oldalt.",
-};
-
-const BUILD_TITLE: Localized<string> = {
-  en: "Build it from the public source",
-  ru: "Сборка из публичного исходника",
-  de: "Aus dem öffentlichen Quellcode bauen",
-  fr: "Construire depuis le source public",
-  it: "Compilare dal sorgente pubblico",
-  nl: "Bouwen uit de openbare broncode",
-  cs: "Sestavení z veřejného zdroje",
-  "zh-Hans": "从公开源码构建",
-  "zh-Hant": "從公開原始碼建置",
-  es: "Compilar desde el código público",
-  pl: "Zbuduj z publicznego kodu",
-  ja: "公開ソースからビルドする",
-  th: "สร้างจากซอร์สสาธารณะ",
-  fi: "Käännä julkisesta lähteestä",
-  uk: "Збірка з відкритого коду",
-  bg: "Изградете от публичния код",
-  tr: "Açık kaynaktan derleme",
-  hu: "Fordítás a nyilvános forrásból",
-};
-
-const ROW_VERSION: Localized<string> = {
-  en: "App MARKETING_VERSION",
-  ru: "MARKETING_VERSION приложения",
-  de: "MARKETING_VERSION der App",
-  fr: "MARKETING_VERSION de l’app",
-  it: "MARKETING_VERSION dell’app",
-  nl: "MARKETING_VERSION van de app",
-  cs: "MARKETING_VERSION aplikace",
-  "zh-Hans": "App 的 MARKETING_VERSION",
-  "zh-Hant": "App 的 MARKETING_VERSION",
-  es: "MARKETING_VERSION de la app",
-  pl: "MARKETING_VERSION aplikacji",
-  ja: "アプリの MARKETING_VERSION",
-  th: "MARKETING_VERSION ของแอป",
-  fi: "Appin MARKETING_VERSION",
-  uk: "MARKETING_VERSION застосунку",
-  bg: "MARKETING_VERSION на приложението",
-  tr: "Uygulamanın MARKETING_VERSION’ı",
-  hu: "Az app MARKETING_VERSION értéke",
-};
-
-/**
- * What v1.2.0 is and what it is not: the fork's own number, adopted on
- * 2026-11-24, changing the published version string and nothing on the wire —
- * ledger §10 and `CHANGELOG-POPOPX.md:8-11`. It is written into the app target
- * only: the eight extension configurations still print the old number, and the
- * store record that would let this page link the release is still `resultCount: 0`.
- */
-const FACT_VERSION: Localized<string> = {
-  en: "v1.2.0 is this fork’s own number, adopted on 2026-11-24. It replaced the inherited one in the app target’s build settings only; the SMP and XFTP handshake versions and the database schema were left alone, so the client still talks to the relays as before. No store link comes with it.",
-  ru: "v1.2.0 — собственное число этого форка, введённое 2026-11-24. Оно заменило унаследованное только в настройках цели сборки приложения; версии рукопожатия SMP и XFTP и схема базы данных не менялись, так что клиент по-прежнему говорит с релеями как раньше. Ссылки в магазин это не даёт.",
-  de: "v1.2.0 ist die eigene Nummer dieses Forks, eingeführt am 2026-11-24. Sie ersetzt die geerbte nur in den Build-Einstellungen des App-Ziels; die SMP- und XFTP-Handshake-Versionen und das Datenbankschema blieben unverändert, der Client spricht also weiterhin wie zuvor mit den Relays. Ein Store-Link ergibt sich daraus nicht.",
-  fr: "v1.2.0 est le numéro propre à ce fork, adopté le 2026-11-24. Il remplace l’hérité seulement dans les réglages de build de la cible app ; les versions de poignée de main SMP et XFTP et le schéma de base sont restés tels quels, donc le client parle toujours aux relays comme avant. Cela n’apporte aucun lien de store.",
-  it: "v1.2.0 è il numero proprio di questo fork, adottato il 2026-11-24. Sostituisce quello ereditato solo nelle build settings del target app; le versioni di handshake SMP e XFTP e lo schema del database sono lasciati invariati, quindi il client parla ancora ai relay come prima. Nessun link dello store ne deriva.",
-  nl: "v1.2.0 is het eigen nummer van deze fork, aangenomen op 2026-11-24. Het vervangt het geërfde alleen in de buildinstellingen van het app-target; de SMP- en XFTP-handshakesversies en het databaseschema bleven ongewijzigd, dus de client praat nog steeds tegen de relays zoals voorheen. Er komt geen storelink bij.",
-  cs: "v1.2.0 je vlastní číslo tohoto forku, zavedené 2026-11-24. Nahrazuje zděděné číslo pouze v nastavení buildu cíle aplikace; verze handshake SMP a XFTP i schéma databáze zůstaly nedotčené, klient tedy mluví s relayi stále stejně jako dřív. Odkaz do obchodu z toho neplyne.",
-  "zh-Hans": "v1.2.0 是这个分支自己的编号，2026-11-24 启用。它只替换了 App 构建配置里继承来的那个号，SMP 与 XFTP 的握手版本、数据库 Schema 都没有改动，客户端照旧和已部署的中继通信。这个数字不附带任何商店链接。",
-  "zh-Hant": "v1.2.0 是這個分支自己的編號，2026-11-24 啟用。它只替換了 App 建置設定裡繼承來的那個號，SMP 與 XFTP 的握手版本、資料庫 Schema 都沒有改動，客戶端照舊和已部署的中繼通訊。這個數字不附帶任何商店連結。",
-  es: "v1.2.0 es el número propio de este fork, adoptado el 2026-11-24. Reemplaza al heredado solo en la configuración de build del target de la app; las versiones de handshake SMP y XFTP y el esquema de la base de datos quedan intactos, así que el cliente sigue hablando con los relays como antes. Esto no trae ningún enlace de tienda.",
-  pl: "v1.2.0 to własny numer tego forka, przyjęty 2026-11-24. Zastępuje przejęty numer tylko w ustawieniach buildu celu aplikacji; wersje handshaku SMP i XFTP oraz schemat bazy danych pozostały bez zmian, więc klient rozmawia z relayami jak dotąd. Nie wiąże się z nim żaden link do sklepu.",
-  ja: "v1.2.0 はこのフォーク独自の番号で、2026-11-24 に採用されました。アプリのターゲットのビルド設定で継承先の番号を置き換えただけのもので、SMP と XFTP のハンドシェイク版やデータベース スキーマはそのままなので、クライアントは今まで通りリレーと通信します。ストアのリンクは付いてきません。",
-  th: "v1.2.0 คือเลขของฟอร์กนี้เอง เริ่มใช้เมื่อ 2026-11-24 มันแทนเลขที่รับมาใน build setting ของแอป target เท่านั้น ส่วนเวอร์ชันแฮนด์เชกของ SMP และ XFTP กับสคีมาของฐานข้อมูลไม่ได้แตะ ไคลเอนต์จึงคุยกับ relay เหมือนเดิม และไม่มีลิงก์สโตร์มาพร้อมเลขนี้",
-  fi: "v1.2.0 on tämän forkin oma numero, otettu käyttöön 2026-11-24. Se korvaa perityn numeron vain app-tavoitteen build-asetuksissa; SMP- ja XFTP-käsipversion sekä tietokantakaavan jätettiin ennalleen, joten asiakas puhuu releille kuten ennenkin. Tähän ei kuulu kauppalinkkiä.",
-  uk: "v1.2.0 — власне число цього форка, введене 2026-11-24. Воно замінило успадковане лише в налаштуваннях збірки цілі застосунку; версії handshak SMP і XFTP та схему бази даних не чіпали, тож клієнт говорить із релями як раніше. Посилання в магазин із цим не йде.",
-  bg: "v1.2.0 е собственото число на този форк, прието на 2026-11-24. То замества наслепеното само в настройките за сглобяване на целта на приложението; версиите на SMP и XFTP ръкостискане и схемата на базата остават недокоснати, така че клиентът говори с релетата както преди. Никаква магазинска връзка не идва с него.",
-  tr: "v1.2.0 bu fork’un kendi numarası ve 2026-11-24’te benimsendi. Devralınan numarayı yalnızca uygulama hedefinin build ayarlarında değiştirdi; SMP ve XFTP el sıkışma sürümleriyle veritabanı şemasına dokunulmadı, yani istemci röle’lerle eskisi gibi konuşmaya devam ediyor. Bununla birlikte bir mağaza bağlantısı gelmiyor.",
-  hu: "a v1.2.0 ennek a forknak a saját száma, 2026-11-24-én bevezetve. Az örökölt számot csak az app target build beállításaiban váltotta; az SMP és XFTP kézfogás verziói és az adatbázis sémája érintetlen, úgyhogy az ügyfél ugyanúgy beszél a relékkel, mint eddig. Bolti link hozzá nem jár.",
 };
 
 const RELEASE_TITLE: Localized<string> = {
@@ -485,27 +412,6 @@ const RELEASE_ITEMS: { name: Localized<string>; body: Localized<string>; cite: s
   },
 ];
 
-const ROW_TARGET: Localized<string> = {
-  en: "Deployment target",
-  ru: "Целевая платформа",
-  de: "Deployment-Ziel",
-  fr: "Cible de déploiement",
-  it: "Piattaforma minima",
-  nl: "Doelplatform",
-  cs: "Cílová platforma",
-  "zh-Hans": "部署目标",
-  "zh-Hant": "部署目標",
-  es: "Plataforma de destino",
-  pl: "Platforma docelowa",
-  ja: "デプロイ先",
-  th: "แพลตฟอร์มเป้าหมาย",
-  fi: "Kohdealusta",
-  uk: "Цільова платформа",
-  bg: "Целева платформа",
-  tr: "Hedef sürüm",
-  hu: "Célplatform",
-};
-
 const RELEASE_NOTE: Localized<string> = {
   en: "Every path above is relative to the client repository root — the same root the fact ledger cites. git grep -n finds each line; no row here is a reworded changelog heading.",
   ru: "Все пути выше — относительно корня репозитория клиента, того же корня, который цитирует журнал фактов. git grep -n находит каждый ряд; здесь ничего не переписано из заголовков чейнджлога.",
@@ -525,216 +431,6 @@ const RELEASE_NOTE: Localized<string> = {
   bg: "Всички пътища по-горе са относителни към корена на клиентското хранилище — същия корен, който цитира регистърът на фактите. git grep -n намира всеки ред; нито един ред не е преработено заглавие от списък с промени.",
   tr: "Yukarıdaki yolların tamamı istemci deposunun köküne göre — kayıt defterinin alıntıladığı aynı kök. git grep -n her satırı bulur; burada hiçbir satır changelog başlığının yeniden yazımı değil.",
   hu: "A fenti útvonalak mind a kliens repó gyökeréhez viszonyítottak — ugyanahhoz a gyökérhez, amit a ténytár idéz. A git grep -n minden sort megtalál; egyik sor sem a changelog címszavának átírása.",
-};
-
-const ROW_SWIFT: Localized<string> = {
-  en: "SWIFT_VERSION in the app",
-  ru: "SWIFT_VERSION в приложении",
-  de: "SWIFT_VERSION der App",
-  fr: "SWIFT_VERSION dans l'app",
-  it: "SWIFT_VERSION nell'app",
-  nl: "SWIFT_VERSION in de app",
-  cs: "SWIFT_VERSION v aplikaci",
-  "zh-Hans": "App 的 SWIFT_VERSION",
-  "zh-Hant": "App 的 SWIFT_VERSION",
-  es: "SWIFT_VERSION en la app",
-  pl: "SWIFT_VERSION w aplikacji",
-  ja: "アプリの SWIFT_VERSION",
-  th: "SWIFT_VERSION ในแอป",
-  fi: "SWIFT_VERSION sovelluksessa",
-  uk: "SWIFT_VERSION у застосунку",
-  bg: "SWIFT_VERSION в приложението",
-  tr: "Uygulamada SWIFT_VERSION",
-  hu: "SWIFT_VERSION az appben",
-};
-
-const ROW_XCODE: Localized<string> = {
-  en: "What CI logs about Xcode",
-  ru: "Что CI пишет про Xcode",
-  de: "Was CI über Xcode protokolliert",
-  fr: "Ce que CI journalise sur Xcode",
-  it: "Cosa CI registra su Xcode",
-  nl: "Wat CI over Xcode logt",
-  cs: "Co CI zaznamenává o Xcodu",
-  "zh-Hans": "CI 记录的 Xcode 版本行",
-  "zh-Hant": "CI 記錄的 Xcode 版本行",
-  es: "Lo que CI registra sobre Xcode",
-  pl: "Co CI loguje o Xcode",
-  ja: "CI が Xcode について出力する行",
-  th: "สิ่งที่ CI บันทึกเรื่อง Xcode",
-  fi: "Mitä CI lokittaa Xcodesta",
-  uk: "Що CI пише про Xcode",
-  bg: "Какво CI записва за Xcode",
-  tr: "CI'ın Xcode hakkında kaydettiği",
-  hu: "Mit naplóz a CI az Xcode-ról",
-};
-
-const FACT_UNPINNED: Localized<string> = {
-  en: "Nothing in the repository pins an Xcode build: CI only runs xcodebuild -version and logs whatever the runner has. So this page claims no floor like Xcode 16+ or Swift 5.9+ — there is no such requirement to verify.",
-  ru: "Репозиторий не закрепляет версию Xcode: CI только запускает xcodebuild -version и пишет то, что есть на раннере. Поэтому здесь нет обещания «Xcode 16+» или «Swift 5.9+» — такой требования нет, и проверять нечего.",
-  de: "Im Repository ist keine Xcode-Version festgenagelt: CI führt nur xcodebuild -version aus und loggt, was der Runner hat. Deshalb behauptet diese Seite keine Untergrenze wie Xcode 16+ oder Swift 5.9+ — eine solche Anforderung gibt es nicht.",
-  fr: "Rien dans le dépôt n'épingle une version d'Xcode : CI lance seulement xcodebuild -version et journalise ce que le runner contient. Cette page ne revendique donc aucun plancher du type Xcode 16+ ou Swift 5.9+ — il n'y a pas une telle exigence à vérifier.",
-  it: "Nel repository nessuna versione di Xcode è fissata: CI esegue solo xcodebuild -version e registra quello che il runner ha. Per questo questa pagina non dichiara un minimo come Xcode 16+ o Swift 5.9+ — non c'è un tale requisito da verificare.",
-  nl: "In de repository wordt geen Xcode-versie vastgezet: CI voert alleen xcodebuild -version uit en logt wat de runner heeft. Deze pagina claimt dus geen ondergrens zoals Xcode 16+ of Swift 5.9+ — zo'n vereiste is er niet.",
-  cs: "Repozitář napevno neurčuje verzi Xcode: CI jen spustí xcodebuild -version a zapíše, co runner má. Tato strana proto netvrdí žádnou mez, jako Xcode 16+ nebo Swift 5.9+ — takový požadavek není co ověřit.",
-  "zh-Hans": "仓库里没有钉死 Xcode 版本：CI 只是运行 xcodebuild -version，打印运行器上当前的版本。所以本站不写「需要 Xcode 16+」或「Swift 5.9+」这类无法验证的下限。",
-  "zh-Hant": "倉庫裡沒有釘死 Xcode 版本：CI 只是執行 xcodebuild -version，印出執行環境當前的版本。所以本站不寫「需要 Xcode 16+」或「Swift 5.9+」這類無法驗證的下限。",
-  es: "El repositorio no fija una versión de Xcode: CI solo ejecuta xcodebuild -version y registra lo que tenga el runner. Por eso esta página no afirma un mínimo como Xcode 16+ o Swift 5.9+ — no existe ese requisito que verificar.",
-  pl: "Repozytorium nie przypisuje wersji Xcode: CI tylko uruchamia xcodebuild -version i loguje to, co jest na runnerze. Dlatego ta strona nie twierdzi, że trzeba Xcode 16+ albo Swift 5.9+ — takiego wymagania nie ma czego sprawdzać.",
-  ja: "リポジトリは Xcode のバージョンを固定していません。CI は xcodebuild -version を実行してランナーにあるものを出力するだけです。だからこのページに「Xcode 16+ が必要」や「Swift 5.9+」のような下限は書きません。検証しようが無いからです。",
-  th: "ในคลังโค้ดไม่ได้ตรึงเวอร์ชัน Xcode ไว้: CI แค่วิ่ง xcodebuild -version แล้วบันทึกสิ่งที่เครื่องรันมี หน้านี้จึงไม่อ้างขั้นต่ำแบบ Xcode 16+ หรือ Swift 5.9+ เพราะไม่มีข้อกำหนดนั้นให้ตรวจ",
-  fi: "Mikään repo ei lukitse Xcode-versiota: CI ajaa vain xcodebuild -version ja lokittaa runnerin sisällön. Tämä sivu ei siksi väitä alarajaa kuten Xcode 16+ tai Swift 5.9+ — tällaista vaatimusta ei ole tarkistettavissa.",
-  uk: "У репозиторії версія Xcode не закріплена: CI лише запускає xcodebuild -version і пише те, що є на ранері. Тому ця сторінка не стверджує жодної межі на кшталт Xcode 16+ чи Swift 5.9+ — таку вимогу нікому перевіряти.",
-  bg: "В хранилището няма фиксирана версия на Xcode: CI само пуска xcodebuild -version и записва каквото има на ранера. Затова тази страница не твърди долна граница като Xcode 16+ или Swift 5.9+ — няма такова изискване за проверка.",
-  tr: "Depo Xcode sürümünü sabitlemiyor: CI yalnızca xcodebuild -version çalıştırıp üzerindekini günlüğe yazıyor. Bu yüzden bu sayfa Xcode 16+ ya da Swift 5.9+ gibi bir taban iddia etmiyor — doğrulanacak böyle bir gereksinim yok.",
-  hu: "A tároló nem rögzít Xcode-verziót: a CI csak az xcodebuild -version parancsot futtatja, és naplózza, ami a futón van. Ez az oldal ezért nem állít ilyet, hogy Xcode 16+ vagy Swift 5.9+ kell — egy ilyen követelményt nem lehet ellenőrizni.",
-};
-
-const FACT_KIT_ONLY: Localized<string> = {
-  en: "swift-tools-version: 6.0 is the manifest line of PopopxMeshKit, and the .iOS(.v15) floor written there constrains the package only — the app itself still needs iOS 17.0.",
-  ru: "swift-tools-version: 6.0 — строка манифеста пакета PopopxMeshKit, и указанная там граница .iOS(.v15) касается только пакета: приложению по-прежнему нужен iOS 17.0.",
-  de: "swift-tools-version: 6.0 ist die Manifestzeile von PopopxMeshKit, und die dort geschriebene .iOS(.v15)-Grenze betrifft nur das Paket — die App selbst braucht weiterhin iOS 17.0.",
-  fr: "swift-tools-version: 6.0 est la ligne de manifeste du paquet PopopxMeshKit, et le plancher .iOS(.v15) qui y est écrit ne contraint que le paquet — l'app elle-même exige toujours iOS 17.0.",
-  it: "swift-tools-version: 6.0 è la riga di manifesto del pacchetto PopopxMeshKit, e il limite .iOS(.v15) scritto lì vincola solo il pacchetto — l'app stessa richiede ancora iOS 17.0.",
-  nl: "swift-tools-version: 6.0 is de manifestregel van PopopxMeshKit, en de .iOS(.v15)-grens daarin geldt alleen voor het pakket — de app zelf heeft nog steeds iOS 17.0 nodig.",
-  cs: "swift-tools-version: 6.0 je řádek manifestu balíčku PopopxMeshKit a mez .iOS(.v15) v něm váže pouze balíček — aplikace sama i nadále potřebuje iOS 17.0.",
-  "zh-Hans": "swift-tools-version: 6.0 是 PopopxMeshKit 包清单里的那一行，其中写的 .iOS(.v15) 也只约束这个包——App 本身仍然要 iOS 17.0。",
-  "zh-Hant": "swift-tools-version: 6.0 是 PopopxMeshKit 套件清單裡的那一行，其中寫的 .iOS(.v15) 也只約束這個套件——App 本身仍然需要 iOS 17.0。",
-  es: "swift-tools-version: 6.0 es la línea de manifiesto del paquete PopopxMeshKit, y el mínimo .iOS(.v15) que declara solo atañe al paquete — la app sigue necesitando iOS 17.0.",
-  pl: "swift-tools-version: 6.0 to linia manifestu pakietu PopopxMeshKit, a próg .iOS(.v15) w nim zapisany dotyczy wyłącznie pakietu — sama aplikacja nadal wymaga iOS 17.0.",
-  ja: "swift-tools-version: 6.0 は PopopxMeshKit パッケージのマニフェスト行であり、そこに書かれた .iOS(.v15) もパッケージにだけ適用されます。アプリ本体は引き続き iOS 17.0 が必要です。",
-  th: "swift-tools-version: 6.0 เป็นแค่บรรทัด manifest ของแพ็กเกจ PopopxMeshKit และขีดจำกัด .iOS(.v15) ที่เขียนไว้ก็ผูกเฉพาะแพ็กเกจ — ตัวแอปยังต้องใช้ iOS 17.0",
-  fi: "swift-tools-version: 6.0 on PopopxMeshKit-paketin manifestirivi, ja sen .iOS(.v15)-alaraja sitoo vain paketin — itse appi tarvitsee edelleen iOS 17.0.",
-  uk: "swift-tools-version: 6.0 — це рядок маніфеста пакета PopopxMeshKit, і межа .iOS(.v15) там стосується лише пакета: сам застосунок досі потребує iOS 17.0.",
-  bg: "swift-tools-version: 6.0 е редът от манифеста на пакета PopopxMeshKit, а посочената там граница .iOS(.v15) важи само за пакета — самото приложение продължава да изисква iOS 17.0.",
-  tr: "swift-tools-version: 6.0 PopopxMeshKit paketinin bildirim satırıdır ve içindeki .iOS(.v15) tabanı yalnızca paketi bağlar — uygulamanın kendisi hâlâ iOS 17.0 ister.",
-  hu: "a swift-tools-version: 6.0 a PopopxMeshKit csomag manifest-sora, és a benne álló .iOS(.v15) korlát csak a csomagra vonatkozik — magának az appnak továbbra is iOS 17.0 kell.",
-};
-
-const BUILD_SCHEME: Localized<string> = {
-  en: "The shared scheme is POPOPX (iOS); the two extensions ship as POPOPX NSE and POPOPX SE.",
-  ru: "Общая схема называется POPOPX (iOS); два расширения поставляются как POPOPX NSE и POPOPX SE.",
-  de: "Das gemeinsame Scheme ist POPOPX (iOS); die zwei Erweiterungen erscheinen als POPOPX NSE und POPOPX SE.",
-  fr: "Le scheme partagé est POPOPX (iOS) ; les deux extensions sont livrées comme POPOPX NSE et POPOPX SE.",
-  it: "Lo scheme condiviso è POPOPX (iOS); le due estensioni sono distribuite come POPOPX NSE e POPOPX SE.",
-  nl: "Het gedeelde scheme is POPOPX (iOS); de twee uitbreidingen worden meegeleverd als POPOPX NSE en POPOPX SE.",
-  cs: "Sdílené scheme je POPOPX (iOS); dvě rozšíření se dodávají jako POPOPX NSE a POPOPX SE.",
-  "zh-Hans": "共享 scheme 是 POPOPX (iOS)；两个扩展分别是 POPOPX NSE 与 POPOPX SE。",
-  "zh-Hant": "共用 scheme 是 POPOPX (iOS)；兩個擴充分別是 POPOPX NSE 與 POPOPX SE。",
-  es: "El scheme compartido es POPOPX (iOS); las dos extensiones se publican como POPOPX NSE y POPOPX SE.",
-  pl: "Wspólne scheme to POPOPX (iOS); dwa rozszerzenia występują jako POPOPX NSE i POPOPX SE.",
-  ja: "共有スキームは POPOPX (iOS)。2 つの拡張は POPOPX NSE と POPOPX SE として出荷されています。",
-  th: "scheme ที่แชร์กันคือ POPOPX (iOS); ส่วนสองส่วนขยายมาในชื่อ POPOPX NSE และ POPOPX SE",
-  fi: "Jaettu scheme on POPOPX (iOS); kaksi laajennosta toimitaan nimillä POPOPX NSE ja POPOPX SE.",
-  uk: "Спільна схема — POPOPX (iOS); два розширення постачаються як POPOPX NSE та POPOPX SE.",
-  bg: "Споделата схема е POPOPX (iOS); двете разширения се доставят като POPOPX NSE и POPOPX SE.",
-  tr: "Paylaşılan şema POPOPX (iOS); iki uzantı POPOPX NSE ve POPOPX SE olarak yayımlanıyor.",
-  hu: "A közös scheme a POPOPX (iOS); a két kiterjesztés POPOPX NSE és POPOPX SE néven kerül ki.",
-};
-
-const CMD_CAPTION: Localized<string> = {
-  en: "The command CI runs, copied verbatim; scripts/ci/ios-stub-libs.sh runs before it.",
-  ru: "Команда, которую запускает CI, скопирована дословно; перед ней отрабатывает scripts/ci/ios-stub-libs.sh.",
-  de: "Der Befehl, den CI ausführt, wortwörtlich übernommen; vorher läuft scripts/ci/ios-stub-libs.sh.",
-  fr: "La commande exécutée par CI, copiée mot pour mot ; scripts/ci/ios-stub-libs.sh tourne avant elle.",
-  it: "Il comando eseguito dalla CI, copiato alla lettera; prima di esso esegue scripts/ci/ios-stub-libs.sh.",
-  nl: "Het commando dat CI uitvoert, letterlijk overgenomen; eerst draait scripts/ci/ios-stub-libs.sh.",
-  cs: "Příkaz, který CI spouští, opsán slovo od slova; před ním běží scripts/ci/ios-stub-libs.sh.",
-  "zh-Hans": "CI 实际执行的那条命令，逐字照抄；在它之前先跑 scripts/ci/ios-stub-libs.sh。",
-  "zh-Hant": "CI 實際執行的那條命令，逐字照抄；在它之前先跑 scripts/ci/ios-stub-libs.sh。",
-  es: "El comando que ejecuta la CI, copiado literalmente; antes corre scripts/ci/ios-stub-libs.sh.",
-  pl: "Polecenie uruchamiane przez CI, przepisane dosłownie; wcześniej wykonuje się scripts/ci/ios-stub-libs.sh.",
-  ja: "CI が実行しているコマンドをそのまま転記しました。その前に scripts/ci/ios-stub-libs.sh が走ります。",
-  th: "คำสั่งที่ CI รันจริง ถอดมาคำต่อคำ และก่อนหน้านั้นจะรัน scripts/ci/ios-stub-libs.sh",
-  fi: "CI:n ajama komento sanottuna sanalle; ennen sitä ajetaan scripts/ci/ios-stub-libs.sh.",
-  uk: "Команду, яку запускає CI, подано дослівно; перед нею відпрацьовує scripts/ci/ios-stub-libs.sh.",
-  bg: "Командата, която CI изпълнява, е преписана дума по дума; преди нея се изпълнява scripts/ci/ios-stub-libs.sh.",
-  tr: "CI'ın çalıştırdığı komut birebir kopyalandı; hemen öncesinde scripts/ci/ios-stub-libs.sh çalışıyor.",
-  hu: "A CI által futtatott parancs szó szerint; előtte a scripts/ci/ios-stub-libs.sh fut le.",
-};
-
-const BUILD_SCRIPTS: Localized<string> = {
-  en: "Helper scripts live in scripts/ios/: prepare.sh, download-libs.sh and server-config-mint.swift.",
-  ru: "Вспомогательные скрипты лежат в scripts/ios/: prepare.sh, download-libs.sh и server-config-mint.swift.",
-  de: "Hilfsskripte liegen in scripts/ios/: prepare.sh, download-libs.sh und server-config-mint.swift.",
-  fr: "Les scripts d'aide se trouvent dans scripts/ios/ : prepare.sh, download-libs.sh et server-config-mint.swift.",
-  it: "Gli script di ausilio stanno in scripts/ios/: prepare.sh, download-libs.sh e server-config-mint.swift.",
-  nl: "Helpscripts staan in scripts/ios/: prepare.sh, download-libs.sh en server-config-mint.swift.",
-  cs: "Pomocné skripty jsou v scripts/ios/: prepare.sh, download-libs.sh a server-config-mint.swift.",
-  "zh-Hans": "仓库里还备有辅助脚本，放在 scripts/ios/：prepare.sh、download-libs.sh、server-config-mint.swift。",
-  "zh-Hant": "倉庫裡還備有輔助腳本，放在 scripts/ios/：prepare.sh、download-libs.sh、server-config-mint.swift。",
-  es: "Los auxiliares viven en scripts/ios/: prepare.sh, download-libs.sh y server-config-mint.swift.",
-  pl: "Skrypty pomocnicze znajdują się w scripts/ios/: prepare.sh, download-libs.sh i server-config-mint.swift.",
-  ja: "補助スクリプトは scripts/ios/ にあります: prepare.sh、download-libs.sh、server-config-mint.swift。",
-  th: "สคริปต์ช่วยงานอยู่ใน scripts/ios/: prepare.sh, download-libs.sh และ server-config-mint.swift",
-  fi: "Apuohjelmat ovat hakemistossa scripts/ios/: prepare.sh, download-libs.sh ja server-config-mint.swift.",
-  uk: "Допоміжні скрипти містяться у scripts/ios/: prepare.sh, download-libs.sh і server-config-mint.swift.",
-  bg: "Помощните скриптове са в scripts/ios/: prepare.sh, download-libs.sh и server-config-mint.swift.",
-  tr: "Yardımcı betikler scripts/ios/ altında: prepare.sh, download-libs.sh ve server-config-mint.swift.",
-  hu: "A segédszkriptek a scripts/ios/ könyvtárban vannak: prepare.sh, download-libs.sh és server-config-mint.swift.",
-};
-
-const ENGINE_TITLE: Localized<string> = {
-  en: "The engine that signs the server list",
-  ru: "Движок, который подписывает список серверов",
-  de: "Die Engine, die die Serverliste signiert",
-  fr: "Le moteur qui signe la liste de serveurs",
-  it: "Il motore che firma l'elenco dei server",
-  nl: "De engine die de serverlijst ondertekent",
-  cs: "Engine, která podepisuje seznam serverů",
-  "zh-Hans": "配套的签名配置推送引擎",
-  "zh-Hant": "配套的簽章設定推送引擎",
-  es: "El motor que firma la lista de servidores",
-  pl: "Silnik podpisujący listę serwerów",
-  ja: "サーバー一覧に署名するエンジン",
-  th: "ขุมพลังที่เซ็นรายชื่อเซิร์ฟเวอร์",
-  fi: "Moottori, joka allekirjoittaa palvelinluettelon",
-  uk: "Рушій, який підписує список серверів",
-  bg: "Двигателят, който подписва списъка със сървъри",
-  tr: "Sunucu listesini imzalayan motor",
-  hu: "A motor, amely aláírja a szerverlistát",
-};
-
-const ENGINE_BODY: Localized<string> = {
-  en: "popopx-server-up-bot signs cluster.json — SMP, XFTP, notification, chat relay and STUN/TURN entries — into an offline-verifiable config payload, then turns the SERVER_CFG_ACK receipts it collects back into a coverage figure.",
-  ru: "popopx-server-up-bot подписывает cluster.json — записи SMP, XFTP, уведомлений, chat relay и STUN/TURN — в офлайн-проверяемый конфигуационный payload, а затем превращает полученные SERVER_CFG_ACK-квитанции в цифру покрытия.",
-  de: "popopx-server-up-bot signiert cluster.json — SMP-, XFTP-, Benachrichtigungs-, Chat-Relay- und STUN/TURN-Einträge — zu einem offline überprüfbaren Konfigurationsdatenpaket und rechnet die eingehenden SERVER_CFG_ACK-Quittungen in eine Abdeckungsquote um.",
-  fr: "popopx-server-up-bot signe cluster.json — entrées SMP, XFTP, notification, chat relay et STUN/TURN — en une charge de configuration vérifiable hors ligne, puis convertit les accusés SERVER_CFG_ACK reçus en un taux de couverture.",
-  it: "popopx-server-up-bot firma cluster.json — voci SMP, XFTP, notifica, chat relay e STUN/TURN — in un payload di configurazione verificabile offline, quindi trasforma le ricevute SERVER_CFG_ACK raccolte in una cifra di copertura.",
-  nl: "popopx-server-up-bot ondertekent cluster.json — SMP-, XFTP-, notificatie-, chat relay- en STUN/TURN-items — tot een offline verifieerbare configuratieload, en rekent de ontvangen SERVER_CFG_ACK-ontvangstbewijzen om naar een dekkingscijfer.",
-  cs: "popopx-server-up-bot podepisuje cluster.json — položky SMP, XFTP, notifikací, chat relay a STUN/TURN — do offline ověřitelného konfiguračního payloadu a přijatá potvrzení SERVER_CFG_ACK pak přepočítá na míru pokrytí.",
-  "zh-Hans": "popopx-server-up-bot 把 cluster.json（SMP、XFTP、通知、chat relay、STUN/TURN 条目）离线签成一份可独立验证的配置载荷，再把收回的 SERVER_CFG_ACK 回执算成覆盖率。",
-  "zh-Hant": "popopx-server-up-bot 把 cluster.json（SMP、XFTP、通知、chat relay、STUN/TURN 條目）離線簽成一份可獨立驗證的設定封包，再把收回的 SERVER_CFG_ACK 回條算成涵蓋率。",
-  es: "popopx-server-up-bot firma cluster.json — entradas SMP, XFTP, de notificación, chat relay y STUN/TURN — en una carga de configuración verificable sin conexión, y convierte los acuses SERVER_CFG_ACK recibidos en una cifra de cobertura.",
-  pl: "popopx-server-up-bot podpisuje cluster.json — wpisy SMP, XFTP, powiadomień, chat relay i STUN/TURN — jako konfiguracyjny payload weryfikowalny offline, a otrzymane potwierdzenia SERVER_CFG_ACK przelicza na wskaźnik pokrycia.",
-  ja: "popopx-server-up-bot は cluster.json（SMP、XFTP、通知、chat relay、STUN/TURN の各項目）を、オフラインで検証できる設定ペイロードとして署名し、集めた SERVER_CFG_ACK の受信証をカバー率に換算します。",
-  th: "popopx-server-up-bot เซ็น cluster.json (รายการ SMP, XFTP, การแจ้งเตือน, chat relay และ STUN/TURN) เป็น payload การตั้งค่าที่ตรวจแบบออฟไลน์ได้ แล้วคำนวณใบตอบรับ SERVER_CFG_ACK ที่เก็บได้ให้เป็นตัวเลขความครอบคลุม",
-  fi: "popopx-server-up-bot allekirjoittaa cluster.jsonin — SMP-, XFTP-, ilmoitus-, chat relay- ja STUN/TURN-merkinnät — offline vahvistettavaksi asetuskappaleeksi ja muuttaa kerätyt SERVER_CFG_ACK-kuitit kattavuusluvuksi.",
-  uk: "popopx-server-up-bot підписує cluster.json — записи SMP, XFTP, сповіщень, chat relay та STUN/TURN — в офлайн-перевірюваний конфіг-пейлоад, а потім перетворює отримані SERVER_CFG_ACK-квитанції на показник покриття.",
-  bg: "popopx-server-up-bot подписва cluster.json — записи на SMP, XFTP, известия, chat relay и STUN/TURN — в офлайн проверяем конфигурационен пакет и после превръща получените SERVER_CFG_ACK разписки в число на покритието.",
-  tr: "popopx-server-up-bot, cluster.json dosyasını — SMP, XFTP, bildirim, chat relay ve STUN/TURN kayıtlarını — çevrimdışı doğrulanabilir bir yapılandırma yükü olarak imzalar, ardından topladığı SERVER_CFG_ACK makbuzlarını kapsama oranına çevirir.",
-  hu: "a popopx-server-up-bot aláírja a cluster.json fájlt — SMP, XFTP, értesítés, chat relay és STUN/TURN bejegyzéseket — offline ellenőrizhető konfigurációs csomaggá, majd a gyűjtött SERVER_CFG_ACK nyugdákat lefedettségi számmá alakítja.",
-};
-
-const ENGINE_TIERS: Localized<string> = {
-  en: "On the client the result lands in two tiers of storage only — UserDefaults and App Group files — and connectivity is probed twice after apply: at three seconds and at ten seconds.",
-  ru: "На стороне клиента результат попадает ровно в два уровня хранения — UserDefaults и файлы в App Group, — а связность проверяется дважды после применения: на третьей и на десятой секунде.",
-  de: "Auf der Client-Seite landet das Ergebnis in genau zwei Speicherebenen — UserDefaults und App-Group-Dateien — und die Erreichbarkeit wird nach dem Anwenden zweimal geprüft: nach drei und nach zehn Sekunden.",
-  fr: "Côté client, le résultat n'arrive que dans deux niveaux de stockage — UserDefaults et fichiers App Group — et la connectivité est sondée deux fois après l'application : à trois secondes et à dix secondes.",
-  it: "Lato client il risultato finisce in due soli livelli di archiviazione — UserDefaults e file in App Group — e la connettività viene verificata due volte dopo l'applicazione: a tre e a dieci secondi.",
-  nl: "Aan de clientkant belandt het resultaat in precies twee opslaglagen — UserDefaults en App Group-bestanden — en de connectiviteit wordt twee keer getest na toepassen: op 3 en op 10 seconden.",
-  cs: "Na straně klienta výsledek končí ve právě dvou úrovních úložiště — UserDefaults a soubory App Group — a konektivita se po aplikaci zkouší dvakrát: ve třech a v deseti sekundách.",
-  "zh-Hans": "客户端这一侧只有两层存储：UserDefaults 与 App Group 文件；应用之后在第 3 秒与第 10 秒各探测一次连通性。",
-  "zh-Hant": "客戶端這一側只有兩層儲存：UserDefaults 與 App Group 檔案；套用之後在第 3 秒與第 10 秒各偵測一次連通性。",
-  es: "En el cliente el resultado acaba en solo dos niveles de almacenamiento —UserDefaults y archivos de App Group— y la conectividad se comprueba dos veces tras aplicar: a los tres y a los diez segundos.",
-  pl: "Po stronie klienta wynik trafia dokładnie do dwóch warstw przechowywania — UserDefaults i plików App Group — a łączność jest sprawdzana dwa razy po zastosowaniu: w trzeciej i w dziesiątej sekundzie.",
-  ja: "クライアント側で結果が収まる保存層は UserDefaults と App Group ファイルの 2 つだけ。適用後の到達確認も 3 秒後と 10 秒後の 2 回です。",
-  th: "ฝั่งไคลเอนต์ผลลัพธ์จะอยู่ในชั้นเก็บข้อมูลแค่สองชั้น — UserDefaults กับไฟล์ใน App Group — และจะทดสอบการเชื่อมต่อหลังใช้ค่าสองครั้ง ที่ 3 วินาทีและ 10 วินาที",
-  fi: "Asiakkaan puolella tulos päätyy vain kahteen tallennustasoon — UserDefaults ja App Group -tiedostot — ja yhteys mitataan kahdesti soveltamisen jälkeen: kolmen ja kymmenen sekunnin kohdalla.",
-  uk: "На боці клієнта результат потрапляє рівно у два шари сховища — UserDefaults і файли App Group — а зв'язність перевіряється двічі після застосування: на третій і на десятій секунді.",
-  bg: "От страна на клиента резултатът попада точно в две нива на съхранение — UserDefaults и файлове в App Group — а свързаността се тества два пъти след прилагане: на третата и на десетата секунда.",
-  tr: "İstemci tarafında sonuç yalnızca iki depolama katmanına iner — UserDefaults ve App Group dosyaları — ve uygulama sonrası bağlantı iki kez yoklanır: üçüncü ve onuncu saniyede.",
-  hu: "Az ügyfél oldalán az eredmény pontosan két tárolási rétegbe kerül — UserDefaults és App Group fájlok — és az összeköttetést az alkalmazás után kétszer tapintjuk ki: a harmadik és a tizedik másodpercben.",
 };
 
 const LANG_TITLE: Localized<string> = {
@@ -779,13 +475,6 @@ const LANG_NOTE: Localized<string> = {
   hu: "Az alábbi lista az ügyfél saját CFBundleLocalizations listája: pontosan 18 címke ugyanabban a sorrendben, és minden név a saját nyelvén szerepel.",
 };
 
-const FACT_ROWS = [
-  { label: ROW_VERSION, value: "v1.2.0" },
-  { label: ROW_TARGET, value: "iOS 17.0" },
-  { label: ROW_SWIFT, value: "SWIFT_VERSION = 5.0" },
-  { label: ROW_XCODE, value: "xcodebuild -version" },
-];
-
 function QrCard(): ReactElement {
   const aria = useCopy(QR_ARIA);
   const note = useCopy(QR_NOTE);
@@ -821,16 +510,6 @@ function QrCard(): ReactElement {
   );
 }
 
-function FactRow({ label, value }: { label: Localized<string>; value: string }): ReactElement {
-  const l = useCopy(label);
-  return (
-    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-2">
-      <dt className="text-[12.5px] text-faint">{l}</dt>
-      <dd className="font-mono text-[12.5px] text-mute">{value}</dd>
-    </div>
-  );
-}
-
 function ReleaseItem({
   item,
   index,
@@ -854,31 +533,21 @@ function ReleaseItem({
   );
 }
 
-export function DownloadAndBuildSection(): ReactElement {
+export function DownloadSection(): ReactElement {
   const availTitle = useCopy(AVAIL_TITLE);
   const availBody = useCopy(AVAIL_BODY);
   const availRuling = useCopy(AVAIL_RULING);
   const availHow = useCopy(AVAIL_HOW);
-  const buildTitle = useCopy(BUILD_TITLE);
-  const versionFact = useCopy(FACT_VERSION);
   const releaseTitle = useCopy(RELEASE_TITLE);
   const releaseLead = useCopy(RELEASE_LEAD);
   const releaseNote = useCopy(RELEASE_NOTE);
-  const unpinned = useCopy(FACT_UNPINNED);
-  const kitOnly = useCopy(FACT_KIT_ONLY);
-  const scheme = useCopy(BUILD_SCHEME);
-  const caption = useCopy(CMD_CAPTION);
-  const scripts = useCopy(BUILD_SCRIPTS);
-  const engineTitle = useCopy(ENGINE_TITLE);
-  const engineBody = useCopy(ENGINE_BODY);
-  const engineTiers = useCopy(ENGINE_TIERS);
   const langTitle = useCopy(LANG_TITLE);
   const langNote = useCopy(LANG_NOTE);
 
   return (
     <section id="download" className="relative py-16 sm:py-20">
       <div className="section-wrap">
-        <SectionHeading eyebrow={EYEBROW} title={TITLE} subtitle={LEAD} />
+        <SectionHeading eyebrow={EYEBROW} title={TITLE} subtitle={LEAD} titleAs="h1" />
 
         {/* 1 · Availability — the honest panel, straight from ledger §12. */}
         <div className="mt-9 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
@@ -915,52 +584,7 @@ export function DownloadAndBuildSection(): ReactElement {
           <p className="mt-4 max-w-4xl text-[11.5px] leading-relaxed text-faint">{releaseNote}</p>
         </div>
 
-        {/* 4 · Build from source — measured versions, verbatim CI command. */}
-        <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
-          <article className="glass p-5 sm:p-6">
-            <div className="flex items-center gap-2">
-              <StatusDot tone="brand" />
-              <h3 className="text-[15px] font-semibold text-white">{buildTitle}</h3>
-            </div>
-            <dl className="mt-4 divide-y divide-hair">
-              {FACT_ROWS.map((row) => (
-                <FactRow key={row.value} label={row.label} value={row.value} />
-              ))}
-            </dl>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{versionFact}</p>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{unpinned}</p>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{kitOnly}</p>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{scheme}</p>
-            <p className="mt-4 text-[11.5px] leading-relaxed text-faint">{scripts}</p>
-            <a
-              href={IOS_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex font-mono text-[12.5px] text-brand-soft underline decoration-hair underline-offset-4 transition-colors duration-200 hover:text-white"
-            >
-              popopx-chat · master
-            </a>
-          </article>
-
-          <div className="flex flex-col gap-4">
-            <CodeBlock code={BUILD_COMMAND} maxHeightClass="max-h-[280px]" caption={caption} />
-            {/* The engine that feeds the client its server list — ledger §7, two tiers. */}
-            <div className="glass-inset p-5">
-              <p className="eyebrow">{engineTitle}</p>
-              <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{engineBody}</p>
-              <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{engineTiers}</p>
-              <div className="mt-3 flex flex-wrap gap-2 font-mono text-[10.5px] text-faint">
-                {["popopx-server-up-bot", "cluster.json", "Ed25519", "SERVER_CFG_ACK"].map((chip) => (
-                  <span key={chip} className="chip">
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 5 · The 18-language wall: the client's own tags, names in their own script. */}
+        {/* 4 · The 18-language wall: the client's own tags, names in their own script. */}
         <div className="glass mt-12 p-5 sm:p-6">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h3 className="text-[15px] font-semibold text-white">{langTitle}</h3>
