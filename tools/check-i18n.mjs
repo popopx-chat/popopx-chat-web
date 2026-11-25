@@ -110,9 +110,10 @@ const PROPER_TOKENS = new Set(
  * (`iTunes lookup`), a Swift parameter (`metadata = []`, the compression
  * dictionary), an enum raw value the sentence itself names (`standard`,
  * `receipt`, `security`, `create`, `update`), a wipe-step function
- * (`terminate`), a file-format field (`magic`, `framework`), or a term the
- * target language borrows as-is (`cookie`, `inline`, `digest`, `payload`,
- * `scheme`, `manifest`, `thumbnail`).
+ * (`terminate`), a file-format field (`magic`, `framework`), a top-level path in
+ * the engine repository (`studio`, i.e. `studio/` in `README、studio、docs`, ledger
+ * §15), or a term the target language borrows as-is (`cookie`, `inline`,
+ * `digest`, `payload`, `scheme`, `manifest`, `thumbnail`).
  *
  * Growing this list is the maintenance path for the probe, and the rule behind
  * every entry is the same one: a word that names something in the source stays
@@ -123,7 +124,7 @@ const PROPER_TOKENS = new Set(
 const QUOTED_CODE_TOKENS = new Set(
   (
     "xcodebuild lookup metadata thumbnail dictionary magic framework standard receipt security " +
-    "create update terminate cookie inline manifest scheme payload digest"
+    "studio create update terminate cookie inline manifest scheme payload digest"
   ).split(/\s+/),
 );
 
@@ -152,7 +153,12 @@ function mixedScriptTokens(text) {
 
 /**
  * Ordinary, whitespace-delimited English words: all-lowercase ASCII letters of
- * five or more, with the sentence punctuation stripped.
+ * five or more, with the trailing sentence punctuation of any script stripped.
+ *
+ * Leading punctuation is deliberately left alone. `"/products"`, `target="_blank"`
+ * and `-quiet` are route, attribute and flag literals; opening the front of the
+ * chunk too would surface 137 further tokens in this tree and turn a review list
+ * back into the noise machine the lists below exist to prevent.
  *
  * Everything this deliberately drops is a token that legitimately stays Latin
  * inside translated copy — `xcodebuild -version`, `swift-tools-version: 6.0`,
@@ -166,7 +172,9 @@ function plainEnglishWords(text) {
   const out = [];
   for (const chunk of text.split(/\s+/)) {
     if (!chunk) continue;
-    const core = chunk.replace(/[.,;:!?)"'[\]}»』]+$/, "");
+    // Script-wide, not ASCII-only: an ASCII list left `occurrences。` intact, the
+    // chunk failed `/^[a-z]+$/` below, and the slot yielded no tokens at all.
+    const core = chunk.replace(/[\p{P}\p{S}]+$/u, "");
     if (core.length < 5) continue;
     if (!/^[a-z]+$/.test(core)) continue;
     out.push(core);
@@ -409,6 +417,7 @@ if (process.argv.includes("--self-test")) {
     ["spreads 1 map(s)", "spread-built copy object"],
     ["cannot parse this file", "file that does not parse"],
     ["keeps the English word", "untranslated English residue"],
+    ['keeps the English word "occurrences"', "residue ending in fullwidth punctuation"],
     ["mixing scripts", "word mixing Cyrillic or Thai with Latin"],
     ["carries simplified-only", "simplified text in the zh-Hant slot"],
     ["carries traditional-only", "traditional text in the zh-Hans slot"],
