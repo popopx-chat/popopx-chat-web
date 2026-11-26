@@ -193,7 +193,7 @@ const LINK_CHAT_SUITE: Localized<string> = {
   "zh-Hant": "已打通：服務號會話、兩級選單、零知識頻道信封與 H5 授權——客戶端與套件說的是一套線通訊協定。",
   es: "En línea: las conversaciones de las cuentas de servicio, el menú de dos niveles, el sobre de canal de conocimiento cero y la autorización H5 — el cliente y la suite hablan el mismo protocolo de línea.",
   pl: "Połączone: konwersacje kont serwisowych, dwupoziomowe menu, koperta kanału o zerowej wiedzy i autoryzacja H5 — klient i pakiet mówią tym samym protokołem transmisji.",
-  ja: "稼働中：サービスアカウントの会話、2 階層のメニュー、ゼロ知識のチャンネル封筒、H5 認可——クライアントと套件は同じラインプロトコルで話している。",
+  ja: "稼働中：サービスアカウントの会話、2 階層のメニュー、ゼロ知識のチャンネル封筒、H5 認可——クライアントとスイートは同じラインプロトコルで話している。",
   th: "ออนไลน์: แชทบัญชีบริการ เมนูสองระดับ ซองแชนเนลแบบศูนย์ความรู้ และการอนุญาต H5 — ไคลเอนต์กับชุดบริการใช้โปรโตคอลบนสายเดียวกัน",
   fi: "Käytössä: palvelutilien keskustelut, kaksitasoinen valikko, nollatiedon kanavien kirjekuori ja H5 valtuutus — asiakas ja paketti puhuvat täsmälleen samaa siirtoprotokollaa.",
   uk: "Працює: розмови з сервісними акаунтами, дворівневе меню, конверт каналу з нульовим знанням та H5 авторизація — клієнт і набір говорять одним протоколом передачі.",

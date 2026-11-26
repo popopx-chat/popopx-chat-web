@@ -22,10 +22,10 @@ import { SITE_ORIGIN } from "./site";
  */
 
 /**
- * The positioning sentence, in the subject-predicate form the Hero prints as its
- * `<h1>`. `SEO_TITLE` below is the same sentence in the `POPOPX — <positioning>`
- * form the document head uses: both are literal 18-slot maps in this one module,
- * which is what keeps the first screen and the tab from drifting per language.
+ * The positioning sentence. `SEO_TITLE` below is the same sentence in the
+ * `POPOPX — <positioning>` form the document head uses, and the Hero prints it as
+ * the line under its heading: two literal 18-slot maps in this one module, updated
+ * together, so tab and first screen agree in every language.
  */
 export const BRAND_POSITIONING: Localized<string> = {
   en: "POPOPX Is a Privacy-First Intelligent Connection Platform",
@@ -46,6 +46,66 @@ export const BRAND_POSITIONING: Localized<string> = {
   bg: "POPOPX е интелигентна платформа за връзки с приоритет на поверителността",
   tr: "POPOPX gizlilik öncelikli akıllı bir bağlantı platformudur",
   hu: "A POPOPX egy adatvédelem-first intelligens kapcsolódási platform",
+};
+
+/**
+ * The brand claim, kept locale-free on purpose.
+ *
+ * A translated slogan stops being a slogan, and a Latin string inside an 18-slot
+ * map is exactly what the residue probe in `tools/check-i18n.mjs` exists to
+ * complain about. So `Connect Everything.` is printed identically in every
+ * language — the same treatment `PortalCards` gives product names — while
+ * `BRAND_CLAIM_LOCAL` carries the sentence that explains it.
+ */
+export const BRAND_CLAIM = "Connect Everything.";
+
+/** The claim's restatement, in the language the visitor reads the page in. */
+export const BRAND_CLAIM_LOCAL: Localized<string> = {
+  en: "Connect everything, and let intelligence collaborate freely.",
+  ru: "Соединить всё — и дать разуму свободно сотрудничать.",
+  de: "Alles verbinden — und Intelligenz frei zusammenarbeiten lassen.",
+  fr: "Tout connecter — et laisser l’intelligence collaborer librement.",
+  it: "Connettere tutto — e lasciare che l’intelligenza collabori liberamente.",
+  nl: "Alles verbinden — en intelligentie vrij laten samenwerken.",
+  cs: "Spojit všechno — a nechat inteligenci svobodně spolupracovat.",
+  "zh-Hans": "连接一切，让智能自由协作。",
+  "zh-Hant": "連接一切，讓智能自由協作。",
+  es: "Conectarlo todo — y dejar que la inteligencia colabore con libertad.",
+  pl: "Połączyć wszystko — i dać inteligencji swobodnie współdziałać.",
+  ja: "すべてをつなぎ、知が自由に協働できるように。",
+  th: "เชื่อมต่อทุกอย่าง และเปิดทางให้สติปัญญาทำงานร่วมกันอย่างอิสระ",
+  fi: "Yhdistä kaikki — ja anna älyn tehdä vapaasti yhteistyötä.",
+  uk: "З’єднати все — і дати розуму вільно співпрацювати.",
+  bg: "Свържете всичко — и оставете интелигентността да си сътрудничи свободно.",
+  tr: "Her şeyi bağla — ve zekânın özgürce iş birliği yapmasına izin ver.",
+  hu: "Mindent összekapcsolni — és hagyni, hogy az intelligencia szabadon együttműködjön.",
+};
+
+/**
+ * The ecosystem mission: the Hero's subtitle and the first sentence of
+ * `SEO_DESCRIPTION` are this one sentence, written literally into both maps. A
+ * derived map is not allowed here (see `tools/check-i18n.mjs`), so the two are
+ * kept in step by hand and re-measured slot by slot before any change lands.
+ */
+export const BRAND_MISSION: Localized<string> = {
+  en: "POPOPX does not merely provide connection tools — it builds an open ecosystem where people, AI, agents, devices, and services connect securely and collaborate freely.",
+  ru: "POPOPX не просто даёт инструменты соединения — он строит открытую экосистему, где люди, ИИ, агенты, устройства и сервисы связываются безопасно и сотрудничают свободно.",
+  de: "POPOPX stellt nicht bloß Verbindungs-Werkzeuge bereit, es baut ein offenes Ökosystem, in dem Menschen, KI, Agenten, Geräte und Dienste sich sicher verbinden und frei zusammenarbeiten.",
+  fr: "POPOPX ne fournit pas de simples outils de connexion : il construit un écosystème ouvert où les personnes, l’IA, les agents, les appareils et les services se relient en sécurité et collaborent librement.",
+  it: "POPOPX non fornisce soltanto strumenti di collegamento: costruisce un ecosistema aperto in cui persone, IA, agenti, dispositivi e servizi si collegano in sicurezza e collaborano liberamente.",
+  nl: "POPOPX levert niet alleen verbindingsmogelijkheden — het bouwt een open ecosysteem waarin mensen, AI, agents, apparaten en diensten veilig verbinden en vrij samenwerken.",
+  cs: "POPOPX nejen že poskytuje nástroje spojení — buduje otevřený ekosystém, kde se lidé, AI, agenti, zařízení a služby bezpečně spojují a svobodně spolupracují.",
+  "zh-Hans": "POPOPX 不只是提供连接工具，而是建立一个让人、AI、Agent、设备和服务能够安全连接、自由协作的开放生态。",
+  "zh-Hant": "POPOPX 不只是提供連線工具，而是建立一個讓人、AI、Agent、裝置與服務能夠安全連線、自由協作的開放生態。",
+  es: "POPOPX no solo ofrece herramientas de conexión: construye un ecosistema abierto donde personas, IA, agentes, dispositivos y servicios se conectan con seguridad y colaboran con libertad.",
+  pl: "POPOPX nie tylko dostarcza narzędzia połączeń — buduje otwarty ekosystem, w którym ludzie, AI, agenci, urządzenia i usługi łączą się bezpiecznie i swobodnie współdziałają.",
+  ja: "POPOPX が提供するのは接続の道具だけではありません。人、AI、エージェント、デバイス、サービスが安全につながり、自由に協働できるオープンなエコシステムを築いています。",
+  th: "POPOPX ไม่ได้มีแค่เครื่องมือเชื่อมต่อ แต่กำลังสร้างระบบนิเวศเปิดที่ผู้คน AI เอเจนต์ อุปกรณ์ และบริการต่างเชื่อมต่อกันอย่างปลอดภัยและทำงานร่วมกันได้อย่างอิสระ",
+  fi: "POPOPX ei vain tarjoa yhteystyökaluja — se rakentaa avoimen ekosysteemin, jossa ihmiset, tekoäly, agentit, laitteet ja palvelut yhdistyvät turvallisesti ja tekevät vapaasti yhteistyötä.",
+  uk: "POPOPX не просто надає засоби з’єднання — він будує відкриту екосистему, де люди, ШІ, агенти, пристрої й сервіси безпечно з’єднуються й вільно співпрацюють.",
+  bg: "POPOPX не просто предоставя средства за свързване — той изгражда отворена екосистема, в която хора, изкуствен интелект, агенти, устройства и услуги се свързват безопасно и си сътрудничат свободно.",
+  tr: "POPOPX yalnızca bağlantı araçları sunmaz; insanların, yapay zekânın, ajanların, cihazların ve hizmetlerin güvenle bağlanıp özgürce iş birliği yaptığı açık bir ekosistem kurar.",
+  hu: "A POPOPX nem pusztán kapcsolati eszközöket biztosít, hanem nyílt ökoszisztémát épít, ahol emberek, mesterséges intelligenciák, ügynökök, eszközök és szolgáltatások biztonságosan kapcsolódnak és szabadon együttműködnek.",
 };
 
 export const SEO_TITLE: Localized<string> = {
@@ -70,33 +130,32 @@ export const SEO_TITLE: Localized<string> = {
 };
 
 /**
- * The indexed summary. It opens with the positioning sentence — POPOPX is not
- * just another instant messenger but a privacy-first intelligent connection
- * platform, the claim the Hero makes and `ComparisonMatrix` argues line by line —
- * and then keeps the clauses the portal already defends elsewhere: queue-based
- * addressing and the encryption (`docs/FACTS.md` §3, §4), zero tracking
- * (`tools/scan-compliance.mjs` over `out/`), the four official hosts (§11, §15)
- * and the AGPL-3.0 licence (§11).
+ * The indexed summary. It opens with the ecosystem mission — the same sentence the
+ * Hero prints as its subtitle, written into both maps as literals because a derived
+ * locale map is what `tools/check-i18n.mjs` rejects — and then keeps the clauses the
+ * portal defends elsewhere: queue-based addressing and the encryption
+ * (`docs/FACTS.md` §3, §4), zero tracking (`tools/scan-compliance.mjs` over `out/`),
+ * the four official hosts (§11, §15) and the AGPL-3.0 licence (§11).
  */
 export const SEO_DESCRIPTION: Localized<string> = {
-  en: "The official POPOPX portal: not just another instant messenger, but a privacy-first intelligent connection platform. Queue-based addressing, end-to-end encryption and zero tracking across four AGPL-3.0 open-source sites.",
-  ru: "Официальный портал POPOPX: не просто обычный месенджер, а интеллектуальная платформа соединений с приоритетом конфиденциальности. Адресация на основе очередей, сквозное шифрование и ноль отслеживания — четыре сайта под AGPL-3.0.",
-  de: "Das offizielle POPOPX-Portal: nicht nur ein üblicher Messenger, sondern eine datenschutzorientierte intelligente Verbindungsplattform. Queue-basierte Adressierung, Ende-zu-Ende-Verschlüsselung und null Tracking — vier Sites unter AGPL-3.0.",
-  fr: "Le portail officiel POPOPX : bien plus qu’une messagerie instantanée, une plateforme de connexion intelligente à confidentialité prioritaire. Adressage par file, chiffrement de bout en bout et zéro suivi — quatre sites sous AGPL-3.0.",
-  it: "Il portale ufficiale POPOPX: molto più di una comune messaggistica istantanea, una piattaforma di connessione intelligente con priorità alla privacy. Indirizzamento basato su code, crittografia end-to-end e zero tracciamento — quattro siti sotto AGPL-3.0.",
-  nl: "Het officiële POPOPX-portal: meer dan een gewone instant messenger — een privacy-first intelligent verbindingsplatform. Op wachtrij gebaseerde adressering, end-to-end versleuteling en nul tracking — vier sites onder AGPL-3.0.",
-  cs: "Oficiální portál POPOPX: nejen běžný messenger, ale platforma inteligentních spojení s prioritou soukromí. Adresace založená na frontách, end-to-end šifrování a nulové sledování — čtyři weby pod AGPL-3.0.",
-  "zh-Hans": "POPOPX 官方主站：不只是传统的即时聊天工具，而是隐私优先的智能连接平台。基于队列的寻址、端到端加密、零追踪；iOS 客户端、Mac 节点、服务号套件与 Bot Studio 四个官方站点，全部以 AGPL-3.0 开源。",
-  "zh-Hant": "POPOPX 官方入口網站：不只是傳統的即時聊天工具，而是隱私優先的智慧連接平台。基於佇列的位址配置、端到端加密、零追蹤；iOS 客戶端、Mac 節點、服務號套件與 Bot Studio 四個官方網站，全部以 AGPL-3.0 開放原始碼。",
-  es: "El portal oficial de POPOPX: mucho más que un mensajero instantáneo común; una plataforma de conexión inteligente con prioridad de privacidad. Direccionamiento basado en colas, cifrado de extremo a extremo y cero rastreo — cuatro sitios bajo AGPL-3.0.",
-  pl: "Oficjalny portal POPOPX: to nie zwykły komunikator, ale platforma inteligentnych połączeń z priorytetem prywatności. Adresowanie oparte na kolejkach, szyfrowanie end-to-end i zerowe śledzenie — cztery witryny na AGPL-3.0.",
-  ja: "POPOPX の公式ポータル——ありふれたメッセンジャーではなく、プライバシー優先のインテリジェント接続プラットフォームです。キューベースのアドレッシング、エンドツーエンド暗号化、トラッキングゼロ。4 つのサイトをすべて AGPL-3.0 でソース公開。",
-  th: "พอร์ทัลอย่างเป็นทางการของ POPOPX: ไม่ใช่แค่แอปแชททั่วไป แต่เป็นแพลตฟอร์มการเชื่อมต่ออัจฉริยะที่เน้นความเป็นส่วนตัว การที่อยู่ตามคิว การเข้ารหัสแบบ end-to-end และไม่มีการติดตาม — สี่เว็บไซต์ใต้ AGPL-3.0",
-  fi: "POPOPX:n virallinen portaali: ei vain tavallinen pikaviestin, vaan yksityisyyden ensisijainen älykäs yhteysalusta. Jonoihin perustuva osoitus, päästä päähän -salaus ja nolla seurantaa — neljä AGPL-3.0-lisenssillä julkaistua sivustoa.",
-  uk: "Офіційний портал POPOPX: не просто звичайний месенджер, а інтелектуальна платформа з’єднань з пріоритетом конфіденційності. Адресація на основі черг, наскрізне шифрування й нульове відстеження — чотири сайти під AGPL-3.0.",
-  bg: "Официалният портал на POPOPX: не обикновен инстант месиджър, а интелигентна платформа за връзки с приоритет на поверителността. Адресиране на базата на опашки, криптиране от край до край и нулево проследяване — четири сайта под AGPL-3.0.",
-  tr: "POPOPX resmî portalı: sıradan bir anlık mesajlaşma uygulaması değil, gizlilik öncelikli akıllı bağlantı platformu. Kuyruk tabanlı adresleme, uçtan uca şifreleme ve sıfır izleme — AGPL-3.0 ile açık kaynak dört site.",
-  hu: "A hivatalos POPOPX portál: több mint egy hagyományos azonnali üzenetküldő — adatvédelem-first intelligens kapcsolódási platform. Sor-alapú címzés, végponttól végpontig titkosítás és nulla követés — négy, AGPL-3.0 alatt nyílt forráskódú oldal.",
+  en: "POPOPX does not merely provide connection tools — it builds an open ecosystem where people, AI, agents, devices, and services connect securely and collaborate freely. The official portal: queue-based addressing, end-to-end encryption and zero tracking across four AGPL-3.0 open-source sites.",
+  ru: "POPOPX не просто даёт инструменты соединения — он строит открытую экосистему, где люди, ИИ, агенты, устройства и сервисы связываются безопасно и сотрудничают свободно. Официальный портал: адресация на основе очередей, сквозное шифрование и ноль отслеживания — четыре сайта под AGPL-3.0.",
+  de: "POPOPX stellt nicht bloß Verbindungs-Werkzeuge bereit, es baut ein offenes Ökosystem, in dem Menschen, KI, Agenten, Geräte und Dienste sich sicher verbinden und frei zusammenarbeiten. Das offizielle Portal: Queue-basierte Adressierung, Ende-zu-Ende-Verschlüsselung und null Tracking — vier Sites unter AGPL-3.0.",
+  fr: "POPOPX ne fournit pas de simples outils de connexion : il construit un écosystème ouvert où les personnes, l’IA, les agents, les appareils et les services se relient en sécurité et collaborent librement. Le portail officiel : adressage par file, chiffrement de bout en bout et zéro suivi — quatre sites sous AGPL-3.0.",
+  it: "POPOPX non fornisce soltanto strumenti di collegamento: costruisce un ecosistema aperto in cui persone, IA, agenti, dispositivi e servizi si collegano in sicurezza e collaborano liberamente. Il portale ufficiale: indirizzamento basato su code, crittografia end-to-end e zero tracciamento — quattro siti sotto AGPL-3.0.",
+  nl: "POPOPX levert niet alleen verbindingsmogelijkheden — het bouwt een open ecosysteem waarin mensen, AI, agents, apparaten en diensten veilig verbinden en vrij samenwerken. Het officiële portal: op wachtrij gebaseerde adressering, end-to-end versleuteling en nul tracking — vier sites onder AGPL-3.0.",
+  cs: "POPOPX nejen že poskytuje nástroje spojení — buduje otevřený ekosystém, kde se lidé, AI, agenti, zařízení a služby bezpečně spojují a svobodně spolupracují. Oficiální portál: adresace založená na frontách, end-to-end šifrování a nulové sledování — čtyři weby pod AGPL-3.0.",
+  "zh-Hans": "POPOPX 不只是提供连接工具，而是建立一个让人、AI、Agent、设备和服务能够安全连接、自由协作的开放生态。 官方主站：基于队列的寻址、端到端加密、零追踪，四个官方站点全部以 AGPL-3.0 开源。",
+  "zh-Hant": "POPOPX 不只是提供連線工具，而是建立一個讓人、AI、Agent、裝置與服務能夠安全連線、自由協作的開放生態。 官方入口網站：基於佇列的位址配置、端到端加密、零追蹤，四個官方網站全部以 AGPL-3.0 開放原始碼。",
+  es: "POPOPX no solo ofrece herramientas de conexión: construye un ecosistema abierto donde personas, IA, agentes, dispositivos y servicios se conectan con seguridad y colaboran con libertad. El portal oficial: direccionamiento basado en colas, cifrado de extremo a extremo y cero rastreo — cuatro sitios bajo AGPL-3.0.",
+  pl: "POPOPX nie tylko dostarcza narzędzia połączeń — buduje otwarty ekosystem, w którym ludzie, AI, agenci, urządzenia i usługi łączą się bezpiecznie i swobodnie współdziałają. Oficjalny portal: adresowanie oparte na kolejkach, szyfrowanie end-to-end i zerowe śledzenie — cztery witryny na AGPL-3.0.",
+  ja: "POPOPX が提供するのは接続の道具だけではありません。人、AI、エージェント、デバイス、サービスが安全につながり、自由に協働できるオープンなエコシステムを築いています。 公式ポータルでは、キューベースのアドレッシング、エンドツーエンド暗号化、トラッキングゼロを、4 つの AGPL-3.0 サイトで裏づけています。",
+  th: "POPOPX ไม่ได้มีแค่เครื่องมือเชื่อมต่อ แต่กำลังสร้างระบบนิเวศเปิดที่ผู้คน AI เอเจนต์ อุปกรณ์ และบริการต่างเชื่อมต่อกันอย่างปลอดภัยและทำงานร่วมกันได้อย่างอิสระ พอร์ทัลอย่างเป็นทางการ: การที่อยู่ตามคิว การเข้ารหัสปลายทางถึงปลายทาง และไม่มีการติดตาม — สี่เว็บไซต์ใต้ AGPL-3.0",
+  fi: "POPOPX ei vain tarjoa yhteystyökaluja — se rakentaa avoimen ekosysteemin, jossa ihmiset, tekoäly, agentit, laitteet ja palvelut yhdistyvät turvallisesti ja tekevät vapaasti yhteistyötä. Virallinen portaali: jonoihin perustuva osoitus, päästä päähän -salaus ja nolla seurantaa — neljä AGPL-3.0-sivustoa.",
+  uk: "POPOPX не просто надає засоби з’єднання — він будує відкриту екосистему, де люди, ШІ, агенти, пристрої й сервіси безпечно з’єднуються й вільно співпрацюють. Офіційний портал: адресація на основі черг, наскрізне шифрування й нульове відстеження — чотири сайти під AGPL-3.0.",
+  bg: "POPOPX не просто предоставя средства за свързване — той изгражда отворена екосистема, в която хора, изкуствен интелект, агенти, устройства и услуги се свързват безопасно и си сътрудничат свободно. Официалният портал: адресиране на базата на опашки, криптиране от край до край и нулево проследяване — четири сайта под AGPL-3.0.",
+  tr: "POPOPX yalnızca bağlantı araçları sunmaz; insanların, yapay zekânın, ajanların, cihazların ve hizmetlerin güvenle bağlanıp özgürce iş birliği yaptığı açık bir ekosistem kurar. Resmî portal: kuyruk tabanlı adresleme, uçtan uca şifreleme ve sıfır izleme — AGPL-3.0 ile açık kaynak dört site.",
+  hu: "A POPOPX nem pusztán kapcsolati eszközöket biztosít, hanem nyílt ökoszisztémát épít, ahol emberek, mesterséges intelligenciák, ügynökök, eszközök és szolgáltatások biztonságosan kapcsolódnak és szabadon együttműködnek. A hivatalos portál: sor-alapú címzés, végponttól végpontig titkosítás és nulla követés — négy, AGPL-3.0 alatt nyílt oldal.",
 };
 
 const TITLE_SUFFIX = " · POPOPX";

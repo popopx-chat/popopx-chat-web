@@ -3,6 +3,9 @@ import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { PortalCards } from "@/components/PortalCards";
 import { EcosystemPanorama } from "@/components/EcosystemPanorama";
+import { AiThreeLayers } from "@/components/AiThreeLayers";
+import { UserScenariosGrid } from "@/components/UserScenariosGrid";
+import { FeaturesGrid } from "@/components/FeaturesGrid";
 import { SectionPointers } from "@/components/SectionPointers";
 import { Footer } from "@/components/Footer";
 
@@ -16,10 +19,13 @@ import { Footer } from "@/components/Footer";
  * lands somewhere readable, and the single-document rule that made this a static
  * export in the first place — seven HTML files, no router data, no server calls.
  *
- * `PortalCards` sits between the Hero and that index: four entries, one per
- * official product, so the ecosystem is visible before a visitor scrolls to the
- * prose about it. `EcosystemPanorama` continues the same block — how those four
- * relate, which links a source line backs and which are still plans.
+ * The scroll order is one funnel: what the portal is (`PortalCards` — four
+ * entries, one per official product), how those four relate (`EcosystemPanorama`
+ * — which links a source line backs and which are still plans), what that makes
+ * possible in layers (`AiThreeLayers`), what it looks like on a Tuesday
+ * (`UserScenariosGrid`), then the measured capability list and the route index.
+ * `FeaturesGrid` is the compact variant here, so the homepage points at the full
+ * ledger on `/features/` instead of shipping a second copy of it.
  */
 export default function Page(): ReactElement {
   return (
@@ -29,6 +35,9 @@ export default function Page(): ReactElement {
         <HeroSection />
         <PortalCards />
         <EcosystemPanorama />
+        <AiThreeLayers />
+        <UserScenariosGrid />
+        <FeaturesGrid variant="compact" />
         <SectionPointers />
       </main>
       <Footer />

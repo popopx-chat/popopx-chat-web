@@ -259,11 +259,11 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 | 邀请链接的 scheme 字面量是 `popopx:/`，协议侧同名同源；节点侧还有长度上限与敏感字符黑名单 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:74-76,81-84`、`../popopxmq/src/Popopx/Messaging/ServiceScheme.hs:23` |
 | 手机**从不**打开 `127.0.0.1:18920`：那是节点侧给同一台 Mac 上的工具用的本机控制台桥，配对屏上的这一段是「可复制的契约」，源码原话 "The app **never opens** that socket" 与 "on a phone that address is the phone" | `apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift:10-12,617-619` |
 | 客户端侧只是把这条契约原样展示（host、port、token 头名三个常量拼出地址串），没有任何连接测试 | `apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:69-73`、`apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift:647-648` |
-| 控制台被钉在回环是安全模型而不是偏好：`requiredInterfaceType = .loopback`、`acceptLocalOnly`、`includePeerToPeer = false`，注释写明这台机器上除了 bearer token 没有别的东西在鉴权 | `../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:3428-3434` |
+| 控制台被钉在回环是安全模型而不是偏好：`requiredInterfaceType = .loopback`、`acceptLocalOnly`、`includePeerToPeer = false`，注释写明这台机器上除了 bearer token 没有别的东西在鉴权 | `../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:4109-4116` |
 | 本机推理链有实现：Ollama 探活走 `http://127.0.0.1:11434`（一次回环往返）；装机步骤依次是 FFmpeg/ffprobe、uv、Ollama、按内存拉取适配的 Qwen、初始化 LTX-2.5 MLX 工作区、下载并校验权重、端到端自检 | `../PopopxMacNode/Sources/PopopxMacNode/Core/HardwareProfilerAndInstaller.swift:437-439,516-522` |
-| 模型清单恰好四项，控制台按此顺序列：`qwen3.8-27b-q8_0`、`qwen3.8-27b-q4_k_m`、`qwen3.8-9b-q4_k_m`、`inkling-2-mini`（约 20 GB 权重、建议 32 GB 起步；节点没发布参数量，`parameterBillions` 就留 `nil` 而不是猜一个进界面） | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:944-946,960-962,976-978,991-1000,1011-1012` |
-| 内存阶梯三档（≥96 / 48–95 / <48 GB）与每档的 LTX 权重写法、理由都是代码里的字面量；<48 GB 档的原话是「轻推理，重视频交给 mesh」 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:690-693,714-715,731-732,740-748` |
-| 每个任务的依赖都写明：需要本地模型的任务是 `["ffmpeg", "ollama"]`，不需要的只 `["ffmpeg"]`；另有一次性 `DispatchSource` kill switch，「卡死的 ffmpeg 永远 wedge 不住」后续流程 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:1737,3187` |
+| 模型清单恰好四项，控制台按此顺序列：`qwen3.8-27b-q8_0`、`qwen3.8-27b-q4_k_m`、`qwen3.8-9b-q4_k_m`、`inkling-2-mini`（约 20 GB 权重、建议 32 GB 起步；节点没发布参数量，`parameterBillions` 就留 `nil` 而不是猜一个进界面） | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:944-946,960-962,976-978,991-1000,1011-1016` |
+| 内存阶梯三档（≥96 / 48–95 / <48 GB）与每档的 LTX 权重写法、理由都是代码里的字面量；<48 GB 档的原话是「轻推理，重视频交给 mesh」 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:549-551,578-583,690-693,714-715,731-732,748-764` |
+| 每个任务的依赖都写明：需要本地模型的任务是 `["ffmpeg", "ollama"]`，不需要的只 `["ffmpeg"]`；另有一次性 `DispatchSource` kill switch，「卡死的 ffmpeg 永远 wedge 不住」后续流程 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:1762,3511` |
 | **Chat ↔ 服务号套件**这一头有客户端实现撑着：服务号两级菜单、动态业务卡片、进程外 `SFSafariViewController` 的 H5、零知识频道信封 `popopx.channel.enc.v1`（见 §9）；套件侧的对应说法是「线协议与出厂 iOS 客户端逐字节对齐」 | `apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42`、`../popopx-service-suite/README.en.md:9-12` |
 | 套件的五个组成是 README 自述：FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密、五个业务插件、浏览器管理台；且声明不链接、不修改、不重分发 node 的任何代码 | `../popopx-service-suite/README.en.md:9-13` |
 | 注意同名词：**套件脚本里的 `node` 指它自己在 `127.0.0.1:5225` 拉起的消息服务端**（gateway 在 8080），与 Mac 节点无关，全景图不把这两个 node 连成一条线 | `../popopx-service-suite/README.en.md:12-13,65,71` |
@@ -278,10 +278,10 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 
 ```sh
 sed -n '60,64p;69,72p;74,76p' PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift
-sed -n '57,58p;85,92p;690,693p;944,946p;991,1000p;1011,1012p;1737p;3187p' PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift
+sed -n '549,551p;578,583p;690,693p;714,715p;731,732p;748,764p;944,946p;960,962p;991,1000p;1011,1016p;1762p;3511p' PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift
 sed -n '7,15p' PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift
 sed -n '437,439p;516,522p' PopopxMacNode/Sources/PopopxMacNode/Core/HardwareProfilerAndInstaller.swift
-sed -n '3428,3434p' PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift
+sed -n '4109,4116p' PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift
 sed -n '8,12p;616,620p;646,650p' popopx-chat/apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift
 sed -n '69,73p' popopx-chat/apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift
 sed -n '408p' popopx-chat/src/Popopx/Chat/Options.hs
@@ -302,6 +302,54 @@ grep -rlE "bot-studio|service-suite" PopopxMacNode/Sources | wc -l              
 三条严禁：不得写成「手机经 127.0.0.1 直连 Mac 节点」（§16 第 5 行否掉了）；不得把套件脚本里的 `node`
 当成 Mac 节点（第 14 行）；不得把跨组件自动调度、PAP、任何「四端已自动协同」写成实线或既成事实（第 20 行）。
 另外「企业服务 / 企业治理」在四个仓库里 0 处证据，一律不写——套件侧可写的是五个业务插件与 POPX-CP 计量。
+
+## 17. 首页「AI 三层 + 六大场景」与端侧推理的实测口径（2026-11-26 实测）
+
+`AiThreeLayers.tsx` 与 `UserScenariosGrid.tsx` 是首页新增的两块普通用户叙事。规则与 §16 一样：
+每一个「已可用」都必须落在下面某一行，或 §3/§4/§5/§6/§9/§15/§16 已经撑住的行上；「演进中」指缺**代码**，不缺计划。
+以下出处在 2026-11-26 逐条 `sed` 回读过；组件文件里不写 `file:line`，出处只在本节。
+
+| 事实 | 出处 |
+| --- | --- |
+| **端侧确有一条真推理链，但它是安全传感器而不是助手**：同一帧里并行跑 `VNDetectFaceRectanglesRequest`（只数人头）与 CoreML 目标检测（手机/相机）；`configuration.computeUnits = .cpuAndNeuralEngine`，注释原话「only on the ANE is this 320x320 model down to single-digit milliseconds」；用途原话「We only use "is there a phone"」 | `apps/ios/Shared/Features/SecureEphemeral/PopopxCameraGuardEngine.swift:11,229-230,385-387,391-392` |
+| 模型随仓库出厂：`model.mlmodel` 167,513 字节、`weight.bin` 5,257,128 字节（≈5.0 MiB），`apps/ios/Resources/SecureEphemeral/` 与 `apps/ios/Shared/Features/SecureEphemeral/` 两份 `apps/ios/Shared/Features/SecureEphemeral/POPOPXAntiSpyDetector.mlpackage/Manifest.json` 同哈希；运行时只认 Xcode 预编译出的 `POPOPXAntiSpyDetector.mlmodelc`（注释：bare `.mlpackage` in the bundle equals no model at all），取不到就返回 nil、整条链降级，用户侧另有总开关 | `apps/ios/Shared/Features/SecureEphemeral/PopopxCameraGuardEngine.swift:397-406,409-410`、`apps/ios/Shared/Features/SecureEphemeral/PopopxSecureWindowManager.swift:107` |
+| **客户端 0 处对话/生成式模型、0 处语音识别、0 处本地推理服务**：十个标识符大小写不敏感全仓 0 命中（配方见下）。两个已知假阳性**不在**该列表内，复测时别把它们算成实现：口令词表里的英文单词 `whisper`、CoreFoundation 的 `CFStringTokenizer` | `apps/ios/Shared/Features/AntiTheftDuress/PopopxDuressAuthManager.swift:536`、`apps/ios/Shared/Views/Chat/ChatItem/FramedItemView.swift:517` |
+| 第二层的「已可用」= §15 的门户与引擎仓库 + §16 的 supervisor 事实：Studio 一个进程经回环 WebSocket 管任意多个 `popopx-cli` 实例、零内置二进制、控制台默认 `127.0.0.1:8090`、bot 控制端口 5230–5299「never 0.0.0.0」 | `../popopx-bot-studio/README.en.md:3-12,26,41,51-52,139-140` |
+| 第二层的「演进中」= 让多个智能体互相派活的编排层 0 处实现；今天 bot 会话走 SMP，Studio 驱动它自己的 `popopx-cli`，两边互不内嵌（同一句「linked, not wired」见 §16） | `../popopx-bot-studio/README.en.md:3-12`、`../popopxmq/protocol/agent-protocol.md:1-3` |
+| 第三层的「已可用」两半来自 §9（服务号两级菜单、动态卡片、`popopx.channel.enc.v1` 零知识信封、进程外 H5）与 §16（Mac Node 本机 Ollama/Qwen/LTX-2.5 MLX + FFmpeg，控制台 `requiredInterfaceType = .loopback`） | `apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42`、`../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:4109-4116` |
+| 第三层的「演进中」与第六张卡同一条证据：跨组件自动调度在四个仓库 0 处调用（§16 第 20 行的三条 grep 配方） | `../popopx-service-suite/gateway/app/config.py:250-255` |
+| 三处用词不同、含义同一把尺子：生态图 `已打通 / Live` 与 `生态协同演进中 / Planned`（实线 = §16 指得出源码，虚线 = 计划），新卡片 `已可用 / Available` 与 `演进中 / Evolving`，生态页 AgentProtocol 写「SMP Agent Protocol: defined and in use」与「PAP … zero occurrences … Not yet implemented」。严禁把任何虚线/演进中的说法改写成既成事实 | `./src/components/EcosystemPanorama.tsx:289,310`、`./src/components/AiThreeLayers.tsx:294,315`、`./src/components/AgentProtocol.tsx:77,98` |
+| 卡片图标是页面内画的 `<svg>` 线条：18 语共用同一组 path，无 `<text>`、无 `<image>`、无外链，因此不产生任何网络请求，也无需翻译 | `./src/components/UserScenariosGrid.tsx:338-443` |
+| **四层品牌主张是品牌叙述，不是技术断言**（2026-11-26 用户裁定）：`Connect Everything.` 主张、`自由连接 · 私密沟通 · 智能协作` 宣传语、`POPOPX — 隐私优先的智能连接平台` 定位、以及「人、AI、Agent、设备和服务安全连接、自由协作」的生态使命。可被访客验证的仍然是 Hero 的四枚徽章与本表；`SEO_DESCRIPTION` 每语首句必须与 `BRAND_MISSION` 同槽逐字节相同 | `./src/lib/seo.ts:60,90,140`、`./src/components/HeroSection.tsx:47,70-73` |
+| `Connect Everything.` 故意不进 18 槽 map：一条拉丁标语在 7 个非拉丁槽里各重复一次，就是残字探针要报的 12+ 条警告；它与产品名一样按 locale-free 打印，解释句交给 `BRAND_CLAIM_LOCAL` | `./tools/check-i18n.mjs:85,171-183`、`./src/lib/seo.ts:53-60` |
+
+复测配方（客户端仓库根目录跑前四条，其余在四个仓库的公共父目录）：
+
+```sh
+sed -n '11p;229,230p;385,392p;397,410p' apps/ios/Shared/Features/SecureEphemeral/PopopxCameraGuardEngine.swift
+grep -n "const STATUS_AVAILABLE\|const STATUS_EVOLVING\|const L1_DONE\|const L1_NEXT" src/components/AiThreeLayers.tsx
+grep -n "const STATUS_LIVE\|const STATUS_PLANNED" src/components/EcosystemPanorama.tsx
+grep -n "const PROTOCOL_STATUS\|const PAP_STATUS" src/components/AgentProtocol.tsx
+stat -f "%N %z" apps/ios/Resources/SecureEphemeral/POPOPXAntiSpyDetector.mlpackage/Data/com.apple.CoreML/model.mlmodel \
+  apps/ios/Resources/SecureEphemeral/POPOPXAntiSpyDetector.mlpackage/Data/com.apple.CoreML/weights/weight.bin
+md5 -q apps/ios/Resources/SecureEphemeral/POPOPXAntiSpyDetector.mlpackage/Manifest.json \
+  apps/ios/Shared/Features/SecureEphemeral/POPOPXAntiSpyDetector.mlpackage/Manifest.json      # 相同
+grep -rniE --include='*.swift' "MLComputeUnits|generateText|VNRecognizeText|SFSpeechRecognizer|AVSpeechSynthesizer|Ollama|llama|ggml|gguf|ONNX" apps/ios | wc -l    # 0
+python3 - <<'EOF'
+import re
+L=["en","ru","de","fr","it","nl","cs","zh-Hans","zh-Hant","es","pl","ja","th","fi","uk","bg","tr","hu"]
+s=open("src/lib/seo.ts",encoding="utf-8").read()
+def m(name):
+    i=s.index("export const %s"%name); j=s.index("\n};", i)
+    return {k:re.search(r'\n\s*"?"%s"?:\s*"((?:[^"\\]|\\.)*)"'%k,s[i:j]).group(1) for k in L}
+d,mi=m("SEO_DESCRIPTION"),m("BRAND_MISSION")
+print("SEO_DESCRIPTION 首句与 BRAND_MISSION 不一致的槽数:", sum(1 for k in L if not d[k].startswith(mi[k])))
+EOF
+```
+
+三条严禁：不得写「客户端已有端侧助手/意图识别」（第 3 行是 0）；不得把那份 5 MiB 权重说成对话或生成式模型（第 1 行的用途原话只管「画面里有没有手机」）；
+不得把第三层的跨组件调度、第六个场景的「一句话排好日程、跨端接力」写成已可用（第 7 行）。
+另外「双栈 / Mesh 组网 / 加密备份上传 / 云同步 / 企业服务」仍是禁词（§13），品牌主张四句里一个字都不能带上它们。
 
 ## 20. 资源页文档矩阵（/resources/，2026-11-25 实测）
 

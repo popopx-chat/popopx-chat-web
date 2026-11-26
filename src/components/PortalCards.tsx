@@ -96,7 +96,7 @@ const LEAD: Localized<string> = {
 };
 
 /** The label on a card that leaves the portal. */
-const CTA_OPEN: Localized<string> = {
+export const CTA_OPEN: Localized<string> = {
   en: "Open site",
   ru: "Открыть сайт",
   de: "Site öffnen",

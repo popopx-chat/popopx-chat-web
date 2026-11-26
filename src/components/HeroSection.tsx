@@ -3,19 +3,20 @@
 import { useState, type ReactElement } from "react";
 import Link from "next/link";
 import { pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
-import { BRAND_POSITIONING } from "@/lib/seo";
+import { BRAND_CLAIM, BRAND_CLAIM_LOCAL, BRAND_MISSION, BRAND_POSITIONING } from "@/lib/seo";
 import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
 
 /**
  * Hero.
  *
  * What is true here, and where it comes from (`docs/FACTS.md`):
- *  - the `<h1>` is the positioning sentence and the only place on the page that
- *    states it; the document head carries the same sentence as `POPOPX — …`
- *    (`SEO_TITLE` in `src/lib/seo.ts`), so the first screen and the tab cannot
- *    drift in any of the 18 languages. The subtitle is brand framing, not a
- *    technical claim — the claims a visitor could check are the four badges,
- *    each with its own source in the ledger;
+ *  - the `<h1>` is the brand claim: `Connect Everything.` printed locale-free, with
+ *    the sentence that explains it underneath. The positioning sentence now sits
+ *    below the subtitle, and the document head still carries it as `POPOPX — …`
+ *    (`SEO_TITLE` in `src/lib/seo.ts`), so the first screen and the tab cannot drift
+ *    in any of the 18 languages. The subtitle is the ecosystem mission — brand
+ *    framing, not a technical claim; the claims a visitor could check are the four
+ *    badges, each with its own source in the ledger;
  *  - the four badges are the four claims the client code supports — no global
  *    user ID (§3), queue payload encrypted with AES-256-GCM and the Bluetooth
  *    link with a Noise XX handshake (§4, §6), dual-role CoreBluetooth GATT
@@ -36,54 +37,41 @@ const TABS = ["messages", "contacts", "cabin", "discover", "me"] as const;
 type TabId = (typeof TABS)[number];
 
 const HERO_COPY: Record<
-  "eyebrow" | "title" | "subtitle" | "ctaGet" | "ctaRepo" | "ctaSecurity",
+  "eyebrow" | "claim" | "subtitle" | "positioning" | "ctaGet" | "ctaRepo" | "ctaSecurity",
   Localized<string>
 > = {
-  // The three pillars, now the line above the heading rather than the heading
-  // itself: the `<h1>` took over the positioning sentence, so the slogan moved up.
+  // The three pillars, as the imperative the brief settles on: the verbs carry the
+  // claim, so the line above the heading reads as an invitation rather than a label.
+  // Simplified and Traditional Chinese keep their nominal slogan form, which is what
+  // a Chinese tagline of this shape sounds like.
   eyebrow: {
-    en: "Free connection · Private communication · Intelligent collaboration",
-    ru: "Свободное соединение · Конфиденциальное общение · Интеллектуальное сотрудничество",
-    de: "Freie Verbindung · Private Kommunikation · Intelligente Zusammenarbeit",
-    fr: "Connexion libre · Communication privée · Collaboration intelligente",
-    it: "Connessione libera · Comunicazione privata · Collaborazione intelligente",
-    nl: "Vrije verbinding · Privécommunicatie · Intelligente samenwerking",
-    cs: "Svobodné spojení · Soukromá komunikace · Inteligentní spolupráce",
+    en: "Connect Freely · Communicate Privately · Collaborate Intelligently",
+    ru: "Подключайтесь свободно · Общайтесь конфиденциально · Сотрудничайте разумно",
+    de: "Frei verbinden · Privat kommunizieren · Intelligent zusammenarbeiten",
+    fr: "Connectez librement · Communiquez en privé · Collaborez intelligemment",
+    it: "Connetti liberamente · Comunica in privato · Collabora in modo intelligente",
+    nl: "Vrij verbinden · Privé communiceren · Intelligent samenwerken",
+    cs: "Spojujte se svobodně · Komunikujte soukromě · Spolupracujte chytře",
     "zh-Hans": "自由连接 · 私密沟通 · 智能协作",
     "zh-Hant": "自由連接 · 私密溝通 · 智能協作",
-    es: "Conexión libre · Comunicación privada · Colaboración inteligente",
-    pl: "Swobodne połączenie · Prywatna komunikacja · Inteligentna współpraca",
-    ja: "自由な接続 · プライベートな通信 · インテリジェントな協働",
-    th: "การเชื่อมต่ออิสระ · การสื่อสารส่วนตัว · ความร่วมมืออัจฉริยะ",
-    fi: "Vapaa yhteys · Yksityinen viestintä · Älykäs yhteistyö",
-    uk: "Вільне з'єднання · Приватне спілкування · Інтелектуальна співпраця",
-    bg: "Свободна връзка · Частна комуникация · Интелигентно сътрудничество",
-    tr: "Özgür bağlantı · Özel iletişim · Akıllı işbirliği",
-    hu: "Szabad kapcsolat · Privát kommunikáció · Intelligens együttműködés",
+    es: "Conecta con libertad · Comunícate en privado · Colabora de forma inteligente",
+    pl: "Łączcie się swobodnie · Komunikujcie się prywatnie · Współpracujcie inteligentnie",
+    ja: "自由に接続 · プライベートに通信 · 賢く協働",
+    th: "เชื่อมต่ออย่างอิสระ · สื่อสารอย่างเป็นส่วนตัว · ร่วมมืออย่างชาญฉลาด",
+    fi: "Yhdistä vapaasti · Viesti luottamuksellisesti · Tee älykästä yhteistyötä",
+    uk: "З’єднуйтесь вільно · Спілкуйтеся приватно · Співпрацюйте розумно",
+    bg: "Свързвайте се свободно · Комуникирайте поверително · Сътрудничете интелигентно",
+    tr: "Özgürce bağlan · Gizli iletişim kur · Akıllıca iş birliği yap",
+    hu: "Kapcsolódj szabadon · Beszélj bizalmasan · Működj együtt intelligensen",
   },
-  // One sentence with `SEO_TITLE` (`src/lib/seo.ts`): the heading states it as a
-  // sentence, the document head states it as `POPOPX — <positioning>`.
-  title: BRAND_POSITIONING,
-  subtitle: {
-    en: "Securely connecting people, people and AI, and AI with tools and services — for freer communication and smarter collaboration.",
-    ru: "Безопасные связи: людей друг с другом, людей с ИИ, ИИ с инструментами и сервисами — ради свободного общения и умного сотрудничества.",
-    de: "Sichere Verbindungen — zwischen Menschen, zwischen Mensch und KI, zwischen KI mit Werkzeugen und Diensten: für freie Kommunikation und intelligente Zusammenarbeit.",
-    fr: "Des connexions sécurisées : entre les personnes, entre les personnes et l’IA, entre l’IA, les outils et les services — pour communiquer plus librement et collaborer plus intelligemment.",
-    it: "Connessioni sicure: tra persone, tra persone e IA, tra IA, strumenti e servizi — per comunicare più liberamente e collaborare in modo più intelligente.",
-    nl: "Veilige verbindingen: tussen mensen, tussen mensen en AI, en tussen AI, tools en services — voor vrijere communicatie en slimmere samenwerking.",
-    cs: "Bezpečná spojení: mezi lidmi, mezi lidmi a AI a mezi AI, nástroji a službami — pro svobodnější komunikaci a chytřejší spolupráci.",
-    "zh-Hans": "安全连接人与人、人与 AI、AI 与工具和服务，让沟通更自由，协作更智能。",
-    "zh-Hant": "安全連接人與人、人與 AI、AI 與工具和服務，讓溝通更自由，協作更智能。",
-    es: "Conexiones seguras: entre personas, entre personas e IA, y entre la IA, las herramientas y los servicios — para comunicarse con más libertad y colaborar de forma más inteligente.",
-    pl: "Bezpieczne połączenia: między ludźmi, między ludźmi a AI oraz między AI, narzędziami i usługami — dla swobodniejszej komunikacji i mądrzejszej współpracy.",
-    ja: "人と人、人と AI、そして AI とツールやサービスを安全につなぎ、より自由なコミュニケーションとよりスマートな協働を実現します。",
-    th: "เชื่อมต่ออย่างปลอดภัย ระหว่างคนกับคน คนกับ AI และ AI กับเครื่องมือและบริการ เพื่อให้การสื่อสารอิสระยิ่งขึ้นและการทำงานร่วมกันฉลาดยิ่งขึ้น",
-    fi: "Turvallisia yhteyksiä: ihmisten välillä, ihmisten ja tekoälyn välillä sekä tekoälyn, työkalujen ja palveluiden välillä — vapaampaa viestintää ja älykkäämpää yhteistyötä.",
-    uk: "Безпечні зв’язки: людей між собою, людей зі ШІ, ШІ з інструментами та сервісами — задля вільнішого спілкування й розумнішої співпраці.",
-    bg: "Безопасни връзки: между хората, между хората и ИИ, и между ИИ, инструментите и услугите — за по-свободна комуникация и по-умно сътрудничество.",
-    tr: "Güvenli bağlantılar: insanlar arasında, insanlar ile yapay zekâ arasında ve yapay zekânın araçlar ile hizmetlerle arasında — daha özgür iletişim, daha akıllı işbirliği.",
-    hu: "Biztonságos kapcsolatok: emberek között, emberek és MI között, valamint MI, eszközök és szolgáltatások között — szabadabb kommunikációért és intelligensebb együttműködésért.",
-  },
+  // The `<h1>`: `BRAND_CLAIM` is locale-free, `BRAND_CLAIM_LOCAL` explains it. Both
+  // live in `src/lib/seo.ts` beside `SEO_TITLE`, so the heading, the positioning line
+  // and the tab are updated in one module and cannot drift per language.
+  claim: BRAND_CLAIM_LOCAL,
+  subtitle: BRAND_MISSION,
+  // One sentence with `SEO_TITLE` (`src/lib/seo.ts`).
+  positioning: BRAND_POSITIONING,
+
   ctaGet: {
     en: "Get the client & build it",
     ru: "Получить клиент и собрать",
@@ -647,8 +635,9 @@ export function HeroSection(): ReactElement {
   const { locale } = useLocale();
 
   const eyebrow = useCopy(HERO_COPY.eyebrow);
-  const title = useCopy(HERO_COPY.title);
+  const claim = useCopy(HERO_COPY.claim);
   const subtitle = useCopy(HERO_COPY.subtitle);
+  const positioning = useCopy(HERO_COPY.positioning);
   const ctaGet = useCopy(HERO_COPY.ctaGet);
   const ctaRepo = useCopy(HERO_COPY.ctaRepo);
   const ctaSecurity = useCopy(HERO_COPY.ctaSecurity);
@@ -685,16 +674,27 @@ export function HeroSection(): ReactElement {
         <div>
           <p className="eyebrow">{eyebrow}</p>
           <h1 className="mt-4 max-w-[22ch] break-words hyphens-auto text-[clamp(2.15rem,5vw,3.6rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-balance">
-            {/* The sentence is longer than the slogan it replaced, and Russian,
-                Ukrainian and Finnish put 16-to-18-letter words in it. Without
-                `break-words` those words are cut by `overflow-hidden` on the
-                section at 300px instead of wrapping (measured: ru lost 30px).
-                `hyphens-auto` is what keeps the break readable: German and
-                Dutch hyphenate at their own compound boundary — `datenschutz-
-                orientierte` — instead of splitting a word mid-syllable. */}
-            {title}
+            {/* Two lines, one claim: the locale-free slogan carries the brand
+                words, the localized sentence under it is the same claim in the
+                visitor's language. Both stay inside the `<h1>` so the document
+                heading is the brand claim itself, and `LocaleMeta` keeps the
+                tab title on `SEO_TITLE` (the positioning sentence).
+                `break-words hyphens-auto` is load-bearing, not decoration:
+                Russian, Ukrainian and Finnish put 16-to-18-letter words in the
+                second line, and without them `overflow-hidden` on the section
+                cuts the line box at 300px instead of wrapping (measured: ru
+                lost 30px). The sizing is a second `clamp` rather than an `em`
+                ratio so the sentence stays readable at 300px, where the
+                heading itself is already at its floor. */}
+            <span className="block">{BRAND_CLAIM}</span>
+            <span className="mt-2 block max-w-[40ch] text-[clamp(1rem,2.2vw,1.5rem)] font-semibold leading-[1.25] tracking-[-0.01em] text-brand-soft">
+              {claim}
+            </span>
           </h1>
           <p className="mt-6 max-w-[64ch] text-[15px] leading-[1.75] text-mute">{subtitle}</p>
+          <p className="mt-4 min-w-0 max-w-[56ch] break-words hyphens-auto text-[13.5px] leading-relaxed text-faint">
+            {positioning}
+          </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-2.5">
             <Link

@@ -42,9 +42,10 @@ import {
  * The crawl-facing strings. `LocaleMeta` renders the same `DEFAULT_LOCALE` slot
  * as the document `<title>` while the server is still composing the homepage, so
  * the exported HTML keeps a Simplified Chinese title and the six other routes
- * keep their own. The Hero `<h1>` states the same sentence in `SEO_TITLE`'s
- * declarative form — two literal 18-slot maps in `src/lib/seo.ts`, updated
- * together, so tab and first screen agree in every language.
+ * keep their own. The Hero prints that sentence back as `BRAND_POSITIONING`,
+ * below the mission line and under its own `<h1>` — two literal 18-slot maps in
+ * `src/lib/seo.ts`, updated together, so tab and first screen agree in every
+ * language.
  */
 const TITLE = SEO_TITLE[DEFAULT_LOCALE];
 
