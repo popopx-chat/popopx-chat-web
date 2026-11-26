@@ -201,7 +201,7 @@ const STATUS_LABEL: Record<CryptoStatus, Localized<string>> = {
 const FLOW: readonly Stage[] = [
   {
     index: "①", tone: "mesh", arrow: ".ppxlz", chip: "FileProtectionType.complete",
-    cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:330,337,900", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:436"],
+    cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:349,356,918-919", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:457-459,503-505"],
     label: {
       en: "Device sandbox. The media engine's temporary files and the whole server table are written with FileProtectionType.complete.",
       ru: "Песочница устройства. Временные файлы медиадвижка и вся таблица серверов записаны с FileProtectionType.complete.",
