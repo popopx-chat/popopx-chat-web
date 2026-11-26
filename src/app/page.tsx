@@ -5,6 +5,8 @@ import { PortalCards } from "@/components/PortalCards";
 import { EcosystemPanorama } from "@/components/EcosystemPanorama";
 import { AiThreeLayers } from "@/components/AiThreeLayers";
 import { UserScenariosGrid } from "@/components/UserScenariosGrid";
+import { ConnectionPillars } from "@/components/ConnectionPillars";
+import { ConnectionDemo } from "@/components/ConnectionDemo";
 import { FeaturesGrid } from "@/components/FeaturesGrid";
 import { SectionPointers } from "@/components/SectionPointers";
 import { Footer } from "@/components/Footer";
@@ -23,7 +25,10 @@ import { Footer } from "@/components/Footer";
  * entries, one per official product), how those four relate (`EcosystemPanorama`
  * — which links a source line backs and which are still plans), what that makes
  * possible in layers (`AiThreeLayers`), what it looks like on a Tuesday
- * (`UserScenariosGrid`), then the measured capability list and the route index.
+ * (`UserScenariosGrid`), which three properties make the connection itself the
+ * product (`ConnectionPillars`), and what those three look like played out step
+ * by step (`ConnectionDemo`), then the measured capability list and the route
+ * index.
  * `FeaturesGrid` is the compact variant here, so the homepage points at the full
  * ledger on `/features/` instead of shipping a second copy of it.
  */
@@ -37,6 +42,8 @@ export default function Page(): ReactElement {
         <EcosystemPanorama />
         <AiThreeLayers />
         <UserScenariosGrid />
+        <ConnectionPillars />
+        <ConnectionDemo />
         <FeaturesGrid variant="compact" />
         <SectionPointers />
       </main>

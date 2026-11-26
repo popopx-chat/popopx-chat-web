@@ -10,10 +10,18 @@
  *   3. 0 leaked local development paths
  *   4. 0 forbidden words (the legacy upstream project name and the four
  *      restricted category terms the brand brief bans)
+ *   5. 0 duplicate element ids per document
  *
  * A navigation `<a href="https://github.com/…">` is not a loaded resource and
  * is therefore allowed; what must not exist is anything the browser would fetch
  * from another origin.
+ *
+ * Claim 5 is checked separately and only on `.html`, because the other four are
+ * substring rules over every shipped file. Two elements sharing an id make the
+ * document invalid and leave `#fragment` resolution to document order, which is
+ * silent: the homepage briefly rendered both `FeaturesGrid` and a
+ * `SectionPointers` row as `id="features"`, every gate stayed green, and only a
+ * per-document census could see it.
  *
  * Positive controls: `--self-test` feeds a known-dirty fixture through the same
  * rules, so a green 0 can be told apart from a scanner that matches nothing.
@@ -164,6 +172,35 @@ function scanText(text) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Claim 5: id uniqueness inside one document.                         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Only the plain attribute form counts. Next also streams the rendered markup
+ * into `<script>self.__next_f.push(…)` as escaped JSON, where the same attribute
+ * reads `id=\"features\"`; the backslash before the quote means those
+ * occurrences are not matched twice, so a real duplicate is reported once per
+ * document body rather than once per copy.
+ */
+const ID_ATTR = /\bid="([^"]+)"/g;
+
+function duplicateIds(text) {
+  const seen = new Map();
+  for (const [, value] of text.matchAll(ID_ATTR)) {
+    seen.set(value, (seen.get(value) ?? 0) + 1);
+  }
+  return [...seen].filter(([, n]) => n > 1).map(([value, n]) => `${value} x${n}`);
+}
+
+/** Everything the scanner judges about one piece of shipped text. */
+function checkAll(text) {
+  return [
+    ...scanText(text),
+    ...duplicateIds(text).map((evidence) => ({ kind: "duplicate-id", evidence })),
+  ];
+}
+
+/* ------------------------------------------------------------------ */
 /* Positive controls: the scanner must fail on a known-dirty fixture. */
 /* ------------------------------------------------------------------ */
 if (SELF_TEST) {
@@ -181,10 +218,11 @@ if (SELF_TEST) {
     // could silently break: an off-origin link that merely *looks* like ours.
     { name: "lookalike-host", text: '<link rel="canonical" href="https://popopx.chat.example.com/">' },
     { name: "remote-preload", text: '<link rel="modulepreload" href="https://unpkg.com/thing.js">' },
+    { name: "duplicate-id", text: '<main id="hero"><section id="hero"><h1 id="hero-title">x</h1></section></main>' },
   ];
   let missed = 0;
   for (const f of fixtures) {
-    const found = scanText(f.text);
+    const found = checkAll(f.text);
     if (found.length === 0) {
       console.log(`CONTROL FAIL  ${f.name}: scanner found nothing in ${f.text.slice(0, 60)}`);
       missed += 1;
@@ -203,10 +241,12 @@ if (SELF_TEST) {
     '<a href="https://mp.popopx.chat/">Service Suite</a>',
     '<img src="/logo-popopx.png" alt="POPOPX">',
     'new URL("https://example.com/feature-test")',
+    // Unique ids that merely share a prefix — the census counts exact values.
+    '<section id="hero"><h1 id="hero-title">x</h1><aside id="hero-card">y</aside></section>',
   ];
   let falsePositives = 0;
   for (const text of clean) {
-    const found = scanText(text);
+    const found = checkAll(text);
     if (found.length > 0) {
       console.log(`CONTROL FAIL (false positive) ${text.slice(0, 60)} -> ${found[0].kind}: ${found[0].evidence}`);
       falsePositives += 1;
@@ -239,6 +279,9 @@ for (const file of files) {
   for (const hit of scanText(text)) {
     push(hit.kind, file, hit.evidence);
   }
+  if (extname(file).toLowerCase() === ".html") {
+    for (const dup of duplicateIds(text)) push("duplicate-id", file, dup);
+  }
 }
 
 const byKind = {};
@@ -252,11 +295,13 @@ for (const f of findings) {
 }
 console.log(
   `scan: tracking=${byKind.tracking ?? 0} external-cdn=${(byKind["remote-asset-host"] ?? 0) + (byKind["external-reference"] ?? 0)} ` +
-    `local-path=${byKind["local-path-leak"] ?? 0} banned-word=${byKind["banned-word"] ?? 0}`,
+    `local-path=${byKind["local-path-leak"] ?? 0} banned-word=${byKind["banned-word"] ?? 0} duplicate-id=${byKind["duplicate-id"] ?? 0}`,
 );
 
 if (findings.length > 0) {
   console.error("scan: compliance gate FAILED");
   process.exit(1);
 }
-console.log("scan: 0 external trackers · 0 external CDN links · 0 local path leakage · 0 banned words");
+console.log(
+  "scan: 0 external trackers · 0 external CDN links · 0 local path leakage · 0 banned words · 0 duplicate ids",
+);

@@ -15,8 +15,14 @@ import type { RouteId } from "@/lib/site";
  * `popopx.chat#security`-style URLs (measured by grep on 2026-11-25), so these
  * rows are insurance for bookmarks and printed QR codes rather than a compat
  * layer: each row carries the id the section used to own, so an old
- * `#features` / `#security` / `#ecosystem` / `#download` fragment still lands on
- * the homepage and finds a route to follow.
+ * `#security` / `#ecosystem` / `#download` fragment still lands on the homepage
+ * and finds a route to follow.
+ *
+ * `#features` is the exception, and it has to be: the compact `FeaturesGrid`
+ * came back to the homepage and that section owns the id, so a row repeating it
+ * would make the document invalid and leave the fragment's target to document
+ * order. This row carries `overview-features` instead, and an old `#features`
+ * bookmark now lands on the six features themselves.
  *
  * `#comparison` is the one id without a row here — the matrix moved into
  * `/security/` and keeps its own anchor on that page.
@@ -92,7 +98,7 @@ const LEAD: Localized<string> = {
 
 const ROWS: readonly { readonly route: RouteId; readonly anchor: string; readonly href: string }[] =
   [
-    { route: "products", anchor: "features", href: "/products/" },
+    { route: "products", anchor: "overview-features", href: "/products/" },
     { route: "ecosystem", anchor: "ecosystem", href: "/ecosystem/" },
     { route: "security", anchor: "security", href: "/security/" },
     { route: "download", anchor: "download", href: "/download/" },
