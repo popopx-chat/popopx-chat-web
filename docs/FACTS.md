@@ -5,7 +5,7 @@
 ⚠️ 全表最后一次重钉落在 2026-11-26，对齐上游四个仓库的当日提交——客户端 `3daec259e`、服务套件 `a6c1632`、Bot Studio `c114368`、Mac 节点 `040ef25`。
 除了 `check:facts` 报错的 13 条，另有 11 行是「静默漂移」：指针仍打在非空行上，读出来却已是别的代码——§5 的 rollback 快照行、§16 的控制台回环行、§16 的任务依赖行。
 这些行已逐条改到新位置，各节的 `sed -n` 复测配方同步更新。同一次回读还查出**内容**漂移：服务套件的业务插件已由 5 个增至 8 个——
-八个命名字段、八个插件模块、README 自己的原话是 "eight business plugins"——台账已按 8 改，但首页生态全景图的 18 条文案仍写「五个」，改文案要用户裁定。
+八个命名字段、八个插件模块、README 自己的原话是 "eight business plugins"。台账与首页、生态页共 36 个 18 语槽位已同步改按 8；生态页套件卡里那个无法复现的「117 项 HTTP 接口」也换成了官方命令可复现的 118——55 条网关自身路由，加 63 条经 include_router 挂载的插件路由。
 
 主站上任何一句技术描述都必须能在本表中找到出处；本表没有的说法，页面不能写。
 
@@ -274,7 +274,7 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 | 注意同名词：**套件脚本里的 `node` 指它自己在 `127.0.0.1:5225` 拉起的消息服务端**（gateway 在 8080），与 Mac 节点无关，全景图不把这两个 node 连成一条线 | `../popopx-service-suite/README.en.md:12-13,71,77` |
 | 八个插件是八个命名字段，默认 `web3_bridge` 关；`POPOPX_PLUGIN_<NAME>=0` 能把任意一个从 enabled 列表里摘掉，这套开关是网关自测逐条断言过的 | `../popopx-service-suite/gateway/app/config.py:250-258,831-833` |
 | 首页生态全景图与生态页的服务套件卡现都写「八个」：两处由同一组证据撑着——八个命名字段、插件目录八个模块、README 原话 "eight business plugins"；两个组件各 18 语在同一提交里逐槽核对，没有任何一槽残留「五」 | `../popopx-service-suite/gateway/app/config.py:250-258`、`./src/components/EcosystemPanorama.tsx:143-160`、`./src/components/EcosystemHub.tsx:326-343` |
-| ⚠️ 同一次回读查出生态页套件卡里的「117 项 HTTP 接口」在四个仓库中找不到出处：三个 README 都搜不到这个数字，按下方配方数接口装饰器是 126，只数网关主模块是 61。要么换成可复现的数字、要么删掉，**未获裁定，本次没有动文案**；台账里裸数字必须能被配方复现，这条目前不能 | `./src/components/EcosystemHub.tsx:326-343` |
+| 生态页套件卡的「118 项 HTTP 接口」是两个数相加：网关自身在 create_app 里声明的 55 条由官方命令打印，八个插件另加 63 条经 include_router 挂载、官方命令数不到；逐插件拆分（workflow_webhook 12、alert_ops 10、web3_bridge 9、polls 8、ai_agent 6、privacy_sso 6、carddav_connector 6、caldav_connector 6）与 55+63 的口径同时写在套件中英两份 README 里，18 语槽位已按 118 统一 | `../popopx-service-suite/README.md:338-342`、`../popopx-service-suite/README.en.md:417-422`、`../popopx-service-suite/gateway/app/main.py:4391,6686`、`./src/components/EcosystemHub.tsx:326-343` |
 | **Bot Studio 是 `popopx-cli` 的 supervisor**，不是聊天客户端的扩展：一个进程经回环 WebSocket 管任意多个 bot 实例；仓库零内置二进制（"Zero binary bundling"），运行时只驱动外部 cli，安装器可按需把二进制取到系统可执行目录（README 给了具体路径） | `../popopx-bot-studio/README.en.md:3-6,16-18` |
 | Studio 的控制面同样只在回环：控制台默认 `127.0.0.1:8090`，非回环绑定必须显式 `STUDIO_ALLOW_LAN=1` 或 `--lan`；bot 控制端口从 `BOT_WS_PORT_BASE`（默认 5230）起到 5299 止，"never 0.0.0.0"；compose 也只发布回环 | `../popopx-bot-studio/README.en.md:67,82-83,182-183` |
 | SMP Agent 协议既有规范也有服务端实现：规范头两行是 "Version 7, 2025-01-24" 与 "# SMP agent protocol - duplex communication over SMP protocol"；实现侧 Agent.hs 4558 行、Agent/Protocol.hs 2412 行，`data AgentErrorType` 是错误词汇表本体 | `../popopxmq/protocol/agent-protocol.md:1-3`、`../popopxmq/src/Popopx/Messaging/Agent.hs:1`、`../popopxmq/src/Popopx/Messaging/Agent/Protocol.hs:2161` |
@@ -300,7 +300,8 @@ wc -l popopxmq/src/Popopx/Messaging/Agent.hs popopxmq/src/Popopx/Messaging/Agent
 sed -n '9,13p;71p;77p' popopx-service-suite/README.en.md
 sed -n '250,258p;831,833p' popopx-service-suite/gateway/app/config.py
 ls popopx-service-suite/gateway/app/plugins/ | grep -E '\.py$' | grep -v __init__ | wc -l   # 8（插件模块数）
-grep -rhoE '@(app|router)\.(get|post|put|patch|delete)\(' popopx-service-suite/gateway/app/*.py popopx-service-suite/gateway/app/plugins/*.py | wc -l   # 126；只数 main.py 是 61 —— 生态页卡的「117」两种数法都对不上
+cd popopx-service-suite/gateway && python3 -m app.main --print-routes | tail -1   # routes: 55, all guarded or explicitly public（纯 AST 解析源码，不需要装依赖）
+for f in popopx-service-suite/gateway/app/plugins/*.py; do printf '%s %s\n' "$(basename $f .py)" "$(grep -cE '@[A-Za-z_]+\.(get|post|put|patch|delete)\(' $f)"; done   # 逐插件合计 63；55+63=118 = 生态页卡的数字
 sed -n '3,6p;16,18p;67p;82,83p;182,183p' popopx-bot-studio/README.en.md
 sed -n '1021p;1185,1193p' popopx-chat/apps/ios/POPOPXChat/APITypes.swift
 grep -rlE "service-suite|POPX-CP|mp\.popopx" popopx-bot-studio --include="*.py" | wc -l    # 0
