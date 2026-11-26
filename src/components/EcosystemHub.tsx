@@ -13,7 +13,7 @@ import { SectionHeading, StatusDot } from "@/components/ui";
  * `../node-popopx-chat-web/README.md:3-8,18-21,116` (ten Discover engines, tier rules, memory
  * ladder, release asset with its digest, AGPL-3.0-only) and its `src/data/enginesCatalog.ts`;
  * Service Suite `../popopx-service-suite-web/README.md:9-16,143-148` (gateway, billing, channel
- * envelope encryption, five ready plugins, admin console, three install paths) and `src/lib/site.ts:11-17`;
+ * envelope encryption, eight ready plugins, admin console, three install paths) and `src/lib/site.ts:11-17`;
  * Bot Studio `docs/FACTS.md` §15 (the vhost, the redirect, the certificate and the two
  * repositories measured there — the card links the portal and repeats none of its claims);
  * iOS client: ledger §1 (18 localizations), §2 (five tabs; English is the key itself), §3 (no phone
@@ -323,24 +323,24 @@ const PORTALS: Portal[] = [
     tone: "warn",
     role: ROLE_SUITE,
     desc: {
-      en: "The backend behind service accounts and zero-knowledge channels: gateway, billing, channel envelope encryption, 117 HTTP interfaces, five ready-made plugins and the admin console in the browser.",
-      ru: "Бэкенд сервисных аккаунтов и каналов с нулевым знанием: шлюз, биллинг, шифрование конвертов каналов, 117 HTTP-интерфейсов, пять готовых плагинов и консоль администратора в браузере.",
-      de: "Das Backend hinter Dienstkonten und Zero-Knowledge-Kanälen: Gateway, Abrechnung, Umschlagverschlüsselung der Kanäle, 117 HTTP-Schnittstellen, fünf fertige Plugins und die Admin-Konsole im Browser.",
-      fr: "Le back-end des comptes de service et des canaux zero-knowledge : passerelle, facturation, chiffrement des enveloppes de canal, 117 interfaces HTTP, cinq extensions prêtes et console d’administration dans le navigateur.",
-      it: "Il backend degli account di servizio e dei canali a conoscenza zero: gateway, fatturazione, cifratura delle buste dei canali, 117 interfacce HTTP, cinque plugin pronti e console di amministrazione nel browser.",
-      nl: "De backend achter dienstaccounts en zero-knowledge-kanalen: gateway, facturatie, omslagversleuteling van kanalen, 117 HTTP interfaces, vijf kant-en-klare plugins en de beheerconsole in de browser.",
-      cs: "Backend za servisními účty a kanály s nulovou znalostí: brána, fakturace, šifrování obálek kanálů, 117 rozhraní HTTP, pět hotových modulů a konsola správce v prohlížeči.",
-      "zh-Hans": "服务号与零知识频道背后的后端：网关、计费、频道信封加密、117 项 HTTP 接口、五个即用插件，还有浏览器里的管理台。",
-      "zh-Hant": "服務號與零知識頻道背後的後端：閘道、計費、頻道信封加密、117 項 HTTP 介面、五個即用外掛，還有瀏覽器裡的管理台。",
-      es: "El backend tras las cuentas de servicio y los canales de conocimiento cero: pasarela, facturación, cifrado de sobres del canal, 117 interfaces HTTP, cinco complementos listos y consola de administración en el navegador.",
-      pl: "Backend kont serwisowych i kanałów o zerowej wiedzy: bramka, rozliczenia, szyfrowanie kopert kanałów, 117 interfejsów HTTP, pięć gotowych wtyczek i konsola administratora w przeglądarce.",
-      ja: "サービスアカウントとゼロ知識チャンネルのバックエンド: ゲートウェイ、課金、チャンネル封筒の暗号化、117 の HTTP インターフェース、5 種類の既定プラグイン、ブラウザー上の管理コンソール。",
-      th: "แบ็กเอนด์ที่อยู่หลังบัญชีบริการและแชนเนลศูนย์ความรู้: เกตเวย์ การเรียกเก็บเงิน การเข้ารหัสซองของแชนเนล อินเทอร์เฟซ HTTP 117 รายการ ปลั๊กอินพร้อมใช้ห้าตัว และคอนโซลผู้ดูแลในเบราว์เซอร์",
-      fi: "Palvelutilien ja nollatiedon kanavien taustapalvelu: yhdyskäytävä, laskutus, kanavien kirjekuorien salaus, 117 HTTP-rajapintaa, viisi valmista liitännäistä ja hallintakonsoli selaimessa.",
-      uk: "Бекенд сервісних акаунтів і каналів з нульовим знанням: шлюз, білінг, шифрування конвертів каналів, 117 HTTP-інтерфейсів, п’ять готових плагінів і консоль адміністратора в браузері.",
-      bg: "Бекендът зад сервисните акаунти и каналите с нулево знание: гейтуей, фактуриране, криптиране на пликите на каналите, 117 HTTP интерфейса, пет готови плъгина и административна конзола в браузъра.",
-      tr: "Hizmet hesapları ve sıfır bilgi kanallarının arka ucu: ağ geçidi, faturalandırma, kanal zarflarının şifrelenmesi, 117 HTTP arayüzü, hazır beş eklenti ve tarayıcıdaki yönetici konsolu.",
-      hu: "A szolgáltatási fiókok és a nullaismeret-csatornák backendje: átjáró, számlázás, a csatornaborítékok titkosítása, 117 HTTP felület, öt kész bővítmény és a böngészős admin konzol.",
+      en: "The backend behind service accounts and zero-knowledge channels: gateway, billing, channel envelope encryption, 117 HTTP interfaces, eight ready-made plugins and the admin console in the browser.",
+      ru: "Бэкенд сервисных аккаунтов и каналов с нулевым знанием: шлюз, биллинг, шифрование конвертов каналов, 117 HTTP-интерфейсов, восемь готовых плагинов и консоль администратора в браузере.",
+      de: "Das Backend hinter Dienstkonten und Zero-Knowledge-Kanälen: Gateway, Abrechnung, Umschlagverschlüsselung der Kanäle, 117 HTTP-Schnittstellen, acht fertige Plugins und die Admin-Konsole im Browser.",
+      fr: "Le back-end des comptes de service et des canaux zero-knowledge : passerelle, facturation, chiffrement des enveloppes de canal, 117 interfaces HTTP, huit extensions prêtes et console d’administration dans le navigateur.",
+      it: "Il backend degli account di servizio e dei canali a conoscenza zero: gateway, fatturazione, cifratura delle buste dei canali, 117 interfacce HTTP, otto plugin pronti e console di amministrazione nel browser.",
+      nl: "De backend achter dienstaccounts en zero-knowledge-kanalen: gateway, facturatie, omslagversleuteling van kanalen, 117 HTTP interfaces, acht kant-en-klare plugins en de beheerconsole in de browser.",
+      cs: "Backend za servisními účty a kanály s nulovou znalostí: brána, fakturace, šifrování obálek kanálů, 117 rozhraní HTTP, osm hotových modulů a konsola správce v prohlížeči.",
+      "zh-Hans": "服务号与零知识频道背后的后端：网关、计费、频道信封加密、117 项 HTTP 接口、八个即用插件，还有浏览器里的管理台。",
+      "zh-Hant": "服務號與零知識頻道背後的後端：閘道、計費、頻道信封加密、117 項 HTTP 介面、八個即用外掛，還有瀏覽器裡的管理台。",
+      es: "El backend tras las cuentas de servicio y los canales de conocimiento cero: pasarela, facturación, cifrado de sobres del canal, 117 interfaces HTTP, ocho complementos listos y consola de administración en el navegador.",
+      pl: "Backend kont serwisowych i kanałów o zerowej wiedzy: bramka, rozliczenia, szyfrowanie kopert kanałów, 117 interfejsów HTTP, osiem gotowych wtyczek i konsola administratora w przeglądarce.",
+      ja: "サービスアカウントとゼロ知識チャンネルのバックエンド: ゲートウェイ、課金、チャンネル封筒の暗号化、117 の HTTP インターフェース、8 種類の既定プラグイン、ブラウザー上の管理コンソール。",
+      th: "แบ็กเอนด์ที่อยู่หลังบัญชีบริการและแชนเนลศูนย์ความรู้: เกตเวย์ การเรียกเก็บเงิน การเข้ารหัสซองของแชนเนล อินเทอร์เฟซ HTTP 117 รายการ ปลั๊กอินพร้อมใช้แปดตัว และคอนโซลผู้ดูแลในเบราว์เซอร์",
+      fi: "Palvelutilien ja nollatiedon kanavien taustapalvelu: yhdyskäytävä, laskutus, kanavien kirjekuorien salaus, 117 HTTP-rajapintaa, kahdeksan valmista liitännäistä ja hallintakonsoli selaimessa.",
+      uk: "Бекенд сервісних акаунтів і каналів з нульовим знанням: шлюз, білінг, шифрування конвертів каналів, 117 HTTP-інтерфейсів, вісім готових плагінів і консоль адміністратора в браузері.",
+      bg: "Бекендът зад сервисните акаунти и каналите с нулево знание: гейтуей, фактуриране, криптиране на пликите на каналите, 117 HTTP интерфейса, осем готови плъгина и административна конзола в браузъра.",
+      tr: "Hizmet hesapları ve sıfır bilgi kanallarının arka ucu: ağ geçidi, faturalandırma, kanal zarflarının şifrelenmesi, 117 HTTP arayüzü, hazır sekiz eklenti ve tarayıcıdaki yönetici konsolu.",
+      hu: "A szolgáltatási fiókok és a nullaismeret-csatornák backendje: átjáró, számlázás, a csatornaborítékok titkosítása, 117 HTTP felület, nyolc kész bővítmény és a böngészős admin konzol.",
     },
     lives: {
       en: "There: three installation paths, the operator walkthrough of the admin console and the channel envelope quick reference.",

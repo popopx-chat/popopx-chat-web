@@ -273,6 +273,8 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 | 套件的五个组成是 README 自述：FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密、八个业务插件、浏览器管理台；且声明不链接、不修改、不重分发 node 的任何代码 | `../popopx-service-suite/README.en.md:9-13` |
 | 注意同名词：**套件脚本里的 `node` 指它自己在 `127.0.0.1:5225` 拉起的消息服务端**（gateway 在 8080），与 Mac 节点无关，全景图不把这两个 node 连成一条线 | `../popopx-service-suite/README.en.md:12-13,71,77` |
 | 八个插件是八个命名字段，默认 `web3_bridge` 关；`POPOPX_PLUGIN_<NAME>=0` 能把任意一个从 enabled 列表里摘掉，这套开关是网关自测逐条断言过的 | `../popopx-service-suite/gateway/app/config.py:250-258,831-833` |
+| 首页生态全景图与生态页的服务套件卡现都写「八个」：两处由同一组证据撑着——八个命名字段、插件目录八个模块、README 原话 "eight business plugins"；两个组件各 18 语在同一提交里逐槽核对，没有任何一槽残留「五」 | `../popopx-service-suite/gateway/app/config.py:250-258`、`./src/components/EcosystemPanorama.tsx:143-160`、`./src/components/EcosystemHub.tsx:326-343` |
+| ⚠️ 同一次回读查出生态页套件卡里的「117 项 HTTP 接口」在四个仓库中找不到出处：三个 README 都搜不到这个数字，按下方配方数接口装饰器是 126，只数网关主模块是 61。要么换成可复现的数字、要么删掉，**未获裁定，本次没有动文案**；台账里裸数字必须能被配方复现，这条目前不能 | `./src/components/EcosystemHub.tsx:326-343` |
 | **Bot Studio 是 `popopx-cli` 的 supervisor**，不是聊天客户端的扩展：一个进程经回环 WebSocket 管任意多个 bot 实例；仓库零内置二进制（"Zero binary bundling"），运行时只驱动外部 cli，安装器可按需把二进制取到系统可执行目录（README 给了具体路径） | `../popopx-bot-studio/README.en.md:3-6,16-18` |
 | Studio 的控制面同样只在回环：控制台默认 `127.0.0.1:8090`，非回环绑定必须显式 `STUDIO_ALLOW_LAN=1` 或 `--lan`；bot 控制端口从 `BOT_WS_PORT_BASE`（默认 5230）起到 5299 止，"never 0.0.0.0"；compose 也只发布回环 | `../popopx-bot-studio/README.en.md:67,82-83,182-183` |
 | SMP Agent 协议既有规范也有服务端实现：规范头两行是 "Version 7, 2025-01-24" 与 "# SMP agent protocol - duplex communication over SMP protocol"；实现侧 Agent.hs 4558 行、Agent/Protocol.hs 2412 行，`data AgentErrorType` 是错误词汇表本体 | `../popopxmq/protocol/agent-protocol.md:1-3`、`../popopxmq/src/Popopx/Messaging/Agent.hs:1`、`../popopxmq/src/Popopx/Messaging/Agent/Protocol.hs:2161` |
@@ -297,6 +299,8 @@ sed -n '2161p' popopxmq/src/Popopx/Messaging/Agent/Protocol.hs
 wc -l popopxmq/src/Popopx/Messaging/Agent.hs popopxmq/src/Popopx/Messaging/Agent/Protocol.hs
 sed -n '9,13p;71p;77p' popopx-service-suite/README.en.md
 sed -n '250,258p;831,833p' popopx-service-suite/gateway/app/config.py
+ls popopx-service-suite/gateway/app/plugins/ | grep -E '\.py$' | grep -v __init__ | wc -l   # 8（插件模块数）
+grep -rhoE '@(app|router)\.(get|post|put|patch|delete)\(' popopx-service-suite/gateway/app/*.py popopx-service-suite/gateway/app/plugins/*.py | wc -l   # 126；只数 main.py 是 61 —— 生态页卡的「117」两种数法都对不上
 sed -n '3,6p;16,18p;67p;82,83p;182,183p' popopx-bot-studio/README.en.md
 sed -n '1021p;1185,1193p' popopx-chat/apps/ios/POPOPXChat/APITypes.swift
 grep -rlE "service-suite|POPX-CP|mp\.popopx" popopx-bot-studio --include="*.py" | wc -l    # 0
