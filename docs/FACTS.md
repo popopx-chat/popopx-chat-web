@@ -430,3 +430,64 @@ curl -s "https://api.github.com/repos/popopx-chat/popopxmq/contents/protocol?ref
 ```
 
 ⚠️ 资源页只列文件路径，不做摘要。任何对文件内容的概括性描述都必须另起一条台账记录，并附 `sed -n` 或 `grep -n` 复测命令。
+
+## 21. 深度链接校验文件与 /i/v1/ 邀请落地页（2026-11-26 实测）
+
+任务书要的是「点击 `https://popopx.chat<code>` 不再 404」，落地成两件事：`./public/.well-known/` 里两个系统校验文件（`next build` 原样拷进 out/.well-known/，实测 830 与 341 字节、与站内源文件同哈希），以及一个只读地址、不写地址的静态落地页 `./src/app/i/v1/page.tsx` + `./src/components/InviteCard.tsx`。
+下面每一条都在 2026-11-26 用 `sed`/`grep` 逐条回读；任务书里与源码不符的四个值（Android 包名、唤起协议、`/contact/*` 的写法、AASA 的 schema 键名）一律以出厂值为准，偏离记在最后一节的「严禁」里。
+
+| 事实 | 出处 |
+| --- | --- |
+| **iOS 的 AppID 只有一个**：Team ID `PDBA6XRBQT`（同文件 4 处 `DEVELOPMENT_TEAM` 全等）配主 App 的 `com.popopxchat.popopx`（Debug 与 Release 各一处；同文件另有 `.Tests-iOS`、`.SimpleX-NSE` 等带后缀的 target，它们不进 AASA）。entitlements 声明的域是 `applinks:popopx.chat`、`applinks:www.popopx.chat`、`applinks:*.popopx.im`，前两条各带一个 `?mode=developer` 副本 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2659,2784,2834`、`apps/ios/POPOPX (iOS).entitlements:9-13` |
+| **Android 的包名取 applicationId，不取源码包**：`applicationId` 与 `namespace` 都是 `com.popopxchat.popopx`；任务书写的 `chat.popopx.app` 是 `commonMain` 的 Kotlin 源码包路径，不是安装标识，写进 `assetlinks.json` 会让校验对不上任何已安装应用。debug 变体靠根工程的 `application_id.suffix` 追加后缀与发布版并存，所以校验文件里只能出现不带后缀的那个 id | `apps/multiplatform/android/build.gradle.kts:15-16,55`、`apps/multiplatform/build.gradle.kts:22-25` |
+| **签名指纹只有一个，且这是写进规则的**：值来自发布证书（`subject= /CN=com.popopxchat.popopx`），配方在下一节的 `openssl` 行；先前站点目录的 README 原话「The fingerprint list has **one** entry」——上游列三把是因为 Play、GitHub APK、F-Droid 是三把不同的密钥，本站只有一把发布密钥、不发 APK，写第三把等于替本站不持有的授权背书。将来若用第二把密钥签 Play 上传，才往数组里加，否则安卓链路校验只对这把密钥签出的包生效 | `../popopx.chat/.well-known/README.md:13-18` |
+| **邀请地址的出厂写法只有一种，可读写法有三种**：铸造端是 Swift 的 `linkPrefix` 与 Kotlin 的 `LINK_PREFIX`，同为 `https://popopx.chat/i/v1/`；打开端接受该前缀加 `popopx:/i/v1/` 与 `popopx://popopx.chat/i/v1/` 三种拼法，注释的理由是「只认铸造写法会让同一条链接粘贴能用、点击失败」。Kotlin 测试把三条字面量写死而不是遍历生产列表，注释明说这是为了抓住列表缩水这种回归。落地页的复制按钮产出的必须是铸造写法 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Invite/PopopxOpaqueInviteCodec.swift:71,193-195`、`apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/invite/PopopxOpaqueInviteCodec.kt:53,141-142`、`apps/multiplatform/common/src/desktopTest/kotlin/chat/popopx/app/invite/PopopxOpaqueInviteCodecTest.kt:236-239,248` |
+| **站内已经在mint真链接，不是演示**：付费徽章机器人的联系地址就是一条密封好的 /i/v1/ 串，注释「Sealing is what lets the app name a…」——所以落地页面对的是出厂格式，不是本站自造的格式 | `apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/views/badges/BadgeStore.kt:61,71` |
+| **iOS 按前缀接单数段，`popopxchat:` 是死路**：「/i/v1/」前缀命中后走连接流程；「/contact、/invitation、/a、/c、/g、/i」六条是**全等**匹配（这些链接的载荷在 fragment 里，路径本身没有第二段，所以任务书的 `/contact/*` 单独一条不等于出厂形状）。`appLinkSchemes = ["popopxchat", "simplexchat"]` 的处理函数只弹一句 "Update the app to open this link."，因此落地页的唤起只用 `popopx:`；`Info.plist` 两个 URL type 都注册了，`popopx` 有 handler | `apps/ios/Shared/ContentView.swift:494,503,535,542-543`、`apps/ios/POPOPX--iOS--Info.plist:40-42,50-53` |
+| **安卓不会把 https 邀请链接直接交给 App，这是设计内的落点**：`autoVerify` 那个 intent-filter 的 host 表含 `popopx.chat`、`smp1`–`smp8`、`relay1`，path 只有上述六条的 `android:path` 与 `android:pathPrefix` 成对写法，全文件 i/v1 命中 0；而 scheme 过滤器 `android:scheme="popopx"` 不限 host 也不限 path。结论：安卓点击 https 邀请链接停在浏览器 → 正好落到本页 → 本页那颗按钮用 `popopx:` 一样能把 code 送进 App。要让安卓直接接管 https，改的是客户端 manifest，不是本站 | `apps/multiplatform/android/src/main/AndroidManifest.xml:97-104,114,122-143` |
+| **AASA 的 schema 键名是 `appIDs` + `components`**：本站文件与依赖里那份、与先前站点目录那份逐字段相同（后两者本身字节级一致），只在最前面多出 `/i/v1/*` 一条，旧的 12 条形状一条没减；`"appID"` 单数在本文件命中 0。这是从两份出厂文件抄的，不是选出来的 | `./public/.well-known/apple-app-site-association`、`../popopxmq/apps/common/Web/static/.well-known/apple-app-site-association:5-6`、`../popopx.chat/.well-known/apple-app-site-association`、`FORK.md:1112-1113` |
+| **无扩展名文件必须显式给 JSON 类型**：Apple 取的是「/.well-known/apple-app-site-association」——无扩展名、无尾斜杠，nginx 默认按 application/octet-stream 发出去，iOS 就静默不认这条关联，所以 vhost 用 default_type application/json；依赖侧的 Haskell 服务器为同一个文件名做了两处特判（文件服务器与生成响应各一处）。`assetlinks.json` 更严：一条路径、200、不许重定向、不许 HTML 错误页 | `./deploy/centos/nginx-popopx-main.conf:202-229`、`../popopxmq/src/Popopx/Messaging/Server/Web.hs:122,232`、`FORK.md:1127` |
+| **邀请码不出设备的三层保险**：页面只从 `window.location.pathname` 取码，产物里 10 个子资源（9 个 `/_next/static/**` chunk + 1 个站内 Logo）全部以「/」开头、非站内来源 0 个；`robots: { index: false, follow: true }` 与 robots.txt 的 `Disallow: /i/v1/` 双写，因为前者只管已经取到页面的爬虫；vhost 对整个前缀 `access_log off`，且 fallback 目标故意仍带「/i/v1/」前缀——`try_files` 的内部重定向会重跑一次 location 匹配，而访问日志由**结束所在**的 block 决定，落回 location / 就会把 code 记进日志 | `./src/components/InviteCard.tsx:44,281-287`、`./src/app/i/v1/page.tsx:29-35`、`./public/robots.txt:6-10`、`./deploy/centos/nginx-popopx-main.conf:280-289` |
+| **落地页只认一段，不猜**：取码的正则要求「/i/v1/」之后恰好一段、1–512 字符、可带尾斜杠；多段、超长或空段一律进「这条地址里没有邀请码」状态，既不生成 `popopx:` 目标也不生成复制值。值也**不做** `decodeURIComponent`：解出来的 `%2F` 会把斜杠放回一个 bearer token。`output: "export"` 下不可能为每个 code 预渲染，`generateStaticParams` 在这里没有合法取值——枚举 code 正是密封格式要防的事 | `./src/components/InviteCard.tsx:44,259-261,319-322`、`./src/app/i/v1/page.tsx:7-19` |
+| **本站闸门怎么记住这个豁免**：`check-links` 的 sitemap 对齐用**名字集合**豁免「/i/v1/」，自检样本里同时放了「/i/v1/leak/」作为控制，证明豁免是按名字生效而不是把整棵子树关掉；sitemap 的注释同步说明这条路由是有意不列 | `./tools/check-links.mjs:98-105,149-152,173-174`、`./public/sitemap.xml` |
+| **`www.popopx.chat` 仍未覆盖，这是需要裁定的一项**：entitlements 同时声明 `applinks:popopx.chat` 与 `applinks:www.popopx.chat`，先前站点的 README 明写「Both hosts need the AASA」；而本站 vhost 的 `server_name` 只有 `popopx.chat`（80 与 443 各一处），`deploy_centos.sh` 也只向 certbot 要 `-d "$SITE_HOST"` 一个名字。要么补 `server_name` 与 SAN，要么改 entitlements 删掉 www 那条——本次改动没有替用户决定 | `apps/ios/POPOPX (iOS).entitlements:9-10`、`../popopx.chat/.well-known/README.md:68`、`./deploy/centos/nginx-popopx-main.conf:53,82`、`./deploy/centos/deploy_centos.sh:322-324` |
+
+复测配方（第 1、6 条在本仓库跑，其余先 cd ../popopx-chat；第 5 条的证书在两个仓库之外，只能作为配方存在，路径按各人工作区填）：
+
+```sh
+# 1) 三个 .well-known 文件逐字段比对：本站 vs 依赖 vs 先前站点
+cd .. && for f in apple-app-site-association assetlinks.json; do
+  diff <(jq -S . popopx-chat-web/public/.well-known/$f) \
+       <(jq -S . popopxmq/apps/common/Web/static/.well-known/$f) >/dev/null \
+    && echo "$f: 与依赖一致" || echo "$f: 有差异（AASA 只应多出 /i/v1/* 这一条）"
+done
+grep -c '"appIDs"' popopx-chat-web/public/.well-known/apple-app-site-association          # 1
+grep -c '"appID"'  popopx-chat-web/public/.well-known/apple-app-site-association          # 0
+python3 -c "import json;print(len(json.load(open('popopx-chat-web/public/.well-known/apple-app-site-association'))['applinks']['details'][0]['components']))"   # 13
+
+# 2) 出厂邀请地址与三种可读拼法
+cd popopx-chat && grep -n 'linkPrefix = \|openLinkPrefixes = ' \
+  apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Invite/PopopxOpaqueInviteCodec.swift
+grep -n 'LINK_PREFIX = \|OPEN_LINK_PREFIXES =' \
+  apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/invite/PopopxOpaqueInviteCodec.kt
+
+# 3) iOS：/i/v1/ 是前缀匹配，其余六条是全等；popopxchat: 只会弹「更新 App」
+grep -n 'hasPrefix("/i/v1/")\|appLinkSchemes\|Update the app to open this link' apps/ios/Shared/ContentView.swift
+
+# 4) 安卓：autoVerify 里没有 /i/v1/，但 popopx: 过滤器不带 path
+grep -c 'i/v1' apps/multiplatform/android/src/main/AndroidManifest.xml                      # 0
+grep -n 'android:scheme="popopx"' apps/multiplatform/android/src/main/AndroidManifest.xml   # 103
+
+# 5) 指纹（发布证书 .crt，绝不读同名 .key）：期望 subject= /CN=com.popopxchat.popopx
+openssl x509 -in <发布证书.crt> -noout -fingerprint -sha256 -subject
+#    输出必须与 assetlinks.json 数组里唯一那条逐字符相同
+
+# 6) 落地页产物的子资源全部同源；页面自身无任何出网调用
+grep -oE 'src="[^"]*"' out/i/v1/index.html | grep -vc 'src="/'                               # 0
+grep -nE 'fetch\(|XMLHttpRequest' src/components/InviteCard.tsx                              # 只剩注释那一行
+node tools/check-links.mjs out && node tools/scan-compliance.mjs out
+```
+
+线上核验只能在部署之后由主机操作者跑，命令已写进 `./deploy/centos/deploy_centos.sh` 的收尾提示：两个 `.well-known` 必须 200 且 `content-type: application/json`，`/i/v1/<自测码>` 必须 200，且访问日志里 `grep -c <自测码>` 必须为 0。
+
+四条严禁：**一**、不得把 Android 包名写成 `chat.popopx.app`，也不得把唤起协议写成 `popopxchat:`——前者在校验里对不上任何已安装应用，后者在 iOS 只会弹出「Update the app to open this link.」。**二**、不得写「安卓点击 https 邀请链接会直接打开 App」：manifest 的 `autoVerify` 没有声明「/i/v1/」，安卓停在浏览器、由本页交接，这是出厂行为。**三**、不得写「已线上验证 200」——本次交付里所有 200 都来自本地按 vhost 规则复刻的静态服务与 headless Chrome，线上那两条 curl 在用户部署之前没有取过任何响应。**四**、不得把 `www.popopx.chat` 说成已覆盖，也不得悄悄往 vhost 加 `server_name www.popopx.chat`（证书没签这个名字）；§13 的禁词在本节新增的两个文件里仍是零命中，`check:out` 会扫产物。

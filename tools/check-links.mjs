@@ -92,9 +92,21 @@ function builtDocs() {
   return docs;
 }
 
+/**
+ * Built documents that are intentionally absent from the sitemap.
+ *
+ * `/i/v1/` is the invitation landing page, not content: a bridge whose only job
+ * is to hand a sealed code to the client or to the clipboard. It also carries
+ * `robots: { index: false }` and a `Disallow: /i/v1/` line, so listing it in the
+ * sitemap would contradict the document's own head. The exemption is a name, not
+ * a prefix rule, so a future `/i/v1/<something>` built document is still
+ * required to appear in the sitemap like everything else.
+ */
+const NO_SITEMAP = new Set(["/i/v1/"]);
+
 function checkSitemapParity(locs, docs) {
   const locSet = new Set(locs.map((l) => new URL(l).pathname));
-  const missingInSitemap = [...docs].filter((d) => !locSet.has(d));
+  const missingInSitemap = [...docs].filter((d) => !locSet.has(d) && !NO_SITEMAP.has(d));
   const missingInBuild = [...locSet].filter((l) => !docs.has(l));
   return { missingInSitemap, missingInBuild };
 }
@@ -134,7 +146,10 @@ function runSelfTest() {
   writeFileSync(join(dir, "out/download/index.html"), `<a href="https://github.com/">ok</a>`);
 
   const locs = readSitemapLocs(join(dir, "sitemap.xml"));
-  const docs = new Set(["/", "/products/", "/download/"]);
+  // `/i/v1/` is the exempt name; `/i/v1/leak/` is the control that proves the
+  // exemption is a name and not a prefix — a second built document under the
+  // same directory must still be demanded in the sitemap.
+  const docs = new Set(["/", "/products/", "/download/", "/i/v1/", "/i/v1/leak/"]);
   const { missingInSitemap, missingInBuild } = checkSitemapParity(locs, docs);
 
   const htmlFiles = [
@@ -155,6 +170,8 @@ function runSelfTest() {
   };
   expect("ecosystem missing from build", missingInBuild.includes("/ecosystem/"), JSON.stringify(missingInBuild));
   expect("download missing from sitemap", missingInSitemap.includes("/download/"), JSON.stringify(missingInSitemap));
+  expect("i/v1 exempt from parity", !missingInSitemap.includes("/i/v1/"), JSON.stringify(missingInSitemap));
+  expect("i/v1/leak still demanded", missingInSitemap.includes("/i/v1/leak/"), JSON.stringify(missingInSitemap));
   expect("example.com flagged", external.some((e) => e.origin === "https://example.com"), JSON.stringify(external));
   expect("github.com allowed", !external.some((e) => e.origin === "https://github.com"), JSON.stringify(external));
 

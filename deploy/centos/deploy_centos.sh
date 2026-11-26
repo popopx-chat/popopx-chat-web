@@ -432,6 +432,14 @@ verify it:
   nginx -T | grep -E 'server_name|root ' | sort -u
   certbot renew --dry-run
 
+verify the deep links (each of the first two must print 200 + application/json;
+octet-stream means the AASA location block is not installed and iOS is silently
+ignoring the association):
+  curl -sI https://${SITE_HOST}/.well-known/apple-app-site-association | sed -n '1p;/[Cc]ontent-[Tt]ype/p'
+  curl -sI https://${SITE_HOST}/.well-known/assetlinks.json            | sed -n '1p;/[Cc]ontent-[Tt]ype/p'
+  curl -s -o /dev/null -w 'invite page: %{http_code}\n' https://${SITE_HOST}/i/v1/SELFTESTCODE
+  grep -c SELFTESTCODE /var/log/nginx/${SITE_HOST}.access.log    # expect 0: the code must not be logged
+
 redeploy after a copy change:
   npm run build && npm run check:out && sudo ./deploy/centos/deploy_centos.sh --email ${CERT_EMAIL:-you@example.com} --yes
 

@@ -2,6 +2,12 @@
 # Served from this origin only; there is no third-party endpoint to protect.
 User-agent: *
 Allow: /
+# The invitation landing page is a bridge, not content. The document carries
+# `robots: { index: false, follow: true }` in its own head (src/app/i/v1/page.tsx)
+# and this line stops a crawler fetching it at all: `/i/v1/<code>` is a bearer
+# token for a connection, so the fewer copies of it that exist — a search index
+# included — the better. The longest match wins, so this overrides `Allow: /`.
+Disallow: /i/v1/
 
 # Canonical host for SEO metadata, Open Graph and this sitemap: popopx.chat
 # (the single source of truth is SITE_HOST / SITE_ORIGIN in src/lib/site.ts).
