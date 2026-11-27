@@ -16,11 +16,13 @@ import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
  *
  *  1. Every line either points at an implementation in one of the four
  *     repositories or it is marked `Evolving`. That is not a hedge — measured
- *     2026-11-26: one-tap revocation does exist (a guest link, an unpaired
- *     peer, a paired Mac device), whereas a machine-checked dotted scope
- *     string has zero occurrences in Swift, Kotlin, Haskell or Python. Those
- *     are the amber dots here, plus the desktop build that states outright
- *     that it has no radio. Ledger §18 holds the measurements and recipes.
+ *     2026-11-27: one-tap revocation does exist (a guest link, an unpaired
+ *     peer, a paired Mac device), and Bot Studio now enforces default-deny
+ *     capability grants inside one workbench, whereas a network gateway's
+ *     machine-checked dotted scope string still has zero occurrences in Swift,
+ *     Kotlin, Haskell or Python. Those gaps are the amber dots here, plus the
+ *     desktop build that states outright that it has no radio. Ledger §18 holds
+ *     the measurements and recipes.
  *  2. The status vocabulary is imported, not re-authored. `STATUS_AVAILABLE` /
  *     `STATUS_EVOLVING` are the same two words `AiThreeLayers` and
  *     `UserScenariosGrid` print, so three homepage blocks cannot tell three
@@ -317,24 +319,24 @@ const P2_I4: Localized<string> = {
 };
 
 const P2_I5: Localized<string> = {
-  en: "Least-privilege ranges are not: no repository has a machine-enforced range string, and the one label that exists is bound into a token but gates nothing.",
-  ru: "Областей минимальных прав нет: ни в одном репозитории нет строки области, проверяемой машиной, а существующая метка лишь вшита в токен и ничего не ограничивает.",
-  de: "Mindestrechte-Bereiche nicht: Kein Repository erzwingt eine Bereichskette; das eine vorhandene Etikett sitzt im Token, blockiert aber nichts.",
-  fr: "Les portées de moindre privilège non plus : aucun dépôt n’impose de chaîne de portée, et la seule étiquette qui existe est liée au jeton sans rien filtrer.",
-  it: "Gli ambiti di minimo privilegio no: nessun repository impone una stringa di ambito, e l’unica etichetta esistente è legata al token ma non regola nulla.",
-  nl: "Minimale-rechten-omvang niet: geen enkele opslag dwingt een omvang-tekenreeks af, en het enige label zit in het token maar blokkeert niets.",
-  cs: "Oblasti nejmenších práv ne: žádný repozitář nevynucuje řetězec oblasti, a jediný existující štítek je svázán s tokenem, ale nic neomezuje.",
-  "zh-Hans": "最小权限范围还没有：四个仓库里没有任何由机器判定的范围串，唯一存在的那个标签只是绑进令牌，不拦任何动作。",
-  "zh-Hant": "最小權限範圍還沒有：四個倉庫裡沒有任何由機器判定的範圍字串，唯一存在的那個標籤只是綁進權杖，不阻擋任何動作。",
-  es: "Los ámbitos de mínimo privilegio no: ningún repositorio impone una cadena de ámbito, y la única etiqueta que existe va ligada al token pero no regula nada.",
-  pl: "Zakresów najmniejszych uprawnień nie: żadne repozytorium nie wymusza łańcucha zakresu, a jedyna istniejąca etykieta jest wpięta w token, ale niczego nie ogranicza.",
-  ja: "最小権限の範囲はまだありません。どのリポジトリにも機械が判定する範囲文字列は無く、唯一存在するラベルはトークンに結ばれるだけで、何も遮りません。",
-  th: "ขอบเขตสิทธิ์น้อยสุดยังไม่มี: ไม่มีคลังใดบังคับสตริงขอบเขตด้วยเครื่อง และป้ายชื่อที่มีอยู่เพียงผูกเข้ากับโทเคนโดยไม่ควบคุมสิ่งใด",
-  fi: "Vähimmäisoikeuksia ei: missään varastossa ei koneen valvomaa oikeusmerkkijonoa, ja ainoa olemassa oleva nimike on sidottu tunnisteeseen mutta ei estä mitään.",
-  uk: "Областей найменших прав немає: жоден репозиторій не перевіряє рядок області машиною, а єдина наявна мітка лише вшита в токен і нічого не обмежує.",
-  bg: "Областите на най-малките права няма: нито едно хранилище не налага машинно проверяем низ, а единственият етикет е вшит в токена и не спира нищо.",
-  tr: "En az yetki kapsamları yok: hiçbir depoda makinenin doğruladığı bir kapsam dizgisi yok, ve var olan tek etiket belirtece bağlanıyor ama hiçbir şeyi engellemiyor.",
-  hu: "A legkisebb jogkör-hatókörök még nincsenek meg: egy tároló sem kényszerít ki egy hatókör-karaktérsort, és az egyetlen létező címkét csak a tokenbe köti, de semmit nem szabályoz.",
+  en: "Network least-privilege ranges are not there yet: Bot Studio now enforces default-deny task grants by origin, target and capability inside one workbench, but no network gateway has a machine-checked scope string, and the only token label that exists still gates nothing.",
+  ru: "Сетевых областей минимальных прав пока нет: Bot Studio теперь принудительно применяет отказ по умолчанию для задач по источнику, цели и возможности внутри одного рабочего стола, но ни один сетевой шлюз не имеет проверяемой машиной строки области, а единственная метка в токене по-прежнему ничего не ограничивает.",
+  de: "Netzwerk-Mindestrechte fehlen noch: Bot Studio erzwingt jetzt standardmäßig verweigerte Aufgabenfreigaben nach Herkunft, Ziel und Fähigkeit innerhalb einer Werkbank, aber kein Netzwerk-Gateway hat eine maschinell geprüfte Bereichskette, und das einzige Token-Etikett blockiert weiterhin nichts.",
+  fr: "Les portées de moindre privilège réseau manquent encore : Bot Studio applique désormais des autorisations de tâches refusées par défaut selon l’origine, la cible et la capacité au sein d’un même espace de travail, mais aucune passerelle réseau n’a de chaîne de portée vérifiée par la machine, et la seule étiquette de jeton ne filtre toujours rien.",
+  it: "Gli ambiti di minimo privilegio di rete mancano ancora: Bot Studio ora applica autorizzazioni ai task negate per impostazione predefinita per origine, destinazione e capacità dentro un solo workspace, ma nessun gateway di rete ha una stringa di ambito verificata dalla macchina, e l’unica etichetta nel token non regola ancora nulla.",
+  nl: "Netwerk-minimale-rechten ontbreken nog: Bot Studio dwingt nu standaard geweigerde taakmachtigingen af op herkomst, doel en capaciteit binnen één werkbank, maar geen enkele netwerkgateway heeft een machinegecontroleerde omvang-tekenreeks, en het enige tokenlabel blokkeert nog steeds niets.",
+  cs: "Síťové oblasti nejmenších práv stále chybí: Bot Studio nyní vynucuje výchozí odmítnutí oprávnění úloh podle původu, cíle a schopnosti v rámci jedné pracovní plochy, ale žádná síťová brána nemá strojově ověřený řetězec oblasti a jediný štítek v tokenu stále nic neomezuje.",
+  "zh-Hans": "网络侧的最小权限范围还没有：Bot Studio 现在会在同一个工作台内，按来源、目标和能力强制执行默认拒绝的任务授权，但没有任何网络网关带机器判定的范围串，令牌里唯一的那个标签仍然不拦任何动作。",
+  "zh-Hant": "網路側的最小權限範圍還沒有：Bot Studio 現在會在同一個工作台內，按來源、目標和能力強制執行預設拒絕的任務授權，但沒有任何網路閘道帶機器判定的範圍字串，權杖裡唯一的那個標籤仍然不阻擋任何動作。",
+  es: "Los ámbitos de mínimo privilegio de red aún no están: Bot Studio ahora aplica concesiones de tareas denegadas por defecto según origen, destino y capacidad dentro de un mismo espacio de trabajo, pero ninguna pasarela de red tiene una cadena de ámbito verificada por la máquina, y la única etiqueta del token sigue sin regular nada.",
+  pl: "Sieciowych zakresów najmniejszych uprawnień wciąż brak: Bot Studio wymusza teraz domyślnie odmawiane uprawnienia zadań według źródła, celu i możliwości w obrębie jednego środowiska, ale żadna brama sieciowa nie ma maszynowo sprawdzanego łańcucha zakresu, a jedyna etykieta w tokenie nadal niczego nie ogranicza.",
+  ja: "ネットワーク側の最小権限の範囲はまだない。Bot Studio は同じワークベンチ内で送信元・宛先・能力ごとに既定拒否のタスク許可を強制するようになったが、ネットワークゲートウェイに機械判定の範囲文字列はなく、トークン内の唯一のラベルは今も何も制限しない。",
+  th: "ขอบเขตสิทธิ์ขั้นต่ำฝั่งเครือข่ายยังไม่มี: ตอนนี้ Bot Studio บังคับใช้การอนุญาตงานแบบปฏิเสธเป็นค่าเริ่มต้นตามต้นทาง ปลายทาง และความสามารถภายในเวิร์กเบนช์เดียว แต่ไม่มีเกตเวย์เครือข่ายใดมีสตริงขอบเขตที่เครื่องตรวจสอบ และป้ายเดียวในโทเคนยังไม่กั้นสิ่งใด",
+  fi: "Verkon vähimmäisoikeuksien alueet puuttuvat yhä: Bot Studio valvoo nyt oletuksena evättyjä tehtävävaltuuksia lähteen, kohteen ja kyvykkyyden mukaan yhden työpenkin sisällä, mutta millään verkkoyhdyskäytävällä ei ole koneen tarkistamaa aluetekstiä, eikä tokenin ainoa leima edelleenkään estä mitään.",
+  uk: "Мережевих областей мінімальних прав досі немає: Bot Studio тепер примусово застосовує типову відмову для дозволів завдань за джерелом, ціллю та можливістю в межах одного робочого столу, але жоден мережевий шлюз не має перевіреного машиною рядка області, і єдина мітка в токені досі нічого не обмежує.",
+  bg: "Мрежовите области на минимални права още липсват: Bot Studio вече налага отказ по подразбиране за разрешения на задачи по източник, цел и възможност в един работен плот, но никой мрежов шлюз няма машинно проверен низ за област, а единственият етикет в токена все още не ограничава нищо.",
+  tr: "Ağ tarafında en az yetki aralıkları henüz yok: Bot Studio artık tek bir çalışma tezgâhı içinde kaynak, hedef ve yeteneğe göre varsayılan olarak reddedilen görev izinlerini uyguluyor, ancak hiçbir ağ geçidinde makinenin doğruladığı bir kapsam dizesi yok ve tokendaki tek etiket hâlâ hiçbir şeyi engellemiyor.",
+  hu: "Hálózati legkisebb jogosultságú tartományok még nincsenek: a Bot Studio most már egy munkapadon belül forrás, cél és képesség szerint alapértelmezésben elutasított feladatengedélyeket kényszerít ki, de egyetlen hálózati átjárónak sincs géppel ellenőrzött tartománykarakterlánca, és a token egyetlen címkéje továbbra sem zár el semmit.",
 };
 
 /* ---------------------------------------------------------------- */

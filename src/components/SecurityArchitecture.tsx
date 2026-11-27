@@ -492,7 +492,7 @@ const CRYPTO: readonly Row[] = [
   },
   {
     primitive: "ECDSA P-256", status: "boundary",
-    cites: ["apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1535,1576-1578"],
+    cites: ["apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1542-1545,1553-1559,1577-1583"],
     use: {
       en: "Signs commerce badge and credit payloads — deliberately not Ed25519.",
       ru: "Подписывает данные коммерческих бейджей и кредитов — намеренно не Ed25519.",

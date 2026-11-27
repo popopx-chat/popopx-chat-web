@@ -22,9 +22,11 @@ import {
  * in `docs/FACTS.md` §16 or it is drawn dashed and labelled Planned — the solid
  * set is Chat↔Suite (service accounts, channel envelope, H5: §9), Chat↔Studio
  * (bot conversations over the SMP network, while Studio supervises its own
- * `popopx-cli`) and Chat↔Mac Node (the signed pairing offer plus the node's local
- * `popopx-chat` daemon). The dashed set is PAP and cross-product auto-scheduling,
- * which no repository implements.
+ * `popopx-cli`) and Chat↔Mac Node (the signed pairing offer, the node's local
+ * `popopx-chat` daemon and the owner-enabled assistant loop). The dashed set is
+ * PAP, which has zero implementations, and a shared cross-product scheduler,
+ * which no repository implements; Bot Studio's loopback tool calls into Mac Node
+ * are a controlled, approval-gated call, not that bus.
  *
  * The four role lines are imported from `EcosystemHub`, and the four product
  * names from the same locale-free vocabulary `PortalCards` prints, so the three
@@ -140,24 +142,24 @@ const FACT_STUDIO: Localized<string> = {
 };
 
 const FACT_SUITE: Localized<string> = {
-  en: "A FastAPI gateway, POPX-CP metering and channel envelope encryption with zero-knowledge key rotation, plus eight business plugins that can each be switched off on its own.",
-  ru: "Шлюз FastAPI, учёт POPX-CP и шифрование конвертов каналов с ротацией ключей с нулевым знанием, плюс восемь бизнес-плагинов, каждый из которых можно отключить отдельно.",
-  de: "Ein Gateway mit FastAPI, das Metering über POPX-CP und die Umschlagverschlüsselung der Kanäle mit Zero-Knowledge-Schlüsselrotation, dazu acht Business-Plugins, die sich einzeln abschalten lassen.",
-  fr: "Une passerelle avec FastAPI, le comptage POPX-CP et le chiffrement des enveloppes de canal avec rotation de clés à connaissance nulle, plus huit extensions métier désactivables une par une.",
-  it: "Un gateway con FastAPI, la misurazione POPX-CP e la cifratura delle buste dei canali con rotazione delle chiavi a conoscenza zero, più otto plugin di business disattivabili uno per uno.",
-  nl: "Een gateway op FastAPI, de metering via POPX-CP en de omslagversleuteling van kanalen met zero-knowledge-sleutelrotatie, plus acht businessplugins die elk apart uit te schakelen zijn.",
-  cs: "Brána FastAPI, měření POPX-CP a šifrování obálek kanálů s rotací klíčů s nulovou znalostí, k tomu osm obchodních modulů, z nichž každý lze vypnout zvlášť.",
-  "zh-Hans": "FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密，外加八个可单独关掉的业务插件。",
-  "zh-Hant": "FastAPI 閘道、POPX-CP 計量、具零知識金鑰輪換的頻道信封加密，另有八個可個別關閉的業務外掛。",
-  es: "Una pasarela con FastAPI, la medición POPX-CP y el cifrado de sobres del canal con rotación de claves de conocimiento cero, más ocho complementos de negocio que se pueden apagar uno por uno.",
-  pl: "Bramka FastAPI, rozliczenia w POPX-CP i szyfrowanie kopert kanałów z rotacją kluczy o zerowej wiedzy, plus osiem wtyczek biznesowych, z których każdą można wyłączyć osobno.",
-  ja: "FastAPI ゲートウェイ、POPX-CP による使用量計測、ゼロ知識の鍵ローテーション付きチャンネル封筒の暗号化、それに個別にオフにできる 8 つの業務プラグイン。",
-  th: "เกตเวย์ FastAPI การวัดปริมาณการใช้งานด้วย POPX-CP การเข้ารหัสซองของแชนเนลพร้อมการหมุนคีย์แบบศูนย์ความรู้ และปลั๊กอินธุรกิจแปดตัวที่ปิดแยกทีละตัวได้",
-  fi: "Yhdyskäytävänä toimii FastAPI, POPX-CP hoitaa mittauksen ja kanavien kirjekuoret salataan nollatiedon avaimenkierrolla; lisäksi kahdeksan liiketoiminnallista liitännäistä, jotka voi kytkeä irti yksitellen.",
-  uk: "Шлюз FastAPI, облік POPX-CP і шифрування конвертів каналів з ротацією ключів із нульовим знанням, плюс вісім бізнес-плагінів, кожен з яких можна вимкнути окремо.",
-  bg: "Гейтуей на FastAPI, отчитане на POPX-CP и криптиране на пликите на каналите с ротация на ключовете с нулево знание, плюс осем бизнес плъгина, всеки от които може да се изключи поотделно.",
-  tr: "FastAPI ağ geçidi, POPX-CP ölçümlemesi, sıfır bilgi anahtar rotasyonlu kanal zarfı şifrelemesi ve her biri tek tek kapatılabilen sekiz iş eklentisi.",
-  hu: "Egy FastAPI átjáró, POPX-CP mérés és a csatornaborítékok titkosítása nullaismeretű kulcsrotációval, mellette nyolc üzleti bővítmény, amelyek mindegyike külön kikapcsolható.",
+  en: "A FastAPI gateway, POPX-CP metering and channel envelope encryption with zero-knowledge key rotation, plus nine business plugins that can each be switched off on its own.",
+  ru: "Шлюз FastAPI, учёт POPX-CP и шифрование конвертов каналов с ротацией ключей с нулевым знанием, плюс девять бизнес-плагинов, каждый из которых можно отключить отдельно.",
+  de: "Ein Gateway mit FastAPI, das Metering über POPX-CP und die Umschlagverschlüsselung der Kanäle mit Zero-Knowledge-Schlüsselrotation, dazu neun Business-Plugins, die sich einzeln abschalten lassen.",
+  fr: "Une passerelle avec FastAPI, le comptage POPX-CP et le chiffrement des enveloppes de canal avec rotation de clés à connaissance nulle, plus neuf extensions métier désactivables une par une.",
+  it: "Un gateway con FastAPI, la misurazione POPX-CP e la cifratura delle buste dei canali con rotazione delle chiavi a conoscenza zero, più nove plugin di business disattivabili uno per uno.",
+  nl: "Een gateway op FastAPI, de metering via POPX-CP en de omslagversleuteling van kanalen met zero-knowledge-sleutelrotatie, plus negen businessplugins die elk apart uit te schakelen zijn.",
+  cs: "Brána FastAPI, měření POPX-CP a šifrování obálek kanálů s rotací klíčů s nulovou znalostí, k tomu devět obchodních modulů, z nichž každý lze vypnout zvlášť.",
+  "zh-Hans": "FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密，外加九个可单独关掉的业务插件。",
+  "zh-Hant": "FastAPI 閘道、POPX-CP 計量、具零知識金鑰輪換的頻道信封加密，另有九個可個別關閉的業務外掛。",
+  es: "Una pasarela con FastAPI, la medición POPX-CP y el cifrado de sobres del canal con rotación de claves de conocimiento cero, más nueve complementos de negocio que se pueden apagar uno por uno.",
+  pl: "Bramka FastAPI, rozliczenia w POPX-CP i szyfrowanie kopert kanałów z rotacją kluczy o zerowej wiedzy, plus dziewięć wtyczek biznesowych, z których każdą można wyłączyć osobno.",
+  ja: "FastAPI ゲートウェイ、POPX-CP による使用量計測、ゼロ知識の鍵ローテーション付きチャンネル封筒の暗号化、それに個別にオフにできる 9 つの業務プラグイン。",
+  th: "เกตเวย์ FastAPI การวัดปริมาณการใช้งานด้วย POPX-CP การเข้ารหัสซองของแชนเนลพร้อมการหมุนคีย์แบบศูนย์ความรู้ และปลั๊กอินธุรกิจเก้าตัวที่ปิดแยกทีละตัวได้",
+  fi: "Yhdyskäytävänä toimii FastAPI, POPX-CP hoitaa mittauksen ja kanavien kirjekuoret salataan nollatiedon avaimenkierrolla; lisäksi yhdeksän liiketoiminnallista liitännäistä, jotka voi kytkeä irti yksitellen.",
+  uk: "Шлюз FastAPI, облік POPX-CP і шифрування конвертів каналів з ротацією ключів із нульовим знанням, плюс дев'ять бізнес-плагінів, кожен з яких можна вимкнути окремо.",
+  bg: "Гейтуей на FastAPI, отчитане на POPX-CP и криптиране на пликите на каналите с ротация на ключовете с нулево знание, плюс девет бизнес плъгина, всеки от които може да се изключи поотделно.",
+  tr: "FastAPI ağ geçidi, POPX-CP ölçümlemesi, sıfır bilgi anahtar rotasyonlu kanal zarfı şifrelemesi ve her biri tek tek kapatılabilen dokuz iş eklentisi.",
+  hu: "Egy FastAPI átjáró, POPX-CP mérés és a csatornaborítékok titkosítása nullaismeretű kulcsrotációval, mellette kilenc üzleti bővítmény, amelyek mindegyike külön kikapcsolható.",
 };
 
 const FACT_NODE: Localized<string> = {
@@ -224,24 +226,24 @@ const LINK_CHAT_STUDIO: Localized<string> = {
 };
 
 const LINK_CHAT_NODE: Localized<string> = {
-  en: "Live: a signed one-time pairing offer, plus the node starting the popopx-chat daemon on its own machine so engine results reach the phone.",
-  ru: "Работает: подписанное одноразовое приглашение для сопряжения, плюс узел сам запускает на своей машине демон popopx-chat, чтобы результаты движка доходили до телефона.",
-  de: "Online: ein signiertes einmaliges Kopplungsangebot, dazu dass der Knoten den Daemon popopx-chat auf dem eigenen Rechner startet, damit die Ergebnisse der Engine das Handy erreichen.",
-  fr: "En ligne : une offre de couplage signée à usage unique, et le nœud qui démarre le démon popopx-chat sur sa propre machine pour que les résultats du moteur reviennent sur le téléphone.",
-  it: "Online: un’offerta di abbinamento firmata e monouso, più il nodo che avvia il demone popopx-chat sulla propria macchina perché i risultati del motore arrivino al telefono.",
-  nl: "Werkt: een ondertekende eenmalige koppelingsaanbieding, plus het feit dat de node de daemon popopx-chat op zijn eigen machine start, zodat de resultaten van de engine op de telefoon aankomen.",
-  cs: "Propojeno: podepsaná jednorázová párovací nabídka, a k tomu to, že Mac Node na svém počítači nastartuje démona popopx-chat, aby se výsledky engenu dostaly do telefonu.",
-  "zh-Hans": "已打通：签名的一次性配对凭据，加上节点在本机拉起 popopx-chat 守护进程，把引擎结果送回手机。",
-  "zh-Hant": "已打通：簽章的一次性配對憑證，加上節點在本機拉起 popopx-chat 常駐程序，把引擎結果送回手機。",
-  es: "En línea: una oferta de emparejamiento firmada y de un solo uso, y el nodo que arranca el demonio popopx-chat en su propia máquina para que los resultados del motor lleguen al teléfono.",
-  pl: "Połączone: podpisana jednorazowa propozycja parowania, a do tego Mac Node uruchamia demona popopx-chat na własnym komputerze, więc wyniki silnika trafiają do telefonu.",
-  ja: "稼働中：署名された使い捨てのペアリングオファー、加えてノードが自分のマシン上で popopx-chat デーモンを起動し、エンジンの結果をスマホに届ける。",
-  th: "ออนไลน์: ข้อมูลจับคู่ใช้แล้วทิ้งที่ลงนาม รวมถึงการที่โหนดเริ่มเดมอน popopx-chat บนเครื่องของมันเอง เพื่อให้ผลจากเอนจินส่งไปถึงมือถือ",
-  fi: "Käytössä: allekirjoitettu kertaluonteinen paritustarjous, ja lisäksi Mac Node käynnistää omalla koneellaan taustapalvelun popopx-chat, jotta moottorin tulokset päätyvät puhelimelle.",
-  uk: "Працює: підписане одноразове запрошення для спряження, плюс вузол сам запускає демона popopx-chat на власній машині, щоб результати рушія доходили до телефона.",
-  bg: "Работи: подписана еднократна покана за сдвояване, плюс възелът самостоятелно стартира демона popopx-chat на собствена машина, за да стигат резултатите от двигателя до телефона.",
-  tr: "Yayında: imzalı tek kullanımlık bir eşleştirme daveti, bir de düğümün kendi makinesinde popopx-chat daemon’ını başlatması — böylece motor sonuçları telefona ulaşıyor.",
-  hu: "Élő: aláírt, egyszer használatos párosítási ajánlat, plusz hogy a Mac Node a saját gépén elindítja a popopx-chat démont, így a motor eredménye eléri a telefont.",
+  en: "Live: a signed one-time pairing offer, plus the node starting the popopx-chat daemon on its own machine so engine results reach the phone. With the owner's switch on, that link also carries the assistant loop: a briefing at the hour you set, read-only mail triage whose sending waits for confirmation, a home-device sentinel, a signed LAN-only Discover feed that refreshes the phone, and signed update cards.",
+  ru: "Работает: подписанное одноразовое приглашение для сопряжения, плюс узел сам запускает на своей машине демон popopx-chat, чтобы результаты движка доходили до телефона. Если владелец включил тумблер, эта же связка несёт цикл помощника: сводку в заданный час, сортировку почты только для чтения с отправкой после подтверждения, сторож домашних устройств, подписанную ленту Discover только в локальной сети, обновляющую телефон, и подписанные карточки обновлений.",
+  de: "Online: ein signiertes einmaliges Kopplungsangebot, dazu dass der Knoten den Daemon popopx-chat auf dem eigenen Rechner startet, damit die Ergebnisse der Engine das Handy erreichen. Ist der Schalter des Besitzers an, trägt dieselbe Verbindung auch die Assistentenschleife: ein Briefing zur eingestellten Stunde, schreibgeschützte Mail-Sichtung, deren Versand auf Bestätigung wartet, ein Hausgeräte-Wächter, ein signierter LAN-only-Discover-Feed, der das Handy aktualisiert, und signierte Update-Karten.",
+  fr: "En ligne : une offre de couplage signée à usage unique, et le nœud qui démarre le démon popopx-chat sur sa propre machine pour que les résultats du moteur reviennent sur le téléphone. Quand l’interrupteur du propriétaire est activé, ce même lien porte aussi la boucle d’assistant : un briefing à l’heure choisie, un tri des mails en lecture seule dont l’envoi attend confirmation, une sentinelle des appareils domestiques, un flux Discover signé limité au réseau local qui rafraîchit le téléphone, et des cartes de mise à jour signées.",
+  it: "Online: un’offerta di abbinamento firmata e monouso, più il nodo che avvia il demone popopx-chat sulla propria macchina perché i risultati del motore arrivino al telefono. Con l’interruttore del proprietario attivo, lo stesso collegamento porta anche il ciclo dell’assistente: un briefing all’ora scelta, triage della posta in sola lettura il cui invio attende conferma, una sentinella dei dispositivi domestici, un feed Discover firmato solo LAN che aggiorna il telefono e carte di aggiornamento firmate.",
+  nl: "Werkt: een ondertekende eenmalige koppelingsaanbieding, plus het feit dat de node de daemon popopx-chat op zijn eigen machine start, zodat de resultaten van de engine op de telefoon aankomen. Staat de schakelaar van de eigenaar aan, dan draagt dezelfde verbinding ook de assistentlus: een briefing op het ingestelde uur, alleen-lezen mailtriage waarvan het verzenden op bevestiging wacht, een huisapparaatwacht, een ondertekende LAN-only Discover-feed die de telefoon ververst, en ondertekende updatekaarten.",
+  cs: "Propojeno: podepsaná jednorázová párovací nabídka, a k tomu to, že Mac Node na svém počítači nastartuje démona popopx-chat, aby se výsledky enginu dostaly do telefonu. Když vlastník zapne přepínač, stejné spojení nese i smyčku asistenta: briefing ve zvolenou hodinu, třídění pošty jen pro čtení, jehož odeslání čeká na potvrzení, hlídač domácích zařízení, podepsaný feed Discover pouze v LAN, který obnovuje telefon, a podepsané karty aktualizací.",
+  "zh-Hans": "已打通：签名的一次性配对凭据，加上节点在本机拉起 popopx-chat 守护进程，把引擎结果送回手机。主人打开开关后，这条链路还承载助理闭环：在你设定的时间送上简报，只读整理邮件、发送等你确认，看守家庭设备，用仅限局域网的签名 Discover 流刷新手机，并送来签名的升级卡片。",
+  "zh-Hant": "已打通：簽章的一次性配對憑證，加上節點在本機拉起 popopx-chat 常駐程序，把引擎結果送回手機。主人打開開關後，這條鏈路還承載助理閉環：在你設定的時間送上簡報，唯讀整理郵件、傳送等你確認，看守家庭裝置，用僅限區域網路的簽章 Discover 流刷新手機，並送來簽章的升級卡片。",
+  es: "En línea: una oferta de emparejamiento firmada y de un solo uso, y el nodo que arranca el demonio popopx-chat en su propia máquina para que los resultados del motor lleguen al teléfono. Con el interruptor del dueño activado, ese mismo enlace también lleva el bucle de asistente: un informe a la hora elegida, triaje de correo en solo lectura cuyo envío espera confirmación, un centinela de dispositivos del hogar, un feed Discover firmado solo LAN que actualiza el teléfono y tarjetas de actualización firmadas.",
+  pl: "Połączone: podpisana jednorazowa propozycja parowania, a do tego Mac Node uruchamia demona popopx-chat na własnym komputerze, więc wyniki silnika trafiają do telefonu. Gdy przełącznik właściciela jest włączony, to samo połączenie niesie też pętlę asystenta: briefing o wybranej godzinie, przegląd poczty tylko do odczytu, którego wysyłka czeka na potwierdzenie, strażnik urządzeń domowych, podpisany kanał Discover tylko w sieci lokalnej, odświeżający telefon, oraz podpisane karty aktualizacji.",
+  ja: "稼働中：署名された使い捨てのペアリングオファー、加えてノードが自分のマシン上で popopx-chat デーモンを起動し、エンジンの結果をスマホに届ける。所有者がスイッチを入れれば、同じ回線がアシスタントループも運ぶ。設定した時刻のブリーフィング、送信は確認を待つ読み取り専用のメール整理、家庭内デバイスの見張り、スマホを更新する LAN 限定の署名付き Discover フィード、そして署名付きの更新カードである。",
+  th: "ออนไลน์: ข้อมูลจับคู่ใช้แล้วทิ้งที่ลงนาม รวมถึงการที่โหนดเริ่มเดมอน popopx-chat บนเครื่องของมันเอง เพื่อให้ผลจากเอนจินส่งไปถึงมือถือ เมื่อเจ้าของเปิดสวิตช์ เส้นทางเดิมยังพาวงจรผู้ช่วยมาด้วย: สรุปตามเวลาที่ตั้งไว้ คัดกรองอีเมลแบบอ่านอย่างเดียวที่การส่งรอการยืนยัน เฝ้าระวังอุปกรณ์ในบ้าน ฟีด Discover ที่ลงนามและจำกัดใน LAN ซึ่งรีเฟรชมือถือ และการ์ดอัปเดตที่ลงนาม",
+  fi: "Käytössä: allekirjoitettu kertaluonteinen paritustarjous, ja lisäksi Mac Node käynnistää omalla koneellaan taustapalvelun popopx-chat, jotta moottorin tulokset päätyvät puhelimelle. Kun omistajan kytkin on päällä, sama yhteys kuljettaa myös avustajasilmukan: briifaus valittuna hetkenä, vain luku -sähköpostin lajittelu, jonka lähetys odottaa vahvistusta, kotilaitteiden vahti, allekirjoitettu vain lähiverkossa toimiva Discover-syöte, joka päivittää puhelinta, ja allekirjoitetut päivityskortit.",
+  uk: "Працює: підписане одноразове запрошення для спряження, плюс вузол сам запускає демона popopx-chat на власній машині, щоб результати рушія доходили до телефона. Коли перемикач власника ввімкнено, та сама ланка несе й цикл помічника: брифінг у призначену годину, сортування пошти лише для читання, надсилання якої чекає підтвердження, сторож домашніх пристроїв, підписаний потік Discover лише в локальній мережі, що оновлює телефон, і підписані картки оновлень.",
+  bg: "Работи: подписана еднократна покана за сдвояване, плюс възелът самостоятелно стартира демона popopx-chat на собствена машина, за да стигат резултатите от двигателя до телефона. Когато ключът на собственика е включен, същата връзка носи и цикъла на асистента: брифинг в зададения час, сортиране на поща само за четене, чието изпращане чака потвърждение, страж на домашните устройства, подписан Discover поток само в LAN, който обновява телефона, и подписани карти за актуализация.",
+  tr: "Yayında: imzalı tek kullanımlık bir eşleştirme daveti, bir de düğümün kendi makinesinde popopx-chat daemon’ını başlatması — böylece motor sonuçları telefona ulaşıyor. Sahibin anahtarı açıkken aynı hat asistan döngüsünü de taşır: seçtiğiniz saatte brifing, gönderimi onay bekleyen salt okunur e-posta taraması, ev cihazı gözcüsü, telefonu yenileyen imzalı ve yalnız LAN’da çalışan Discover akışı ve imzalı güncelleme kartları.",
+  hu: "Élő: aláírt, egyszer használatos párosítási ajánlat, plusz hogy a Mac Node a saját gépén elindítja a popopx-chat démont, így a motor eredménye eléri a telefont. Ha a tulajdonos kapcsolója be van kapcsolva, ugyanez a vonal viszi az asszisztens-ciklust is: eligazítás a beállított órában, csak olvasható levélszűrés, amelynek küldése megerősítésre vár, otthoni eszközfigyelő, aláírt, csak helyi hálózaton működő Discover-hírfolyam, amely frissíti a telefont, és aláírt frissítési kártyák.",
 };
 
 const LINK_PAP: Localized<string> = {
@@ -266,24 +268,24 @@ const LINK_PAP: Localized<string> = {
 };
 
 const LINK_AUTO: Localized<string> = {
-  en: "Planned: no cross-product scheduling call exists anywhere in the three repositories. Today they are linked, not wired together.",
-  ru: "В планах: ни в одном из трёх репозиториев нет ни одного вызова автоматического планирования между продуктами. Сегодня они связаны ссылками, а не проводами.",
-  de: "In Planung: Ein Aufruf produktübergreifender Automatisierung existiert in den drei Repositories nirgends. Heute sind sie verlinkt, nicht verdrahtet.",
-  fr: "En projet : aucun appel d’ordonnancement entre produits n’existe dans les trois dépôts. Aujourd’hui ils sont liés par des liens, pas câblés entre eux.",
-  it: "In pianificazione: nelle tre repository non esiste alcuna chiamata di scheduling tra i prodotti. Oggi sono collegati dai link, non cablati tra loro.",
-  nl: "Gepland: in geen van de drie repos bestaat een call voor automatische planning tussen de producten. Vandaag zijn ze gelinkt, niet bedraad.",
-  cs: "Plánováno: ve třech repozitářích není jediné volání automatického plánování napříč produkty. Dnes jsou propojeny odkazy, ne dráty.",
-  "zh-Hans": "生态协同演进中：三个仓库里找不到任何跨组件自动调度的调用。现在它们之间只有链接，没有接线。",
-  "zh-Hant": "生態協同演進中：三個倉庫裡找不到任何跨元件自動排程的呼叫。現在它們之間只有連結，沒有接線。",
-  es: "Planificado: en los tres repositorios no existe ni una sola llamada de programación automática entre productos. Hoy están enlazados, no cableados entre sí.",
-  pl: "Planowane: w trzech repozytoriach nie ma ani jednego wywołania automatycznego planowania między produktami. Dziś łączą je odsyłacze, nie przewody.",
-  ja: "計画中：3 つのリポジトリのどこにも、製品をまたぐ自動スケジューリングの呼び出しは存在しない。いま結ばれているのはリンクであって、配線ではない。",
-  th: "กำลังวางแผน: ไม่พบการเรียกอัตโนมัติข้ามผลิตภัณฑ์ในรีโปทั้งสามแห่งเลย สิ่งที่เชื่อมถึงกันทุกวันนี้คือลิงก์ ไม่ใช่สายที่เดินถึงกัน",
-  fi: "Suunnitteilla: kolmesta arkistosta ei löydy yhtään tuotteidenvälistä automaattista ajoituskutsua. Tänä päivänä ne on linkitetty, ei johdotettu.",
-  uk: "У планах: у трьох сховищах немає жодного виклику автоматичного планування між продуктами. Сьогодні вони поєднані посиланнями, а не проводами.",
-  bg: "Планирано: и в трите хранилища няма нито едно извикване за автоматично планиране между продуктите. Днес те са свързани с препратки, а не с кабели.",
-  tr: "Planlamada: üç deponun hiçbirinde ürünler arası otomatik zamanlama çağrısı yok. Bugün aralarındaki şey link, kablolanmış bir devre değil.",
-  hu: "Tervezésben: a három tárolóban egyetlen termékek közti automatikus ütemezési hívás sincs. Ma link köti össze őket, nem vezeték.",
+  en: "Evolving: no shared scheduler drives these three. Bot Studio reaches Mac Node only through loopback privacy tools, and calendar writes wait for the owner's approval — a controlled call, not a job bus. The one scheduled loop that ships is the phone↔Mac Node line above.",
+  ru: "Развивается: общего планировщика, который двигал бы эти три продукта, нет. Bot Studio обращается к Mac Node только через локальные инструменты приватности, а запись в календарь ждёт одобрения владельца — это управляемый вызов, а не шина задач. Единственный работающий цикл по расписанию — линия телефон↔Mac Node выше.",
+  de: "In Entwicklung: Kein gemeinsamer Scheduler treibt diese drei. Bot Studio erreicht Mac Node nur über lokale Datenschutz-Werkzeuge, und Kalendereinträge warten auf die Freigabe des Besitzers — ein kontrollierter Aufruf, kein Job-Bus. Die einzige ausgelieferte Schleife nach Zeitplan ist die Handy↔Mac-Node-Linie oben.",
+  fr: "En évolution : aucun ordonnanceur commun ne pilote ces trois produits. Bot Studio n’atteint Mac Node que par des outils de confidentialité locaux, et les écritures d’agenda attendent l’approbation du propriétaire — un appel contrôlé, pas un bus de tâches. La seule boucle planifiée livrée est la ligne téléphone↔Mac Node ci-dessus.",
+  it: "In evoluzione: nessun pianificatore condiviso guida questi tre. Bot Studio raggiunge Mac Node solo tramite strumenti di privacy locali, e le scritture in calendario attendono l’approvazione del proprietario — una chiamata controllata, non un bus di job. L’unico ciclo pianificato pubblicato è la linea telefono↔Mac Node qui sopra.",
+  nl: "In ontwikkeling: geen gedeelde planner stuurt deze drie aan. Bot Studio bereikt Mac Node alleen via lokale privacytools, en agendawijzigingen wachten op de goedkeuring van de eigenaar — een gecontroleerde aanroep, geen jobbus. De enige geplande lus die meegaat is de lijn telefoon↔Mac Node hierboven.",
+  cs: "Ve vývoji: žádný společný plánovač tyto tři neřídí. Bot Studio dosáhne na Mac Node jen přes lokální nástroje soukromí a zápisy do kalendáře čekají na schválení vlastníka — řízené volání, ne sběrnice úloh. Jediná dodaná smyčka podle plánu je linka telefon↔Mac Node výše.",
+  "zh-Hans": "演进中：没有一个共用调度器来驱动这三者。Bot Studio 只能通过本地回环的隐私工具触达 Mac Node，日历写入要等主人批准——这是受控调用，不是任务总线。唯一按计划运行的闭环，是上面的手机↔Mac Node 那条线。",
+  "zh-Hant": "演進中：沒有一個共用排程器來驅動這三者。Bot Studio 只能透過本地回環的隱私工具觸達 Mac Node，行事曆寫入要等主人批准——這是受控呼叫，不是任務匯流排。唯一按計畫運行的閉環，是上面的手機↔Mac Node 那條線。",
+  es: "En evolución: ningún planificador compartido mueve a estos tres. Bot Studio solo llega a Mac Node mediante herramientas locales de privacidad, y las escrituras de calendario esperan la aprobación del dueño: una llamada controlada, no un bus de tareas. El único bucle programado que se entrega es la línea teléfono↔Mac Node de arriba.",
+  pl: "W rozwoju: żaden wspólny planista nie steruje tymi trzema. Bot Studio dociera do Mac Node tylko przez lokalne narzędzia prywatności, a zapisy do kalendarza czekają na zatwierdzenie właściciela — to kontrolowane wywołanie, nie szyna zadań. Jedyna dostarczona pętla według harmonogramu to linia telefon↔Mac Node powyżej.",
+  ja: "進化中：この 3 つを動かす共通スケジューラーはない。Bot Studio が Mac Node に届くのはローカルのプライバシーツール経由だけで、カレンダー書き込みは所有者の承認を待つ。制御された呼び出しであって、ジョブバスではない。唯一出荷されている定時ループは、上のスマホ↔Mac Node の線である。",
+  th: "กำลังพัฒนา: ไม่มีตัวจัดกำหนดงานร่วมที่ขับเคลื่อนทั้งสามสิ่งนี้ Bot Studio ไปถึง Mac Node ได้เพียงผ่านเครื่องมือความเป็นส่วนตัวบนลูปแบ็ก และการเขียนปฏิทินรอการอนุมัติของเจ้าของ — เป็นการเรียกที่ควบคุมไว้ ไม่ใช่บัสงาน วงจรตั้งเวลาที่ส่งมอบจริงมีเพียงเส้นมือถือ↔Mac Node ข้างบน",
+  fi: "Kehitysvaiheessa: mikään yhteinen ajoitin ei ohjaa näitä kolmea. Bot Studio yltää Mac Nodeen vain paikallisten yksityisyystyökalujen kautta, ja kalenterikirjoitukset odottavat omistajan hyväksyntää — hallittu kutsu, ei työjonoväylä. Ainoa toimitettu ajastettu silmukka on yllä oleva puhelin↔Mac Node -linja.",
+  uk: "Розвивається: жоден спільний планувальник не керує цими трьома. Bot Studio дістає до Mac Node лише через локальні інструменти приватності, а записи в календар чекають схвалення власника — це контрольований виклик, а не шина задач. Єдиний поставлений цикл за розкладом — лінія телефон↔Mac Node вище.",
+  bg: "В развитие: нито един общ планировчик не движи тези три. Bot Studio достига до Mac Node само чрез локални инструменти за поверителност, а записите в календара чакат одобрението на собственика — контролирано извикване, не шина за задачи. Единственият доставен цикъл по график е линията телефон↔Mac Node по-горе.",
+  tr: "Gelişiyor: bu üçünü süren ortak bir zamanlayıcı yok. Bot Studio Mac Node’a yalnızca yerel gizlilik araçlarıyla ulaşır, takvim yazmaları sahibin onayını bekler — bu kontrollü bir çağrı, iş veri yolu değil. Zamanlanmış tek döngü, yukarıdaki telefon↔Mac Node hattıdır.",
+  hu: "Fejlesztés alatt: nincs közös ütemező, amely ezt a hármat hajtaná. A Bot Studio csak helyi adatvédelmi eszközökön át éri el a Mac Node-ot, a naptárírások pedig a tulajdonos jóváhagyására várnak — ez ellenőrzött hívás, nem feladatbusz. Az egyetlen kiszállított ütemezett ciklus a fenti telefon↔Mac Node vonal.",
 };
 
 const STATUS_LIVE: Localized<string> = {

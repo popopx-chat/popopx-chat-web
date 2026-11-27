@@ -2,10 +2,10 @@
 
 每一行都是 iOS 客户端仓库（分支 `master`，默认 checkout 在本仓库同级的 `../popopx-chat`，也可用环境变量 `POPOPX_CLIENT` 指定）里实测出来的事实。**出处路径一律相对该客户端仓库根目录**，`apps/ios/` 前缀写在路径里；本文件不出现任何本机绝对路径。
 `npm run check:facts` 逐条打开这些指针：文件必须存在、路径必须按上述约定可解析、行号必须落在有内容的行上。它只证明「指针打得到东西」，不证明行内的语义——那仍然要人开着文件读这一行。
-⚠️ 全表最后一次重钉落在 2026-11-26，对齐上游四个仓库的当日提交——客户端 `3daec259e`、服务套件 `a6c1632`、Bot Studio `c114368`、Mac 节点 `040ef25`。
-除了 `check:facts` 报错的 13 条，另有 11 行是「静默漂移」：指针仍打在非空行上，读出来却已是别的代码——§5 的 rollback 快照行、§16 的控制台回环行、§16 的任务依赖行。
-这些行已逐条改到新位置，各节的 `sed -n` 复测配方同步更新。同一次回读还查出**内容**漂移：服务套件的业务插件已由 5 个增至 8 个——
-八个命名字段、八个插件模块、README 自己的原话是 "eight business plugins"。台账与首页、生态页共 36 个 18 语槽位已同步改按 8；生态页套件卡里那个无法复现的「117 项 HTTP 接口」也换成了官方命令可复现的 118——55 条网关自身路由，加 63 条经 include_router 挂载的插件路由。
+⚠️ 全表最后一次重钉落在 2026-11-27，对齐上游四个仓库的提交——客户端 `5ff040eb8`、服务套件 `d68f2d5`、Bot Studio `766cee5`、Mac 节点 `6dd719a`。
+2026-11-26 的上一轮重钉（客户端 `3daec259e`、套件 `a6c1632`、Bot Studio `c114368`、Mac Node `040ef25`）当时有 13 条门禁红与 11 行静默漂移，那批指针已逐条改好；同一次回读把套件的业务插件由 5 个改成 8 个、接口由 117 改成 118（55 + 63）。这两个数字最终被本轮覆盖。
+
+2026-11-27 又钉了一次：上一轮（`691176e`）的 8 个插件／118 条路由在当时是对的，但套件随后落地的 `d68f2d5` 新增了第九个插件 `slack_discord`（7 条路由）与 4 条网关自身路由——README 现在的原话是 "nine business plugins" 与 **129 条路由**（59 + 70）。本轮把那 36 个 18 语槽位一并改成九／129，并把 §16 的配方重跑成 59 + 70。同一轮把首页五个组件与生态页套件卡共六个组件里 17 张 `Localized` map 的 306 个槽位按新代码改写：Bot Studio 的进程内多智能体编排与「已配对手机 ↔ 已绑定 Mac Node」的助手环从「演进中」翻成「已可用 / Live」，而 PAP、手机端内嵌模型权重、跨产品共享调度器、网络权限网关继续留在「演进中」。§19 是新落地的两块的逐条出处。
 
 主站上任何一句技术描述都必须能在本表中找到出处；本表没有的说法，页面不能写。
 
@@ -62,7 +62,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 | AES-256-GCM | 仅队列载荷层；**严禁**说成 BLE 通道加密 | `apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123` |
 | Ed25519 | 校验服务器集群配置：签名域 `popopx|popx_srv_cfg_v1|` + 压缩字节；信任根是**硬编码固定的** 32 字节公钥，key id `k-ad1dc5463a`（= `k-` + SHA-256 前 10 位十六进制），验证失败即拒绝（fail-closed） | `apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-391,394-397,401-405,410-418,420-425,516-523` |
 | Ed25519（TOFU 一类） | 群组创建者签名、发现目录签名、频道密钥校验的公钥来自数据本身（首次信任），与上面的固定信任根不同 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupWire.swift:145`、`apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:596-600`、`apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:294-304` |
-| ECDSA P-256 | 商业徽章/积分签名，**不是** Ed25519 | `apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1535,1576-1578` |
+| ECDSA P-256 | 商业徽章/积分签名，**不是** Ed25519 | `apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1542-1545,1553-1559,1577-1583` |
 | HMAC-SHA256 | 服务号配对匿名 H5 授权：原文形如 `uid=<pairwise_uid>&ts=<unix-seconds>`，密钥为该联系人会话密钥（Keychain） | `apps/ios/Shared/Features/ServiceAccount/PopopxH5Launcher.swift:7,120-122,130-142` |
 | PBKDF2-HMAC-SHA256 | 胁迫密码，100,000 轮 | `apps/ios/Shared/Features/AntiTheftDuress/PopopxDuressAuthManager.swift:310,341-345` |
 | LZFSE | `Compression` 框架 `COMPRESSION_LZFSE` 流式分块压缩；容器扩展名 `.ppxlz`、魔数 `PPXLZ1`；只有在压缩收益 ≥15% 时才保留；明确不是 zstd | `apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:15-19,731,735-738,741,743-747,843-850`、`apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:5,32` |
@@ -83,7 +83,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 | 事实 | 出处 |
 | --- | --- |
 | `PopopxMeshKit` 是 SPM 包，两个 module：`PopopxMeshKit`、`PopopxMeshUI`，已链接进 App target | `apps/ios/PopopxMeshKit/Package.swift:10-13,16-19`、`apps/ios/POPOPX.xcodeproj/project.pbxproj:926-927,3217` |
-| 传输是**双角色 CoreBluetooth GATT 点对点**（`CBCentralManager` + `CBPeripheralManager`，单一 service UUID），不是 Bluetooth Mesh 规范 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:24,29,45-49`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Core/PopopxMeshConfig.swift:78` |
+| 传输是**双角色 CoreBluetooth GATT 点对点**（`CBCentralManager` + `CBPeripheralManager`，单一 service UUID），不是 Bluetooth Mesh 规范 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:24,29,45-49`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Core/PopopxMeshConfig.swift:93-96` |
 | 泛洪转发用 Golomb-coded set 去重并分片 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-7` |
 | 通道加密为 NOISE over BLE | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift` |
 | 网络/BLE 的路线选择在代码里叫 `dualChannel`；SMP ACK 超时 3 秒、BLE ACK 超时 5 秒；结果枚举见 :217-238 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:6-19,217-238,271`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Core/PopopxMeshConfig.swift:70,72` |
@@ -253,8 +253,8 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 
 ## 16. 四端协同链路的实测口径（首页生态全景图）
 
-首页 `EcosystemPanorama` 只画这一节撑得住的线：实线 = 下面某一行指得出源码，虚线 = 四个仓库里 grep 不到任何调用。
-以下出处在 2026-11-25 逐条 `sed` 回读过；配方在本节末，引用前重跑。
+首页 `EcosystemPanorama` 只画这一节撑得住的线：实线 = 下面某一行指得出源码，虚线 = 跨产品调度器仍无调用。
+以下出处在 2026-11-27 逐条 `sed` 回读过；配方在本节末，引用前重跑。
 
 | 事实 | 出处 |
 | --- | --- |
@@ -270,16 +270,16 @@ awk 'NR>=148 && NR<=163 && /^    case /' apps/ios/Shared/Features/BadgeCredits/P
 | 内存阶梯三档（≥96 / 48–95 / <48 GB）与每档的 LTX 权重写法、理由都是代码里的字面量；<48 GB 档的原话是「轻推理，重视频交给 mesh」 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:558,560,562,567-569,716-719,740-741,757-758,774-775` |
 | 每个任务的依赖都写明：需要本地模型的任务是 `["ffmpeg", "ollama"]`，不需要的只 `["ffmpeg"]`；另有一次性 `DispatchSource` kill switch，「卡死的 ffmpeg 永远 wedge 不住」后续流程 | `../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:1804,3570` |
 | **Chat ↔ 服务号套件**这一头有客户端实现撑着：服务号两级菜单、动态业务卡片、进程外 `SFSafariViewController` 的 H5、零知识频道信封 `popopx.channel.enc.v1`（见 §9）；套件侧的对应说法是「线协议与出厂 iOS 客户端逐字节对齐」 | `apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42`、`../popopx-service-suite/README.en.md:9-12` |
-| 套件的五个组成是 README 自述：FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密、八个业务插件、浏览器管理台；且声明不链接、不修改、不重分发 node 的任何代码 | `../popopx-service-suite/README.en.md:9-13` |
+| 套件的五个组成是 README 自述：FastAPI 网关、POPX-CP 计量、带零知识密钥轮换的频道信封加密、九个业务插件、浏览器管理台；且声明不链接、不修改、不重分发 node 的任何代码 | `../popopx-service-suite/README.en.md:9-13` |
 | 注意同名词：**套件脚本里的 `node` 指它自己在 `127.0.0.1:5225` 拉起的消息服务端**（gateway 在 8080），与 Mac 节点无关，全景图不把这两个 node 连成一条线 | `../popopx-service-suite/README.en.md:12-13,71,77` |
-| 八个插件是八个命名字段，默认 `web3_bridge` 关；`POPOPX_PLUGIN_<NAME>=0` 能把任意一个从 enabled 列表里摘掉，这套开关是网关自测逐条断言过的 | `../popopx-service-suite/gateway/app/config.py:250-258,831-833` |
-| 首页生态全景图与生态页的服务套件卡现都写「八个」：两处由同一组证据撑着——八个命名字段、插件目录八个模块、README 原话 "eight business plugins"；两个组件各 18 语在同一提交里逐槽核对，没有任何一槽残留「五」 | `../popopx-service-suite/gateway/app/config.py:250-258`、`./src/components/EcosystemPanorama.tsx:143-160`、`./src/components/EcosystemHub.tsx:326-343` |
-| 生态页套件卡的「118 项 HTTP 接口」是两个数相加：网关自身在 create_app 里声明的 55 条由官方命令打印，八个插件另加 63 条经 include_router 挂载、官方命令数不到；逐插件拆分（workflow_webhook 12、alert_ops 10、web3_bridge 9、polls 8、ai_agent 6、privacy_sso 6、carddav_connector 6、caldav_connector 6）与 55+63 的口径同时写在套件中英两份 README 里，18 语槽位已按 118 统一 | `../popopx-service-suite/README.md:338-342`、`../popopx-service-suite/README.en.md:417-422`、`../popopx-service-suite/gateway/app/main.py:4391,6686`、`./src/components/EcosystemHub.tsx:326-343` |
+| 九个插件是九个命名字段（`ai_agent`、`alert_ops`、`privacy_sso`、`polls`、`web3_bridge`、`workflow_webhook`、`carddav_connector`、`caldav_connector`、`slack_discord`），前四项默认开、后五项默认关；`POPOPX_PLUGIN_<NAME>=0` 能把任意一个从 enabled 列表里摘掉，这套开关是网关自测逐条断言过的 | `../popopx-service-suite/gateway/app/config.py:250-259,861-868` |
+| 首页生态全景图与生态页的服务套件卡现都写「九个」：两处由同一组证据撑着——九个命名字段、插件目录九个模块、README 原话 "nine business plugins"；两个组件各 18 语在本轮逐槽核对，没有任何一槽残留「八」 | `../popopx-service-suite/gateway/app/config.py:250-259`、`./src/components/EcosystemPanorama.tsx:143-160`、`./src/components/EcosystemHub.tsx:326-343` |
+| 生态页套件卡的「129 项 HTTP 接口」是两个数相加：网关自身在 create_app 里声明的 59 条由官方命令打印，九个插件另加 70 条经 include_router 挂载、官方命令数不到；逐插件拆分（workflow_webhook 12、alert_ops 10、web3_bridge 9、polls 8、slack_discord 7、ai_agent 6、privacy_sso 6、carddav_connector 6、caldav_connector 6）与 59+70 的口径同时写在套件中英两份 README 里，18 语槽位已按 129 统一 | `../popopx-service-suite/README.md:406-412`、`../popopx-service-suite/README.en.md:492-498`、`./src/components/EcosystemHub.tsx:326-343` |
 | **Bot Studio 是 `popopx-cli` 的 supervisor**，不是聊天客户端的扩展：一个进程经回环 WebSocket 管任意多个 bot 实例；仓库零内置二进制（"Zero binary bundling"），运行时只驱动外部 cli，安装器可按需把二进制取到系统可执行目录（README 给了具体路径） | `../popopx-bot-studio/README.en.md:3-6,16-18` |
 | Studio 的控制面同样只在回环：控制台默认 `127.0.0.1:8090`，非回环绑定必须显式 `STUDIO_ALLOW_LAN=1` 或 `--lan`；bot 控制端口从 `BOT_WS_PORT_BASE`（默认 5230）起到 5299 止，"never 0.0.0.0"；compose 也只发布回环 | `../popopx-bot-studio/README.en.md:67,82-83,182-183` |
 | SMP Agent 协议既有规范也有服务端实现：规范头两行是 "Version 7, 2025-01-24" 与 "# SMP agent protocol - duplex communication over SMP protocol"；实现侧 Agent.hs 4558 行、Agent/Protocol.hs 2412 行，`data AgentErrorType` 是错误词汇表本体 | `../popopxmq/protocol/agent-protocol.md:1-3`、`../popopxmq/src/Popopx/Messaging/Agent.hs:1`、`../popopxmq/src/Popopx/Messaging/Agent/Protocol.hs:2161` |
 | iOS 侧对 agent 层的可见面只有 Decodable 镜像（`AgentErrorType` 与八个 `A_*` 的 `SMPAgentError`）——「客户端能解码 agent 层错误」可以写，「客户端已实现跨组件编排」不可以写 | `apps/ios/POPOPXChat/APITypes.swift:1021,1185-1193` |
-| **跨组件自动调度 0 处证据。**popopx-bot-studio 的 .py 里 grep `service-suite|POPX-CP|mp\.popopx` 0 命中；popopx-service-suite/gateway 里 grep `bot-studio|bot\.popopx|8090` 0 命中；PopopxMacNode/Sources 里 grep `bot-studio|service-suite` 0 命中（唯一命中的 5225 是它自己的本机守护进程端口）。全景图这三条一律虚线 + Planned | 本机 grep（配方见下） |
+| **跨产品调度器仍是 0 处，但「跨组件」已不能一概而论。** 四个仓库之间没有共享任务总线：Bot Studio 的派活只在同一个 Studio 进程内、只在兄弟 Bot 之间（§19 第 1–4 行），Mac Node 的助手环只由本机 `LocalTaskScheduler` 驱动（§19 第 6–7 行）。旧版三条 grep 按文件计数现在分别是 2／3／3，逐条读全是别的东西：Bot Studio 与套件的 `opaque_invite_codec` 共享密封链接格式常量（注释与自测断言，不是调用；套件里唯一 `.py` 命中的 `8090` 是 hex 字面量 `…08090a…` 的子串假阳性，另两个命中是 `.pyc` 与向量 JSON），Mac Node 的 `PrivacyToolRoute` 把 `"bot-studio"` 当审计来源标签（回环工具面的调用方名字，不是调度器）。全景图 `Bot Studio · Service Suite · Mac Node` 那一条仍虚线 + Planned | 本机 grep（配方见下）、`../popopx-bot-studio/studio/app/orchestrator.py:1-23`、`../PopopxMacNode/Sources/PopopxMacNode/Assistant/LocalTaskScheduler.swift:1-20`、`../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyToolEngine.swift:93,166` |
 
 复测配方（在四个仓库的公共父目录里跑，即同时放着 `popopx-chat` 与 `popopx-chat-web` 的那一级）：
 
@@ -298,37 +298,41 @@ sed -n '1,3p' popopxmq/protocol/agent-protocol.md
 sed -n '2161p' popopxmq/src/Popopx/Messaging/Agent/Protocol.hs
 wc -l popopxmq/src/Popopx/Messaging/Agent.hs popopxmq/src/Popopx/Messaging/Agent/Protocol.hs
 sed -n '9,13p;71p;77p' popopx-service-suite/README.en.md
-sed -n '250,258p;831,833p' popopx-service-suite/gateway/app/config.py
-ls popopx-service-suite/gateway/app/plugins/ | grep -E '\.py$' | grep -v __init__ | wc -l   # 8（插件模块数）
-cd popopx-service-suite/gateway && python3 -m app.main --print-routes | tail -1   # routes: 55, all guarded or explicitly public（纯 AST 解析源码，不需要装依赖）
-for f in popopx-service-suite/gateway/app/plugins/*.py; do printf '%s %s\n' "$(basename $f .py)" "$(grep -cE '@[A-Za-z_]+\.(get|post|put|patch|delete)\(' $f)"; done   # 逐插件合计 63；55+63=118 = 生态页卡的数字
+sed -n '250,259p;861,868p' popopx-service-suite/gateway/app/config.py
+ls popopx-service-suite/gateway/app/plugins/ | grep -E '\.py$' | grep -v __init__ | wc -l   # 9（插件模块数）
+(cd popopx-service-suite/gateway && python3 -m app.main --print-routes | tail -1)   # routes: 59, all guarded or explicitly public（纯 AST 解析源码，不需要装依赖）
+for f in popopx-service-suite/gateway/app/plugins/*.py; do printf '%s %s\n' "$(basename $f .py)" "$(grep -cE '@[A-Za-z_]+\.(get|post|put|patch|delete)\(' $f)"; done   # 逐插件合计 70；59+70=129 = 生态页卡的数字
+sed -n '9,13p' popopx-service-suite/README.en.md
+sed -n '492,498p' popopx-service-suite/README.en.md
 sed -n '3,6p;16,18p;67p;82,83p;182,183p' popopx-bot-studio/README.en.md
 sed -n '1021p;1185,1193p' popopx-chat/apps/ios/POPOPXChat/APITypes.swift
-grep -rlE "service-suite|POPX-CP|mp\.popopx" popopx-bot-studio --include="*.py" | wc -l    # 0
-grep -rlE "bot-studio|bot\.popopx|8090" popopx-service-suite/gateway | wc -l              # 0
-grep -rlE "bot-studio|service-suite" PopopxMacNode/Sources | wc -l                        # 0
+grep -rlE "service-suite|POPX-CP|mp\.popopx" popopx-bot-studio --include="*.py" | wc -l    # 2：格式对齐注释与自测断言，不是调用
+grep -rlE "bot-studio|bot\.popopx|8090" popopx-service-suite/gateway | wc -l              # 3：唯一 .py 命中是 hex 子串假阳性，另两个是 .pyc 与向量 JSON
+grep -rlE "bot-studio|service-suite" PopopxMacNode/Sources | wc -l                        # 3：格式对齐注释 + PrivacyToolRoute 的审计来源标签，不是调度调用
 ```
 
 三条严禁：不得写成「手机经 127.0.0.1 直连 Mac 节点」（§16 第 5 行否掉了）；不得把套件脚本里的 `node`
-当成 Mac 节点（第 14 行）；不得把跨组件自动调度、PAP、任何「四端已自动协同」写成实线或既成事实（第 20 行）。
-另外「企业服务 / 企业治理」在四个仓库里 0 处证据，一律不写——套件侧可写的是八个业务插件与 POPX-CP 计量。
+当成 Mac 节点（第 14 行）；跨产品调度器（job bus）与 PAP 仍 0 处，不得写成既成事实或任何「四端已自动协同」。
+但**可以**写两件已落地的事：手机↔Mac Node 的助手环（§19 第 6–12 行）与 Bot Studio 经回环隐私工具调用 Mac Node
+（§19 第 5 行）；两者都不是共享调度器，句子必须把边界一起写出来。
+另外「企业服务 / 企业治理」在四个仓库里 0 处证据，一律不写——套件侧可写的是九个业务插件与 POPX-CP 计量。
 
-## 17. 首页「AI 三层 + 六大场景」与端侧推理的实测口径（2026-11-26 实测）
+## 17. 首页「AI 三层 + 六大场景」与端侧推理的实测口径（2026-11-27 实测）
 
 `AiThreeLayers.tsx` 与 `UserScenariosGrid.tsx` 是首页新增的两块普通用户叙事。规则与 §16 一样：
 每一个「已可用」都必须落在下面某一行，或 §3/§4/§5/§6/§9/§15/§16 已经撑住的行上；「演进中」指缺**代码**，不缺计划。
-以下出处在 2026-11-26 逐条 `sed` 回读过；组件文件里不写 `file:line`，出处只在本节。
+以下出处在 2026-11-27 逐条 `sed` 回读过；组件文件里不写 `file:line`，出处只在本节。
 
 | 事实 | 出处 |
 | --- | --- |
 | **端侧确有一条真推理链，但它是安全传感器而不是助手**：同一帧里并行跑 `VNDetectFaceRectanglesRequest`（只数人头）与 CoreML 目标检测（手机/相机）；`configuration.computeUnits = .cpuAndNeuralEngine`，注释原话「only on the ANE is this 320x320 model down to single-digit milliseconds」；用途原话「We only use "is there a phone"」 | `apps/ios/Shared/Features/SecureEphemeral/PopopxCameraGuardEngine.swift:11,229-230,385-387,391-392` |
 | 模型随仓库出厂：`model.mlmodel` 167,513 字节、`weight.bin` 5,257,128 字节（≈5.0 MiB），`apps/ios/Resources/SecureEphemeral/` 与 `apps/ios/Shared/Features/SecureEphemeral/` 两份 `apps/ios/Shared/Features/SecureEphemeral/POPOPXAntiSpyDetector.mlpackage/Manifest.json` 同哈希；运行时只认 Xcode 预编译出的 `POPOPXAntiSpyDetector.mlmodelc`（注释：bare `.mlpackage` in the bundle equals no model at all），取不到就返回 nil、整条链降级，用户侧另有总开关 | `apps/ios/Shared/Features/SecureEphemeral/PopopxCameraGuardEngine.swift:397-406,409-410`、`apps/ios/Shared/Features/SecureEphemeral/PopopxSecureWindowManager.swift:107` |
 | **客户端 0 处对话/生成式模型、0 处语音识别、0 处本地推理服务**：十个标识符大小写不敏感全仓 0 命中（配方见下）。两个已知假阳性**不在**该列表内，复测时别把它们算成实现：口令词表里的英文单词 `whisper`、CoreFoundation 的 `CFStringTokenizer` | `apps/ios/Shared/Features/AntiTheftDuress/PopopxDuressAuthManager.swift:536`、`apps/ios/Shared/Views/Chat/ChatItem/FramedItemView.swift:517` |
-| 第二层的「已可用」= §15 的门户与引擎仓库 + §16 的 supervisor 事实：Studio 一个进程经回环 WebSocket 管任意多个 `popopx-cli` 实例、零内置二进制、控制台默认 `127.0.0.1:8090`、bot 控制端口 5230–5299「never 0.0.0.0」 | `../popopx-bot-studio/README.en.md:3-6,16-18,67,82-83` |
-| 第二层的「演进中」= 让多个智能体互相派活的编排层 0 处实现；今天 bot 会话走 SMP，Studio 驱动它自己的 `popopx-cli`，两边互不内嵌（同一句「linked, not wired」见 §16） | `../popopx-bot-studio/README.en.md:3-6`、`../popopxmq/protocol/agent-protocol.md:1-3` |
-| 第三层的「已可用」两半来自 §9（服务号两级菜单、动态卡片、`popopx.channel.enc.v1` 零知识信封、进程外 H5）与 §16（Mac Node 本机 Ollama/Qwen/LTX-2.5 MLX + FFmpeg，控制台 `requiredInterfaceType = .loopback`） | `apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42`、`../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:4784,4787` |
-| 第三层的「演进中」与第六张卡同一条证据：跨组件自动调度在四个仓库 0 处调用（§16 第 20 行的三条 grep 配方） | `../popopx-service-suite/gateway/app/config.py:250-255` |
-| 三处用词不同、含义同一把尺子：生态图 `已打通 / Live` 与 `生态协同演进中 / Planned`（实线 = §16 指得出源码，虚线 = 计划），新卡片 `已可用 / Available` 与 `演进中 / Evolving`，生态页 AgentProtocol 写「SMP Agent Protocol: defined and in use」与「PAP … zero occurrences … Not yet implemented」。严禁把任何虚线/演进中的说法改写成既成事实 | `./src/components/EcosystemPanorama.tsx:289,310`、`./src/components/AiThreeLayers.tsx:294,315`、`./src/components/AgentProtocol.tsx:77,98` |
+| 第二层的「已可用」= §15 的门户与引擎仓库 + §16 的 supervisor 事实：Studio 一个进程经回环 WebSocket 管任意多个 `popopx-cli` 实例、零内置二进制、控制台默认 `127.0.0.1:8090`、bot 控制端口 5230–5299「never 0.0.0.0」；本轮同一条「已可用」再加编排器：默认拒绝的 (origin,target,capability) 授权、五个只读投影、11 条 `/api/agent/orch*` 端点（§19 第 1–4 行） | `../popopx-bot-studio/README.en.md:3-6,16-18,67,82-83,228-230,345-368`、`../popopx-bot-studio/studio/app/orchestrator.py:1-23`、`../popopx-bot-studio/studio/app/agent_admin.py:709-850` |
+| 第二层的「演进中」= 编排仍止步于工作台边界：orchestrator 只在同一个 Studio 进程内、只在兄弟 Bot 之间派活，跨产品编排器仍 0 处，PAP 仍 0 命中（§19 第 1 行） | `../popopx-bot-studio/studio/app/orchestrator.py:1-23`、`../popopx-bot-studio/studio/app/orchestrator_local.py:1-30`、`../popopxmq/protocol/agent-protocol.md:1-3` |
+| 第三层的「已可用」两半来自 §9（服务号两级菜单、动态卡片、`popopx.channel.enc.v1` 零知识信封、进程外 H5）与 §16（Mac Node 本机 Ollama/Qwen/LTX-2.5 MLX + FFmpeg，控制台 `requiredInterfaceType = .loopback`）；本轮再把 Mac Node 助手环加进同一条「已可用」：两个默认关闭的定时任务（简报上午 8 点、巡检 30 分钟）、邮件只读 EXAMINE/BODY.PEEK、家庭哨兵只提案、HMAC 回执（vault 0600）、签名 Discover 仅局域网、`::POPOPX_UPD::v1` 更新卡（§19 第 6–12 行） | `apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42`、`../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:6192-6205`、`../PopopxMacNode/Sources/PopopxMacNode/Assistant/LocalTaskScheduler.swift:1-20`、`../PopopxMacNode/Sources/PopopxMacNode/Assistant/PersonalAssistantManager.swift:142-232` |
+| 第三层的「演进中」与第六张卡同一条证据：跨产品共享调度器仍 0 处；已打通的是「已配对手机 ↔ 已绑定 Mac Node」这一条，Bot Studio 只经回环隐私工具调用节点，不是任务总线（§19 第 5、9 行）。第六张卡已由「一句话排好日程、跨端接力」改写为这条真实闭环 + 缺口 | `../popopx-bot-studio/studio/app/mac_node_bridge.py:1-53`、`../PopopxMacNode/Sources/PopopxMacNode/Assistant/LocalTaskScheduler.swift:1-20` |
+| 三处用词不同、含义同一把尺子：生态图 `已打通 / Live` 与 `生态协同演进中 / Planned`（实线 = §16 指得出源码，虚线 = 计划），新卡片 `已可用 / Available` 与 `演进中 / Evolving`，生态页 AgentProtocol 写「SMP Agent Protocol: defined and in use」与「PAP … zero occurrences … Not yet implemented」。严禁把任何虚线/演进中的说法改写成既成事实。第六张卡（跨端协作）现为 Available，仍为 Evolving 的只剩「Personal AI」一张（端侧助手本体），与 §13 的禁词扫描互不影响 | `./src/components/EcosystemPanorama.tsx:291,312`、`./src/components/AiThreeLayers.tsx:294,315`、`./src/components/UserScenariosGrid.tsx:455,482`、`./src/components/AgentProtocol.tsx:77,98` |
 | 卡片图标是页面内画的 `<svg>` 线条：18 语共用同一组 path，无 `<text>`、无 `<image>`、无外链，因此不产生任何网络请求，也无需翻译 | `./src/components/UserScenariosGrid.tsx:338-443` |
 | **四层品牌主张是品牌叙述，不是技术断言**（2026-11-26 用户裁定）：`Connect Everything.` 主张、`自由连接 · 私密沟通 · 智能协作` 宣传语、`POPOPX — 隐私优先的智能连接平台` 定位、以及「人、AI、Agent、设备和服务安全连接、自由协作」的生态使命。可被访客验证的仍然是 Hero 的四枚徽章与本表；`SEO_DESCRIPTION` 每语首句必须与 `BRAND_MISSION` 同槽逐字节相同 | `./src/lib/seo.ts:60,90,140`、`./src/components/HeroSection.tsx:47,70-73` |
 | `Connect Everything.` 故意不进 18 槽 map：一条拉丁标语在 7 个非拉丁槽里各重复一次，就是残字探针要报的 12+ 条警告；它与产品名一样按 locale-free 打印，解释句交给 `BRAND_CLAIM_LOCAL` | `./tools/check-i18n.mjs:85,171-183`、`./src/lib/seo.ts:53-60` |
@@ -358,13 +362,13 @@ EOF
 ```
 
 三条严禁：不得写「客户端已有端侧助手/意图识别」（第 3 行是 0）；不得把那份 5 MiB 权重说成对话或生成式模型（第 1 行的用途原话只管「画面里有没有手机」）；
-不得把第三层的跨组件调度、第六个场景的「一句话排好日程、跨端接力」写成已可用（第 7 行）。
+不得把跨产品调度器、PAP 或「一句话排好日程、跨端接力」写成已可用；但第六张卡已改写为「已配对手机 ↔ 已绑定 Mac Node」的真实助手环，可以写「已打通」，同时必须写出跨产品调度器仍缺（第 7 行、§19）。
 另外「双栈 / Mesh 组网 / 加密备份上传 / 云同步 / 企业服务」仍是禁词（§13），品牌主张四句里一个字都不能带上它们。
 
-## 18. 首页「三大连接壁垒」与「概念交互示意」的实测口径（2026-11-26 实测）
+## 18. 首页「三大连接壁垒」与「概念交互示意」的实测口径（2026-11-27 实测）
 
 `ConnectionPillars.tsx`（13 句，实测 2 句黄点：`P2_I5`、`P3_I4`）与 `ConnectionDemo.tsx`（3 场景 × 4 步，实测 2 步黄点：`S3_STEP2`、`S3_STEP3`）插在 `UserScenariosGrid` 之后、`FeaturesGrid` 之前。尺子与 §16/§17 同一把：每个「已可用」都指得出下面某一行的代码，指不出的写「演进中」并标黄点。
-以下出处在 2026-11-26 逐条 `sed` 回读过（客户端与兄弟仓库均在各自工作区根目录下打开）；组件文件里不写 `file:line`，出处只在本节。
+以下出处在 2026-11-27 逐条 `sed` 回读过（客户端与兄弟仓库均在各自工作区根目录下打开）；组件文件里不写 `file:line`，出处只在本节。
 
 | 事实 | 出处 |
 | --- | --- |
@@ -373,10 +377,10 @@ EOF
 | **「收敛写 0 字节」与「点击才写」都是源码原话**：`converged 之后只产出一条 pending 提案，日历一个字节都不写`；卡片侧 `主人没点之前，日历一个字节都不会写`，批准回执是常量 `ppxok`；节点侧「approval *is* the execution attempt」（没有独立的 approved 态），拒绝分支自己写「已拒绝，系统日历与文件未发生任何改动」，执行只在 `approve(id:receipt:)` 之后 | `../popopx-bot-studio/studio/app/a2a.py:22-24`、`../popopx-bot-studio/studio/app/eco_cards.py:43,307`、`../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyProposalLedger.swift:59-68,467,504,514,520,530` |
 | **批准有两个入口，必须说成一个闸门**：「the console button and a signed card reply from a paired phone」，令牌把 HMAC 绑在 `id + verb` 上（自限域）并用 constant-time 比较，防止回环调用方逐字节试探；Studio 侧「写日历的唯一入口：先过 Mac Node」是同一条链的编排端 | `../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyProposalLedger.swift:267-271`、`../popopx-bot-studio/studio/app/agent_runtime.py:1237,1259` |
 | **iOS 客户端在这三个场景里只负责卡片回执**：`::CB::` 静默回执前缀与注释都对得上，但 `approveCommand`、`pending_user_approval`、日历可用性协商在 `apps/ios` 全为 0 命中——所以面板的 `LEAD`/`DISCLAIMER` 只写「仓库里已端到端跑通」「在替身机器人和 Mac 节点这一侧都有实现」，不得写「iOS 客户端已端到端跑通」 | `apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:170,654`、`./src/components/ConnectionDemo.tsx:114,140` |
-| **审计行的字段名是实测出来的**：节点侧 `PrivacyAuditEntry` 只有 at、domain、action、outcome、detail，且台账自己不写 EventKit 也不落盘；Studio 侧 `negotiation_audit` 的列正是面板念的那五个——`stage`（9 个取值的 CHECK）、`event`、`level`（info/warn/error）、`latency_ms`、`ts`，外加本机的 `HOME` 隔离 | `../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyProposalLedger.swift:195-215,240-242`、`../popopx-bot-studio/studio/app/database.py:38,49,294-309` |
-| **一键撤销确实存在，粒度是整条链接/整个对端/整台设备**：Studio 的 revoke 路由与被撤链接下一次访问直接报错是两段代码，控制台一次点击的按钮在同一文件；配对手机侧是 `revokeDevice(publicKey:)` 加控制台 `Revoke` 按钮；节点自己的威胁模型写「Revocation removes the whitelist entry, which removes all authority. It does not delete the SMP connection」——这句必须在，否则「撤销」会被读成删连接 | `../popopx-bot-studio/studio/app/agent_admin.py:643-644`、`../popopx-bot-studio/studio/app/database.py:1530-1533`、`../popopx-bot-studio/studio/app/guest_portal.py:1811-1813`、`../popopx-bot-studio/studio/static/index.html:1642-1643`、`../PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift:59,1288`、`../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:2824,4321,4599` |
-| **但点分范围串是 0 实现**：五个仓库按 `x.y:read` 形态扫，命中 0 行，全站唯一出现处就是面板自己打印的那枚标签；套件里唯一像 scope 的东西是 `DEFAULT_SCOPE = "openid"`，其注释原话「the scope in the preimage is a binding, not a label」——绑进令牌，不拦动作。所以 S3_STEP2 与 S3_STEP3 是黄点，`P2_I5` 是「演进中」 | `../popopx-service-suite/gateway/app/plugins/privacy_sso_plugin.py:480,790`、`./src/components/ConnectionDemo.tsx:781,789` |
-| **场景二的回环是真的，但那串回环地址加端口是标签而不是链路**：控制台 `requiredInterfaceType = .loopback` + `acceptLocalOnly = true`，且 `isLoopbackLiteral` 注释「`0.0.0.0`、局域网地址和主机名在套接字存在之前就被拒」；默认端口 18920、配对前缀 `PPXNODE1` 都是出厂常量（客户端 Discover 目录同串）。手机走 SMP 队列摸到这台机器，从不拨这个口——桥侧控制口注释自述「loopback-only but unauthenticated」，唯一真正的授权闸门是配对白名单 | `../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:4784,4787,4988-4990`、`../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:55,58`、`../PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift:13,46,55,59,2123-2128`、`apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:62` |
+| **审计行的字段名是实测出来的**：节点侧 `PrivacyAuditEntry` 只有 at、domain、action、outcome、detail，且台账自己不写 EventKit 也不落盘；Studio 侧 `negotiation_audit` 的列正是面板念的那五个——`stage`（9 个取值的 CHECK）、`event`、`level`（info/warn/error）、`latency_ms`、`ts`，外加本机的 `HOME` 隔离 | `../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyProposalLedger.swift:195-215,240-242`、`../popopx-bot-studio/studio/app/database.py:400-417` |
+| **一键撤销确实存在，粒度是整条链接/整个对端/整台设备**：Studio 的 revoke 路由与被撤链接下一次访问直接报错是两段代码，控制台一次点击的按钮在同一文件；配对手机侧是 `revokeDevice(publicKey:)` 加控制台 `Revoke` 按钮；节点自己的威胁模型写「Revocation removes the whitelist entry, which removes all authority. It does not delete the SMP connection」——这句必须在，否则「撤销」会被读成删连接。另一端是 Bot Studio 的 `agent_task_grants`：单条授权可按 id 停用或删除（`set_grant_enabled` / `delete_grant`），但那只在一个工作台内部的 (origin,target,capability) 三元组上生效，不是网络网关的范围串 | `../popopx-bot-studio/studio/app/agent_admin.py:643-644,755-769`、`../popopx-bot-studio/studio/app/database.py:1530-1533,2029-2045`、`../popopx-bot-studio/studio/app/guest_portal.py:1811-1813`、`../popopx-bot-studio/studio/static/index.html:1762-1765`、`../PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift:59,1288`、`../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:2824,4321,4599` |
+| **但「网关校验点分范围串」仍是 0 实现**：五个仓库按 `x.y:read` 形态扫，命中 0 行，全站唯一出现处就是面板自己打印的那枚标签；套件里唯一像 scope 的东西是 `DEFAULT_SCOPE = "openid"`，其注释原话「the scope in the preimage is a binding, not a label」——绑进令牌，不拦动作。Bot Studio 现在确有五个点分**能力名**（`reply.compose`、`router.plan`、`calendar.availability`、`workspace.summarize`、`ledger.profile`），但它们是同一个工作台内的只读投影、按 (origin,target,capability) 默认拒绝，不是网络网关的范围串，也不带 `:read` 后缀。所以 S3_STEP2 与 S3_STEP3 仍是黄点，`P2_I5` 仍是「演进中」（§19 第 2–3 行） | `../popopx-service-suite/gateway/app/plugins/privacy_sso_plugin.py:481,791`、`../popopx-bot-studio/studio/app/orchestrator.py:84-117`、`./src/components/ConnectionDemo.tsx:781,789` |
+| **场景二的回环是真的，但那串回环地址加端口是标签而不是链路**：控制台 `requiredInterfaceType = .loopback` + `acceptLocalOnly = true`，且 `isLoopbackLiteral` 注释「`0.0.0.0`、局域网地址和主机名在套接字存在之前就被拒」；默认端口 18920、配对前缀 `PPXNODE1` 都是出厂常量（客户端 Discover 目录同串）。手机走 SMP 队列摸到这台机器，从不拨这个口——桥侧控制口注释自述「loopback-only but unauthenticated」，唯一真正的授权闸门是配对白名单 | `../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:6192-6205,6276-6284,6405-6414`、`../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:55,58`、`../PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift:13,46,55,59,2123-2128`、`apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:62` |
 | **入站身份只认配对表**：「入站帧的合法身份来源：只认配对表；没配对就返回空串，帧被拒」；撤销配对的 `unpair_peer` 与一次点击的 Unpair 按钮同一条路径；出站结果靠落盘 outbox 按队列顺序补投，超 30 天丢弃 | `../popopx-bot-studio/studio/app/agent_runtime.py:510,537`、`../popopx-bot-studio/studio/static/index.html:1674-1675`、`../PopopxMacNode/Sources/PopopxMacNode/Core/MacNodePopopxBridge.swift:982,1359,1381` |
 | **Studio 的端口纪律，以及它的一个例外**：`DEFAULT_HOST = "127.0.0.1"`、bot 控制口 5230–5299、非回环直接 `ConfigError`；CLI 控制通道那条检查是无条件的（原话「严禁监听 0.0.0.0」）；每个 bot 独立 `HOME`、独立端口、独立库。**例外必须记住**：`STUDIO_ALLOW_LAN` 是文档化的 opt-in，所以只能说「默认只绑回环」，不能说「只能回环」 | `../popopx-bot-studio/studio/app/config.py:21,23-24,181,368-369`、`../popopx-bot-studio/studio/app/ws_protocol.py:29,641-644`、`../popopx-bot-studio/studio/app/bot_supervisor.py:179-186,592,593` |
 | **摘要卡片回传什么是字段级的**：`WorkspaceDigest` 带 `headings`/`bullets`，渲染成「章节：」与项目符号，响应里是 bytes、headings、bullets 加 `"uploadedToCloud": false` 与 `"egress": "仅回环 / loopback only (127.0.0.1)"`（日程域那套响应同样带 `redaction`/`egress`）；目录是主人手工列的，四条路径检查在前，注释原话「only the digest goes into the response」 | `../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/WorkspaceSandbox.swift:5-7,114-115,241-249,421-422,640-644`、`../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyToolEngine.swift:89-92,841-853` |
@@ -384,7 +388,7 @@ EOF
 | **网格参数与寻址（支柱一那两句的落点）**：TTL 默认 7、稠密广播上限 5、去重命中就整包丢弃、否则 `ttl - 1` 再转；双角色 GATT 注释「so a neighbour can dial us while we dial it」；那 8 字节 id 是 `SHA256(pubkey)` 的前 8 字节、注释写明「not chosen by the peer」，且 `peerID alone is not enough to build a session`——所以面板写「绝不靠那 8 字节线上 id 单独定位」 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Core/PopopxMeshConfig.swift:22,28`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Engine/PopopxMeshEngine.swift:536,941,950`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:28,48`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxMeshProtocol.swift:49,51,61`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Events/PopopxMeshEvents.swift:32-33` |
 | **跨端少的两端各是哪一端**：桌面 Compose 客户端存在且 `TargetFormat.Dmg` 出 macOS 包，但它的蓝牙 actual 是 `PopopxNoBLETransport`，状态直接 `UNSUPPORTED`；iOS 侧主 App 的 `TARGETED_DEVICE_FAMILY = 1`（同一文件里另有 6 处 `"1,2"` 属于其他 target，所以口径只能落在主 App）且 `SUPPORTS_MACCATALYST = NO` | `apps/multiplatform/desktop/build.gradle.kts:64,80`、`apps/multiplatform/common/src/desktopMain/kotlin/chat/popopx/common/mesh/PopopxBLETransport.desktop.kt:4,18,42`、`apps/ios/POPOPX.xcodeproj/project.pbxproj:2790,2839,2996` |
 | **SMP Agent 协议是库，不是守护进程**：规范头一行 `Version 7, 2025-01-24`，命令类型 `data ACommand` 与「receives commands and sends responses via TBQueue」的客户端实例都在仓库里，README 原话「in the application's process; it is not a daemon and binds no port」；PAP 仍按 §16 记为 0 命中 | `../popopxmq/protocol/agent-protocol.md:1`、`../popopxmq/src/Popopx/Messaging/Agent/Protocol.hs:472`、`../popopxmq/src/Popopx/Messaging/Agent/Client.hs:518`、`../popopxmq/README.md:43` |
-| **两处「不是全部」的偏离，必须留在台账里**：服务套件网关默认 `gateway_host=… "0.0.0.0"` 且 `forwarded_allow_ips="*"`，README.en.md 自己记了与 Ubuntu 的 bind 差异；套件确有 session/epoch/membership 三种 revoke。结论：任何「全都只绑回环」的全称句只能限到 Studio 控制台与 Mac 节点控制台 | `../popopx-service-suite/gateway/app/config.py:463`、`../popopx-service-suite/gateway/app/main.py:681-682,1671,2088,3735`、`../popopx-service-suite/README.en.md:153-160` |
+| **两处「不是全部」的偏离，必须留在台账里**：服务套件网关默认 `gateway_host=… "0.0.0.0"` 且 `forwarded_allow_ips="*"`，README.en.md 自己记了与 Ubuntu 的 bind 差异；套件确有 session/epoch/membership 三种 revoke。结论：任何「全都只绑回环」的全称句只能限到 Studio 控制台与 Mac 节点控制台 | `../popopx-service-suite/gateway/app/config.py:494`、`../popopx-service-suite/gateway/app/main.py:704,1730,2162,7124,7130`、`../popopx-service-suite/README.en.md:157-163` |
 | 两块面板零外部请求、零图片：两文件 `fetch(`/`<img`/`http` 三种写法各 0 命中，图标是页内 `<svg>`；面板状态只有四个 `useState` 单元（场景、步序、批准、撤销），点击只推进本页计数 | `./src/components/ConnectionDemo.tsx:1-20,793-796`、`./src/components/ConnectionPillars.tsx:1-20` |
 
 复测配方（兄弟仓库与客户端仓库都在本站的上一级目录，先 `cd` 到位再跑；前两条在本仓库）：
@@ -417,9 +421,78 @@ cd .. && grep -cE "fetch\(|<img|https?://" popopx-chat-web/src/components/Connec
 ```
 
 三条严禁：**一**、不得把场景二写成「手机拨那台机器的 18920 口」——那个口只绑回环、只给那台 Mac 自己，手机经 SMP 队列到达，也**不得**顺手写「该口有鉴权」（桥自己的注释是 unauthenticated，闸门是白名单）。
-**二**、不得把点分 scope 串或「网关校验权限范围」写成已实现；反向的旧话「仓库里没有任何撤销路径」同样禁止复活——撤销是实事实，唯一正确的口径是「撤销整条链接/整个对端，不按单项范围」。
+**二**、不得把点分 scope 串或「网关校验权限范围」写成已实现，也不得把 Bot Studio 的进程内能力名写成网络 scope：`reply.compose` 等五个名字在同一个工作台内按 (origin,target,capability) 默认拒绝，网络网关仍没有机器可查的范围串。反向的旧话「仓库里没有任何撤销路径」同样禁止复活——撤销是事实：网络侧口径仍是「撤销整条链接/整个对端，不按单项范围」，工作台内则多了「单条授权可停用/删除」（§19 第 2–3 行）。
 **三**、不得把「只绑回环」推广到服务套件网关（默认 `0.0.0.0`），不得把 `STUDIO_ALLOW_LAN` 藏掉，不得写「信封一致性已在真机验证」，不得写「iOS 客户端已端到端跑通这三个场景」。
 §13 的禁词（双栈 / Mesh 组网 / 加密备份上传 / 云同步 / 企业服务）在这两块里仍是零命中，`check:out` 会扫产物。
+
+## 19. Bot Studio 编排器与 Mac Node 助手环（2026-11-27 实测）
+
+本节是 2026-11-27 把首页两处「演进中」翻成「已可用」时新增的台账：Bot Studio 的进程内多智能体编排，
+以及「已配对手机 ↔ 已绑定 Mac Node」的助手环。尺子同 §16–§18：每个「已可用」都指得出下面的代码；
+翻不动的 PAP、手机端内嵌模型权重、跨产品共享调度器、网络权限网关继续留在「演进中」。
+以下出处在 2026-11-27 逐条 `sed` 回读过；组件文件里不写 `file:line`，出处只在本节。
+
+| 事实 | 出处 |
+| --- | --- |
+| **Bot Studio 的编排器只在一个工作台进程内、只在兄弟 Bot 之间派活**：模块头写明与 `app.a2a` 的分工——a2a 管远端已配对替身、本模块管同机 Studio 里已存在的 Bot；三条结构约束是不靠调用方自觉的默认拒绝、只读、可回放；真正的副作用仍只在主人确认后由 `app.mac_node_bridge` 发生。不是跨产品调度器，也不是 PAP | `../popopx-bot-studio/studio/app/orchestrator.py:1-23` |
+| **授权默认拒绝，按 (origin,target,capability) 建条**：`agent_task_grants` 的唯一键就是这三元组（另有 `enabled`），没有命中就在落库前判 `refused / no_grant`；通配 `*` 也必须显式建条，控制台可停用或删除单条授权。11 条编排管理端点全挂在 /api/agent 前缀下且都要 `require_admin` | `../popopx-bot-studio/studio/app/database.py:356-368,1981-2045`、`../popopx-bot-studio/studio/app/agent_admin.py:709-850`、`../popopx-bot-studio/README.en.md:228-230,352-355` |
+| **硬上限是字面量**：跳数 3、并发 32、单任务超时 0.5–300 秒、扇出最多 8 且总预算 900 秒；五个内置能力全部 `writes: False`（`reply.compose`、`router.plan`、`calendar.availability`、`workspace.summarize`、`ledger.profile`）。执行体只读目标 Bot 自己的隔离配置，返回结论不返回原料：令牌、SMP 地址、日程标题、联系人标识在返回值里没有路径 | `../popopx-bot-studio/studio/app/database.py:54-57`、`../popopx-bot-studio/studio/app/orchestrator.py:79-117`、`../popopx-bot-studio/studio/app/orchestrator_local.py:1-30` |
+| **审计与回放共用一条关联号**：SQLite 版本 6；`agent_tasks` 落每次派发（状态机 queued、running、succeeded、failed、timeout、refused、cancelled，另有 `correlation_id`、父任务、结果摘要与拒绝原因），`negotiation_audit_v6` 的 `stage` 取值包含 `'orchestrator'`；`orch/replay?correlation_id=` 按关联号取回整棵树与时间正序的审计序列 | `../popopx-bot-studio/studio/app/database.py:24,373-428,1810-1826`、`../popopx-bot-studio/README.en.md:360-362` |
+| **Bot Studio 到 Mac Node 只有一条受控回环桥**：节点侧 /v1/tools/{domain}/{action} 的每次调用都由 Studio 在开 socket 前重新校验回环，`follow_redirects=False`，3xx 一律失败；节点不可达时忙闲读取退回掩码缓存；令牌永不出现在状态、异常或审计 detail；写日历走「提案 → approvalReceipt → approvePath」两步，桥自己从不伪造回执。节点侧同一路径把调用方来源记成 `"bot-studio"`（审计标签，不是调度器） | `../popopx-bot-studio/studio/app/mac_node_bridge.py:1-53`、`../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyToolEngine.swift:93,166`、`../PopopxMacNode/Sources/PopopxMacNode/WebConsole/LocalWebConsoleServer.swift:6779` |
+| **Mac Node 的助手调度器只有两个定时任务，且默认关闭**：每日简报（主人设的小时，默认上午 8 点）与家庭巡检（默认 30 分钟、离线 15 分钟）；重启到 8 点 01 分不会补跑当天 8 点那一班；手动「立即运行」也推进标记，所以一天不会出两份简报 | `../PopopxMacNode/Sources/PopopxMacNode/Assistant/LocalTaskScheduler.swift:1-20`、`../PopopxMacNode/Sources/PopopxMacNode/Assistant/AssistantModels.swift:377-429,435-470` |
+| **简报 = 邮件整理 + 设备巡检 + 一张卡加每份草稿一张批准卡**：`runBriefing` 在 `config.enabled` 之后先做邮件分诊（最多 5 条摘要、最多 3 份草稿），再做哨兵扫描，最后经已配对的 E2E 会话推一张卡；投递失败进审计而不是被隐藏。`runPatrol` 只报告与提案，不执行修复 | `../PopopxMacNode/Sources/PopopxMacNode/Assistant/PersonalAssistantManager.swift:1-14,142-232` |
+| **邮件读是只读的，发是批准门控的**：IMAP 会话开 `EXAMINE`、取 `BODY.PEEK[...]`，所以分诊不会把邮件标成已读；`sendApproved` 在读凭据或调传输之前先过 `AssistantApprovalGate`——pending、rejected、expired、re-used、re-bound 的批准都在那里被拒 | `../PopopxMacNode/Sources/PopopxMacNode/Assistant/MailAssistantBridge.swift:1-18,356-370` |
+| **家庭哨兵只读扫描，修复提案绑定目标与摘要**：提案是 `kind = home.service`、`target = action#entity`、`digest = SHA-256`、`expiry = 15 分钟`；回执是 HMAC-SHA256 落在 `assistant.v1 / id / kind / target / digest / expiry`，密钥文件 assistant-approval.key 位于节点 vault 目录（0600），比较是 constant-time，提案只在内存里（重启即丢）。只读桥上即使有合法回执也修不了——主人配置优先 | `../PopopxMacNode/Sources/PopopxMacNode/Assistant/HomeSentinelLoop.swift:1-20`、`../PopopxMacNode/Sources/PopopxMacNode/Assistant/AssistantApprovalGate.swift:1-20` |
+| **Discover 聚合默认关闭、只走局域网、每层都签名**：信封是 `popopx.discover.feed.v1`，每条 item 自己签、信封再对 `{ schema, generatedAt, nodeId, publicKey, items }` 签；信封密钥是节点 vault 目录下自己的 discover-signing.key，故意不是配对密钥，防止变签名预言机；公网 RSS/JSON 源被 `.privateNetworkOnly` 拒收并在控制台逐源显示 | `../PopopxMacNode/Sources/PopopxMacNode/Discover/DiscoverModels.swift:1-16,240-255`、`../PopopxMacNode/Sources/PopopxMacNode/Discover/DiscoverCenter.swift:17-22` |
+| **升级通知卡是签名的，下载在主人点击之前不会发生**：清单必须过 Ed25519 校验、版本必须严格大于当前、egress 只放行主人钉的一个 HTTPS 主机且不跟随跨主机重定向；`UpdateCenter` 没有「无回执取包」的路径，回执 HMAC 绑 `update / version / sha-prefix` 加动词；卡的字面量是 `::POPOPX_UPD::` + `v1` | `../PopopxMacNode/Sources/PopopxMacNode/Updates/UpdateModels.swift:8-25,479-506` |
+| **手机端只收「已绑定节点」的 feed，且静默接收**：`PopopxNodeFeedWire` 的 schema、60 条上限、256 KiB 上限与 fromBoundNode 谓词；`POPOPXAPI` 的自动接收在 actor 上再问一次 `DiscoverSubscriptionManager.nodeFeedSenderBound(contactId:)`；`ingest` 的注释写明「Silent by contract」，成功与拒绝都不发通知，拒绝保留旧快照 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Node/PopopxNodeFeedWire.swift:153-200,345-355`、`apps/ios/Shared/Model/POPOPXAPI.swift:2769-2790,4187-4195`、`apps/ios/Shared/Features/Discover/DiscoverSubscriptionManager.swift:513-529,550-590` |
+| **升级卡在客户端也有读取器**：`PopopxNodeUpdateWire` 认 `::POPOPX_UPD::` + `v1`，只接受节点自己的 `updates::approve::` / `updates::snooze::` 前缀命令，其余文本不当卡 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Node/PopopxNodeUpdateWire.swift:8,39-44,89-101` |
+| **配对凭据是签名的一次性码，不是 /i/v1/ 链接**：Mac Node 侧 `PPXNODE1-<base64url(body)>.<base64url(sig)>` 是签名载荷（`NodeWire.pairingCodePrefix` = `PPXNODE1`），`openPairing` 只接受这一种 payload，链接前缀 `https://popopx.chat/i/v1/` 只是信封格式 v1。手机端配对屏的粘贴框提示就是 `PPXNODE1-…`，且 `PopopxNodePairingOffer.decode` 在存任何东西之前验 Ed25519；/i/v1/ 密封信封即使包着 `PPXNODE1-`，也被 `isConnectableOpened` 判为「不是连接地址」（测试里就是这么断言的）。所以页面写「signed one-time pairing credential」，不写「经 /i/v1/ 配对」 | `../PopopxMacNode/Sources/PopopxMacNode/Pairing/OpaquePairingCodec.swift:60-70,100-112,181-186`、`../PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift:55`、`apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift:1-12,158-170`、`apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:537-600`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Invite/PopopxOpaqueInviteCodec.swift:95-108`、`apps/ios/PopopxMeshKit/Tests/PopopxMeshKitTests/PopopxOpaqueInviteCodecTests.swift:220-231` |
+| **两个候选官方域名还不在清单里**。2026-11-27 实测 `domains.popopx.chat` 有 A 记录（43.129.40.33）但 HTTPS 证书不覆盖该主机名（curl 报 no alternative certificate subject name，exit 60），`status.popopx.chat` 仍是 NXDOMAIN（curl exit 97）。所以 §11 的四站点清单与页脚「四个官方站点」一个字没动；等证书/记录就绪并经用户裁定后再加 | 本机 `dig` 与 `curl`（配方见下） |
+
+复测配方（兄弟仓库与客户端仓库都在本站的上一级目录，先 `cd` 到位再跑；第 3 组前半在客户端仓库根）：
+
+```sh
+# 1) 编排器：结构约束、五个只读能力、硬上限、11 条端点、库版本与审计
+sed -n '1,23p;79,117p' popopx-bot-studio/studio/app/orchestrator.py
+sed -n '1,30p' popopx-bot-studio/studio/app/orchestrator_local.py
+sed -n '24p;54,57p;356,368p;373,428p;1810,1826p;1981,2045p' popopx-bot-studio/studio/app/database.py
+grep -n 'orch' popopx-bot-studio/studio/app/agent_admin.py | grep '@app\.' | wc -l   # 11
+sed -n '228,230p;345,368p' popopx-bot-studio/README.en.md
+
+# 2) Mac Node：回环桥、调度器、简报/巡检、邮件、哨兵、批准门、Discover、升级卡
+sed -n '1,53p' popopx-bot-studio/studio/app/mac_node_bridge.py
+sed -n '1,20p' PopopxMacNode/Sources/PopopxMacNode/Assistant/LocalTaskScheduler.swift
+sed -n '377,470p' PopopxMacNode/Sources/PopopxMacNode/Assistant/AssistantModels.swift
+sed -n '1,14p;142,232p' PopopxMacNode/Sources/PopopxMacNode/Assistant/PersonalAssistantManager.swift
+sed -n '1,18p;356,370p' PopopxMacNode/Sources/PopopxMacNode/Assistant/MailAssistantBridge.swift
+sed -n '1,20p' PopopxMacNode/Sources/PopopxMacNode/Assistant/HomeSentinelLoop.swift
+sed -n '1,20p' PopopxMacNode/Sources/PopopxMacNode/Assistant/AssistantApprovalGate.swift
+sed -n '1,16p;240,255p' PopopxMacNode/Sources/PopopxMacNode/Discover/DiscoverModels.swift
+sed -n '17,22p' PopopxMacNode/Sources/PopopxMacNode/Discover/DiscoverCenter.swift
+sed -n '8,25p;479,506p' PopopxMacNode/Sources/PopopxMacNode/Updates/UpdateModels.swift
+sed -n '93p;166p' PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyToolEngine.swift
+
+# 3) 客户端：feed/升级卡接收、绑定检查、配对凭据
+sed -n '153,200p;345,355p' popopx-chat/apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Node/PopopxNodeFeedWire.swift
+sed -n '8p;39,44p;89,101p' popopx-chat/apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Node/PopopxNodeUpdateWire.swift
+sed -n '2769,2790p;4187,4195p' popopx-chat/apps/ios/Shared/Model/POPOPXAPI.swift
+sed -n '513,529p;550,590p' popopx-chat/apps/ios/Shared/Features/Discover/DiscoverSubscriptionManager.swift
+sed -n '1,12p;158,170p' popopx-chat/apps/ios/Shared/Features/Discover/MacNodePairingSheet.swift
+sed -n '537,600p' popopx-chat/apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift
+sed -n '60,70p;100,112p;181,186p' PopopxMacNode/Sources/PopopxMacNode/Pairing/OpaquePairingCodec.swift
+sed -n '55p' PopopxMacNode/Sources/PopopxMacNode/Models/MacNodeModels.swift
+sed -n '95,108p' popopx-chat/apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Invite/PopopxOpaqueInviteCodec.swift
+sed -n '220,231p' popopx-chat/apps/ios/PopopxMeshKit/Tests/PopopxMeshKitTests/PopopxOpaqueInviteCodecTests.swift
+
+# 4) 官方域名：一个证书不覆盖、一个 NXDOMAIN
+dig +short domains.popopx.chat; curl -sS -o /dev/null -w '%{http_code}\n' https://domains.popopx.chat/ || echo "curl exit $?"   # 证书 exit 60
+dig +short status.popopx.chat | wc -l; curl -sS -o /dev/null https://status.popopx.chat/ || echo "curl exit $?"                  # 0 行 / exit 97
+```
+
+三条严禁：**一**、不得把编排器写成跨产品调度器或 PAP——它只在同一个 Studio 进程内、只在兄弟 Bot 之间，五个能力全是只读投影（第 1–3 行）；
+**二**、不得把 /i/v1/ 写成配对入口，配对屏只认原始 `PPXNODE1-` 签名码（第 14 行）；
+**三**、不得把助手环写成「默认开启」或「跨产品自动调度」：两个定时任务默认关闭、Discover 默认关闭且仅局域网、升级下载必须主人点击，所有跨产品协同仍缺一个共享调度器（第 5–12 行）。
 
 ## 20. 资源页文档矩阵（/resources/，2026-11-25 实测）
 

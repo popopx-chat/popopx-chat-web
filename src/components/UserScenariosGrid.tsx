@@ -18,12 +18,13 @@ import { BOT_STUDIO_URL, MP_PORTAL_URL, NODE_PORTAL_URL } from "@/lib/site";
  * arrives with: what would I use it for on Monday. The structure is therefore
  * deliberately honest rather than promotional —
  *
- *  - Four cards are `Available` because the capability is implemented in one of
- *    the four repositories and a visitor can open it today; two are `Evolving`
- *    because the code does not exist yet, which is stated in the card's own body
- *    and again in its pill. The pill pair is imported from `AiThreeLayers` rather
- *    than re-authored so the homepage cannot describe one system with two
- *    vocabularies, and the claims track `AgentProtocol.tsx` on /ecosystem/.
+ *  - Five cards are `Available` because the capability is implemented in one of
+ *    the repositories and a visitor can open it today; the personal-AI card is
+ *    `Evolving` because the on-device assistant does not exist yet, which is
+ *    stated in the card's own body and again in its pill. The pill pair is
+ *    imported from `AiThreeLayers` rather than re-authored so the homepage cannot
+ *    describe one system with two vocabularies, and the claims track
+ *    `AgentProtocol.tsx` on /ecosystem/.
  *  - Entries are `PortalCards`-style: an internal route uses `<Link>`, a sibling
  *    site uses `<a target="_blank" rel="noopener noreferrer">`. External anchors
  *    are navigation and load nothing here (see the privacy note in README), which
@@ -80,24 +81,24 @@ const TITLE: Localized<string> = {
 };
 
 const LEAD: Localized<string> = {
-  en: "Start with the four you can open today; read the two marked Evolving afterward. Internal pages open here, the three sibling sites in a new tab, and this page loads nothing from them.",
-  ru: "Начните с четырёх карточек, которые можно открыть уже сегодня, затем прочитайте две с пометкой «Развивается». Внутренние страницы открываются здесь, три соседних сайта — в новой вкладке, и эта страница у них ничего не загружает.",
-  de: "Beginnen Sie mit den vier Karten, die Sie heute schon öffnen können, und lesen Sie die beiden mit „In Entwicklung“ danach. Portalseiten öffnen hier, die drei Schwester-Sites in einem neuen Tab, und diese Seite lädt von ihnen nichts.",
-  fr: "Commencez par les quatre cartes que vous pouvez ouvrir aujourd’hui, puis lisez les deux marquées « En évolution ». Les pages internes s’ouvrent ici, les trois sites frères dans un nouvel onglet, et cette page ne charge rien chez eux.",
-  it: "Inizia dalle quattro carte che puoi aprire oggi, poi leggi le due etichettate «In evoluzione». Le pagine interne si aprono qui, gli altri tre siti in una nuova scheda, e questa pagina non carica nulla da loro.",
-  nl: "Begin bij de vier kaarten die je vandaag kunt openen en lees daarna de twee met «In ontwikkeling». Portalpagina’s openen hier, de drie zustersites in een nieuw tabblad, en deze pagina laadt niets van hen.",
-  cs: "Začněte čtyřmi kartami, které lze otevřít už dnes, a pak si přečtěte dvě označené «Ve vývoji». Interní stránky se otevírají tady, tři přidružené weby v novém panelu a tato stránka z nich nic nenačítá.",
-  "zh-Hans": "先看今天就能点开的四张，再看标着「演进中」的两张。站内页面原地打开，另外三个官方站点在新窗口打开——本页不会从它们加载任何资源。",
-  "zh-Hant": "先看今天就能點開的四張，再看標著「演進中」的兩張。站內頁面原地開啟，另外三個官方網站在新視窗開啟——本頁不會從它們載入任何資源。",
-  es: "Empiece por las cuatro tarjetas que puede abrir hoy y lea después las dos marcadas «En evolución». Las páginas internas se abren aquí, los otros tres sitios en una pestaña nueva, y esta página no carga nada de ellos.",
-  pl: "Zacznijcie od czterech kart, które można otworzyć już dziś, a potem przeczytajcie dwie oznaczone «W rozwoju». Strony wewnętrzne otwierają się tutaj, trzy siostrzane witryny w nowej karcie, a ta strona niczego od nich nie pobiera.",
-  ja: "今日そのまま開ける 4 枚から見て、「進化中」の 2 枚はあとで。内側のページはこの場で開き、ほかの 3 つの公式サイトは新しいタブで開きます。このページはそこから何も読み込みません。",
-  th: "เริ่มจากสี่การ์ดที่เปิดได้เลยตั้งแต่วันนี้ แล้วค่อยอ่านสองใบที่ติดป้าย «กำลังพัฒนา» หน้าในเว็บเปิดตรงนี้ อีกสามเว็บไซต์ทางการเปิดในแท็บใหม่ และหน้านี้ไม่โหลดสิ่งใดจากที่นั่น",
-  fi: "Aloita neljästä kortista, jotka voit avata jo tänään, ja lue sitten kaksi «Kehitysvaiheessa»-leimattua. Oman sivuston sivut avautuvat täällä, kolme sisarsivustoa uuteen välilehteen, eikä tämä sivu lataa niiltä mitään.",
-  uk: "Почніть із чотирьох карток, які можна відкрити вже сьогодні, а потім прочитайте дві з позначкою «Розвивається». Внутрішні сторінки відкриваються тут, три сусідні сайти — у новій вкладці, і ця сторінка в них нічого не завантажує.",
-  bg: "Започнете с четирите карти, които можете да отворите още днес, после прочетете двете маркирани «В развитие». Вътрешните страници се отварят тук, трите сродни сайта — в нов раздел, а тази страница не зарежда нищо от тях.",
-  tr: "Bugün açabileceğiniz dört kartla başlayın, ardından „Gelişiyor“ etiketli ikisini okuyun. Portal içi sayfalar burada, üç kardeş site yeni sekmede açılır; bu sayfa onlardan hiçbir şey yüklemez.",
-  hu: "Kezdje a négy, már ma nyitható kártyával, azután olvassa a két «Fejlesztés alatt» jelűt. A belső oldalak itt nyílnak, a három testoldal új lapon, és ez az oldal tőlük semmit nem tölt be.",
+  en: "Start with the five you can open today; read the one marked Evolving afterward. Internal pages open here, the three sibling sites in a new tab, and this page loads nothing from them.",
+  ru: "Начните с пяти карточек, которые можно открыть уже сегодня, а одну с пометкой «Развивается» прочитайте после. Внутренние страницы открываются здесь, три соседних сайта — в новой вкладке, и эта страница у них ничего не загружает.",
+  de: "Beginnen Sie mit den fünf Karten, die Sie heute schon öffnen können, und lesen Sie die eine mit „In Entwicklung“ danach. Portalseiten öffnen hier, die drei Schwester-Sites in einem neuen Tab, und diese Seite lädt von ihnen nichts.",
+  fr: "Commencez par les cinq cartes que vous pouvez ouvrir aujourd’hui, puis lisez celle marquée « En évolution ». Les pages internes s’ouvrent ici, les trois sites frères dans un nouvel onglet, et cette page ne charge rien chez eux.",
+  it: "Inizia dalle cinque carte che puoi aprire oggi, poi leggi quella etichettata «In evoluzione». Le pagine interne si aprono qui, gli altri tre siti in una nuova scheda, e questa pagina non carica nulla da loro.",
+  nl: "Begin bij de vijf kaarten die je vandaag kunt openen en lees daarna de kaart met «In ontwikkeling». Portalpagina’s openen hier, de drie zustersites in een nieuw tabblad, en deze pagina laadt niets van hen.",
+  cs: "Začněte pěti kartami, které lze otevřít už dnes, a pak si přečtěte tu označenou «Ve vývoji». Interní stránky se otevírají tady, tři přidružené weby v novém panelu a tato stránka z nich nic nenačítá.",
+  "zh-Hans": "先看今天就能点开的五张，再看标着「演进中」的那一张。站内页面原地打开，另外三个官方站点在新窗口打开——本页不会从它们加载任何资源。",
+  "zh-Hant": "先看今天就能點開的五張，再看標著「演進中」的那一張。站內頁面原地開啟，另外三個官方網站在新視窗開啟——本頁不會從它們載入任何資源。",
+  es: "Empiece por las cinco tarjetas que puede abrir hoy y lea después la marcada «En evolución». Las páginas internas se abren aquí, los otros tres sitios en una pestaña nueva, y esta página no carga nada de ellos.",
+  pl: "Zacznijcie od pięciu kart, które można otworzyć już dziś, a potem przeczytajcie tę oznaczoną «W rozwoju». Strony wewnętrzne otwierają się tutaj, trzy siostrzane witryny w nowej karcie, a ta strona niczego od nich nie pobiera.",
+  ja: "今日そのまま開ける 5 枚から見て、「進化中」の 1 枚はあとで。内側のページはこの場で開き、ほかの 3 つの公式サイトは新しいタブで開きます。このページはそこから何も読み込みません。",
+  th: "เริ่มจากห้าการ์ดที่เปิดได้เลยตั้งแต่วันนี้ แล้วค่อยอ่านใบเดียวที่ติดป้าย «กำลังพัฒนา» หน้าในเว็บเปิดตรงนี้ อีกสามเว็บไซต์ทางการเปิดในแท็บใหม่ และหน้านี้ไม่โหลดสิ่งใดจากที่นั่น",
+  fi: "Aloita viidestä kortista, jotka voit avata jo tänään, ja lue sitten yksi «Kehitysvaiheessa»-leimattu. Oman sivuston sivut avautuvat täällä, kolme sisarsivustoa uuteen välilehteen, eikä tämä sivu lataa niiltä mitään.",
+  uk: "Почніть із п’яти карток, які можна відкрити вже сьогодні, а потім прочитайте одну з позначкою «Розвивається». Внутрішні сторінки відкриваються тут, три сусідні сайти — у новій вкладці, і ця сторінка в них нічого не завантажує.",
+  bg: "Започнете с петте карти, които можете да отворите още днес, после прочетете едната маркирана «В развитие». Вътрешните страници се отварят тук, трите сродни сайта — в нов раздел, а тази страница не зарежда нищо от тях.",
+  tr: "Bugün açabileceğiniz beş kartla başlayın, ardından „Gelişiyor“ etiketli tek kartı okuyun. Portal içi sayfalar burada, üç kardeş site yeni sekmede açılır; bu sayfa onlardan hiçbir şey yüklemez.",
+  hu: "Kezdje az öt, már ma nyitható kártyával, azután olvassa az egyetlen «Fejlesztés alatt» jelűt. A belső oldalak itt nyílnak, a három testoldal új lapon, és ez az oldal tőlük semmit nem tölt be.",
 };
 
 const SC1_TITLE: Localized<string> = {
@@ -311,66 +312,66 @@ const SC5_BODY: Localized<string> = {
 };
 
 const SC6_TITLE: Localized<string> = {
-  en: "Intelligent collaboration",
-  ru: "Умное расписание и работа между устройствами",
-  de: "Intelligente Terminplanung, Geräte übergreifend",
-  fr: "Agenda intelligent et travail multi-appareils",
-  it: "Agenda intelligente e lavoro tra dispositivi",
-  nl: "Slimme planning en werk over apparaten",
-  cs: "Chytrý rozvrh a práce napříč zařízeními",
-  "zh-Hans": "智能日程与跨端协作",
-  "zh-Hant": "智慧日程與跨端協作",
-  es: "Agenda inteligente y trabajo entre dispositivos",
-  pl: "Inteligentny harmonogram i praca między urządzeniami",
-  ja: "スケジュールと端末をまたぐ協働",
-  th: "ตารางงานอัจฉริยะและการทำงานข้ามอุปกรณ์",
-  fi: "Älykäs aikataulu ja laitteiden välinen työ",
-  uk: "Розумний графік і робота між пристроями",
-  bg: "Умен график и работа между устройства",
-  tr: "Akıllı takvim ve cihazlar arası çalışma",
-  hu: "Intelligens naptár és eszközök közti munka",
+  en: "Cross-device collaboration",
+  ru: "Работа между устройствами",
+  de: "Geräteübergreifende Zusammenarbeit",
+  fr: "Collaboration entre appareils",
+  it: "Collaborazione tra dispositivi",
+  nl: "Samenwerking tussen apparaten",
+  cs: "Spolupráce mezi zařízeními",
+  "zh-Hans": "跨端协作",
+  "zh-Hant": "跨端協作",
+  es: "Colaboración entre dispositivos",
+  pl: "Współpraca między urządzeniami",
+  ja: "端末をまたぐ連携",
+  th: "การทำงานร่วมข้ามอุปกรณ์",
+  fi: "Laitteiden välinen yhteistyö",
+  uk: "Співпраця між пристроями",
+  bg: "Съвместна работа между устройства",
+  tr: "Cihazlar arası iş birliği",
+  hu: "Eszközök közti együttműködés",
 };
 
 const SC6_BODY: Localized<string> = {
-  en: "One sentence that fills the calendar and follows you from phone to machine is what people ask for first — and the one thing with no code behind it: no cross-component scheduling call exists in any of the four repositories.",
-  ru: "Одна фраза, которая заполняет расписание и следует за вами от телефона к машине, — самое частое желание, и единственное пока без кода: вызова планирования между компонентами нет ни в одном из четырёх репозиториев.",
-  de: "Ein Satz, der den Kalender füllt und vom Telefon auf den Rechner mitwandert, ist der häufigste Wunsch — und das einzige ohne Code dahinter: In den vier Repositories existiert kein Aufruf übergreifender Automatisierung.",
-  fr: "Une phrase qui remplit l’agenda et vous suit du téléphone à l’ordinateur est la demande la plus fréquente — et la seule sans code derrière : aucun appel d’ordonnancement entre composants n’existe dans les quatre dépôts.",
-  it: "Una frase che riempie l’agenda e ti segue dal telefono al computer è la richiesta più frequente — e l’unica senza codice: nelle quattro repository non esiste alcuna chiamata di scheduling fra i componenti.",
-  nl: "Eén zin die de agenda vult en je van telefoon naar machine volgt is wat mensen het eerste vragen — en het enige zonder code: in geen van de vier repos bestaat een call voor automatische planning tussen de onderdelen.",
-  cs: "Věta, která naplní rozvrh a provází vás od telefonu k počítači, je nejčastější přání — a jediná bez kódu: ve čtyřech repozitářích neexistuje jediné volání automatického plánování napříč komponentami.",
-  "zh-Hans": "一句话排好日程、跟着你从手机走到电脑，这是大家最先想要的效果，也是目前唯一还没有代码的那件：跨组件自动调度在四个仓库里找不到一处调用。",
-  "zh-Hant": "一句話排好日程、跟著你從手機走到電腦，這是大家最先想要的效果，也是目前唯一還沒有程式碼的那件：跨元件自動排程在四個倉庫裡找不到一處呼叫。",
-  es: "Una frase que llena la agenda y lo sigue del teléfono a la máquina es lo primero que pide la gente — y lo único sin código: en los cuatro repositorios no existe ni una sola llamada de programación automática entre componentes.",
-  pl: "Zdanie, które wypełnia harmonogram i idzie za wami od telefonu do komputera, jest najczęściej wymienianą potrzebą — i jedyną bez kodu: w czterech repozytoriach nie ma ani jednego wywołania automatycznego planowania między komponentami.",
-  ja: "ひと言で予定が並び、スマホからパソコンまでついてくる——いちばん聞きたいのはそれで、しかも今はコードが無い唯一の項目です。コンポーネントをまたぐ自動スケジューリングの呼び出しは、4 つのリポジトリのどこにもありません。",
-  th: "พูดประโยคเดียวแล้วตารางงานถูกจัดและตามคุณไปจากมือถือถึงเครื่องคอมพิวเตอร์ คือสิ่งที่คนขอมากที่สุด — และเป็นสิ่งเดียวที่ยังไม่มีโค้ด: ไม่พบการเรียกวางกำหนดงานข้ามส่วนประกอบในรีโปทั้งสี่แห่งเลย",
-  fi: "Yksi lause, joka täyttää kalenterin ja seuraa puhelimesta koneelle, on ensimmäinen toive — ja ainoa, jonka takana ei vielä ole koodia: neljästä arkistosta ei löydy yhtään komponenttien välistä ajoituskutsua.",
-  uk: "Один рядок, який заповнює графік і йде за вами від телефону до комп’ютера, — найчастіше бажання, і єдине поки без коду: виклику автоматичного планування між компонентами немає в жодному з чотирьох репозиторіїв.",
-  bg: "Изречение, което попълва графика и ви следва от телефона до машината, е най-честото желание — и единственото засега без код: и в четирите хранилища няма нито едно извикване за планиране между компонентите.",
-  tr: "Tek cümleyle takvimi doldurup telefondan bilgisayara sizi izlemesi en çok istenen şey — ve ardında kod olmayan tek madde: dört deponun hiçbirinde bileşenler arası otomatik zamanlama çağrısı yok.",
-  hu: "Egy mondat, amely kitölti a naptárat és telefonról számítógépre követ, a leggyakoribb kérés — és egyetlen olyan, amely mögött még nincs kód: a négy tárolóban egyetlen komponensek közti ütemezési hívás sincs.",
+  en: "Live once the owner turns it on: an iOS or Android phone paired to a bound Mac Node with a signed one-time credential gets the assistant loop — a briefing at the hour you set (08:00 by default), read-only mail triage whose sending waits for your confirmation, a home-device sentinel whose repairs wait for your approval, a signed LAN-only Discover feed that quietly refreshes the phone, and signed update cards. The phone↔Mac Node line is wired; a shared scheduler across products is not.",
+  ru: "Работает, как только владелец это включит: телефон на iOS или Android, сопряжённый с привязанным Mac Node по подписанному одноразовому удостоверению, получает цикл помощника — сводку в заданный час (по умолчанию 08:00), сортировку почты только для чтения с отправкой после вашего подтверждения, сторож домашних устройств, чьи исправления ждут вашего одобрения, подписанную ленту Discover только в локальной сети, тихо обновляющую телефон, и подписанные карточки обновлений. Линия телефон↔Mac Node проложена; общего планировщика между продуктами нет.",
+  de: "Live, sobald der Besitzer es einschaltet: Ein iOS- oder Android-Handy, das per signierter Einmal-Berechtigung an einen gebundenen Mac Node gekoppelt ist, erhält die Assistentenschleife — ein Briefing zur eingestellten Stunde (standardmäßig 08:00), schreibgeschützte Mail-Sichtung, deren Versand auf Ihre Bestätigung wartet, ein Hausgeräte-Wächter, dessen Reparaturen auf Ihre Freigabe warten, ein signierter LAN-only-Discover-Feed, der das Handy still aktualisiert, und signierte Update-Karten. Die Handy↔Mac-Node-Linie ist verdrahtet; einen gemeinsamen Scheduler über Produkte hinweg gibt es nicht.",
+  fr: "Actif dès que le propriétaire l’active : un téléphone iOS ou Android appairé à un Mac Node lié par un justificatif signé à usage unique reçoit la boucle d’assistant — un briefing à l’heure choisie (08:00 par défaut), un tri des mails en lecture seule dont l’envoi attend votre confirmation, une sentinelle des appareils domestiques dont les correctifs attendent votre approbation, un flux Discover signé limité au réseau local qui rafraîchit discrètement le téléphone, et des cartes de mise à jour signées. La ligne téléphone↔Mac Node est câblée ; un ordonnanceur commun entre produits ne l’est pas.",
+  it: "Attivo appena il proprietario lo accende: un telefono iOS o Android abbinato a un Mac Node vincolato con una credenziale firmata e monouso riceve il ciclo dell’assistente — un briefing all’ora scelta (08:00 per impostazione predefinita), triage della posta in sola lettura il cui invio attende la tua conferma, una sentinella dei dispositivi domestici i cui interventi attendono la tua approvazione, un feed Discover firmato solo LAN che aggiorna il telefono in silenzio e carte di aggiornamento firmate. La linea telefono↔Mac Node è cablata; un pianificatore condiviso tra prodotti no.",
+  nl: "Live zodra de eigenaar het aanzet: een iOS- of Android-telefoon die met een ondertekende eenmalige referentie aan een gebonden Mac Node is gekoppeld, krijgt de assistentlus — een briefing op het ingestelde uur (standaard 08:00), alleen-lezen mailtriage waarvan het verzenden op uw bevestiging wacht, een huisapparaatwacht waarvan reparaties op uw goedkeuring wachten, een ondertekende LAN-only Discover-feed die de telefoon stil ververst, en ondertekende updatekaarten. De lijn telefoon↔Mac Node is bedraad; een gedeelde planner tussen producten niet.",
+  cs: "Běží, jakmile to vlastník zapne: telefon s iOS nebo Androidem spárovaný s připojeným Mac Node přes podepsaný jednorázový údaj dostane smyčku asistenta — briefing ve zvolenou hodinu (výchozí 08:00), třídění pošty jen pro čtení, jehož odeslání čeká na vaše potvrzení, hlídač domácích zařízení, jehož opravy čekají na vaše schválení, podepsaný feed Discover pouze v LAN, který tiše obnovuje telefon, a podepsané karty aktualizací. Linka telefon↔Mac Node je zapojená; společný plánovač napříč produkty ne.",
+  "zh-Hans": "你打开它就生效：iOS 或 Android 手机凭一份签名的一次性配对凭据连上已绑定的 Mac Node，就能用上助理闭环——在你设定的时间（默认 08:00）送上简报，只读整理邮件、发送要等你确认，看守家庭设备、修复要等你批准，用仅限局域网的签名 Discover 流静默刷新手机，并送来签名的升级卡片。手机↔Mac Node 这条线已经接上；跨产品的共用调度器还没有。",
+  "zh-Hant": "你打開它就生效：iOS 或 Android 手機憑一份簽章的一次性配對憑證連上已綁定的 Mac Node，就能用上助理閉環——在你設定的時間（預設 08:00）送上簡報，唯讀整理郵件、傳送要等你確認，看守家庭裝置、修復要等你批准，用僅限區域網路的簽章 Discover 流靜默刷新手機，並送來簽章的升級卡片。手機↔Mac Node 這條線已經接上；跨產品的共用排程器還沒有。",
+  es: "Activo en cuanto el dueño lo enciende: un teléfono iOS o Android emparejado con un Mac Node vinculado mediante una credencial firmada de un solo uso recibe el bucle de asistente: un informe a la hora elegida (08:00 por defecto), triaje de correo en solo lectura cuyo envío espera tu confirmación, un centinela de dispositivos del hogar cuyas reparaciones esperan tu aprobación, un feed Discover firmado solo LAN que actualiza el teléfono en silencio y tarjetas de actualización firmadas. La línea teléfono↔Mac Node está cableada; un planificador compartido entre productos no.",
+  pl: "Działa, gdy właściciel je włączy: telefon z iOS lub Androidem sparowany z powiązanym Mac Node przez podpisane jednorazowe poświadczenie otrzymuje pętlę asystenta — briefing o wybranej godzinie (domyślnie 08:00), przegląd poczty tylko do odczytu, którego wysyłka czeka na twoje potwierdzenie, strażnik urządzeń domowych, którego naprawy czekają na twoje zatwierdzenie, podpisany kanał Discover tylko w sieci lokalnej, po cichu odświeżający telefon, oraz podpisane karty aktualizacji. Linia telefon↔Mac Node jest połączona; wspólnego planisty między produktami nie ma.",
+  ja: "所有者がオンにすれば動きます。署名された使い捨てのペアリング資格情報でバインド済み Mac Node につないだ iOS または Android のスマホが、アシスタントループを使えます。設定した時刻（既定は 08:00）のブリーフィング、読み取り専用で送信はあなたの確認を待つメール整理、修復はあなたの承認を待つ家庭内デバイスの見張り、スマホを静かに更新する LAN 限定の署名付き Discover フィード、そして署名付きの更新カードです。スマホ↔Mac Node の線はつながっていますが、製品をまたぐ共通スケジューラーはありません。",
+  th: "เปิดเมื่อเจ้าของเปิดใช้: มือถือ iOS หรือ Android ที่จับคู่กับ Mac Node ที่ผูกไว้ด้วยข้อมูลจับคู่ใช้แล้วทิ้งที่ลงนาม จะได้วงจรผู้ช่วย — สรุปตามเวลาที่ตั้งไว้ (ค่าเริ่มต้น 08:00) คัดกรองอีเมลแบบอ่านอย่างเดียวที่การส่งรอคุณยืนยัน เฝ้าระวังอุปกรณ์ในบ้านที่การซ่อมรอการอนุมัติของคุณ ฟีด Discover ที่ลงนามและจำกัดใน LAN ซึ่งรีเฟรชมือถืออย่างเงียบ ๆ และการ์ดอัปเดตที่ลงนาม เส้นทางมือถือ↔Mac Node เชื่อมแล้ว แต่ตัวจัดกำหนดงานร่วมข้ามผลิตภัณฑ์ยังไม่มี",
+  fi: "Toimii, kun omistaja kytkee sen päälle: iOS- tai Android-puhelin, joka on paritettu sidottuun Mac Nodeen allekirjoitetulla kertaluonteisella tunnisteella, saa avustajasilmukan — briifaus valittuna hetkenä (oletus 08:00), vain luku -sähköpostin lajittelu, jonka lähetys odottaa vahvistustasi, kotilaitteiden vahti, jonka korjaukset odottavat hyväksyntääsi, allekirjoitettu vain lähiverkossa toimiva Discover-syöte, joka päivittää puhelinta hiljaa, ja allekirjoitetut päivityskortit. Puhelin↔Mac Node -linja on kytketty; yhteistä tuotteiden välistä ajoitinta ei ole.",
+  uk: "Працює, щойно власник це ввімкне: телефон на iOS або Android, спряжений із прив’язаним Mac Node через підписане одноразове облікове дані, отримує цикл помічника — брифінг у призначену годину (типово 08:00), сортування пошти лише для читання, надсилання якої чекає вашого підтвердження, сторож домашніх пристроїв, чиї виправлення чекають на ваш дозвіл, підписаний потік Discover лише в локальній мережі, який тихо оновлює телефон, і підписані картки оновлень. Лінію телефон↔Mac Node прокладено; спільного планувальника між продуктами немає.",
+  bg: "Работи, щом собственикът го включи: телефон с iOS или Android, сдвоен със свързан Mac Node чрез подписан еднократен идентификатор, получава цикъла на асистента — брифинг в зададения час (по подразбиране 08:00), сортиране на поща само за четене, чието изпращане чака вашето потвърждение, страж на домашните устройства, чиито поправки чакат вашето одобрение, подписан Discover поток само в LAN, който тихо обновява телефона, и подписани карти за актуализация. Линията телефон↔Mac Node е свързана; общ планировчик между продуктите няма.",
+  tr: "Sahip açtığı anda çalışır: imzalı tek kullanımlık kimlikle bağlı bir Mac Node’a eşleştirilmiş iOS veya Android telefon asistan döngüsünü alır — seçtiğiniz saatte brifing (varsayılan 08:00), gönderimi onayınızı bekleyen salt okunur e-posta taraması, onarımları onayınızı bekleyen ev cihazı gözcüsü, telefonu sessizce yenileyen imzalı ve yalnız LAN’da çalışan Discover akışı ve imzalı güncelleme kartları. Telefon↔Mac Node hattı bağlı; ürünler arası ortak bir zamanlayıcı yok.",
+  hu: "Akkor él, amikor a tulajdonos bekapcsolja: az aláírt, egyszer használatos hitelesítő adattal kötött Mac Node-hoz párosított iOS vagy Android telefon megkapja az asszisztens-ciklust — eligazítás a beállított órában (alapértelmezés 08:00), csak olvasható levélszűrés, amelynek küldése a jóváhagyására vár, otthoni eszközfigyelő, amelynek javításai a jóváhagyására várnak, aláírt, csak helyi hálózaton működő Discover-hírfolyam, amely csendesen frissíti a telefont, és aláírt frissítési kártyák. A telefon↔Mac Node vonal be van kötve; a termékek közti közös ütemező nincs.",
 };
 
 const FOOT: Localized<string> = {
-  en: "Four of the six can be opened and tried right now; the two marked Evolving are missing code, not a plan. Every icon here is a vector line drawn inside the page — no image files, no external fonts, no trackers, and the sibling sites load only when you click them.",
-  ru: "Четыре из шести можно открыть и попробовать прямо сейчас; тем двум, что помечены «Развивается», не хватает кода, а не плана. Каждая иконка здесь — векторные линии внутри страницы: нет файлов изображений, внешних шрифтов и трекеров, а соседние сайты грузятся только по клику.",
-  de: "Vier der sechs lassen sich jetzt öffnen und ausprobieren; den beiden mit „In Entwicklung“ fehlt Code, nicht Plan. Jedes Symbol hier ist eine Vektorlinie innerhalb der Seite — keine Bilddateien, keine externen Schriften, keine Tracker, und die Schwester-Sites laden erst auf Klick.",
-  fr: "Quatre sur six s’ouvrent et s’essaient dès maintenant ; aux deux marquées « En évolution », il manque du code, pas un plan. Chaque icône ici est un tracé vectoriel de la page — aucun fichier image, aucune police externe, aucun traqueur, et les sites frères ne se chargent qu’au clic.",
-  it: "Quattro su sei si possono aprire e provare subito; alle due etichettate «In evoluzione» manca codice, non un piano. Ogni icona qui è un tracciato vettoriale dentro la pagina — nessun file immagine, nessun font esterno, nessun tracciatore, e gli altri siti si caricano solo al clic.",
-  nl: "Vier van de zes zijn nu te openen en uit te proberen; aan de twee met «In ontwikkeling» ontbreekt code, geen plan. Elk pictogram hier is een vectorlijn binnen de pagina — geen bestandsafbeeldingen, geen externe lettertypen, geen trackers, en de zustersites laden pas na een klik.",
-  cs: "Čtyři ze šesti lze otevřít a vyzkoušet hned; dvě označené «Ve vývoji» postrádají kód, ne plán. Každá ikona tady je vektorová linka uvnitř stránky — žádné obrázkové soubory, žádné externí fonty, žádné sledovače, a přidružené weby se načtou až po kliknutí.",
-  "zh-Hans": "六个场景里，四个今天就能自己点开试；标着「演进中」的两个缺的是代码，不是计划。卡片里的图标都是页面内画的矢量线条，没有图片文件、没有外部字体、没有任何追踪器，另外三个站点只在你点击后才加载。",
-  "zh-Hant": "六個情境裡，四個今天就能自己點開試；標著「演進中」的兩個缺的是程式碼，不是計畫。卡片裡的圖示都是頁面內繪製的向量線條，沒有圖片檔案、沒有外部字型、沒有追蹤器，另外三個網站只在您點擊後才載入。",
-  es: "Cuatro de las seis se pueden abrir y probar ya; a las dos marcadas «En evolución» les falta código, no un plan. Cada icono aquí es una línea vectorial dentro de la página — sin archivos de imagen, sin fuentes externas, sin rastreadores, y los sitios hermanos se cargan solo al hacer clic.",
-  pl: "Cztery z sześciu można otworzyć i wypróbować od razu; dwom oznaczonym «W rozwoju» brakuje kodu, nie planu. Każda ikona tutaj to wektorowa linia wewnątrz strony — żadnych plików graficznych, zewnętrznych fontów ani trackerów, a siostrzane witryny ładują się dopiero po kliknięciu.",
-  ja: "六つのうち四つはこれから開いて試せます。「進化中」の二つに足りないのは計画ではなくコードです。このページの図柄はいずれもページ内に引いたベクターの線で、画像ファイルも外部フォントも計測もありません。外のサイトはクリックしたときに開くだけです。",
-  th: "สี่จากหกใบเปิดลองได้เลยตอนนี้ ส่วนสองใบที่ติดป้าย «กำลังพัฒนา» ขาดโค้ด ไม่ใช่แผน ไอคอนทุกอันในหน้านี้คือเส้นเวกเตอร์ที่วาดไว้ในหน้า ไม่มีไฟล์รูป ไม่มีฟอนต์ภายนอก ไม่มีตัวติดตาม และเว็บอื่นจะโหลดก็ต่อเมื่อคุณคลิก",
-  fi: "Neljä kuudesta avautuu ja kokeillaan heti; kahdelta «Kehitysvaiheessa»-kortilta puuttuu koodi, ei suunnitelma. Jokainen kuvake täällä on sivun sisälle piirretty vektoriviiva — ei kuvatiedostoja, ei ulkoisia fontteja, ei seurantaa, ja sisarsivustot latautuvat vasta klikkauksesta.",
-  uk: "Чотири з шести можна відкрити й спробувати вже тепер; двом із позначкою «Розвивається» бракує коду, а не плану. Кожна піктограма тут — це векторні лінії всередині сторінки: жодних файлів зображень, зовнішніх шрифтів і відстеження, а сусідні сайти завантажуються лише після кліку.",
-  bg: "Четири от шестте могат да се отворят и пробват веднага; на две маркирани «В развитие» липсва код, а не план. Всяка икона тук е векторна линия вътре в страницата — без файлове с изображения, без външни шрифтове, без проследяване, а сродните сайтове се зареждат чак при клик.",
-  tr: "Altının dördü hemen açılıp denenebilir; «Gelişiyor» etiketli ikisinin eksiği plan değil kod. Buradaki her simge sayfanın içinde çizilmiş vektör çizgisidir — dosya resmi yok, dış yazı tipi yok, izleyici yok, ve kardeş siteler yalnızca tıkladığınızda yüklenir.",
-  hu: "A hat közül négy azonnal felnyitható és kipróbálható; a két «Fejlesztés alatt» jelűnek kód hiányzik, nem terv. Itt minden ikon az oldal belsejében rajzolt vektorvonal — nincs képfájl, nincs külső betűtípus, nincs követő, a testoldalak pedig csak kattintás után töltődnek.",
+  en: "Five of the six can be opened and tried right now; the one marked Evolving is missing code, not a plan. Every icon here is a vector line drawn inside the page — no image files, no external fonts, no trackers, and the sibling sites load only when you click them.",
+  ru: "Пять из шести можно открыть и попробовать прямо сейчас; одной с пометкой «Развивается» не хватает кода, а не плана. Каждая иконка здесь — векторные линии внутри страницы: нет файлов изображений, внешних шрифтов и трекеров, а соседние сайты грузятся только по клику.",
+  de: "Fünf der sechs lassen sich jetzt öffnen und ausprobieren; der einen mit „In Entwicklung“ fehlt Code, nicht Plan. Jedes Symbol hier ist eine Vektorlinie innerhalb der Seite — keine Bilddateien, keine externen Schriften, keine Tracker, und die Schwester-Sites laden erst auf Klick.",
+  fr: "Cinq sur six s’ouvrent et s’essaient dès maintenant ; à celle marquée « En évolution », il manque du code, pas un plan. Chaque icône ici est un tracé vectoriel de la page — aucun fichier image, aucune police externe, aucun traqueur, et les sites frères ne se chargent qu’au clic.",
+  it: "Cinque su sei si possono aprire e provare subito; a quella etichettata «In evoluzione» manca codice, non un piano. Ogni icona qui è un tracciato vettoriale dentro la pagina — nessun file immagine, nessun font esterno, nessun tracciatore, e gli altri siti si caricano solo al clic.",
+  nl: "Vijf van de zes zijn nu te openen en uit te proberen; aan de kaart met «In ontwikkeling» ontbreekt code, geen plan. Elk pictogram hier is een vectorlijn binnen de pagina — geen bestandsafbeeldingen, geen externe lettertypen, geen trackers, en de zustersites laden pas na een klik.",
+  cs: "Pět ze šesti lze otevřít a vyzkoušet hned; jedné označené «Ve vývoji» chybí kód, ne plán. Každá ikona tady je vektorová linka uvnitř stránky — žádné obrázkové soubory, žádné externí fonty, žádné sledovače, a přidružené weby se načtou až po kliknutí.",
+  "zh-Hans": "六个场景里，五个今天就能自己点开试；标着「演进中」的那一个缺的是代码，不是计划。卡片里的图标都是页面内画的矢量线条，没有图片文件、没有外部字体、没有任何追踪器，另外三个站点只在你点击后才加载。",
+  "zh-Hant": "六個情境裡，五個今天就能自己點開試；標著「演進中」的那一個缺的是程式碼，不是計畫。卡片裡的圖示都是頁面內繪製的向量線條，沒有圖片檔案、沒有外部字型、沒有追蹤器，另外三個網站只在您點擊後才載入。",
+  es: "Cinco de las seis se pueden abrir y probar ya; a la marcada «En evolución» le falta código, no un plan. Cada icono aquí es una línea vectorial dentro de la página — sin archivos de imagen, sin fuentes externas, sin rastreadores, y los sitios hermanos se cargan solo al hacer clic.",
+  pl: "Pięć z sześciu można otworzyć i wypróbować od razu; tej oznaczonej «W rozwoju» brakuje kodu, nie planu. Każda ikona tutaj to wektorowa linia wewnątrz strony — żadnych plików graficznych, zewnętrznych fontów ani trackerów, a siostrzane witryny ładują się dopiero po kliknięciu.",
+  ja: "六つのうち五つはこれから開いて試せます。「進化中」の一つに足りないのは計画ではなくコードです。このページの図柄はいずれもページ内に引いたベクターの線で、画像ファイルも外部フォントも計測もありません。外のサイトはクリックしたときに開くだけです。",
+  th: "ห้าจากหกใบเปิดลองได้เลยตอนนี้ ส่วนใบเดียวที่ติดป้าย «กำลังพัฒนา» ขาดโค้ด ไม่ใช่แผน ไอคอนทุกอันในหน้านี้คือเส้นเวกเตอร์ที่วาดไว้ในหน้า ไม่มีไฟล์รูป ไม่มีฟอนต์ภายนอก ไม่มีตัวติดตาม และเว็บอื่นจะโหลดก็ต่อเมื่อคุณคลิก",
+  fi: "Viisi kuudesta avautuu ja kokeillaan heti; yhdeltä «Kehitysvaiheessa»-kortilta puuttuu koodi, ei suunnitelma. Jokainen kuvake täällä on sivun sisälle piirretty vektoriviiva — ei kuvatiedostoja, ei ulkoisia fontteja, ei seurantaa, ja sisarsivustot latautuvat vasta klikkauksesta.",
+  uk: "П’ять із шести можна відкрити й спробувати вже тепер; одній із позначкою «Розвивається» бракує коду, а не плану. Кожна піктограма тут — це векторні лінії всередині сторінки: жодних файлів зображень, зовнішніх шрифтів і відстеження, а сусідні сайти завантажуються лише після кліку.",
+  bg: "Пет от шестте могат да се отворят и пробват веднага; на едната маркирана «В развитие» липсва код, а не план. Всяка икона тук е векторна линия вътре в страницата — без файлове с изображения, без външни шрифтове, без проследяване, а сродните сайтове се зареждат чак при клик.",
+  tr: "Altının beşi hemen açılıp denenebilir; «Gelişiyor» etiketli tek kartın eksiği plan değil kod. Buradaki her simge sayfanın içinde çizilmiş vektör çizgisidir — dosya resmi yok, dış yazı tipi yok, izleyici yok, ve kardeş siteler yalnızca tıkladığınızda yüklenir.",
+  hu: "A hat közül öt azonnal felnyitható és kipróbálható; az egyetlen «Fejlesztés alatt» jelűnek kód hiányzik, nem terv. Itt minden ikon az oldal belsejében rajzolt vektorvonal — nincs képfájl, nincs külső betűtípus, nincs követő, a testoldalak pedig csak kattintás után töltődnek.",
 };
 
 type Icon = (props: { className: string }) => ReactElement;
@@ -487,7 +488,7 @@ const SCENARIOS: readonly Scenario[] = [
     target: "/ecosystem/",
     href: "/ecosystem/",
     external: false,
-    available: false,
+    available: true,
   },
 ];
 
@@ -515,7 +516,9 @@ export function UserScenariosGrid(): ReactElement {
 
 function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }): ReactElement {
   const body = useCopy(scenario.body);
-  const action = useCopy(scenario.external ? CTA_OPEN : ROUTE_LABELS.download);
+  const action = useCopy(
+    scenario.external ? CTA_OPEN : scenario.href === "/download/" ? ROUTE_LABELS.download : ROUTE_LABELS.ecosystem,
+  );
   const status = useCopy(scenario.available ? STATUS_AVAILABLE : STATUS_EVOLVING);
   const tone = scenario.available ? TONES.mesh : TONES.warn;
 
