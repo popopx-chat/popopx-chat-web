@@ -1,7 +1,7 @@
 // Oracle fixture — the patterns the oracle must accept: `satisfies` (which
 // checks every key), a helper returning `T` rather than a map, an honest
 // `Partial` cast, and technical values that are identical in every language.
-type Locale = "en" | "ru" | "de" | "fr" | "it" | "nl" | "cs" | "zh-Hans" | "zh-Hant" | "es" | "pl" | "ja" | "th" | "fi" | "uk" | "bg" | "tr" | "hu";
+type Locale = "en" | "ru" | "de" | "fr" | "it" | "nl" | "cs" | "zh-Hans" | "zh-Hant" | "es" | "pl" | "ja" | "th" | "fi" | "uk" | "bg" | "tr" | "hu" | "pt-BR" | "ko" | "ar";
 type Localized<T> = Record<Locale, T>;
 
 export const BRAND: Localized<string> = {
@@ -23,6 +23,9 @@ export const BRAND: Localized<string> = {
   bg: "POPOPX",
   tr: "POPOPX",
   hu: "POPOPX",
+  "pt-BR": "POPOPX",
+  ko: "POPOPX",
+  ar: "POPOPX",
 };
 
 export function pick<T>(value: Localized<T>, locale: Locale): T {

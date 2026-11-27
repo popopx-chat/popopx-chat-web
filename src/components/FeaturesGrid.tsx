@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import Link from "next/link";
+import { LtrText } from "@/components/Ltr";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import { IOS_REPO_URL } from "@/lib/site";
@@ -25,8 +26,8 @@ import { IOS_REPO_URL } from "@/lib/site";
  *   apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341 .... popopx.channel.enc.v1, epoch key
  *
  * Copy follows the portal's authoring rule: a `Localized<T>` slot is a total map
- * over the 18 tags the client declares, so every string here is written literally
- * in all 18 languages and a missing one is a compile error, not a fallback.
+ * over the 21 portal tags (the client's 18, then three additions), so every string here is written literally
+ * in all 21 languages and a missing one is a compile error, not a fallback.
  * Protocol tokens, file names and byte counts stay locale-free.
  */
 
@@ -43,6 +44,9 @@ type Feature = {
 const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   eyebrow: {
     en: "iOS client · six core features",
+    "pt-BR": "Cliente iOS · seis recursos principais",
+    ko: "iOS 클라이언트 · 여섯 가지 핵심 기능",
+    ar: "عميل iOS · ست ميزات أساسية",
     ru: "Клиент для iOS · шесть ключевых возможностей",
     de: "iOS-Client · sechs Kernfunktionen",
     fr: "Client iOS · six fonctions clés",
@@ -63,6 +67,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   title: {
     en: "The iOS client's six core features",
+    "pt-BR": "Os seis recursos principais do cliente iOS",
+    ko: "iOS 클라이언트의 여섯 가지 핵심 기능",
+    ar: "الميزات الأساسية الست في عميل iOS",
     ru: "Шесть ключевых возможностей клиента для iOS",
     de: "Die sechs Kernfunktionen des iOS-Clients",
     fr: "Les six fonctions clés du client iOS",
@@ -83,6 +90,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   subtitle: {
     en: "Every number, type name and file name below is the code's own wording, checked in the open-source client — nothing is rounded up.",
+    "pt-BR": "Cada número, nome de tipo e nome de arquivo abaixo é a redação do próprio código, conferida no cliente de código aberto — nada é arredondado para cima.",
+    ko: "아래의 모든 숫자, 타입 이름, 파일 이름은 코드 자체의 표현이며 오픈 소스 클라이언트에서 확인했습니다. 부풀린 것은 없습니다.",
+    ar: "كل عدد واسم نوع واسم ملف أدناه هو صياغة الشيفرة نفسها، مفحوصة في العميل مفتوح المصدر — ولا شيء مبالغ فيه.",
     ru: "Каждое число, имя типа и имя файла ниже взято из самого кода и проверено в клиенте с открытым исходным кодом — ничего не приукрашено.",
     de: "Jede Zahl, jeder Typname und jeder Dateiname unten ist der Wortlaut des Codes, geprüft im Open-Source-Client – nichts wird hochgerundet.",
     fr: "Chaque nombre, nom de type et nom de fichier ci-dessous est le mot du code lui-même, vérifié dans le client open source — rien n'est enjolivé.",
@@ -110,6 +120,9 @@ const FEATURES: readonly Feature[] = [
     chip: "Noise_XX_25519_ChaChaPoly_SHA256",
     title: {
       en: "End-to-end encrypted queues, no global ID",
+      "pt-BR": "Filas criptografadas ponta a ponta, sem ID global",
+      ko: "종단간 암호화된 큐, 전역 ID 없음",
+      ar: "طوابير مشفرة من الطرف إلى الطرف، بلا ID عالمي",
       ru: "Сквозное шифрование очередей без глобального ID",
       de: "Ende-zu-Ende-verschlüsselte Queues, kein globales ID",
       fr: "Files chiffrées de bout en bout, sans ID global",
@@ -130,6 +143,9 @@ const FEATURES: readonly Feature[] = [
     },
     hook: {
       en: "Sign-up asks for nothing: each connection is its own pair of queues, not one identity reused everywhere.",
+      "pt-BR": "O cadastro não pede nada: cada conexão é o seu próprio par de filas, não uma identidade reutilizada em todo lugar.",
+      ko: "가입은 아무것도 요구하지 않습니다. 각 연결은 어디서나 재사용되는 하나의 신원이 아니라 그 자체의 큐 쌍입니다.",
+      ar: "لا يطلب التسجيل أي شيء: كل اتصال زوج طوابير خاص به، لا هوية واحدة تعاد في كل مكان.",
       ru: "Регистрация ничего не спрашивает: каждое соединение — это своя пара очередей, а не один ID на все случаи.",
       de: "Bei der Anmeldung wird nichts verlangt: jede Verbindung ist ihr eigenes Queue-Paar, nicht eine überall wiederverwendete Identität.",
       fr: "L'inscription ne demande rien : chaque connexion forme son propre couple de files, et non une identité resservie partout.",
@@ -151,6 +167,9 @@ const FEATURES: readonly Feature[] = [
     facts: [
       {
         en: "apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 says it in one line: no phone number, no email, no global public key — and no phoneNumber field exists in any model.",
+        "pt-BR": "apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 diz isso em uma linha: sem número de telefone, sem e-mail, sem chave pública global — e não existe campo phoneNumber em nenhum modelo.",
+        ko: "apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83이 한 줄로 말합니다. 전화번호 없음, 이메일 없음, 전역 공개 키 없음 — 그리고 어떤 모델에도 phoneNumber 필드는 존재하지 않습니다.",
+        ar: "يقول apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 ذلك في سطر واحد: لا رقم هاتف، ولا بريد إلكتروني، ولا مفتاح عام عالمي — ولا يوجد حقل phoneNumber في أي نموذج.",
         ru: "apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 говорит это в одну строку: ни номера телефона, ни почты, ни глобального открытого ключа — и поля phoneNumber нет ни в одной модели.",
         de: "apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 sagt es in einer Zeile: keine Telefonnummer, keine E-Mail, kein globales öffentliches Schlüssel – und ein Feld phoneNumber existiert in keinem Modell.",
         fr: "apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83 le dit en une ligne : pas de numéro de téléphone, pas d'e-mail, pas de clé publique globale — et aucun champ phoneNumber n'existe dans un modèle.",
@@ -171,6 +190,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "A connection is a queue pair: RcvQueueInfo and SndQueueInfo (apps/ios/POPOPXChat/APITypes.swift:589-615) carry a server host and a queue, switching via sending_qadd, sending_quse and received_qend.",
+        "pt-BR": "Uma conexão é um par de filas: RcvQueueInfo e SndQueueInfo (apps/ios/POPOPXChat/APITypes.swift:589-615) carregam um host de servidor e uma fila, alternando via sending_qadd, sending_quse e received_qend.",
+        ko: "연결은 큐 쌍입니다. RcvQueueInfo와 SndQueueInfo(apps/ios/POPOPXChat/APITypes.swift:589-615)는 서버 호스트와 큐를 담고 있으며, sending_qadd, sending_quse, received_qend를 통해 전환합니다.",
+        ar: "الاتصال زوج طوابير: يحمل RcvQueueInfo وSndQueueInfo (apps/ios/POPOPXChat/APITypes.swift:589-615) مضيف خادم وطابور، ويجري التبديل عبر sending_qadd وsending_quse وreceived_qend.",
         ru: "Соединение — это пара очередей: RcvQueueInfo и SndQueueInfo (apps/ios/POPOPXChat/APITypes.swift:589-615) несут лишь хост сервера и очередь, переключаясь через sending_qadd, sending_quse и received_qend.",
         de: "Eine Verbindung ist ein Queue-Paar: RcvQueueInfo und SndQueueInfo (apps/ios/POPOPXChat/APITypes.swift:589-615) tragen nur einen Server-Host und eine Queue, mit Wechsel über sending_qadd, sending_quse und received_qend.",
         fr: "Une connexion est un couple de files : RcvQueueInfo et SndQueueInfo (apps/ios/POPOPXChat/APITypes.swift:589-615) portent un hôte de serveur et une file, avec les états sending_qadd, sending_quse et received_qend.",
@@ -191,6 +213,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "The transport is a hand-written Noise_XX_25519_ChaChaPoly_SHA256 on CryptoKit (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5); the only address a user ever mints is one-time, via PopopxInviteLink.mintOneTime.",
+        "pt-BR": "O transporte é um Noise_XX_25519_ChaChaPoly_SHA256 escrito à mão sobre o CryptoKit (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5); o único endereço que um usuário gera é de uso único, via PopopxInviteLink.mintOneTime.",
+        ko: "전송 계층은 CryptoKit 위에 직접 작성한 Noise_XX_25519_ChaChaPoly_SHA256입니다(apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5). 사용자가 발급하는 유일한 주소는 PopopxInviteLink.mintOneTime을 통한 일회성 주소입니다.",
+        ar: "النقل هو Noise_XX_25519_ChaChaPoly_SHA256 مكتوب باليد على CryptoKit (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5)؛ والعنوان الوحيد الذي يصدره المستخدم قط هو عنوان لمرة واحدة، عبر PopopxInviteLink.mintOneTime.",
         ru: "Транспорт — самописный Noise_XX_25519_ChaChaPoly_SHA256 на CryptoKit (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5); единственный выдаваемый пользователем адрес — одноразовый, через PopopxInviteLink.mintOneTime.",
         de: "Der Transport ist ein handgeschriebenes Noise_XX_25519_ChaChaPoly_SHA256 auf CryptoKit (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5); die einzige Adresse, die ein Nutzer je prägt, ist einmalig – via PopopxInviteLink.mintOneTime.",
         fr: "Le transport est un Noise_XX_25519_ChaChaPoly_SHA256 écrit à la main sur CryptoKit (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5) ; la seule adresse qu'un utilisateur fabrique est à usage unique, via PopopxInviteLink.mintOneTime.",
@@ -217,6 +242,9 @@ const FEATURES: readonly Feature[] = [
     chip: "dualChannel",
     title: {
       en: "Offline routing with direct BLE relay",
+      "pt-BR": "Roteamento offline com retransmissão BLE direta",
+      ko: "직접 BLE 중계를 통한 오프라인 라우팅",
+      ar: "توجيه دون اتصال مع مرحّل BLE مباشر",
       ru: "Автономная маршрутизация и прямое BLE-ретранслирование",
       de: "Offline-Routing mit direktem BLE-Relais",
       fr: "Routage hors ligne avec relais BLE direct",
@@ -237,6 +265,9 @@ const FEATURES: readonly Feature[] = [
     },
     hook: {
       en: "Two roles in one radio object, and a router that picks whichever path can carry the message right now.",
+      "pt-BR": "Dois papéis em um único objeto de rádio, e um roteador que escolhe o caminho que consegue levar a mensagem agora.",
+      ko: "하나의 무선 객체에 두 역할이 있고, 지금 메시지를 실어 나를 수 있는 경로를 고르는 라우터가 있습니다.",
+      ar: "دوران في كائن راديو واحد، وموجّه يختار أي مسار يستطيع حمل الرسالة الآن.",
       ru: "Две роли в одном радио-объекте и маршрутизатор, выбирающий тот канал, который может отправить сообщение прямо сейчас.",
       de: "Zwei Rollen in einem Radio-Objekt, und ein Router, der den Pfad wählt, der die Nachricht gerade tragen kann.",
       fr: "Deux rôles dans un seul objet radio, et un routeur qui choisit le chemin capable de porter le message maintenant.",
@@ -258,6 +289,9 @@ const FEATURES: readonly Feature[] = [
     facts: [
       {
         en: "PopopxBLETransport holds a CBCentralManager and a CBPeripheralManager at the same time under one service UUID, so a neighbour can dial us while we dial it; each link buffers at most 64 frames.",
+        "pt-BR": "O PopopxBLETransport mantém um CBCentralManager e um CBPeripheralManager ao mesmo tempo sob um único UUID de serviço, então um vizinho pode nos chamar enquanto chamamos ele; cada link armazena no máximo 64 quadros.",
+        ko: "PopopxBLETransport는 하나의 서비스 UUID 아래에서 CBCentralManager와 CBPeripheralManager를 동시에 보유하므로, 우리가 이웃에 접속하는 동안 이웃도 우리에게 접속할 수 있습니다. 각 링크는 최대 64개 프레임을 버퍼링합니다.",
+        ar: "يحمل PopopxBLETransport كائن CBCentralManager وكائن CBPeripheralManager في الوقت نفسه تحت UUID خدمة واحد، فيستطيع جار أن يتصل بنا بينما نتصل به؛ وكل رابط يخزن 64 إطار في الذاكرة المؤقتة على الأكثر.",
         ru: "PopopxBLETransport одновременно держит CBCentralManager и CBPeripheralManager под одним UUID сервиса, поэтому сосед может позвонить нам, пока звоним ему; каждая линия буферизует не более 64 кадров.",
         de: "PopopxBLETransport hält zugleich einen CBCentralManager und einen CBPeripheralManager unter einer Service-UUID, ein Nachbar kann uns also anrufen, während wir ihn anrufen; jede Verbindung puffert höchstens 64 Rahmen.",
         fr: "PopopxBLETransport conserve à la fois un CBCentralManager et un CBPeripheralManager sous un seul UUID de service, un voisin peut donc nous appeler pendant que nous l'appelons ; chaque lien met en tampon au plus 64 trames.",
@@ -278,6 +312,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "The route switch is the status case dualChannel (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268): with no SMP ACK in 3 s the same message goes out over the radio at the same time, and BLE stops after 5 s.",
+        "pt-BR": "A troca de rota é o caso de status dualChannel (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268): sem ACK do SMP em 3 s, a mesma mensagem sai pelo rádio ao mesmo tempo, e o BLE para após 5 s.",
+        ko: "경로 전환은 상태 케이스 dualChannel입니다(apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268). 3 s 안에 SMP ACK가 없으면 같은 메시지가 동시에 무선으로도 나가고, BLE는 5 s 후에 멈춥니다.",
+        ar: "مفتاح المسار هو الحالة dualChannel (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268): فبدون SMP ACK خلال 3 s تخرج الرسالة نفسها عبر الراديو في الوقت نفسه، ويتوقف BLE بعد 5 s.",
         ru: "Переключение маршрута — это статус dualChannel (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268): без SMP-ACK за 3 с то же сообщение параллельно уходит по радио, а BLE прекращает после 5 с.",
         de: "Der Umschalter ist der Status-Fall dualChannel (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268): bleibt der SMP-ACK 3 s aus, geht dieselbe Nachricht gleichzeitig auch übers Radio, und BLE endet nach 5 s.",
         fr: "Le basculement est le cas de statut dualChannel (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:268) : sans ACK SMP sous 3 s, le même message part aussi par la radio en parallèle, et BLE s'arrête après 5 s.",
@@ -298,6 +335,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "Flooded frames are deduplicated with a Golomb-coded set, serialized as version(1), p(1), M(4) and a Golomb-Rice bitstream (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12), and every radio frame is sealed by NOISE.",
+        "pt-BR": "Os quadros inundados são deduplicados com um conjunto codificado por Golomb, serializado como version(1), p(1), M(4) e um fluxo de bits Golomb-Rice (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12), e cada quadro de rádio é selado por NOISE.",
+        ko: "플러딩된 프레임은 Golomb-coded set으로 중복 제거되며, version(1), p(1), M(4)와 Golomb-Rice 비트스트림으로 직렬화되고(apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12), 모든 무선 프레임은 NOISE로 봉인됩니다.",
+        ar: "ويجري إزالة تكرارات الإطارات المغرقة بمجموعة مرمزة بـGolomb، مسلسلة كـversion(1) وp(1) وM(4) وتدفق بتات Golomb-Rice (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12)؛ وكل إطار راديو مختوم بـNOISE.",
         ru: "Затопленные кадры дедуплицируются множеством Голума, сериализуемым как version(1), p(1), M(4) и битпоток Голума-Райса (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12), и каждый радиокадр запечатан NOISE.",
         de: "Geflutete Rahmen werden mit einem Golomb-Coded-Set dedupliziert, serialisiert als version(1), p(1), M(4) und einem Golomb-Rice-Bitstrom (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12), und jeder Funkrahmen ist von NOISE versiegelt.",
         fr: "Les trames inondées sont dédupliquées par un ensemble de Golomb, sérialisé en version(1), p(1), M(4) et un flux de bits Golomb-Rice (apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-12), et chaque trame radio est scellée par NOISE.",
@@ -324,6 +364,9 @@ const FEATURES: readonly Feature[] = [
     chip: ".ppxlz",
     title: {
       en: "Local media compression, metadata stripped",
+      "pt-BR": "Compressão local de mídia, metadados removidos",
+      ko: "로컬 미디어 압축, 메타데이터 제거",
+      ar: "ضغط الوسائط محليًا، مع تجريد البيانات الوصفية",
       ru: "Локальное сжатие медиа со снятыми метаданными",
       de: "Lokale Medienkomprimierung, Metadaten entfernt",
       fr: "Compression locale des médias, métadonnées retirées",
@@ -344,6 +387,9 @@ const FEATURES: readonly Feature[] = [
     },
     hook: {
       en: "Files shrink on the device, and location or camera data is never written in the first place.",
+      "pt-BR": "Os arquivos encolhem no dispositivo, e dados de localização ou de câmera nunca chegam a ser gravados.",
+      ko: "파일은 기기에서 작아지고, 위치나 카메라 데이터는 처음부터 기록되지 않습니다.",
+      ar: "تصغر الملفات على الجهاز، وبيانات الموقع أو الكاميرا لا تدخل فيها من الأصل.",
       ru: "Файлы сжимаются на устройстве, а данные о локации и камере не записываются с самого начала.",
       de: "Dateien schrumpfen auf dem Gerät, und Orts- oder Kameradaten werden gar nicht erst geschrieben.",
       fr: "Les fichiers se réduisent sur l'appareil, et les données de position ou d'appareil photo ne sont jamais écrites.",
@@ -365,6 +411,9 @@ const FEATURES: readonly Feature[] = [
     facts: [
       {
         en: "Images are scaled with ImageIO's thumbnail API and encoded with a dictionary holding only kCGImageDestinationLossyCompressionQuality (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375) — so no EXIF, no GPS, no camera model.",
+        "pt-BR": "As imagens são dimensionadas com a API de miniaturas do ImageIO e codificadas com um dicionário que contém apenas kCGImageDestinationLossyCompressionQuality (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375) — portanto, sem EXIF, sem GPS, sem modelo de câmera.",
+        ko: "이미지는 ImageIO의 썸네일 API로 축소하고, kCGImageDestinationLossyCompressionQuality만 담은 딕셔너리로 인코딩합니다(apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375) — 그래서 EXIF도, GPS도, 카메라 모델도 없습니다.",
+        ar: "تحجّم الصور باستخدام API الصور المصغّرة في ImageIO وترمّز بمعجم لا يحمل سوى kCGImageDestinationLossyCompressionQuality (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375) — فلا EXIF، ولا GPS، ولا طراز كاميرا.",
         ru: "Изображения масштабируются thumbnail API ImageIO и кодируются словарём, содержащим лишь kCGImageDestinationLossyCompressionQuality (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375), — значит без EXIF, без GPS и без модели камеры.",
         de: "Bilder werden über den Thumbnail-API von ImageIO skaliert und mit einem Wörterbuch kodiert, das nur kCGImageDestinationLossyCompressionQuality enthält (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375) — also kein EXIF, kein GPS, kein Kameramodell.",
         fr: "Les images sont redimensionnées via l'API miniature d'ImageIO et encodées avec un dictionnaire ne contenant que kCGImageDestinationLossyCompressionQuality (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:375) — donc pas d'EXIF, pas de GPS, pas de modèle d'appareil.",
@@ -385,6 +434,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "Video is re-encoded by an AVAssetWriter on the hardware encoder with metadata = [] (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442), and export applies AVMetadataItemFilter.forSharing() (apps/ios/POPOPXChat/ImageUtils.swift:355). Animated images pass through untouched.",
+        "pt-BR": "O vídeo é recodificado por um AVAssetWriter no codificador de hardware com metadata = [] (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442), e a exportação aplica AVMetadataItemFilter.forSharing() (apps/ios/POPOPXChat/ImageUtils.swift:355). Imagens animadas passam intactas.",
+        ko: "동영상은 하드웨어 인코더에서 AVAssetWriter로 metadata = []를 지정해 다시 인코딩하고(apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442), 내보낼 때는 AVMetadataItemFilter.forSharing()을 적용합니다(apps/ios/POPOPXChat/ImageUtils.swift:355). 애니메이션 이미지는 손대지 않고 그대로 통과합니다.",
+        ar: "يعاد ترميز الفيديو بواسطة AVAssetWriter على مرمّز العتاد مع metadata = [] (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442)، ويطبّق التصدير AVMetadataItemFilter.forSharing() (apps/ios/POPOPXChat/ImageUtils.swift:355). وتمرّ الصور المتحركة كما هي دون تغيير.",
         ru: "Видео перекодируется через AVAssetWriter на аппаратном кодировщике с metadata = [] (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442), а экспорт применяет AVMetadataItemFilter.forSharing() (apps/ios/POPOPXChat/ImageUtils.swift:355). Анимированные изображения проходят без изменений.",
         de: "Video wird von einem AVAssetWriter auf dem Hardware-Encoder mit metadata = [] neu kodiert (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442), und der Export wendet AVMetadataItemFilter.forSharing() an (apps/ios/POPOPXChat/ImageUtils.swift:355). Animierte Bilder bleiben unangetastet.",
         fr: "La vidéo est ré-encodée par un AVAssetWriter sur l'encodeur matériel avec metadata = [] (apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:433-442), et l'export applique AVMetadataItemFilter.forSharing() (apps/ios/POPOPXChat/ImageUtils.swift:355). Les images animées passent sans modification.",
@@ -405,6 +457,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "Plain-text documents stream through Apple's Compression framework with COMPRESSION_LZFSE into a .ppxlz container whose magic is PPXLZ1, kept only when more than 15 % smaller (minimumReductionRatio = 0.85).",
+        "pt-BR": "Documentos de texto simples passam em fluxo pelo framework Compression da Apple com COMPRESSION_LZFSE para um contêiner .ppxlz cujo magic é PPXLZ1, mantido apenas quando o arquivo fica mais de 15 % menor (minimumReductionRatio = 0.85).",
+        ko: "일반 텍스트 문서는 Apple의 Compression 프레임워크에서 COMPRESSION_LZFSE로 .ppxlz 컨테이너에 스트리밍되며, 매직은 PPXLZ1이고, 15 % 넘게 작아질 때만 유지합니다(minimumReductionRatio = 0.85).",
+        ar: "تبثّ مستندات النص العادي عبر إطار Compression من Apple بـ COMPRESSION_LZFSE إلى حاوية .ppxlz بصمتها PPXLZ1، ولا تبقى إلا حين تكون أصغر بأكثر من 15 % (minimumReductionRatio = 0.85).",
         ru: "Текстовые документы потоком проходят через фреймворк Apple Compression с COMPRESSION_LZFSE в контейнер .ppxlz с магией PPXLZ1 и оставляются, лишь когда стали больше чем на 15 % меньше (minimumReductionRatio = 0.85).",
         de: "Klartext-Dokumente streamen durch Apples Compression-Framework mit COMPRESSION_LZFSE in einen .ppxlz-Container mit der Magic PPXLZ1, behalten nur, wenn er über 15 % kleiner ist (minimumReductionRatio = 0.85).",
         fr: "Les documents texte sont streamés dans le framework Compression d'Apple avec COMPRESSION_LZFSE vers un conteneur .ppxlz dont le magic est PPXLZ1, conservé seulement s'il est de plus de 15 % plus petit (minimumReductionRatio = 0.85).",
@@ -431,6 +486,9 @@ const FEATURES: readonly Feature[] = [
     chip: "k-ad1dc5463a",
     title: {
       en: "Signed server-config hot update",
+      "pt-BR": "Atualização a quente assinada da configuração de servidor",
+      ko: "서명된 서버 설정 핫 업데이트",
+      ar: "تحديث ساخن موقّع لتهيئة الخادم",
       ru: "Горячее обновление подписанной конфигурации сервера",
       de: "Signierter Server-Konfigurations-Hot-Update",
       fr: "Mise à jour à chaud de la configuration serveur signée",
@@ -451,6 +509,9 @@ const FEATURES: readonly Feature[] = [
     },
     hook: {
       en: "A new server table is applied only if a pinned key signed it — and only after a snapshot that makes rollback possible.",
+      "pt-BR": "Uma nova tabela de servidores só é aplicada se tiver sido assinada por uma chave fixada — e só depois de um instantâneo que torne a reversão possível.",
+      ko: "새 서버 테이블은 고정된 키가 서명한 경우에만 — 그리고 롤백이 가능한 스냅샷을 남긴 뒤에만 적용됩니다.",
+      ar: "جدول الخوادم الجديد لا يدخل حيّز التطبيق إلا إذا وقّعه مفتاح مثبّت — ولا يدخل إلا بعد لقطة تجعل التراجع ممكنًا.",
       ru: "Новая таблица серверов применяется, только если её подписал закреплённый ключ, — и лишь после снимка, который делает возможен откат.",
       de: "Eine neue Servertabelle wird nur übernommen, wenn ein gepinnter Schlüssel sie signiert hat – und erst nach einem Snapshot, der einen Rollback möglich macht.",
       fr: "Un nouveau tableau de serveurs n'est appliqué que si une clé épinglée l'a signé — et seulement après un instantané rendant le retour arrière possible.",
@@ -472,6 +533,9 @@ const FEATURES: readonly Feature[] = [
     facts: [
       {
         en: "Ed25519 checks the signature over the domain popopx|popx_srv_cfg_v1| followed by the compressed config (apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409); the trust root is one hard-pinned 32-byte key, id k-ad1dc5463a.",
+        "pt-BR": "O Ed25519 verifica a assinatura sobre o domínio popopx|popx_srv_cfg_v1| seguido da configuração comprimida (apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409); a raiz de confiança é uma única chave de 32 bytes fixada em código, id k-ad1dc5463a.",
+        ko: "Ed25519는 도메인 popopx|popx_srv_cfg_v1| 뒤에 압축된 설정을 이어 붙인 값에 대한 서명을 검사하며(apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409), 신뢰 루트는 하드 고정된 32바이트 키 하나이고, id는 k-ad1dc5463a입니다.",
+        ar: "يتحقق Ed25519 من التوقيع على النطاق popopx|popx_srv_cfg_v1| متبوعًا بالتهيئة المضغوطة (apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409)؛ وجذر الثقة مفتاح واحد بطول 32 بايت مثبّت تثبيتًا صارمًا، معرّفه k-ad1dc5463a.",
         ru: "Ed25519 проверяет подпись по домену popopx|popx_srv_cfg_v1| и сжатой конфигурации (apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409); корень доверия — один жёстко закреплённый 32-байтовый ключ с id k-ad1dc5463a.",
         de: "Ed25519 prüft die Signatur über die Domäne popopx|popx_srv_cfg_v1| plus die komprimierte Konfiguration (apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409); die Vertrauenswurzel ist ein hart gepinnter 32-Byte-Schlüssel mit der Id k-ad1dc5463a.",
         fr: "Ed25519 vérifie la signature portant sur le domaine popopx|popx_srv_cfg_v1| suivi de la configuration compressée (apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:388,403-409) ; la racine de confiance est une clé de 32 octets épinglée en dur, id k-ad1dc5463a.",
@@ -492,6 +556,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "State is kept in two tiers: UserDefaults for the per-key generation floors and the broken-generation list, App Group files for rollback.json and staged.json, both written with FileProtectionType.complete (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
+        "pt-BR": "O estado fica em duas camadas: UserDefaults para os pisos de geração por chave e a lista de gerações quebradas, e arquivos do App Group para rollback.json e staged.json, ambos gravados com FileProtectionType.complete (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
+        ko: "상태는 두 계층에 보관합니다. 키별 세대 하한과 손상된 세대 목록은 UserDefaults에, rollback.json과 staged.json은 App Group 파일에 두며, 둘 다 FileProtectionType.complete로 기록합니다(apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
+        ar: "الحالة موزّعة على مستويين: UserDefaults للحدود الدنيا للأجيال لكل مفتاح ولقائمة الأجيال المعطوبة، وملفات App Group لـ rollback.json و staged.json، وكلاهما مكتوب بـ FileProtectionType.complete (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
         ru: "Состояние хранится в двух слоях: UserDefaults для поколенческих порогов по ключам и списка сломанных поколений, файлы App Group для rollback.json и staged.json — обе записи идут с FileProtectionType.complete (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
         de: "Zustand liegt in zwei Stufen: UserDefaults für die generationsweisen Untergrenzen je Schlüssel und die Liste defekter Generationen, App-Group-Dateien für rollback.json und staged.json, beide mit FileProtectionType.complete geschrieben (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
         fr: "L'état tient en deux niveaux : UserDefaults pour les planchers de génération par clé et la liste des générations cassées, les fichiers App Group pour rollback.json et staged.json, écrits avec FileProtectionType.complete (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:1-12,172-173).",
@@ -512,6 +579,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "Applying stops if the rollback snapshot cannot be written (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336); floors only ever rise, a revocation lifts one to ms − 1, and the new table is probed 3 s and 10 s after apply.",
+        "pt-BR": "A aplicação para se o instantâneo de reversão não puder ser gravado (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336); os pisos só sobem, uma revogação eleva um deles para ms − 1, e a nova tabela é sondada 3 s e 10 s depois da aplicação.",
+        ko: "롤백 스냅샷을 기록할 수 없으면 적용이 멈춥니다(apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336). 하한은 오르기만 하고, 철회는 하한 하나를 ms − 1로 끌어올리며, 새 테이블은 적용 후 3 s와 10 s에 검사합니다.",
+        ar: "يتوقف التطبيق إذا تعذّرت كتابة لقطة التراجع (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336)؛ والحدود الدنيا لا تنخفض أبدًا، ويرفع الإلغاء أحدها إلى ms − 1، ويخضع الجدول الجديد لاختبار عند 3 s و 10 s بعد التطبيق.",
         ru: "Применение останавливается, если снимок для отката не удаётся записать (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336); пороги только растут, отзыв поднимает его до ms − 1, а новая таблица проверяется через 3 с и 10 с после применения.",
         de: "Das Anwenden stoppt, wenn der Rollback-Snapshot nicht geschrieben werden kann (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336); Untergrenzen steigen nur, ein Widerruf hebt eine auf ms − 1, und die neue Tabelle wird 3 s und 10 s nach dem Anwenden geprüft.",
         fr: "L'application s'arrête si l'instantané de rollback ne peut pas être écrit (apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:330-336) ; les planchers ne font que monter, une révocation en remonte un à ms − 1, et le nouveau tableau est sondé 3 s puis 10 s après l'application.",
@@ -538,6 +608,9 @@ const FEATURES: readonly Feature[] = [
     chip: "popopx.channel.enc.v1",
     title: {
       en: "Native service accounts, zero-knowledge channels",
+      "pt-BR": "Contas de serviço nativas, canais de conhecimento zero",
+      ko: "네이티브 서비스 계정, 영지식 채널",
+      ar: "حسابات خدمة أصلية، وقنوات عديمة المعرفة",
       ru: "Встроенные сервис-аккаунты и каналы с нулевым разглашением",
       de: "Natives Dienstekonto und Zero-Knowledge-Kanäle",
       fr: "Comptes de service natifs et canaux à connaissance nulle",
@@ -558,6 +631,9 @@ const FEATURES: readonly Feature[] = [
     },
     hook: {
       en: "The menu has two levels, the card has three styles, and an H5 page opens outside this app's own process.",
+      "pt-BR": "O menu tem dois níveis, o cartão tem três estilos, e uma página H5 abre fora do próprio processo deste app.",
+      ko: "메뉴는 두 단계, 카드는 세 가지 스타일이며, H5 페이지는 이 앱 자체의 프로세스 밖에서 열립니다.",
+      ar: "القائمة من مستويين، والبطاقة بثلاثة أنماط، وصفحة H5 تفتح خارج عملية هذا التطبيق نفسها.",
       ru: "У меню два уровня, у карточки три стиля, а H5-страница открывается за пределами процесса этого приложения.",
       de: "Das Menü hat zwei Ebenen, die Karte drei Stile, und eine H5-Seite öffnet sich außerhalb des Prozesses dieser App.",
       fr: "Le menu a deux niveaux, la carte trois styles, et une page H5 s'ouvre hors du processus de cette application.",
@@ -579,6 +655,9 @@ const FEATURES: readonly Feature[] = [
     facts: [
       {
         en: "The bottom bar owns exactly two levels: maximumMenuItems = 3 with maximumSubItems = 5 (apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67), and a payload that carries a third level drops the whole menu (apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
+        "pt-BR": "A barra inferior tem exatamente dois níveis: maximumMenuItems = 3 com maximumSubItems = 5 (apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67), e um payload que carregue um terceiro nível descarta o menu inteiro (apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
+        ko: "하단 바는 정확히 두 단계만 가집니다: maximumMenuItems = 3, maximumSubItems = 5(apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67), 그리고 세 번째 단계를 담은 페이로드는 메뉴 전체를 버립니다(apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
+        ar: "يملك الشريط السفلي مستويين بالضبط: maximumMenuItems = 3 مع maximumSubItems = 5 (apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67)، وأي حمولة تحمل مستوى ثالثًا تلغي القائمة كلها (apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
         ru: "Нижняя панель владеет ровно двумя уровнями: maximumMenuItems = 3 и maximumSubItems = 5 (apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67), а полезная нагрузка с третьим уровнем отбрасывает всё меню (apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
         de: "Die untere Leiste besitzt genau zwei Ebenen: maximumMenuItems = 3 mit maximumSubItems = 5 (apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67), und eine Nutzlast mit dritter Ebene wirft das ganze Menü raus (apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
         fr: "La barre basse ne possède que deux niveaux : maximumMenuItems = 3 avec maximumSubItems = 5 (apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:65-67), et une charge utile avec un troisième niveau jette tout le menu (apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:137-138).",
@@ -599,6 +678,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "A service card is standard, receipt or security — those three words are the enum — with create and update modes, at most 8 fields and 4 actions, newest winning on updatedAtMs.",
+        "pt-BR": "Um cartão de serviço é standard, receipt ou security (essas três palavras são o enum), com modos de criação e atualização, no máximo 8 campos e 4 ações, e o mais recente prevalece em updatedAtMs.",
+        ko: "서비스 카드는 standard, receipt, security 가운데 하나이며 — 이 세 단어가 열거형입니다 — create와 update 모드를 갖고, 필드는 최대 8개, 액션은 최대 4개이고, updatedAtMs가 더 새로운 쪽이 이깁니다.",
+        ar: "بطاقة الخدمة إما standard أو receipt أو security — وهذه الكلمات الثلاث هي قيم التعداد نفسها — بوضعي الإنشاء والتحديث، وبحد أقصى 8 حقول و4 إجراءات، والأحدث يفوز وفق updatedAtMs.",
         ru: "Карточка сервиса — это standard, receipt или security, эти три слова и есть enum, с режимами create и update, максимум 8 полей и 4 действия, победителей определяет updatedAtMs.",
         de: "Eine Dienstekarte ist standard, receipt oder security — genau diese drei Wörter sind das Enum — mit create- und update-Modus, höchstens 8 Feldern und 4 Aktionen, den Ausschlag gibt updatedAtMs.",
         fr: "Une carte de service est standard, receipt ou security — ces trois mots sont l'enum — avec les modes create et update, au plus 8 champs et 4 actions, la plus récente gagne sur updatedAtMs.",
@@ -619,6 +701,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "Channel traffic is popopx.channel.enc.v1, a ChaCha20-Poly1305 box signed by the channel's Ed25519 identity key, and the next epoch key travels inside an envelope sealed with the key it replaces (apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
+        "pt-BR": "O tráfego do canal é popopx.channel.enc.v1, uma caixa ChaCha20-Poly1305 assinada pela chave de identidade Ed25519 do canal, e a chave da época seguinte viaja dentro de um envelope selado com a chave que ela substitui (apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
+        ko: "채널 트래픽은 popopx.channel.enc.v1이며, 채널의 Ed25519 신원 키로 서명한 ChaCha20-Poly1305 박스이고, 다음 에폭 키는 자기가 대체하는 키로 봉인한 봉투 안에서 이동합니다(apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
+        ar: "حركة القناة هي popopx.channel.enc.v1، صندوق ChaCha20-Poly1305 موقّع بمفتاح هوية القناة Ed25519، ومفتاح الحقبة التالية ينتقل داخل مغلّف مختوم بالمفتاح الذي يحل محله (apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
         ru: "Трафик канала — это popopx.channel.enc.v1, коробка ChaCha20-Poly1305, подписанная идентификационным Ed25519-ключом канала, а следующий ключ эпохи идёт внутри конверта, запечатанного заменяемым им ключом (apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
         de: "Kanalverkehr ist popopx.channel.enc.v1, eine ChaCha20-Poly1305-Box, signiert vom Ed25519-Identitätsschlüssel des Kanals, und der nächste Epoch-Schlüssel reist in einem Umschlag, versiegelt mit dem Schlüssel, den er ersetzt (apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
         fr: "Le trafic de canal est popopx.channel.enc.v1, une boîte ChaCha20-Poly1305 signée par la clé d'identité Ed25519 du canal, et la clé d'epoch suivante voyage dans une enveloppe scellée avec la clé qu'elle remplace (apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,341).",
@@ -645,6 +730,9 @@ const FEATURES: readonly Feature[] = [
     chip: "PanicWipe 6 steps",
     title: {
       en: "Duress protection and emergency wipe",
+      "pt-BR": "Proteção contra coação e apagamento de emergência",
+      ko: "강압 보호와 긴급 와이프",
+      ar: "الحماية من الإكراه ومحو الطوارئ",
       ru: "Защита при принуждении и экстренное стирание",
       de: "Duress-Schutz und Notfalllöschung",
       fr: "Protection sous contrainte et effacement d'urgence",
@@ -665,6 +753,9 @@ const FEATURES: readonly Feature[] = [
     },
     hook: {
       en: "Three taps, a 15-second confirmation and six fixed steps — and the chat database is touched only on an explicit opt-in.",
+      "pt-BR": "Três toques, uma confirmação de 15 segundos e seis etapas fixas — e o banco de dados do chat só é tocado com um consentimento explícito.",
+      ko: "세 번의 탭, 15초 확인, 여섯 개의 고정 단계 — 그리고 채팅 데이터베이스는 명시적으로 선택했을 때만 건드립니다.",
+      ar: "ثلاث نقرات، وتأكيد مدته 15 ثانية، وست خطوات ثابتة — ولا مساس بقاعدة بيانات المحادثة إلا بموافقة صريحة.",
       ru: "Три касания, подтверждение в течение 15 секунд и шесть фиксированных шагов — а база чатов затрагивается только по явному включению.",
       de: "Drei Tipps, eine 15-Sekunden-Bestätigung und sechs feste Schritte – und die Chat-Datenbank wird nur bei ausdrücklicher Opt-in angefasst.",
       fr: "Trois appuis, une confirmation de 15 secondes et six étapes fixes — et la base de chats n'est touchée qu'avec un opt-in explicite.",
@@ -686,6 +777,9 @@ const FEATURES: readonly Feature[] = [
     facts: [
       {
         en: "Arming is exactly three taps inside a 1.0-second window, with a confirmation that stays answerable for 15 s (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368) — no hardware-button combo is involved.",
+        "pt-BR": "O armamento é exatamente três toques dentro de uma janela de 1.0 segundo, com uma confirmação que permanece respondível por 15 s (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368) — nenhuma combinação de botões de hardware está envolvida.",
+        ko: "무장은 1.0초 창 안에서 정확히 세 번 탭하는 것이고, 확인은 15 s 동안 응답할 수 있는 상태로 유지됩니다(apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368) — 하드웨어 버튼 조합은 관여하지 않습니다.",
+        ar: "التسليح ثلاث نقرات بالضبط خلال نافذة 1.0 ثانية، مع تأكيد يبقى قابلًا للإجابة 15 s (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368) — ولا تدخل أي تركيبة من أزرار العتاد في ذلك.",
         ru: "Взведение — это ровно три касания в окне 1,0 секунды с подтверждением, которое остаётся активным 15 с (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368), — аппаратная комбинация кнопок не участвует.",
         de: "Das Scharfschalten sind genau drei Tipps in einem 1,0-Sekunden-Fenster mit einer 15 s beantwortbaren Bestätigung (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368) — eine Hardware-Tastenkombination ist nicht im Spiel.",
         fr: "L'armement est exactement trois appuis dans une fenêtre de 1,0 seconde, avec une confirmation restant répondable 15 s (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:360-368) — aucune combinaison de boutons matériels n'intervient.",
@@ -706,6 +800,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "The order is fixed: stopRadio, clearVolatileState, eraseKeychainMapping, overwriteMeshSandbox, overwriteApplicationDatabase, terminate — and step 5 defaults to off (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
+        "pt-BR": "A ordem é fixa: stopRadio, clearVolatileState, eraseKeychainMapping, overwriteMeshSandbox, overwriteApplicationDatabase, terminate — e a etapa 5 vem desativada por padrão (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
+        ko: "순서는 고정입니다: stopRadio, clearVolatileState, eraseKeychainMapping, overwriteMeshSandbox, overwriteApplicationDatabase, terminate — 그리고 5단계는 기본적으로 꺼져 있습니다(apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
+        ar: "الترتيب ثابت: stopRadio، clearVolatileState، eraseKeychainMapping، overwriteMeshSandbox، overwriteApplicationDatabase، terminate — والخطوة 5 معطّلة افتراضيًا (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
         ru: "Порядок фиксирован: stopRadio, clearVolatileState, eraseKeychainMapping, overwriteMeshSandbox, overwriteApplicationDatabase, terminate — и шаг 5 по умолчанию выключен (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
         de: "Die Reihenfolge ist fest: stopRadio, clearVolatileState, eraseKeychainMapping, overwriteMeshSandbox, overwriteApplicationDatabase, terminate — und Schritt 5 ist standardmäßig aus (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
         fr: "L'ordre est fixe : stopRadio, clearVolatileState, eraseKeychainMapping, overwriteMeshSandbox, overwriteApplicationDatabase, terminate — et l'étape 5 est désactivée par défaut (apps/ios/PopopxMeshKit/Sources/PopopxMeshUI/PanicWipeManager.swift:5-15,100).",
@@ -726,6 +823,9 @@ const FEATURES: readonly Feature[] = [
       },
       {
         en: "Unpacked plaintext is purged on didEnterBackground (apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) and at every wipe step; duress passwords are PBKDF2-HMAC-SHA256 with 100,000 iterations, and Face ID gates the mnemonic, the app lock and the secure window.",
+        "pt-BR": "Texto simples desempacotado é purgado em didEnterBackground (apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) e em cada etapa do apagamento; as senhas de coação são PBKDF2-HMAC-SHA256 com 100,000 iterações, e o Face ID controla o acesso à mnemônica, ao bloqueio do app e à janela segura.",
+        ko: "압축을 푼 평문은 didEnterBackground에서(apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) 그리고 모든 와이프 단계에서 삭제되며, 강압 비밀번호는 100,000회 반복의 PBKDF2-HMAC-SHA256이고, Face ID가 니모닉, 앱 잠금, 보안 창에 대한 접근을 통제합니다.",
+        ar: "يمحى النص العادي المفكوك عند didEnterBackground (apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) وعند كل خطوة من خطوات المحو؛ وكلمات مرور الإكراه هي PBKDF2-HMAC-SHA256 بـ 100,000 دورة، ويحرس Face ID العبارة الاستذكارية وقفل التطبيق والنافذة الآمنة.",
         ru: "Распакованный открытый текст вычищается при didEnterBackground (apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) и на каждом шаге стирания; пароли принуждения — PBKDF2-HMAC-SHA256 со 100 000 итерациями, а Face ID закрывает мнемонику, блокировку приложения и безопасное окно.",
         de: "Ungepackter Klartext wird bei didEnterBackground (apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) und bei jedem Löschungsschritt getilgt; Duress-Passwörter sind PBKDF2-HMAC-SHA256 mit 100.000 Iterationen, und Face ID versperrt Mnemonic, App-Sperre und das sichere Fenster.",
         fr: "Le texte clair dépaqueté est purgé à didEnterBackground (apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:148-169) et à chaque étape d'effacement ; les mots de passe sous contrainte sont en PBKDF2-HMAC-SHA256 avec 100 000 itérations, et Face ID verrouille la mnémonique, le verrouillage de l'app et la fenêtre sécurisée.",
@@ -751,6 +851,9 @@ const FEATURES: readonly Feature[] = [
 /** Label of the link that points at the client repository. */
 const REPO_LINK_LABEL: Localized<string> = {
   en: "Open the client repo",
+  "pt-BR": "Abrir o repositório do cliente",
+  ko: "클라이언트 저장소 열기",
+  ar: "افتح مستودع العميل",
   ru: "Открыть репозиторий клиента",
   de: "Client-Repository öffnen",
   fr: "Ouvrir le dépôt du client",
@@ -773,6 +876,9 @@ const REPO_LINK_LABEL: Localized<string> = {
 /** Closing honesty row: what a visitor is allowed to check for themselves. */
 const NOTE: Localized<string> = {
   en: "Each row above can be checked line by line in the open-source client: same file names, same constants, same numbers. The repo is linked here, and no claim on this page is rounded up.",
+  "pt-BR": "Cada linha acima pode ser conferida linha a linha no cliente de código aberto: mesmos nomes de arquivo, mesmas constantes, mesmos números. O repositório está linkado aqui, e nenhuma afirmação nesta página é arredondada.",
+  ko: "위의 각 행은 오픈 소스 클라이언트에서 줄 단위로 확인할 수 있습니다: 같은 파일 이름, 같은 상수, 같은 숫자입니다. 저장소는 여기에서 연결되어 있으며, 이 페이지의 어떤 주장도 반올림하지 않습니다.",
+  ar: "يمكن فحص كل صف أعلاه سطرًا بسطر في العميل مفتوح المصدر: الأسماء نفسها للملفات، والثوابت نفسها، والأرقام نفسها. والمستودع مرتبط هنا، ولا يوجد في هذه الصفحة أي ادعاء فيه مبالغة.",
   ru: "Каждую строку выше можно сверить построчно в клиенте с открытым исходным кодом: те же имена файлов, те же константы, те же числа. Репозиторий приведён здесь, и ни одно утверждение на этой странице не приукрашено.",
   de: "Jede Zeile oben lässt sich Zeile für Zeile im Open-Source-Client nachprüfen: dieselben Dateinamen, dieselben Konstanten, dieselben Zahlen. Der Repo-Link ist hier, und keine Aussage auf dieser Seite wird hochgerundet.",
   fr: "Chaque ligne ci-dessus se vérifie ligne à ligne dans le client open source : mêmes noms de fichiers, mêmes constantes, mêmes nombres. Le dépôt est lié ici, et aucune affirmation de cette page n'est enjolivée.",
@@ -795,6 +901,9 @@ const NOTE: Localized<string> = {
 /** Compact variant: entry to /security with full source ledger. */
 const SECURITY_ENTRY_COPY: Localized<string> = {
   en: "View full security model & source ledger",
+  "pt-BR": "Ver o modelo de segurança completo e o registro de fatos das fontes",
+  ko: "전체 보안 모델과 소스 대장 보기",
+  ar: "اطّلع على نموذج الأمان الكامل وسجل المصادر",
   ru: "Просмотреть полную модель безопасности и реестр исходного кода",
   de: "Vollständiges Sicherheitsmodell und Quellcode-Register anzeigen",
   fr: "Voir le modèle de sécurité complet et le registre source",
@@ -822,7 +931,7 @@ function FactRow({ text, tone }: { text: Localized<string>; tone: "brand" | "mes
       <span className="mt-[7px] shrink-0">
         <StatusDot tone={tone} />
       </span>
-      <span className="min-w-0 break-words">{value}</span>
+      <span className="min-w-0 break-words"><LtrText text={value} /></span>
     </li>
   );
 }
@@ -845,11 +954,11 @@ function FeatureCard({ feature, compact = false }: { feature: Feature; compact?:
             {feature.index}
           </span>
           <h3 className="text-[15.5px] font-semibold leading-snug text-white sm:text-[17px]">
-            {title}
+            <LtrText text={title} />
           </h3>
         </header>
 
-        <p className="text-[13px] leading-relaxed text-mute">{hook}</p>
+        <p className="text-[13px] leading-relaxed text-mute"><LtrText text={hook} /></p>
 
         {!compact && (
           <ul className="flex flex-col gap-2 text-[12px] leading-relaxed text-faint">
@@ -860,7 +969,7 @@ function FeatureCard({ feature, compact = false }: { feature: Feature; compact?:
         )}
 
         <footer className="hairline-top mt-auto flex items-center gap-2 pt-3">
-          <code className="chip font-mono text-[10.5px] text-[#d7d7ea]">{feature.chip}</code>
+          <code dir="ltr" className="chip font-mono text-[10.5px] text-[#d7d7ea]">{feature.chip}</code>
         </footer>
       </article>
     </li>
@@ -908,7 +1017,7 @@ export function FeaturesGrid({ variant = "full" }: { variant?: "compact" | "full
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="ml-1.5 h-3.5 w-3.5"
+                className="ms-1.5 h-3.5 w-3.5 rtl:-scale-x-100"
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -920,7 +1029,7 @@ export function FeaturesGrid({ variant = "full" }: { variant?: "compact" | "full
               <span className="mt-[6px] shrink-0">
                 <StatusDot tone="mesh" pulse />
               </span>
-              <span>{note}</span>
+              <span><LtrText text={note} /></span>
             </p>
             <p className="flex shrink-0 items-center gap-2">
               <a

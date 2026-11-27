@@ -15,9 +15,9 @@ import { pageMetadata } from "@/lib/seo";
  */
 export const metadata: Metadata = pageMetadata({
   path: "/download/",
-  title: "下载 · 商店现状与 18 种界面语言",
+  title: "下载 · 商店现状与 21 种界面语言",
   description:
-    "POPOPX iOS 客户端目前还没有可用的商店链接，商店记录查询返回 resultCount: 0；本页说明现状，并给出客户端自带的 18 种本地化与站内二维码。",
+    "POPOPX iOS 客户端目前还没有可用的商店链接，商店记录查询返回 resultCount: 0；本页说明现状，并给出客户端自带的 18 种本地化、门户新增的 3 种界面语言与站内二维码。",
 });
 
 export default function DownloadPage(): ReactElement {

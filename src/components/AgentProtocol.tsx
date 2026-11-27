@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading, StatusDot } from "@/components/ui";
 
 /**
@@ -14,6 +15,9 @@ import { SectionHeading, StatusDot } from "@/components/ui";
 const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   eyebrow: {
     en: "Agent protocol status",
+    "pt-BR": "Status do protocolo de agente",
+    ko: "에이전트 프로토콜 현황",
+    ar: "حالة بروتوكول الوكيل",
     ru: "Статус протокола агента",
     de: "Agent-Protokollstatus",
     fr: "Statut du protocole d'agent",
@@ -34,6 +38,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   title: {
     en: "SMP Agent Protocol & planning direction",
+    "pt-BR": "SMP Agent Protocol e direção de planejamento",
+    ko: "SMP Agent Protocol과 계획 방향",
+    ar: "SMP Agent Protocol واتجاه التخطيط",
     ru: "Протокол SMP Agent и направление планирования",
     de: "SMP-Agent-Protokoll & Planungsrichtung",
     fr: "Protocole SMP Agent & direction de planification",
@@ -54,6 +61,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   subtitle: {
     en: "The SMP Agent Protocol defines tool invocation and task flow. PAP (POPOPX Agent Protocol) is a planning direction with zero current implementations.",
+    "pt-BR": "O SMP Agent Protocol define a invocação de ferramentas e o fluxo de tarefas. O PAP (POPOPX Agent Protocol) é uma direção de planejamento com zero implementações atuais.",
+    ko: "SMP Agent Protocol은 도구 호출과 작업 흐름을 정의합니다. PAP(POPOPX Agent Protocol)는 현재 구현이 전무한 계획 방향입니다.",
+    ar: "يحدد SMP Agent Protocol استدعاء الأدوات ومسار المهام. أما PAP (POPOPX Agent Protocol) فهو اتجاه تخطيطي ليس له أي تنفيذ حالي.",
     ru: "Протокол SMP Agent определяет вызов инструментов и поток задач. PAP (POPOPX Agent Protocol) — это направление планирования без текущих реализаций.",
     de: "Das SMP-Agent-Protokoll definiert den Werkzeugaufruf und den Aufgabenfluss. PAP (POPOPX Agent Protocol) ist eine Planungsrichtung ohne aktuelle Implementierungen.",
     fr: "Le protocole SMP Agent définit l'invocation des outils et le flux des tâches. PAP (POPOPX Agent Protocol) est une direction de planification sans implémentations actuelles.",
@@ -76,6 +86,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
 
 const PROTOCOL_STATUS: Localized<string> = {
   en: "SMP Agent Protocol: defined and in use for tool invocation and task orchestration across bot surfaces.",
+  "pt-BR": "SMP Agent Protocol: definido e em uso para invocação de ferramentas e orquestração de tarefas nas superfícies de bot.",
+  ko: "SMP Agent Protocol: 정의되어 있으며 봇 표면 전반에서 도구 호출과 작업 오케스트레이션에 사용됩니다.",
+  ar: "SMP Agent Protocol: محدد وقيد الاستخدام لاستدعاء الأدوات وتنسيق المهام عبر واجهات البوت.",
   ru: "Протокол SMP Agent: определен и используется для вызова инструментов и оркестрации задач на поверхностях ботов.",
   de: "SMP-Agent-Protokoll: definiert und in Verwendung für Werkzeugaufrufe und Aufgaben-Orchestrierung auf Bot-Oberflächen.",
   fr: "Protocole SMP Agent : défini et utilisé pour l'invocation d'outils et l'orchestration de tâches sur les surfaces de bots.",
@@ -97,6 +110,9 @@ const PROTOCOL_STATUS: Localized<string> = {
 
 const PAP_STATUS: Localized<string> = {
   en: "PAP (POPOPX Agent Protocol): planning direction only. Zero occurrences in the current codebase. Not yet implemented.",
+  "pt-BR": "PAP (POPOPX Agent Protocol): apenas direção de planejamento. Zero ocorrências na base de código atual. Ainda não implementado.",
+  ko: "PAP(POPOPX Agent Protocol): 계획 방향일 뿐입니다. 현재 코드베이스에서 등장 횟수는 0입니다. 아직 구현되지 않았습니다.",
+  ar: "PAP (POPOPX Agent Protocol): اتجاه تخطيطي فقط. لا ظهور له في الشيفرة الحالية. لم يتم تنفيذه بعد.",
   ru: "PAP (POPOPX Agent Protocol): только направление планирования. Ноль вхождений в текущей кодовой базе. Еще не реализовано.",
   de: "PAP (POPOPX Agent Protocol): nur Planungsrichtung. Null Vorkommen in der aktuellen Codebasis. Noch nicht implementiert.",
   fr: "PAP (POPOPX Agent Protocol) : direction de planification uniquement. Zéro occurrence dans la base de code actuelle. Pas encore implémenté.",
@@ -118,6 +134,9 @@ const PAP_STATUS: Localized<string> = {
 
 const NOTE: Localized<string> = {
   en: "Protocol names and abbreviations are quoted verbatim from the codebase. PAP appears in documentation and planning materials only, not in shipped source.",
+  "pt-BR": "Os nomes e as abreviações de protocolo são citados literalmente da base de código. O PAP aparece apenas em documentação e materiais de planejamento, não no código entregue.",
+  ko: "프로토콜 이름과 약어는 코드베이스에서 그대로 인용했습니다. PAP는 문서와 기획 자료에만 등장하며, 출시된 소스에는 없습니다.",
+  ar: "أسماء البروتوكولات واختصاراتها منقولة كما هي من الشيفرة. ولا يظهر PAP إلا في الوثائق ومواد التخطيط، لا في الشيفرة المشحونة.",
   ru: "Имена протоколов и аббревиатуры цитируются дословно из кодовой базы. PAP встречается только в документации и планировочных материалах, а не в выпущенном исходном коде.",
   de: "Protokollnamen und Abkürzungen werden wörtlich aus der Codebasis zitiert. PAP erscheint nur in Dokumentation und Planungsmaterialien, nicht im ausgelieferten Quellcode.",
   fr: "Les noms de protocole et les abréviations sont cités textuellement à partir de la base de code. PAP apparaît uniquement dans la documentation et les matériaux de planification, pas dans le source livré.",
@@ -152,17 +171,25 @@ export function AgentProtocol(): ReactElement {
           <article className="glass glass-hover flex flex-col gap-4 p-6">
             <header className="flex items-center gap-3">
               <StatusDot tone="brand" />
-              <h3 className="text-[17px] font-semibold text-white">SMP Agent Protocol</h3>
+              <h3 dir="ltr" className="text-start text-[17px] font-semibold text-white">
+                SMP Agent Protocol
+              </h3>
             </header>
-            <p className="text-[13.5px] leading-relaxed text-mute">{protocolStatus}</p>
+            <p className="text-[13.5px] leading-relaxed text-mute">
+              <LtrText text={protocolStatus} />
+            </p>
           </article>
 
           <article className="glass glass-hover flex flex-col gap-4 p-6">
             <header className="flex items-center gap-3">
               <StatusDot tone="mesh" />
-              <h3 className="text-[17px] font-semibold text-white">PAP (POPOPX Agent Protocol)</h3>
+              <h3 dir="ltr" className="text-start text-[17px] font-semibold text-white">
+                PAP (POPOPX Agent Protocol)
+              </h3>
             </header>
-            <p className="text-[13.5px] leading-relaxed text-mute">{papStatus}</p>
+            <p className="text-[13.5px] leading-relaxed text-mute">
+              <LtrText text={papStatus} />
+            </p>
           </article>
         </div>
 
@@ -170,7 +197,9 @@ export function AgentProtocol(): ReactElement {
           <span className="mt-[6px] shrink-0">
             <StatusDot tone="mesh" />
           </span>
-          <p className="text-[12.5px] leading-relaxed text-faint">{note}</p>
+          <p className="text-[12.5px] leading-relaxed text-faint">
+            <LtrText text={note} />
+          </p>
         </div>
       </div>
     </section>

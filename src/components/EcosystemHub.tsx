@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { LtrText } from "@/components/Ltr";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { BOT_STUDIO_HOST, BOT_STUDIO_REPO_URL, BOT_STUDIO_URL, IOS_REPO_URL, MP_PORTAL_URL, NODE_PORTAL_URL, NODE_REPO_URL, SITE_HOST, SUITE_REPO_URL } from "@/lib/site";
 import { SectionHeading, StatusDot } from "@/components/ui";
@@ -41,6 +42,9 @@ type Portal = {
 
 const EYEBROW: Localized<string> = {
   en: "Four-in-one ecosystem",
+  "pt-BR": "Ecossistema de quatro em um",
+  ko: "네 개가 하나인 생태계",
+  ar: "منظومة من أربعة في واحد",
   ru: "Экосистема из четырёх частей",
   de: "Ökosystem aus vier Teilen",
   fr: "Écosystème en quatre parties",
@@ -62,6 +66,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "One POPOPX, four official hosts",
+  "pt-BR": "Um POPOPX, quatro hosts oficiais",
+  ko: "하나의 POPOPX, 네 개의 공식 호스트",
+  ar: "POPOPX واحد، وأربعة مضيفين رسميين",
   ru: "Один POPOPX — четыре официальных сайта",
   de: "Ein POPOPX, vier offizielle Hosts",
   fr: "Un POPOPX, quatre hôtes officiels",
@@ -83,6 +90,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "The client in your pocket, the compute on your Mac, the service-account suite on a server you run yourself, the bot workbench on a host of its own: four independent static portals that link to one another and load nothing from each other.",
+  "pt-BR": "O cliente no seu bolso, o processamento no seu Mac, o conjunto de conta de serviço em um servidor que você mesmo opera, a bancada de bots em um host próprio: quatro portais estáticos independentes que apontam uns para os outros e não carregam nada uns dos outros.",
+  ko: "주머니 속 클라이언트, Mac 위의 연산, 직접 운영하는 서버 위의 서비스 계정 제품군, 자체 호스트 위의 봇 워크벤치: 서로 연결되지만 서로에게서 아무것도 불러오지 않는 네 개의 독립적인 정적 포털입니다.",
+  ar: "العميل في جيبك، والحوسبة على Mac، وحزمة حساب الخدمة على خادم تشغله بنفسك، وورشة البوتات على مضيف خاص بها: أربع بوابات ثابتة مستقلة تترابط ولا تحمل شيئًا بعضها من بعض.",
   ru: "Клиент в кармане, вычисления на Mac, набор сервисных аккаунтов на сервере, который вы держите сами, и мастерская ботов на отдельном хосте: четыре независимых статичных портала, связанных ссылками и ничего друг у друга не загружающих.",
   de: "Der Client in der Tasche, die Rechenleistung auf dem Mac, die Dienstkonten-Suite auf dem eigenen Server, die Bot-Werkstatt auf einem eigenen Host: vier unabhängige statische Portale, die einander verlinken und nichts voneinander laden.",
   fr: "Le client dans la poche, le calcul sur le Mac, la suite de comptes de service sur un serveur qui vous appartient, l’atelier de robots sur un hôte qui est le sien : quatre portails statiques indépendants qui se lient entre eux et ne chargent rien les uns des autres.",
@@ -104,6 +114,9 @@ const LEAD: Localized<string> = {
 
 const LINK_SOURCE: Localized<string> = {
   en: "GitHub repository",
+  "pt-BR": "Repositório GitHub",
+  ko: "GitHub 저장소",
+  ar: "مستودع GitHub",
   ru: "Репозиторий на GitHub",
   de: "GitHub-Repository",
   fr: "Dépôt GitHub",
@@ -125,11 +138,14 @@ const LINK_SOURCE: Localized<string> = {
 
 /**
  * The four role lines, lifted out of `PORTALS` so the homepage panorama prints the
- * exact same words instead of re-authoring them in 18 languages. Same maps, so a
+ * exact same words instead of re-authoring them in 21 languages. Same maps, so a
  * card on `/ecosystem/` and a node in `/` cannot drift apart.
  */
 export const ROLE_CLIENT: Localized<string> = {
   en: "Flagship client",
+  "pt-BR": "Cliente principal",
+  ko: "주력 클라이언트",
+  ar: "العميل الرئيسي",
   ru: "Флагманский клиент",
   de: "Flaggschiff-Client",
   fr: "Client phare",
@@ -151,6 +167,9 @@ export const ROLE_CLIENT: Localized<string> = {
 
 export const ROLE_NODE: Localized<string> = {
   en: "On-device intelligence engine",
+  "pt-BR": "Motor de inteligência no dispositivo",
+  ko: "온디바이스 인텔리전스 엔진",
+  ar: "محرك ذكاء على الجهاز",
   ru: "Интеллектуальный движок на устройстве",
   de: "Gerätseitige Intelligenz-Engine",
   fr: "Moteur d’intelligence embarqué",
@@ -172,6 +191,9 @@ export const ROLE_NODE: Localized<string> = {
 
 export const ROLE_SUITE: Localized<string> = {
   en: "Service accounts and zero-knowledge channels",
+  "pt-BR": "Contas de serviço e canais de conhecimento zero",
+  ko: "서비스 계정과 영지식 채널",
+  ar: "حسابات الخدمة والقنوات عديمة المعرفة",
   ru: "Сервисные аккаунты и каналы с нулевым знанием",
   de: "Dienstkonten und Zero-Knowledge-Kanäle",
   fr: "Comptes de service et canaux zero-knowledge",
@@ -193,6 +215,9 @@ export const ROLE_SUITE: Localized<string> = {
 
 export const ROLE_STUDIO: Localized<string> = {
   en: "Self-hosted bot workbench",
+  "pt-BR": "Bancada de bots auto-hospedada",
+  ko: "자체 호스팅 봇 워크벤치",
+  ar: "ورشة بوتات تستضيفها بنفسك",
   ru: "Мастерская ботов на собственном сервере",
   de: "Bot-Werkstatt auf dem eigenen Server",
   fr: "Atelier de robots auto-hébergé",
@@ -224,6 +249,9 @@ const PORTALS: Portal[] = [
     role: ROLE_CLIENT,
     desc: {
       en: "Five tabs — Messages, Contacts, Cabin, Discover, Me — shipped in 18 localizations, with no phone number, no e-mail and no global user ID. Every technical sentence on this portal is traceable to the shipping Swift source.",
+      "pt-BR": "Cinco abas — Mensagens, Contatos, Cabine, Descobrir, Eu — entregues em 18 localizações, sem número de telefone, sem e-mail e sem ID de usuário global. Cada frase técnica deste portal é rastreável até o código Swift entregue.",
+      ko: "다섯 개의 탭 — 메시지, 연락처, 캐빈, 발견, 나 — 이 18개 현지화로 출시되었으며, 전화번호도 이메일도 전역 사용자 ID도 없습니다. 이 포털의 모든 기술적 문장은 출시된 Swift 소스로 추적할 수 있습니다.",
+      ar: "خمسة تبويبات — الرسائل وجهات الاتصال والمقصورة واكتشاف وأنا — مشحونة بـ18 لغة توطين، بلا رقم هاتف ولا بريد إلكتروني ولا ID مستخدم عالمي. وكل جملة تقنية على هذه البوابة قابلة للتتبع إلى شيفرة Swift المشحونة.",
       ru: "Пять разделов навигации и 18 локализаций; без номера телефона, без почты и без глобального ID пользователя. Всё, что портал утверждает о клиенте, проверяется по исходному Swift-коду.",
       de: "Fünf Bereiche in 18 Lokalisierungen – ohne Telefonnummer, ohne E-Mail, ohne globale Benutzer-ID. Jeder technische Satz auf diesem Portal lässt sich im ausgelieferten Swift-Quellcode nachlesen.",
       fr: "Cinq onglets en 18 localizations — sans numéro de téléphone, sans courriel, sans identifiant global. Chaque phrase technique de ce portail se vérifie dans le source Swift livré.",
@@ -244,6 +272,9 @@ const PORTALS: Portal[] = [
     },
     lives: {
       en: "On this host: the feature grid, the security architecture and the comparison table — three anchors of one page.",
+      "pt-BR": "Neste host: a grade de recursos, a arquitetura de segurança e a tabela de comparação — três âncoras de uma mesma página.",
+      ko: "이 호스트에는 기능 그리드, 보안 아키텍처, 비교 표가 있습니다. 한 페이지의 세 가지 앵커입니다.",
+      ar: "على هذا المضيف: شبكة الميزات، ومعمارية الأمان، وجدول المقارنة — ثلاث نقاط ارتساء في صفحة واحدة.",
       ru: "Здесь: матрица функций, архитектура безопасности и сравнительная таблица — три якоря одной страницы.",
       de: "Hier: Feature-Matrix, Sicherheitsarchitektur und Vergleichstabelle — drei Anker derselben Seite.",
       fr: "Sur ce site : la matrice de fonctionnalités, l’architecture de sécurité et le tableau comparatif — trois ancres d’une seule page.",
@@ -274,6 +305,9 @@ const PORTALS: Portal[] = [
     role: ROLE_NODE,
     desc: {
       en: "The macOS companion that runs the local compute behind the ten Discover engines of the iOS client. Its three tier rules and its memory ladder come from the shipping app, not from a slide.",
+      "pt-BR": "O companheiro macOS que executa o processamento local por trás dos dez motores do Descobrir do cliente iOS. Suas três regras de camada e sua escada de memória vêm do app entregue, não de um slide.",
+      ko: "iOS 클라이언트의 발견 엔진 열 개 뒤에서 로컬 연산을 실행하는 macOS 동반 앱입니다. 세 가지 티어 규칙과 메모리 사다리는 슬라이드가 아니라 출시된 앱에서 나온 것입니다.",
+      ar: "الرفيق على macOS الذي يشغل الحوسبة المحلية خلف المحركات العشرة في تبويب اكتشاف لدى عميل iOS. وقواعد الطبقات الثلاث وسلّم الذاكرة فيه مأخوذة من التطبيق المشحون، لا من عرض تقديمي.",
       ru: "Спутник для macOS: локальные вычисления десяти движков Discover идут отсюда. Правила трёх уровней и шкала памяти взяты из самого приложения, а не из презентации.",
       de: "Der macOS-Begleiter, auf dem die lokale Rechenleistung hinter den zehn Discover-Engines des iOS-Clients läuft. Die drei Stufenregeln und die Speichertreppe stammen aus der ausgelieferten App, nicht aus einer Folie.",
       fr: "Le compagnon macOS qui exécute le calcul local des dix moteurs Discover du client iOS. Ses règles à trois niveaux et son échelle mémoire viennent de l’application livrée, pas d’un diaporama.",
@@ -294,6 +328,9 @@ const PORTALS: Portal[] = [
     },
     lives: {
       en: "There: the ten engines with their shelves and prices, the memory ladder for Apple Silicon and the release asset with its digest.",
+      "pt-BR": "Lá: os dez motores com suas prateleiras e preços, a escada de memória para Apple Silicon e o artefato de release com seu resumo (digest).",
+      ko: "그쪽에는 각자의 진열대와 가격을 가진 열 개의 엔진, Apple Silicon용 메모리 사다리, 다이제스트가 붙은 릴리스 자산이 있습니다.",
+      ar: "هناك: المحركات العشرة مع أرففها وأسعارها، وسلّم الذاكرة لـApple Silicon، وأصل الإصدار مع ملخصه.",
       ru: "Там: десять движков с их уровнями и ценами, шкала памяти Apple Silicon и релизный файл с контрольной суммой.",
       de: "Dort: die zehn Engines mit ihren Regalen und Preisen, die Speichertreppe für Apple Silicon und das Release-Artefakt mit seinem Digest.",
       fr: "Là-bas : les dix moteurs avec leurs rayons et leurs prix, l’échelle mémoire pour Apple Silicon et le fichier de publication avec son empreinte.",
@@ -324,6 +361,9 @@ const PORTALS: Portal[] = [
     role: ROLE_SUITE,
     desc: {
       en: "The backend behind service accounts and zero-knowledge channels: gateway, billing, channel envelope encryption, 129 HTTP interfaces, nine ready-made plugins and the admin console in the browser.",
+      "pt-BR": "O backend por trás das contas de serviço e dos canais de conhecimento zero: gateway, faturamento, criptografia do envelope do canal, 129 interfaces HTTP, nove plugins prontos e o console administrativo no navegador.",
+      ko: "서비스 계정과 영지식 채널 뒤의 백엔드입니다. 게이트웨이, 과금, 채널 봉투 암호화, 129개의 HTTP 인터페이스, 아홉 개의 기성 플러그인, 브라우저의 관리 콘솔이 있습니다.",
+      ar: "الواجهة الخلفية لحسابات الخدمة والقنوات عديمة المعرفة: بوابة، وفوترة، وتشفير مظروف القناة، و129 واجهة HTTP، وتسع إضافات جاهزة، ووحدة تحكم إدارية في المتصفح.",
       ru: "Бэкенд сервисных аккаунтов и каналов с нулевым знанием: шлюз, биллинг, шифрование конвертов каналов, 129 HTTP-интерфейсов, девять готовых плагинов и консоль администратора в браузере.",
       de: "Das Backend hinter Dienstkonten und Zero-Knowledge-Kanälen: Gateway, Abrechnung, Umschlagverschlüsselung der Kanäle, 129 HTTP-Schnittstellen, neun fertige Plugins und die Admin-Konsole im Browser.",
       fr: "Le back-end des comptes de service et des canaux zero-knowledge : passerelle, facturation, chiffrement des enveloppes de canal, 129 interfaces HTTP, neuf extensions prêtes et console d’administration dans le navigateur.",
@@ -344,6 +384,9 @@ const PORTALS: Portal[] = [
     },
     lives: {
       en: "There: three installation paths, the operator walkthrough of the admin console and the channel envelope quick reference.",
+      "pt-BR": "Lá: três caminhos de instalação, o passo a passo do operador no console administrativo e a referência rápida do envelope do canal.",
+      ko: "그쪽에는 세 가지 설치 경로, 관리 콘솔 운영자 안내, 채널 봉투 빠른 참조가 있습니다.",
+      ar: "هناك: ثلاثة مسارات تثبيت، وشرح إجرائي للمشغل عن وحدة التحكم الإدارية، ومرجع سريع لمظروف القناة.",
       ru: "Там: три пути установки, обзор консоли администратора для оператора и краткая справка по конверту канала.",
       de: "Dort: drei Installationswege, der Rundgang durch die Admin-Konsole und die Kurzübersicht zum Kanalumschlag.",
       fr: "Là-bas : trois chemins d’installation, la visite guidée de la console d’administration et l’aide-mémoire de l’enveloppe de canal.",
@@ -374,6 +417,9 @@ const PORTALS: Portal[] = [
     role: ROLE_STUDIO,
     desc: {
       en: "A workbench for the bots you run on your own server. Measured 2026-11-24, bot.popopx.chat is a site of its own: plain HTTP redirects to HTTPS, port 443 answers HTTP/2 200 under a certificate issued for that name, and the page loads nothing but its own files — so this card links the portal itself.",
+      "pt-BR": "Uma bancada para os bots que você roda no seu próprio servidor. Medido em 2026-11-24, bot.popopx.chat é um site próprio: HTTP simples redireciona para HTTPS, a porta 443 responde HTTP/2 200 sob um certificado emitido para esse nome, e a página não carrega nada além dos próprios arquivos — por isso este cartão aponta para o próprio portal.",
+      ko: "자체 서버에서 실행하는 봇을 위한 워크벤치입니다. 2026-11-24에 측정한 결과 bot.popopx.chat은 독자적인 사이트입니다. 일반 HTTP는 HTTPS로 리디렉션되고, 443 포트는 해당 이름으로 발급된 인증서 아래에서 HTTP/2 200으로 응답하며, 페이지는 자체 파일 외에는 아무것도 불러오지 않습니다. 그래서 이 카드는 포털 자체를 연결합니다.",
+      ar: "ورشة عمل للبوتات التي تشغلها على خادمك. قيس في 2026-11-24 أن bot.popopx.chat موقع مستقل: HTTP العادي يعيد التوجيه إلى HTTPS، والمنفذ 443 يجيب HTTP/2 200 بشهادة صادرة لذلك الاسم، والصفحة لا تحمل إلا ملفاتها — لذا تربط هذه البطاقة البوابة نفسها.",
       ru: "Верстак для ботов на вашей собственной машине. По замеру 2026-11-24 bot.popopx.chat — самостоятельный сайт: обычный HTTP перенаправляет на HTTPS, на порту 443 сервер отвечает HTTP/2 с кодом 200 под сертификатом, выпущенным именно на это имя, и страница грузит только собственные файлы; поэтому карточка ведёт на сам портал.",
       de: "Eine Werkbank für Bots, die auf dem eigenen Rechner laufen. Stand 2026-11-24 ist bot.popopx.chat eine eigene Site: einfaches HTTP leitet auf HTTPS um, Port 443 antwortet mit HTTP/2 und Code 200 unter einem auf genau diesen Namen ausgestellten Zertifikat, und die Seite lädt nichts als ihre eigenen Dateien — deshalb verlinkt diese Karte das Portal selbst.",
       fr: "Un atelier pour des robots que vous faites tourner sur votre propre machine. Mesuré le 2026-11-24, bot.popopx.chat est un site à part entière : le HTTP simple redirige vers HTTPS, le port 443 répond HTTP/2 avec le code 200 sous un certificat émis pour ce nom, et la page ne charge que ses propres fichiers — aussi cette carte pointe-t-elle vers le portail lui-même.",
@@ -394,6 +440,9 @@ const PORTALS: Portal[] = [
     },
     lives: {
       en: "Live since 2026-11-24, with the page itself published in a repository of its own. What the product offers is written there and is not restated here: measured on 2026-11-25 the engine repository this card links is open source under AGPL-3.0-only, README and studio and docs included — recipe in ledger §15.",
+      "pt-BR": "Em operação desde 2026-11-24, com a própria página publicada em um repositório próprio. O que o produto oferece está escrito lá e não é repetido aqui: medido em 2026-11-25, o repositório do motor para o qual este cartão aponta é código aberto sob AGPL-3.0-only, incluindo README, studio e docs — receita no registro de fatos §15.",
+      ko: "2026-11-24부터 운영 중이며, 페이지 자체는 별도 저장소에 공개되어 있습니다. 제품이 무엇을 제공하는지는 그쪽에 적혀 있어 여기서 다시 쓰지 않습니다. 2026-11-25에 측정한 결과 이 카드가 연결하는 엔진 저장소는 AGPL-3.0-only로 오픈 소스이며, README와 studio, docs가 포함됩니다. 방법은 사실 대장 §15에 있습니다.",
+      ar: "مشحون منذ 2026-11-24، والصفحة نفسها منشورة في مستودع خاص بها. وما يقدمه المنتج مكتوب هناك ولا يعاد هنا: قيس في 2026-11-25 أن مستودع المحرك الذي تربطه هذه البطاقة مفتوح المصدر بترخيص AGPL-3.0-only، بما في ذلك README وstudio وdocs — والوصفة في سجل الحقائق §15.",
       ru: "В сети с 2026-11-24, и сама страница опубликована в отдельном репозитории. Что предлагает продукт — написано там и здесь не пересказывается: по замеру 2026-11-25 репозиторий движка, куда ведёт эта карточка, открыт под AGPL-3.0-only, включая README, studio/ и docs; рецепт — в реестре §15.",
       de: "Online seit 2026-11-24, und die Seite selbst liegt in einem eigenen Repository. Was das Produkt bietet, steht dort und wird hier nicht nachgeschrieben: nach dem Messwert vom 2026-11-25 ist das Repository des Engines, auf das diese Karte verlinkt, Open Source unter AGPL-3.0-only, inklusive README, studio und docs — Rezept im Ledger §15.",
       fr: "En ligne depuis 2026-11-24, et la page elle-même est publiée dans un dépôt à part. Ce que propose le produit s’écrit là et ne se répète pas ici : mesuré le 2026-11-25, le dépôt du moteur que cette carte pointe est open source sous AGPL-3.0-only, README, studio et docs compris — recette dans le registre §15.",
@@ -453,8 +502,8 @@ function Topology(): ReactElement {
             className={`glass-inset flex items-center gap-3 px-4 py-3 ${TONES[portal.tone].ring}`}
           >
             <StatusDot tone={portal.tone} pulse={index === 0} />
-            <span className="min-w-0 font-mono text-[12.5px] text-mute">{portal.host}</span>
-            <span className={`ml-auto shrink-0 font-mono text-[10.5px] ${TONES[portal.tone].text}`}>
+            <span dir="ltr" className="min-w-0 font-mono text-[12.5px] text-mute">{portal.host}</span>
+            <span dir="ltr" className={`ms-auto shrink-0 font-mono text-[10.5px] ${TONES[portal.tone].text}`}>
               {`0${index + 1} / 0${PORTALS.length}`}
             </span>
           </div>
@@ -501,12 +550,13 @@ function PortalCard({ portal, index }: { portal: Portal; index: number }): React
         </div>
         <span className="chip shrink-0 font-mono text-[10.5px] text-faint">{`0${index + 1}`}</span>
       </div>
-      <p className="text-[13.5px] leading-relaxed text-mute">{desc}</p>
-      <p className="hairline-top pt-4 text-[12.5px] leading-relaxed text-faint">{lives}</p>
+      <p className="text-[13.5px] leading-relaxed text-mute"><LtrText text={desc} /></p>
+      <p className="hairline-top pt-4 text-[12.5px] leading-relaxed text-faint"><LtrText text={lives} /></p>
       <div className="mt-auto flex min-w-0 flex-wrap items-center gap-2">
         <a
           href={portal.href}
           {...(portal.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          dir="ltr"
           className={`min-w-0 break-all font-mono text-[13px] underline decoration-hair-strong decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white ${tone.text}`}
         >
           {portal.host}
@@ -523,7 +573,7 @@ function PortalCard({ portal, index }: { portal: Portal; index: number }): React
       </div>
       <ul className="flex flex-wrap gap-1.5">
         {portal.chips.map((chip) => (
-          <li key={chip} className="chip font-mono text-[10.5px] text-faint">
+          <li key={chip} dir="ltr" className="chip font-mono text-[10.5px] text-faint">
             {chip}
           </li>
         ))}

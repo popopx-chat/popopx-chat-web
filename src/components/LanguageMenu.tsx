@@ -21,10 +21,10 @@ import {
 /**
  * The language picker.
  *
- * It lists exactly `LOCALE_COUNT` (18) languages — the same set the POPOPX iOS
+ * It lists exactly `LOCALE_COUNT` (21) languages — the same set the POPOPX iOS
  * client declares in `CFBundleLocalizations` — each labelled in its own script
  * so a visitor never has to read English to find their language. A three-button
- * capsule cannot hold 18 options without overflowing, hence a disclosure menu:
+ * capsule cannot hold 21 options without overflowing, hence a disclosure menu:
  *
  *  - `aria-haspopup="true"` + `aria-expanded` on the trigger;
  *  - Escape and any outside pointer press close it;
@@ -36,6 +36,9 @@ import {
 const MENU_COPY: Record<"languages" | "current" | "choose", Localized<string>> = {
   languages: {
     en: "Languages",
+    "pt-BR": "Idiomas",
+    ko: "언어",
+    ar: "اللغات",
     ru: "Языки",
     de: "Sprachen",
     fr: "Langues",
@@ -56,6 +59,9 @@ const MENU_COPY: Record<"languages" | "current" | "choose", Localized<string>> =
   },
   current: {
     en: "Current language",
+    "pt-BR": "Idioma atual",
+    ko: "현재 언어",
+    ar: "اللغة الحالية",
     ru: "Текущий язык",
     de: "Aktuelle Sprache",
     fr: "Langue actuelle",
@@ -76,6 +82,9 @@ const MENU_COPY: Record<"languages" | "current" | "choose", Localized<string>> =
   },
   choose: {
     en: "Switch interface language",
+    "pt-BR": "Mudar o idioma da interface",
+    ko: "인터페이스 언어 변경",
+    ar: "تبديل لغة الواجهة",
     ru: "Изменить язык интерфейса",
     de: "Oberflächensprache wechseln",
     fr: "Changer la langue de l’interface",
@@ -137,9 +146,9 @@ function CheckMark(): ReactElement {
 }
 
 export function LanguageMenu({
-  align = "right",
+  align = "end",
 }: {
-  align?: "left" | "right";
+  align?: "start" | "end";
 }): ReactElement {
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useState(false);
@@ -208,7 +217,7 @@ export function LanguageMenu({
             mid-word or push the bar past a 320px screen. The list below still
             spells every language in its own script. */}
         <span className="hidden truncate sm:inline">{LOCALE_NATIVE[locale]}</span>
-        <span className="rounded-full border border-hair px-1.5 py-0.5 text-[10px] leading-none text-faint">
+        <span dir="ltr" className="rounded-full border border-hair px-1.5 py-0.5 text-[10px] leading-none text-faint">
           {LOCALE_SHORT[locale]} · {LOCALE_COUNT}
         </span>
         <svg
@@ -231,11 +240,11 @@ export function LanguageMenu({
           role="group"
           aria-label={groupLabel}
           className={`glass animate-rise-in absolute z-50 mt-2 w-[min(92vw,420px)] p-2 ${
-            align === "right" ? "right-0" : "left-0"
+            align === "end" ? "end-0" : "start-0"
           }`}
         >
           <p className="eyebrow px-2 pb-1 pt-1.5">
-            {groupLabel} · {LOCALE_COUNT}
+            {groupLabel} · <span dir="ltr">{LOCALE_COUNT}</span>
           </p>
           <div
             ref={listRef}
@@ -251,7 +260,7 @@ export function LanguageMenu({
                   onClick={() => choose(code)}
                   aria-pressed={active}
                   aria-label={`${LOCALE_NATIVE[code]}${active ? ` · ${currentLabel}` : ""}`}
-                  className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-2 text-left text-[12.5px] leading-tight transition-colors duration-150 ${FOCUS} ${
+                  className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-2 text-start text-[12.5px] leading-tight transition-colors duration-150 ${FOCUS} ${
                     active
                       ? "border-brand/60 bg-brand/25 text-white"
                       : "border-transparent bg-white/[0.03] text-mute hover:border-hair-strong hover:text-white"

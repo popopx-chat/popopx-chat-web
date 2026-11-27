@@ -4,6 +4,7 @@ import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { ROUTE_LABELS } from "@/components/Navbar";
 import { H_LEGAL, H_PRIVACY, LEGAL_NOTES, PROMISES } from "@/components/Footer";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading } from "@/components/ui";
 import {
   AGENT_PROTOCOL_URL,
@@ -31,13 +32,16 @@ import {
  * `popopxmq/protocol/` — and the recipe is in `docs/FACTS.md` §15 and §20.
  *
  * Link text is a file name, so it is deliberately locale-free, like every other
- * protocol token on the portal; the prose around it is the 18-language copy that
+ * protocol token on the portal; the prose around it is the 21-language copy that
  * the footer already carries (`H_PRIVACY`, `H_LEGAL`, `PROMISES`, `LEGAL_NOTES`),
  * imported rather than translated twice.
  */
 
 const TITLE: Localized<string> = {
   en: "The documents, licences and protocol files that exist today",
+  "pt-BR": "Os documentos, licenças e arquivos de protocolo que existem hoje",
+  ko: "현재 존재하는 문서, 라이선스, 프로토콜 파일",
+  ar: "المستندات والتراخيص وملفات البروتوكول الموجودة اليوم",
   ru: "Документы, лицензии и файлы протокола, которые есть уже сегодня",
   de: "Die Dokumente, Lizenzen und Protokolldateien, die es heute schon gibt",
   fr: "Les documents, licences et fichiers de protocole qui existent aujourd'hui",
@@ -59,6 +63,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "Each row opens a file in its own repository — nothing is summarised here and nothing is announced. The page links only paths that were checked to exist on 2026-11-25.",
+  "pt-BR": "Cada linha abre um arquivo no próprio repositório — nada é resumido aqui e nada é anunciado. A página linka apenas caminhos cuja existência foi verificada em 2026-11-25.",
+  ko: "각 행은 해당 저장소의 파일을 엽니다 — 여기서 요약하는 것도, 예고하는 것도 없습니다. 이 페이지는 2026-11-25에 존재를 확인한 경로만 연결합니다.",
+  ar: "كل صف يفتح ملفًا في مستودعه — لا شيء مختصر هنا ولا شيء معلن. والصفحة ترتبط فقط بمسارات تحقّقنا من وجودها في 2026-11-25.",
   ru: "Каждая строка открывает файл в его собственном репозитории — здесь нет ни пересказа, ни анонсов. Ссылаемся только на пути, проверенные 2026-11-25.",
   de: "Jede Zeile öffnet eine Datei in ihrem eigenen Repository — hier wird nichts zusammengefasst und nichts angekündigt. Verlinkt sind nur Pfade, die am 2026-11-25 geprüft wurden.",
   fr: "Chaque ligne ouvre un fichier dans son dépôt — rien n'est résumé ni annoncé ici. Seuls les chemins vérifiés le 2026-11-25 sont liés.",
@@ -146,7 +153,9 @@ export function ResourceLibrary(): ReactElement {
         <div className="mt-9 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-3">
           {GROUPS.map((group) => (
             <article key={group.path} className={`glass p-5 sm:p-6 ${PANEL}`}>
-              <p className="break-all font-mono text-[11px] text-faint">{group.path}</p>
+              <p dir="ltr" className="break-all text-start font-mono text-[11px] text-faint">
+                {group.path}
+              </p>
               <ul className="mt-4 flex flex-col gap-2">
                 {group.docs.map((doc) => (
                   <li key={doc.name}>
@@ -154,7 +163,8 @@ export function ResourceLibrary(): ReactElement {
                       href={doc.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={LINK_CLASS}
+                      dir="ltr"
+                      className={`${LINK_CLASS} text-start`}
                     >
                       {doc.name}
                     </a>
@@ -166,7 +176,7 @@ export function ResourceLibrary(): ReactElement {
         </div>
 
         {/* Licence wording and the zero-tracking promises are the footer's own,
-            in all 18 languages, shown here at full length. */}
+            in all 21 languages, shown here at full length. */}
         <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-2">
           <article className="glass p-5 sm:p-6">
             <h2 className="text-[15px] font-semibold text-white">{legal}</h2>
@@ -190,12 +200,14 @@ export function ResourceLibrary(): ReactElement {
   );
 }
 
-/** One 18-language sentence, allowed to wrap inside a narrow column. */
+/** One 21-language sentence, allowed to wrap inside a narrow column. */
 function Bullet({ text }: { text: Localized<string> }): ReactElement {
   const value = useCopy(text);
   return (
     <li className="text-[12.5px] leading-relaxed text-mute">
-      <span className="min-w-0 break-words">{value}</span>
+      <span className="min-w-0 break-words">
+        <LtrText text={value} />
+      </span>
     </li>
   );
 }

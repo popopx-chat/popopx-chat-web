@@ -8,6 +8,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { LtrText } from "@/components/Ltr";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { copyText } from "@/lib/site";
 
@@ -21,6 +22,9 @@ import { copyText } from "@/lib/site";
 
 export const COPY_FEEDBACK: Localized<string> = {
   en: "Copied",
+  "pt-BR": "Copiado",
+  ko: "복사됨",
+  ar: "تم النسخ",
   ru: "Скопировано",
   de: "Kopiert",
   fr: "Copié",
@@ -42,6 +46,9 @@ export const COPY_FEEDBACK: Localized<string> = {
 
 export const COPY_LABEL: Localized<string> = {
   en: "Copy",
+  "pt-BR": "Copiar",
+  ko: "복사",
+  ar: "نسخ",
   ru: "Копировать",
   de: "Kopieren",
   fr: "Copier",
@@ -81,6 +88,9 @@ const EMPTY: Localized<string> = {
   bg: "",
   tr: "",
   hu: "",
+  "pt-BR": "",
+  ko: "",
+  ar: "",
 };
 
 /** Resets the "copied" tick after this many milliseconds. */
@@ -175,9 +185,9 @@ export function SectionHeading({
 
   return (
     <header className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      <p className="eyebrow">{e}</p>
-      {titleAs === "h1" ? <h1 className={className}>{t}</h1> : <h2 className={className}>{t}</h2>}
-      {s.length > 0 ? <p className="mt-3 text-[15px] leading-relaxed text-mute">{s}</p> : null}
+      <p className="eyebrow"><LtrText text={e} /></p>
+      {titleAs === "h1" ? <h1 className={className}><LtrText text={t} /></h1> : <h2 className={className}><LtrText text={t} /></h2>}
+      {s.length > 0 ? <p className="mt-3 text-[15px] leading-relaxed text-mute"><LtrText text={s} /></p> : null}
     </header>
   );
 }
@@ -201,11 +211,11 @@ export function CodeBlock({
 }): ReactElement {
   return (
     <div className="glass-inset relative">
-      <pre className={`code-surface border-0 bg-transparent ${maxHeightClass ?? ""}`} tabIndex={0}>
-        <code>{code}</code>
+      <pre dir="ltr" className={`code-surface border-0 bg-transparent ${maxHeightClass ?? ""}`} tabIndex={0}>
+        <code dir="ltr">{code}</code>
       </pre>
       {showCopy ? (
-        <div className="absolute right-2 top-2">
+        <div className="absolute end-2 top-2">
           <CopyButton value={code} />
         </div>
       ) : null}

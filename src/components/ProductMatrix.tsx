@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { LtrText } from "@/components/Ltr";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { SectionHeading } from "@/components/ui";
 
@@ -27,6 +28,9 @@ const REPOS: readonly Repo[] = [
     url: "https://github.com/popopx-chat/popopx-chat",
     title: {
       en: "iOS Client",
+      "pt-BR": "Cliente iOS",
+      ko: "iOS 클라이언트",
+      ar: "عميل iOS",
       ru: "Клиент для iOS",
       de: "iOS-Client",
       fr: "Client iOS",
@@ -47,6 +51,9 @@ const REPOS: readonly Repo[] = [
     },
     description: {
       en: "The native iOS messaging client with queue-based addressing, end-to-end encryption, and zero global identity.",
+      "pt-BR": "O cliente de mensagens iOS nativo, com endereçamento por fila, criptografia ponta a ponta e zero identidade global.",
+      ko: "큐 기반 주소 지정, 종단간 암호화, 글로벌 신원 제로를 갖춘 네이티브 iOS 메시징 클라이언트.",
+      ar: "عميل المراسلة الأصلي لـ iOS، بعنونة قائمة على الطوابير، وتشفير من الطرف إلى الطرف، وبلا أي هوية عالمية.",
       ru: "Нативный клиент обмена сообщениями для iOS с адресацией на основе очередей, сквозным шифрованием и нулевой глобальной идентификацией.",
       de: "Der native iOS-Messaging-Client mit queue-basierter Adressierung, Ende-zu-Ende-Verschlüsselung und null globaler Identität.",
       fr: "Le client de messagerie natif iOS avec adressage par file, chiffrement de bout en bout et zéro identité globale.",
@@ -68,6 +75,9 @@ const REPOS: readonly Repo[] = [
     capabilities: [
       {
         en: "Queue-based addressing with no phone or email binding",
+        "pt-BR": "Endereçamento por fila, sem vínculo com telefone ou e-mail",
+        ko: "전화번호나 이메일 바인딩이 없는 큐 기반 주소 지정",
+        ar: "عنونة قائمة على الطوابير دون ربط برقم هاتف أو بريد إلكتروني",
         ru: "Адресация на основе очередей без привязки к телефону или электронной почте",
         de: "Queue-basierte Adressierung ohne Telefon- oder E-Mail-Bindung",
         fr: "Adressage par file sans liaison téléphonique ni e-mail",
@@ -88,6 +98,9 @@ const REPOS: readonly Repo[] = [
       },
       {
         en: "End-to-end encryption with AES-256-GCM and Noise XX handshake",
+        "pt-BR": "Criptografia ponta a ponta com AES-256-GCM e handshake Noise XX",
+        ko: "AES-256-GCM과 Noise XX 핸드셰이크를 쓰는 종단간 암호화",
+        ar: "تشفير من الطرف إلى الطرف بـ AES-256-GCM ومصافحة Noise XX",
         ru: "Сквозное шифрование с AES-256-GCM и рукопожатием Noise XX",
         de: "Ende-zu-Ende-Verschlüsselung mit AES-256-GCM und Noise-XX-Handshake",
         fr: "Chiffrement de bout en bout avec AES-256-GCM et handshake Noise XX",
@@ -108,6 +121,9 @@ const REPOS: readonly Repo[] = [
       },
       {
         en: "Dual-role CoreBluetooth GATT peer-to-peer transport",
+        "pt-BR": "Transporte ponto a ponto via CoreBluetooth GATT com dois papéis",
+        ko: "듀얼 롤 CoreBluetooth GATT 피어 투 피어 전송",
+        ar: "نقل CoreBluetooth GATT بدورين من نظير إلى نظير",
         ru: "Двухролевой транспорт CoreBluetooth GATT peer-to-peer",
         de: "Zweirollen-CoreBluetooth-GATT-Peer-to-Peer-Transport",
         fr: "Transport peer-to-peer CoreBluetooth GATT à double rôle",
@@ -134,6 +150,9 @@ const REPOS: readonly Repo[] = [
     url: "https://github.com/popopx-chat/popopx-chat-web",
     title: {
       en: "Main Portal",
+      "pt-BR": "Portal Principal",
+      ko: "메인 포털",
+      ar: "البوابة الرئيسية",
       ru: "Главный портал",
       de: "Hauptportal",
       fr: "Portail principal",
@@ -153,28 +172,34 @@ const REPOS: readonly Repo[] = [
       hu: "Fő portal",
     },
     description: {
-      en: "The static-export portal with 18-language support, zero third-party tracking, and complete source ledger.",
-      ru: "Портал со статическим экспортом, поддержкой 18 языков, нулевым отслеживанием сторонними и полным реестром исходного кода.",
-      de: "Das Portal mit statischem Export, 18-Sprachen-Unterstützung, null Drittanbieter-Tracking und vollständigem Quellcode-Register.",
-      fr: "Le portail à export statique avec prise en charge de 18 langues, zéro suivi tiers et registre source complet.",
-      it: "Il portale con esportazione statica, supporto per 18 lingue, zero tracciamento di terze parti e registro sorgente completo.",
-      nl: "Het portaal met statische export, 18-taalondersteuning, nul tracking van derden en volledig bronregister.",
-      cs: "Portál se statickým exportem, podporou 18 jazyků, nulovým sledováním třetími stranami a úplným registrem zdrojového kódu.",
-      "zh-Hans": "静态导出门户，支持 18 种语言，零第三方追踪，完整源码台账。",
-      "zh-Hant": "靜態導出門戶，支援 18 種語言，零第三方追蹤，完整原始碼台帳。",
-      es: "El portal con exportación estática, soporte para 18 idiomas, cero seguimiento de terceros y registro de código fuente completo.",
-      pl: "Portal z eksportem statycznym, obsługą 18 języków, zerowym śledzeniem przez strony trzecie i pełnym rejestrem kodu źródłowego.",
-      ja: "18 言語サポート、サードパーティトラッキングゼロ、完全なソースレッジャーを備えた静的エクスポートポータル。",
-      th: "พอร์ทัลส่งออกแบบคงที่รองรับ 18 ภาษา ไม่มีการติดตามจากบุคคลที่สาม และบัญชีแหล่งที่มาครบถ้วน",
-      fi: "Staattisen viennin portaali 18 kielen tuella, nolla kolmannen osapuolen seuranta ja täydellinen lähdekoodirekisteri.",
-      uk: "Портал зі статичним експортом, підтримкою 18 мов, нульовим відстеженням третіми сторонами та повним реєстром вихідного коду.",
-      bg: "Портал със статичен експорт, поддръжка на 18 езика, нулево проследяване от трети страни и пълен регистър на изходния код.",
-      tr: "18 dil desteği, sıfır üçüncü taraf izleme ve tam kaynak kaydı ile statik dışa aktarım portalı.",
-      hu: "A statikus export portal 18 nyelvi támogatással, nulla harmadik fél követéssel és teljes forráskód-nyilvántartással.",
+      en: "The static-export portal with 21-language support, zero third-party tracking, and complete source ledger.",
+      "pt-BR": "O portal de exportação estática com suporte a 21 idiomas, zero rastreamento de terceiros e o registro de fatos das fontes completo.",
+      ko: "21개 언어 지원, 타사 추적 제로, 완전한 소스 대장을 갖춘 정적 내보내기 포털.",
+      ar: "بوابة تصدير ساكن تدعم 21 لغة، بلا تتبع من طرف ثالث، وبسجل مصادر كامل.",
+      ru: "Портал со статическим экспортом, поддержкой 21 языка, нулевым отслеживанием третьими сторонами и полным реестром исходного кода.",
+      de: "Das Portal mit statischem Export, 21-Sprachen-Unterstützung, null Drittanbieter-Tracking und vollständigem Quellcode-Register.",
+      fr: "Le portail à export statique avec prise en charge de 21 langues, zéro suivi tiers et registre source complet.",
+      it: "Il portale con esportazione statica, supporto per 21 lingue, zero tracciamento di terze parti e registro sorgente completo.",
+      nl: "Het portaal met statische export, 21-taalondersteuning, nul tracking van derden en volledig bronregister.",
+      cs: "Portál se statickým exportem, podporou 21 jazyků, nulovým sledováním třetími stranami a úplným registrem zdrojového kódu.",
+      "zh-Hans": "静态导出门户，支持 21 种语言，零第三方追踪，完整源码台账。",
+      "zh-Hant": "靜態導出門戶，支援 21 種語言，零第三方追蹤，完整原始碼台帳。",
+      es: "El portal con exportación estática, soporte para 21 idiomas, cero seguimiento de terceros y registro de código fuente completo.",
+      pl: "Portal z eksportem statycznym, obsługą 21 języków, zerowym śledzeniem przez strony trzecie i pełnym rejestrem kodu źródłowego.",
+      ja: "21 言語サポート、サードパーティトラッキングゼロ、完全なソースレッジャーを備えた静的エクスポートポータル。",
+      th: "พอร์ทัลส่งออกแบบคงที่รองรับ 21 ภาษา ไม่มีการติดตามจากบุคคลที่สาม และบัญชีแหล่งที่มาครบถ้วน",
+      fi: "Staattisen viennin portaali 21 kielen tuella, nolla kolmannen osapuolen seuranta ja täydellinen lähdekoodirekisteri.",
+      uk: "Портал зі статичним експортом, підтримкою 21 мови, нульовим відстеженням третіми сторонами та повним реєстром вихідного коду.",
+      bg: "Портал със статичен експорт, поддръжка на 21 езика, нулево проследяване от трети страни и пълен регистър на изходния код.",
+      tr: "21 dil desteği, sıfır üçüncü taraf izleme ve tam kaynak kaydı ile statik dışa aktarım portalı.",
+      hu: "A statikus export portal 21 nyelvi támogatással, nulla harmadik fél követéssel és teljes forráskód-nyilvántartással.",
     },
     capabilities: [
       {
         en: "Static export with zero server-side runtime",
+        "pt-BR": "Exportação estática sem nenhum runtime do lado do servidor",
+        ko: "서버 측 런타임이 없는 정적 내보내기",
+        ar: "تصدير ساكن بلا أي وقت تشغيل على جانب الخادم",
         ru: "Статический экспорт без серверной среды выполнения",
         de: "Statischer Export ohne serverseitige Laufzeit",
         fr: "Export statique sans exécution côté serveur",
@@ -194,24 +219,27 @@ const REPOS: readonly Repo[] = [
         hu: "Statikus export nulla szerveroldali futási idővel",
       },
       {
-        en: "18-language interface with compile-time validation",
-        ru: "18-язычный интерфейс с проверкой во время компиляции",
-        de: "18-Sprachen-Schnittstelle mit Kompilierungszeitvalidierung",
-        fr: "Interface 18 langues avec validation au moment de la compilation",
-        it: "Interfaccia a 18 lingue con convalida in fase di compilazione",
-        nl: "18-taal interface met validatie tijdens compilatie",
-        cs: "18jazyčné rozhraní s validací v době kompilace",
-        "zh-Hans": "18 种语言界面，编译期校验",
-        "zh-Hant": "18 種語言介面，編譯期校驗",
-        es: "Interfaz de 18 idiomas con validación en tiempo de compilación",
-        pl: "18-językowy interfejs z walidacją w czasie kompilacji",
-        ja: "コンパイル時検証を備えた 18 言語インターフェース",
-        th: "อินเทอร์เฟซ 18 ภาษาพร้อมการตรวจสอบเวลาคอมไพล์",
-        fi: "18 kielen käyttöliittymä käännösaikaisella validoinnilla",
-        uk: "18-мовний інтерфейс з перевіркою під час компіляції",
-        bg: "18-езичен интерфейс с валидация по време на компилация",
-        tr: "Derleme zamanı doğrulaması ile 18 dil arayüzü",
-        hu: "18 nyelvű felület fordítási idejű ellenőrzéssel",
+        en: "21-language interface with compile-time validation",
+        "pt-BR": "Interface em 21 idiomas com validação em tempo de compilação",
+        ko: "컴파일 시점 검증이 적용된 21개 언어 인터페이스",
+        ar: "واجهة بـ 21 لغة مع تحقّق في وقت البناء (compile-time)",
+        ru: "21-язычный интерфейс с проверкой во время компиляции",
+        de: "21-Sprachen-Schnittstelle mit Kompilierungszeitvalidierung",
+        fr: "Interface 21 langues avec validation au moment de la compilation",
+        it: "Interfaccia a 21 lingue con convalida in fase di compilazione",
+        nl: "21-taal interface met validatie tijdens compilatie",
+        cs: "21jazyčné rozhraní s validací v době kompilace",
+        "zh-Hans": "21 种语言界面，编译期校验",
+        "zh-Hant": "21 種語言介面，編譯期校驗",
+        es: "Interfaz de 21 idiomas con validación en tiempo de compilación",
+        pl: "21-językowy interfejs z walidacją w czasie kompilacji",
+        ja: "コンパイル時検証を備えた 21 言語インターフェース",
+        th: "อินเทอร์เฟซ 21 ภาษาพร้อมการตรวจสอบเวลาคอมไพล์",
+        fi: "21 kielen käyttöliittymä käännösaikaisella validoinnilla",
+        uk: "21-мовний інтерфейс з перевіркою під час компіляції",
+        bg: "21-езичен интерфейс с валидация по време на компилация",
+        tr: "Derleme zamanı doğrulaması ile 21 dil arayüzü",
+        hu: "21 nyelvű felület fordítási idejű ellenőrzéssel",
       },
     ],
     license: "AGPL-3.0",
@@ -221,6 +249,9 @@ const REPOS: readonly Repo[] = [
     url: "https://github.com/popopx-chat/popopx-bot-studio",
     title: {
       en: "Bot Studio Engine",
+      "pt-BR": "Motor do Bot Studio",
+      ko: "Bot Studio 엔진",
+      ar: "محرك Bot Studio",
       ru: "Движок Bot Studio",
       de: "Bot Studio Engine",
       fr: "Moteur Bot Studio",
@@ -241,6 +272,9 @@ const REPOS: readonly Repo[] = [
     },
     description: {
       en: "The server-side bot orchestration engine with rule-based routing and plugin architecture.",
+      "pt-BR": "O motor de orquestração de bots do lado do servidor, com roteamento baseado em regras e arquitetura de plugins.",
+      ko: "규칙 기반 라우팅과 플러그인 아키텍처를 갖춘 서버 측 봇 오케스트레이션 엔진.",
+      ar: "محرك تنسيق الروبوتات على جانب الخادم، بتوجيه قائم على القواعد وبنية إضافات.",
       ru: "Серверный движок оркестрации ботов с маршрутизацией на основе правил и архитектурой плагинов.",
       de: "Der serverseitige Bot-Orchestrierungsmotor mit regelbasierter Routenführung und Plugin-Architektur.",
       fr: "Le moteur d'orchestration de bots côté serveur avec routage basé sur des règles et architecture de plugins.",
@@ -262,6 +296,9 @@ const REPOS: readonly Repo[] = [
     capabilities: [
       {
         en: "Rule-based message routing and task orchestration",
+        "pt-BR": "Roteamento de mensagens baseado em regras e orquestração de tarefas",
+        ko: "규칙 기반 메시지 라우팅과 작업 오케스트레이션",
+        ar: "توجيه الرسائل القائم على القواعد وتنسيق المهام",
         ru: "Маршрутизация сообщений на основе правил и оркестрация задач",
         de: "Regelbasierte Nachrichtenroutenführung und Aufgaben-Orchestrierung",
         fr: "Routage de messages basé sur des règles et orchestration de tâches",
@@ -282,6 +319,9 @@ const REPOS: readonly Repo[] = [
       },
       {
         en: "Plugin architecture for extensible bot capabilities",
+        "pt-BR": "Arquitetura de plugins para capacidades extensíveis dos bots",
+        ko: "확장 가능한 봇 기능을 위한 플러그인 아키텍처",
+        ar: "بنية إضافات لقدرات روبوت قابلة للتوسع",
         ru: "Архитектура плагинов для расширяемых возможностей ботов",
         de: "Plugin-Architektur für erweiterbare Bot-Fähigkeiten",
         fr: "Architecture de plugins pour des capacités de bot extensibles",
@@ -308,6 +348,9 @@ const REPOS: readonly Repo[] = [
     url: "https://github.com/popopx-chat/popopx-bot-studio-web",
     title: {
       en: "Bot Studio Web Interface",
+      "pt-BR": "Interface web do Bot Studio",
+      ko: "Bot Studio 웹 인터페이스",
+      ar: "واجهة الويب في Bot Studio",
       ru: "Веб-интерфейс Bot Studio",
       de: "Bot Studio Weboberfläche",
       fr: "Interface Web Bot Studio",
@@ -328,6 +371,9 @@ const REPOS: readonly Repo[] = [
     },
     description: {
       en: "The web-based visual interface for configuring and managing bot workflows.",
+      "pt-BR": "A interface visual baseada na web para configurar e gerenciar fluxos de trabalho de bots.",
+      ko: "봇 워크플로를 구성하고 관리하는 웹 기반 비주얼 인터페이스.",
+      ar: "الواجهة المرئية القائمة على الويب لتهيئة سير عمل الروبوتات وإدارتها.",
       ru: "Веб-визуальный интерфейс для настройки и управления рабочими процессами ботов.",
       de: "Die webbasierte visuelle Schnittstelle zum Konfigurieren und Verwalten von Bot-Workflows.",
       fr: "L'interface visuelle basée sur le Web pour configurer et gérer les flux de travail des bots.",
@@ -349,6 +395,9 @@ const REPOS: readonly Repo[] = [
     capabilities: [
       {
         en: "Visual workflow builder with drag-and-drop",
+        "pt-BR": "Construtor visual de fluxos de trabalho com arrastar e soltar",
+        ko: "드래그 앤 드롭 방식의 비주얼 워크플로 빌더",
+        ar: "منشئ سير عمل مرئي بالسحب والإفلات",
         ru: "Визуальный конструктор рабочих процессов с перетаскиванием",
         de: "Visueller Workflow-Builder mit Drag-and-Drop",
         fr: "Constructeur de flux de travail visuel avec glisser-déposer",
@@ -375,6 +424,9 @@ const REPOS: readonly Repo[] = [
     url: "https://github.com/popopx-chat/popopx-service-suite",
     title: {
       en: "Service Account Suite",
+      "pt-BR": "Suíte de Contas de Serviço",
+      ko: "서비스 계정 스위트",
+      ar: "Service Account Suite",
       ru: "Набор сервисных аккаунтов",
       de: "Service-Account-Suite",
       fr: "Suite de comptes de service",
@@ -395,6 +447,9 @@ const REPOS: readonly Repo[] = [
     },
     description: {
       en: "The service account infrastructure with zero-knowledge channels and signed configuration updates.",
+      "pt-BR": "A infraestrutura de contas de serviço com canais de conhecimento zero e atualizações de configuração assinadas.",
+      ko: "영지식 채널과 서명된 구성 업데이트를 갖춘 서비스 계정 인프라.",
+      ar: "بنية تحتية لحسابات الخدمة بقنوات عديمة المعرفة وتحديثات تهيئة موقّعة.",
       ru: "Инфраструктура сервисных аккаунтов с каналами с нулевым разглашением и подписанными обновлениями конфигурации.",
       de: "Die Service-Account-Infrastruktur mit Zero-Knowledge-Kanälen und signierten Konfigurationsupdates.",
       fr: "L'infrastructure de comptes de service avec des canaux à connaissance nulle et des mises à jour de configuration signées.",
@@ -416,6 +471,9 @@ const REPOS: readonly Repo[] = [
     capabilities: [
       {
         en: "Zero-knowledge channels with encrypted key rotation",
+        "pt-BR": "Canais de conhecimento zero com rotação de chaves criptografada",
+        ko: "암호화된 키 교체를 갖춘 영지식 채널",
+        ar: "قنوات عديمة المعرفة مع تدوير مفاتيح مشفّر",
         ru: "Каналы с нулевым разглашением и шифрованной ротацией ключей",
         de: "Zero-Knowledge-Kanäle mit verschlüsselter Schlüsselrotation",
         fr: "Canaux à connaissance nulle avec rotation de clés chiffrée",
@@ -436,6 +494,9 @@ const REPOS: readonly Repo[] = [
       },
       {
         en: "Signed server configuration with pinned keys",
+        "pt-BR": "Configuração de servidor assinada com chaves fixadas",
+        ko: "고정된 키로 서명된 서버 구성",
+        ar: "تهيئة خادم موقّعة بمفاتيح مثبّتة",
         ru: "Подписанная конфигурация сервера с закрепленными ключами",
         de: "Signierte Serverkonfiguration mit gepinnten Schlüsseln",
         fr: "Configuration de serveur signée avec des clés épinglées",
@@ -462,6 +523,9 @@ const REPOS: readonly Repo[] = [
     url: "https://github.com/popopx-chat/popopx-mac-node",
     title: {
       en: "Mac Node",
+      "pt-BR": "Mac Node",
+      ko: "Mac Node",
+      ar: "Mac Node",
       ru: "Mac-нода",
       de: "Mac-Knoten",
       fr: "Nœud Mac",
@@ -482,6 +546,9 @@ const REPOS: readonly Repo[] = [
     },
     description: {
       en: "The macOS native node for running a self-hosted relay with full protocol support.",
+      "pt-BR": "O nó nativo de macOS para rodar um retransmissor auto-hospedado com suporte completo ao protocolo.",
+      ko: "완전한 프로토콜 지원을 갖춘 자체 호스팅 중계를 운영하기 위한 macOS 네이티브 노드.",
+      ar: "عقدة macOS أصلية لتشغيل مرحّل مستضاف ذاتيًا بدعم كامل للبروتوكول.",
       ru: "Нативный узел macOS для запуска самодостаточного ретранслятора с полной поддержкой протокола.",
       de: "Der native macOS-Knoten zum Ausführen eines selbst gehosteten Relais mit vollständiger Protokollunterstützung.",
       fr: "Le nœud natif macOS pour exécuter un relais auto-hébergé avec une prise en charge complète du protocole.",
@@ -503,6 +570,9 @@ const REPOS: readonly Repo[] = [
     capabilities: [
       {
         en: "Self-hosted relay with full SMP protocol support",
+        "pt-BR": "Retransmissor auto-hospedado com suporte completo ao protocolo SMP",
+        ko: "전체 SMP 프로토콜을 지원하는 자체 호스팅 중계",
+        ar: "مرحّل مستضاف ذاتيًا بدعم كامل لبروتوكول SMP",
         ru: "Самодостаточный ретранслятор с полной поддержкой протокола SMP",
         de: "Selbst gehostetes Relais mit vollständiger SMP-Protokollunterstützung",
         fr: "Relais auto-hébergé avec prise en charge complète du protocole SMP",
@@ -529,6 +599,9 @@ const REPOS: readonly Repo[] = [
 const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   eyebrow: {
     en: "Open-source repository matrix",
+    "pt-BR": "Matriz de repositórios de código aberto",
+    ko: "오픈 소스 저장소 매트릭스",
+    ar: "مصفوفة المستودعات مفتوحة المصدر",
     ru: "Матрица репозиториев с открытым исходным кодом",
     de: "Open-Source-Repository-Matrix",
     fr: "Matrice de dépôts open source",
@@ -549,6 +622,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   title: {
     en: "Six public repositories, one ecosystem",
+    "pt-BR": "Seis repositórios públicos, um ecossistema",
+    ko: "여섯 개의 공개 저장소, 하나의 생태계",
+    ar: "ستة مستودعات عامة، منظومة واحدة",
     ru: "Шесть публичных репозиториев, одна экосистема",
     de: "Sechs öffentliche Repositories, ein Ökosystem",
     fr: "Six dépôts publics, un écosystème",
@@ -569,6 +645,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   subtitle: {
     en: "Each repository below is publicly accessible on GitHub, licensed under AGPL-3.0, and independently auditable. Descriptions are manually written to ensure accuracy.",
+    "pt-BR": "Cada repositório abaixo é acessível publicamente no GitHub, licenciado sob AGPL-3.0 e auditável de forma independente. As descrições são escritas manualmente para garantir precisão.",
+    ko: "아래의 각 저장소는 GitHub에서 공개되어 있고 AGPL-3.0으로 라이선스되며, 독립적으로 감사할 수 있습니다. 설명은 정확성을 위해 직접 작성했습니다.",
+    ar: "كل مستودع أدناه متاح للعموم على GitHub، ومرخّص تحت AGPL-3.0، وقابل للتدقيق باستقلال. والوصف مكتوب يدويًا لضمان الدقة.",
     ru: "Каждый репозиторий ниже общедоступен на GitHub, лицензирован по AGPL-3.0 и независимо аудируем. Описания написаны вручную для обеспечения точности.",
     de: "Jedes Repository unten ist öffentlich auf GitHub zugänglich, unter AGPL-3.0 lizenziert und unabhängig prüfbar. Beschreibungen sind manuell geschrieben, um Genauigkeit sicherzustellen.",
     fr: "Chaque dépôt ci-dessous est accessible publiquement sur GitHub, sous licence AGPL-3.0 et auditable indépendamment. Les descriptions sont écrites manuellement pour garantir l'exactitude.",
@@ -597,13 +676,13 @@ function RepoCard({ repo }: { repo: Repo }): ReactElement {
     <li className="animate-rise-in">
       <article className="glass glass-hover flex h-full flex-col gap-4 p-6">
         <header className="flex items-start justify-between gap-3">
-          <h3 className="text-[17px] font-semibold leading-snug text-white">{title}</h3>
-          <code className="shrink-0 rounded-md bg-white/[0.06] px-2 py-1 font-mono text-[11px] text-brand-soft">
+          <h3 className="text-[17px] font-semibold leading-snug text-white"><LtrText text={title} /></h3>
+          <code dir="ltr" className="shrink-0 rounded-md bg-white/[0.06] px-2 py-1 font-mono text-[11px] text-brand-soft">
             {repo.license}
           </code>
         </header>
 
-        <p className="text-[13.5px] leading-relaxed text-mute">{description}</p>
+        <p className="text-[13.5px] leading-relaxed text-mute"><LtrText text={description} /></p>
 
         {repo.capabilities.length > 0 && (
           <ul className="flex flex-col gap-2 border-t border-hair pt-4">
@@ -611,10 +690,10 @@ function RepoCard({ repo }: { repo: Repo }): ReactElement {
               const capText = useCopy(cap);
               return (
                 <li key={i} className="flex gap-2 text-[12.5px] leading-relaxed text-faint">
-                  <span className="mt-[6px] shrink-0 text-brand-soft" aria-hidden>
+                  <span className="mt-[6px] shrink-0 text-brand-soft rtl:-scale-x-100" aria-hidden>
                     ›
                   </span>
-                  <span className="min-w-0 break-words">{capText}</span>
+                  <span className="min-w-0 break-words"><LtrText text={capText} /></span>
                 </li>
               );
             })}
@@ -622,7 +701,7 @@ function RepoCard({ repo }: { repo: Repo }): ReactElement {
         )}
 
         <footer className="hairline-top mt-auto flex items-center justify-between pt-4">
-          <code className="font-mono text-[11px] text-faint">{repo.name}</code>
+          <code dir="ltr" className="font-mono text-[11px] text-faint">{repo.name}</code>
           <a
             href={repo.url}
             target="_blank"
@@ -635,7 +714,7 @@ function RepoCard({ repo }: { repo: Repo }): ReactElement {
               width="14"
               height="14"
               fill="currentColor"
-              className="mr-1.5"
+              className="me-1.5"
             >
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
             </svg>

@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading } from "@/components/ui";
 
 /**
@@ -23,6 +24,9 @@ const LAYERS: readonly Layer[] = [
     index: "01",
     name: {
       en: "Experience Layer",
+      "pt-BR": "Camada de Experiência",
+      ko: "경험 계층",
+      ar: "طبقة التجربة",
       ru: "Слой опыта",
       de: "Erlebnisschicht",
       fr: "Couche d'expérience",
@@ -43,6 +47,9 @@ const LAYERS: readonly Layer[] = [
     },
     responsibility: {
       en: "User interface, navigation, and interaction patterns across all client surfaces.",
+      "pt-BR": "Interface de usuário, navegação e padrões de interação em todas as superfícies do cliente.",
+      ko: "모든 클라이언트 표면에 걸친 사용자 인터페이스, 내비게이션, 상호작용 패턴입니다.",
+      ar: "واجهة المستخدم والتنقل وأنماط التفاعل عبر جميع أسطح العميل.",
       ru: "Пользовательский интерфейс, навигация и паттерны взаимодействия на всех клиентских поверхностях.",
       de: "Benutzeroberfläche, Navigation und Interaktionsmuster auf allen Client-Oberflächen.",
       fr: "Interface utilisateur, navigation et modèles d'interaction sur toutes les surfaces client.",
@@ -67,6 +74,9 @@ const LAYERS: readonly Layer[] = [
     index: "02",
     name: {
       en: "Agent Layer",
+      "pt-BR": "Camada de Agentes",
+      ko: "에이전트 계층",
+      ar: "طبقة الوكيل",
       ru: "Слой агента",
       de: "Agent-Schicht",
       fr: "Couche d'agent",
@@ -87,6 +97,9 @@ const LAYERS: readonly Layer[] = [
     },
     responsibility: {
       en: "Bot orchestration, rule-based routing, and plugin architecture for extensible automation.",
+      "pt-BR": "Orquestração de bots, roteamento baseado em regras e arquitetura de plugins para automação extensível.",
+      ko: "확장 가능한 자동화를 위한 봇 오케스트레이션, 규칙 기반 라우팅, 플러그인 아키텍처입니다.",
+      ar: "تنسيق البوتات والتوجيه القائم على القواعد ومعمارية الإضافات لأتمتة قابلة للتوسيع.",
       ru: "Оркестрация ботов, маршрутизация на основе правил и архитектура плагинов для расширяемой автоматизации.",
       de: "Bot-Orchestrierung, regelbasierte Routenführung und Plugin-Architektur für erweiterbare Automatisierung.",
       fr: "Orchestration de bots, routage basé sur des règles et architecture de plugins pour l'automatisation extensible.",
@@ -111,6 +124,9 @@ const LAYERS: readonly Layer[] = [
     index: "03",
     name: {
       en: "Control Layer",
+      "pt-BR": "Camada de Controle",
+      ko: "제어 계층",
+      ar: "طبقة التحكم",
       ru: "Слой управления",
       de: "Steuerungsschicht",
       fr: "Couche de contrôle",
@@ -131,6 +147,9 @@ const LAYERS: readonly Layer[] = [
     },
     responsibility: {
       en: "Configuration management, signed updates, and pinned key verification for server settings.",
+      "pt-BR": "Gestão de configuração, atualizações assinadas e verificação de chaves fixadas para configurações do servidor.",
+      ko: "서버 설정을 위한 구성 관리, 서명된 업데이트, 고정 키 검증입니다.",
+      ar: "إدارة الإعدادات والتحديثات الموقّعة والتحقق من المفاتيح المثبتة لإعدادات الخادم.",
       ru: "Управление конфигурацией, подписанные обновления и проверка закрепленных ключей для настроек сервера.",
       de: "Konfigurationsverwaltung, signierte Updates und Überprüfung gepinnter Schlüssel für Servereinstellungen.",
       fr: "Gestion de la configuration, mises à jour signées et vérification de clés épinglées pour les paramètres du serveur.",
@@ -155,6 +174,9 @@ const LAYERS: readonly Layer[] = [
     index: "04",
     name: {
       en: "Connection Layer",
+      "pt-BR": "Camada de Conexão",
+      ko: "연결 계층",
+      ar: "طبقة الاتصال",
       ru: "Слой соединения",
       de: "Verbindungsschicht",
       fr: "Couche de connexion",
@@ -175,6 +197,9 @@ const LAYERS: readonly Layer[] = [
     },
     responsibility: {
       en: "Transport protocols, peer-to-peer discovery, and relay coordination for message delivery.",
+      "pt-BR": "Protocolos de transporte, descoberta ponto a ponto e coordenação de retransmissores para a entrega de mensagens.",
+      ko: "메시지 전달을 위한 전송 프로토콜, 피어 투 피어 발견, 중계 조정입니다.",
+      ar: "بروتوكولات النقل والاكتشاف من نظير إلى نظير وتنسيق المرحّل لتسليم الرسائل.",
       ru: "Транспортные протоколы, обнаружение peer-to-peer и координация ретрансляторов для доставки сообщений.",
       de: "Transportprotokolle, Peer-to-Peer-Erkennung und Relaiskoordination für die Nachrichtenzustellung.",
       fr: "Protocoles de transport, découverte peer-to-peer et coordination des relais pour la livraison de messages.",
@@ -199,6 +224,9 @@ const LAYERS: readonly Layer[] = [
     index: "05",
     name: {
       en: "Execution Layer",
+      "pt-BR": "Camada de Execução",
+      ko: "실행 계층",
+      ar: "طبقة التنفيذ",
       ru: "Слой выполнения",
       de: "Ausführungsschicht",
       fr: "Couche d'exécution",
@@ -219,6 +247,9 @@ const LAYERS: readonly Layer[] = [
     },
     responsibility: {
       en: "Message processing, queue management, and state transitions for conversation flow.",
+      "pt-BR": "Processamento de mensagens, gestão de filas e transições de estado para o fluxo das conversas.",
+      ko: "대화 흐름을 위한 메시지 처리, 큐 관리, 상태 전이입니다.",
+      ar: "معالجة الرسائل وإدارة الطوابير وانتقالات الحالة لمسار المحادثة.",
       ru: "Обработка сообщений, управление очередями и переходы состояний для потока разговора.",
       de: "Nachrichtenverarbeitung, Queue-Verwaltung und Zustandsübergänge für den Gesprächsfluss.",
       fr: "Traitement des messages, gestion des files et transitions d'état pour le flux de conversation.",
@@ -243,6 +274,9 @@ const LAYERS: readonly Layer[] = [
     index: "06",
     name: {
       en: "Data & Crypto Foundation",
+      "pt-BR": "Fundação de Dados e Criptografia",
+      ko: "데이터 및 암호 기반",
+      ar: "أساس البيانات والتشفير",
       ru: "Основа данных и криптографии",
       de: "Daten- und Kryptografie-Grundlage",
       fr: "Fondation de données et de cryptographie",
@@ -263,6 +297,9 @@ const LAYERS: readonly Layer[] = [
     },
     responsibility: {
       en: "End-to-end encryption, secure storage, and cryptographic primitives for data protection.",
+      "pt-BR": "Criptografia ponta a ponta, armazenamento seguro e primitivas criptográficas para a proteção dos dados.",
+      ko: "데이터 보호를 위한 종단간 암호화, 보안 저장소, 암호 프리미티브입니다.",
+      ar: "تشفير من الطرف إلى الطرف، وتخزين آمن، وأوليات تشفيرية لحماية البيانات.",
       ru: "Сквозное шифрование, безопасное хранилище и криптографические примитивы для защиты данных.",
       de: "Ende-zu-Ende-Verschlüsselung, sichere Speicherung und kryptografische Primitive für den Datenschutz.",
       fr: "Chiffrement de bout en bout, stockage sécurisé et primitives cryptographiques pour la protection des données.",
@@ -288,6 +325,9 @@ const LAYERS: readonly Layer[] = [
 const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   eyebrow: {
     en: "Six-layer architecture",
+    "pt-BR": "Arquitetura de seis camadas",
+    ko: "6계층 아키텍처",
+    ar: "معمارية من ست طبقات",
     ru: "Шестислойная архитектура",
     de: "Sechs-Schichten-Architektur",
     fr: "Architecture à six couches",
@@ -308,6 +348,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   title: {
     en: "From experience to crypto foundation",
+    "pt-BR": "Da experiência à fundação de criptografia",
+    ko: "경험에서 암호 기반까지",
+    ar: "من التجربة إلى أساس التشفير",
     ru: "От опыта до криптографической основы",
     de: "Vom Erlebnis zur Kryptografie-Grundlage",
     fr: "De l'expérience au fondement cryptographique",
@@ -328,6 +371,9 @@ const HEAD: Record<"eyebrow" | "title" | "subtitle", Localized<string>> = {
   },
   subtitle: {
     en: "Each layer has a single responsibility. The stack is auditable, replaceable, and verifiable at every level.",
+    "pt-BR": "Cada camada tem uma única responsabilidade. A pilha é auditável, substituível e verificável em todos os níveis.",
+    ko: "각 계층은 하나의 책임만 집니다. 이 스택은 모든 수준에서 감사 가능하고 교체 가능하며 검증 가능합니다.",
+    ar: "لكل طبقة مسؤولية واحدة. والحزمة قابلة للتدقيق والاستبدال والتحقق في كل مستوى.",
     ru: "Каждый слой имеет одну ответственность. Стек аудируем, заменяем и проверяем на каждом уровне.",
     de: "Jede Schicht hat eine einzige Verantwortung. Der Stapel ist auf jeder Ebene prüfbar, ersetzbar und verifizierbar.",
     fr: "Chaque couche a une seule responsabilité. La pile est auditable, remplaçable et vérifiable à chaque niveau.",
@@ -358,6 +404,7 @@ function LayerCard({ layer }: { layer: Layer }): ReactElement {
         <header className="flex items-start gap-3">
           <span
             aria-hidden
+            dir="ltr"
             className={`font-mono text-[13px] font-semibold ${
               layer.tone === "brand" ? "text-brand-soft" : "text-mesh-soft"
             }`}
@@ -365,11 +412,13 @@ function LayerCard({ layer }: { layer: Layer }): ReactElement {
             {layer.index}
           </span>
           <h3 className="text-[15.5px] font-semibold leading-snug text-white sm:text-[17px]">
-            {name}
+            <LtrText text={name} />
           </h3>
         </header>
 
-        <p className="text-[13px] leading-relaxed text-mute">{responsibility}</p>
+        <p className="text-[13px] leading-relaxed text-mute">
+          <LtrText text={responsibility} />
+        </p>
       </article>
     </li>
   );

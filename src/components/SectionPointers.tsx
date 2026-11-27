@@ -28,13 +28,16 @@ import type { RouteId } from "@/lib/site";
  * `/security/` and keeps its own anchor on that page.
  *
  * The row labels are the navbar's `ROUTE_LABELS`, imported rather than
- * re-authored: a nav entry and its landing page must not drift apart in 18
+ * re-authored: a nav entry and its landing page must not drift apart in 21
  * languages. The trailing path is locale-free, like every other protocol token
  * on the portal.
  */
 
 const EYEBROW: Localized<string> = {
   en: "Four pages, one index",
+  "pt-BR": "Quatro páginas, um índice",
+  ko: "네 개의 페이지, 하나의 인덱스",
+  ar: "أربع صفحات، فهرس واحد",
   ru: "Четыре страницы, один указатель",
   de: "Vier Seiten, ein Verzeichnis",
   fr: "Quatre pages, un index",
@@ -56,6 +59,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "Each section is now a page of its own",
+  "pt-BR": "Agora cada seção é uma página própria",
+  ko: "이제 각 섹션은 독립된 페이지입니다",
+  ar: "كل قسم أصبح صفحة مستقلة بذاته",
   ru: "Каждый раздел теперь отдельная страница",
   de: "Jeder Abschnitt ist jetzt eine eigene Seite",
   fr: "Chaque section est désormais sa propre page",
@@ -76,24 +82,27 @@ const TITLE: Localized<string> = {
 };
 
 const LEAD: Localized<string> = {
-  en: "The product, the ecosystem, the security ledger and the download page are separate documents now — same host, same 18 languages, no tracking anywhere.",
-  ru: "Продукт, экосистема, реестр безопасности и страница загрузки теперь отдельные документы — один хост, те же 18 языков, никакого отслеживания.",
-  de: "Produkt, Ökosystem, Sicherheitsnachweis und Download sind jetzt eigene Dokumente — gleicher Host, dieselben 18 Sprachen, ohne Tracking.",
-  fr: "Le produit, l'écosystème, le registre de sécurité et la page de téléchargement sont des documents distincts — même hôte, mêmes 18 langues, aucun pistage.",
-  it: "Prodotto, ecosistema, registro di sicurezza e pagina di download sono ora documenti separati — stesso host, stesse 18 lingue, nessun tracciamento.",
-  nl: "Product, ecosysteem, beveiligingsregister en downloadpagina zijn nu aparte documenten — zelfde host, dezelfde 18 talen, geen tracking.",
-  cs: "Produkt, ekosystém, bezpečnostní přehled a stránka stáhnutí jsou nyní samostatné dokumenty — stejný hostitel, stejných 18 jazyků, žádné sledování.",
-  "zh-Hans": "产品、生态、隐私与安全、下载现在是四份独立文档——同一个域名、同样 18 种界面语言、任何地方都没有埋点。",
-  "zh-Hant": "產品、生態、隱私與安全、下載現在是四份獨立檔案——同一個網域、同樣 18 種介面語言、任何地方都沒有埋點。",
-  es: "Producto, ecosistema, registro de seguridad y descarga son ahora documentos separados — el mismo host, las mismas 18 lenguas, sin rastreo.",
-  pl: "Produkt, ekosystem, rejestr bezpieczeństwa i strona pobierania to teraz osobne dokumenty — ten sam host, te same 18 języków, żadnego śledzenia.",
-  ja: "製品、エコシステム、プライバシーとセキュリティ、ダウンロードはそれぞれ独立したドキュメントです——同一ホスト、同じ 18 言語、埋め込み計測は一切なし。",
-  th: "ผลิตภัณฑ์ ระบบนิเวศ ความปลอดภัย และหน้าดาวน์โหลดเป็นเอกสารแยกกันแล้ว — โฮสต์เดียวกัน 18 ภาษาเท่ากัน ไม่มีตัวติดตาม",
-  fi: "Tuote, ekosysteemi, tietoturvarekisteri ja lataussivu ovat nyt omia dokumenttejaan — sama isäntä, samat 18 kieltä, ei seurantaa.",
-  uk: "Продукт, екосистема, реєстр безпеки та сторінка завантаження тепер окремі документи — той самий хост, ті самі 18 мов, без відстеження.",
-  bg: "Продуктът, екосистемата, регистърът по сигурността и страницата за изтегляне вече са отделни документи — един и същ хост, същите 18 езика, без проследяване.",
-  tr: "Ürün, ekosistem, güvenlik defteri ve indirme sayfası artık ayrı belgeler — aynı sunucu adı, aynı 18 dil, hiçbir yerde izleme yok.",
-  hu: "A termék, az ökoszisztéma, a biztonsági névjegyzék és a letöltési oldal külön dokumentumok — ugyanaz a host, ugyanaz a 18 nyelv, semmilyen követés.",
+  en: "The product, the ecosystem, the security ledger and the download page are separate documents now — same host, same 21 languages, no tracking anywhere.",
+  "pt-BR": "O produto, o ecossistema, o registro de fatos de segurança e a página de download são documentos separados agora — mesmo host, os mesmos 21 idiomas, nenhum rastreamento em lugar algum.",
+  ko: "제품, 생태계, 보안 대장, 다운로드 페이지는 이제 별개의 문서입니다 — 같은 호스트, 같은 21개 언어, 어디에도 추적은 없습니다.",
+  ar: "المنتج والمنظومة وسجل الأمان وصفحة التنزيل مستندات منفصلة الآن — المضيف نفسه، واللغات الـ 21 نفسها، ولا تتبع في أي مكان.",
+  ru: "Продукт, экосистема, реестр безопасности и страница загрузки теперь отдельные документы — один хост, те же 21 язык, никакого отслеживания.",
+  de: "Produkt, Ökosystem, Sicherheitsnachweis und Download sind jetzt eigene Dokumente — gleicher Host, dieselben 21 Sprachen, ohne Tracking.",
+  fr: "Le produit, l'écosystème, le registre de sécurité et la page de téléchargement sont des documents distincts — même hôte, mêmes 21 langues, aucun pistage.",
+  it: "Prodotto, ecosistema, registro di sicurezza e pagina di download sono ora documenti separati — stesso host, stesse 21 lingue, nessun tracciamento.",
+  nl: "Product, ecosysteem, beveiligingsregister en downloadpagina zijn nu aparte documenten — zelfde host, dezelfde 21 talen, geen tracking.",
+  cs: "Produkt, ekosystém, bezpečnostní přehled a stránka stáhnutí jsou nyní samostatné dokumenty — stejný hostitel, stejných 21 jazyků, žádné sledování.",
+  "zh-Hans": "产品、生态、隐私与安全、下载现在是四份独立文档——同一个域名、同样 21 种界面语言、任何地方都没有埋点。",
+  "zh-Hant": "產品、生態、隱私與安全、下載現在是四份獨立檔案——同一個網域、同樣 21 種介面語言、任何地方都沒有埋點。",
+  es: "Producto, ecosistema, registro de seguridad y descarga son ahora documentos separados — el mismo host, las mismas 21 lenguas, sin rastreo.",
+  pl: "Produkt, ekosystem, rejestr bezpieczeństwa i strona pobierania to teraz osobne dokumenty — ten sam host, te same 21 języków, żadnego śledzenia.",
+  ja: "製品、エコシステム、プライバシーとセキュリティ、ダウンロードはそれぞれ独立したドキュメントです——同一ホスト、同じ 21 言語、埋め込み計測は一切なし。",
+  th: "ผลิตภัณฑ์ ระบบนิเวศ ความปลอดภัย และหน้าดาวน์โหลดเป็นเอกสารแยกกันแล้ว — โฮสต์เดียวกัน 21 ภาษาเท่ากัน ไม่มีตัวติดตาม",
+  fi: "Tuote, ekosysteemi, tietoturvarekisteri ja lataussivu ovat nyt omia dokumenttejaan — sama isäntä, samat 21 kieltä, ei seurantaa.",
+  uk: "Продукт, екосистема, реєстр безпеки та сторінка завантаження тепер окремі документи — той самий хост, ті самі 21 мова, без відстеження.",
+  bg: "Продуктът, екосистемата, регистърът по сигурността и страницата за изтегляне вече са отделни документи — един и същ хост, същите 21 езика, без проследяване.",
+  tr: "Ürün, ekosistem, güvenlik defteri ve indirme sayfası artık ayrı belgeler — aynı sunucu adı, aynı 21 dil, hiçbir yerde izleme yok.",
+  hu: "A termék, az ökoszisztéma, a biztonsági névjegyzék és a letöltési oldal külön dokumentumok — ugyanaz a host, ugyanaz a 21 nyelv, semmilyen követés.",
 };
 
 const ROWS: readonly { readonly route: RouteId; readonly anchor: string; readonly href: string }[] =
@@ -123,7 +132,7 @@ export function SectionPointers(): ReactElement {
                 className={`glass glass-hover flex items-center justify-between gap-4 p-5 ${FOCUS}`}
               >
                 <RowLabel route={row.route} />
-                <span aria-hidden className="font-mono text-[11.5px] text-faint">
+                <span aria-hidden dir="ltr" className="font-mono text-[11.5px] text-faint">
                   {row.href}
                 </span>
               </Link>

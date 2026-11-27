@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import { TONES, type Tone } from "@/components/EcosystemHub";
 
@@ -27,15 +28,18 @@ import { TONES, type Tone } from "@/components/EcosystemHub";
  *
  * The layer names are locale-free — Personal AI, AI Agents, AI Connection — in the
  * same way `PortalCards` prints product names, so the three homepage blocks name
- * the same things with the same words in all 18 languages.
+ * the same things with the same words in all 21 languages.
  */
 
 /* Every map below is an exhaustive literal: `Localized<T>` is checked slot by slot,
-   and a derived, spread or cast map would let one of the eighteen locales silently
+   and a derived, spread or cast map would let one of the twenty-one locales silently
    inherit another one's text. */
 
 const EYEBROW: Localized<string> = {
   en: "Three layers of AI capability",
+  "pt-BR": "Três camadas de capacidade de IA",
+  ko: "AI 역량의 세 계층",
+  ar: "ثلاث طبقات من قدرات الذكاء الاصطناعي",
   ru: "Три уровня интеллектуальных возможностей",
   de: "Drei Ebenen der KI-Fähigkeiten",
   fr: "Trois niveaux de capacités d’IA",
@@ -57,6 +61,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "Three layers: a helper on your device, agents you host, and what they reach",
+  "pt-BR": "Três camadas: um assistente no seu dispositivo, agentes que você hospeda e o que eles alcançam",
+  ko: "세 계층: 기기 안의 도우미, 직접 호스팅하는 에이전트, 그리고 그들이 닿는 대상",
+  ar: "ثلاث طبقات: مساعد على جهازك، ووكلاء تستضيفهم، وما يصلون إليه",
   ru: "Три уровня: помощник на устройстве, свои агенты и то, к чему они подключаются",
   de: "Drei Ebenen: Helfer auf dem Gerät, eigene Agenten und was sie erreichen",
   fr: "Trois niveaux : l’assistant sur l’appareil, ses agents et ce qu’ils rejoignent",
@@ -78,6 +85,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "Each layer sits closer to a machine you own than the one above it. Every card separates what already ships from what is still evolving, on the same terms the Agent protocol status uses on /ecosystem/.",
+  "pt-BR": "Cada camada fica mais próxima de uma máquina que você possui do que a camada acima dela. Cada cartão separa o que já está entregue do que ainda está em evolução, nos mesmos termos que o status do protocolo de agente usa em /ecosystem/.",
+  ko: "각 계층은 위 계층보다 사용자가 소유한 기기에 더 가깝습니다. 모든 카드는 이미 출시된 것과 아직 발전 중인 것을 구분하며, /ecosystem/의 에이전트 프로토콜 현황이 쓰는 것과 같은 기준을 따릅니다.",
+  ar: "كل طبقة أقرب إلى جهاز تملكه من الطبقة التي فوقها. وتفصل كل بطاقة ما هو مشحون بالفعل عما لا يزال قيد التطور، بالمعايير نفسها التي تستخدمها حالة بروتوكول الوكيل على /ecosystem/.",
   ru: "Каждый уровень ближе к вашей собственной машине, чем тот, что над ним. На каждой карточке отдельно сказано, что уже работает и что ещё развивается — в тех же формулировках, что и статус Agent-протокола на /ecosystem/.",
   de: "Jede Ebene liegt näher an einer eigenen Maschine als die über ihr. Jede Karte trennt das bereits Ausgelieferte von dem, was sich noch entwickelt — nach denselben Maßstäben wie der Agent-Protokollstatus auf /ecosystem/.",
   fr: "Chaque niveau est plus près d’une machine qui vous appartient que le précédent. Chaque carte sépare ce qui est déjà livré de ce qui évolue encore, dans les mêmes termes que le statut du protocole Agent sur /ecosystem/.",
@@ -99,6 +109,9 @@ const LEAD: Localized<string> = {
 
 const L1_DESC: Localized<string> = {
   en: "The layer closest to you. Its job is to work out what you need on the phone itself, and to do the work without moving your data off it.",
+  "pt-BR": "A camada mais próxima de você. O trabalho dela é descobrir o que você precisa no próprio telefone e fazer o serviço sem tirar seus dados dele.",
+  ko: "가장 가까이에 있는 계층입니다. 필요한 것을 휴대폰 자체에서 판단하고, 데이터를 기기 밖으로 내보내지 않고 처리하는 것이 역할입니다.",
+  ar: "الطبقة الأقرب إليك. مهمتها أن تستنتج ما تحتاجه على الهاتف نفسه، وأن تنجز العمل دون إخراج بياناتك منه.",
   ru: "Самый близкий к вам уровень. Его задача — понять, что нужно, прямо на телефоне и сделать это, не вынося данные наружу.",
   de: "Die Ebene am nächsten bei Ihnen. Ihre Aufgabe ist es, auf dem Telefon selbst zu erkennen, was Sie brauchen, und die Arbeit zu erledigen, ohne Ihre Daten vom Gerät zu bewegen.",
   fr: "Le niveau le plus près de vous. Son rôle : comprendre ce dont vous avez besoin directement sur le téléphone et le traiter sans faire sortir vos données.",
@@ -120,6 +133,9 @@ const L1_DESC: Localized<string> = {
 
 const L1_DONE: Localized<string> = {
   en: "The privacy base already ships: no phone number and no e-mail, no global user ID, encrypted queue payloads, EXIF/GPS stripped before a photo leaves, and a Bluetooth peer-to-peer path when the network is gone. And the on-device inference that does exist is real: a 320x320 detector runs on the Neural Engine and answers one question — is a lens pointed at you.",
+  "pt-BR": "A base de privacidade já está entregue: sem número de telefone e sem e-mail, sem ID de usuário global, cargas de fila criptografadas, EXIF/GPS removidos antes de a foto sair, e um caminho Bluetooth ponto a ponto quando a rede não existe. E a inferência no dispositivo que de fato existe é real: um detector 320x320 roda na Neural Engine e responde a uma única pergunta — há uma lente apontada para você.",
+  ko: "프라이버시 기반은 이미 출시되었습니다. 전화번호도 이메일도 없고, 전역 사용자 ID가 없으며, 큐 페이로드가 암호화되고, 사진이 기기를 떠나기 전에 EXIF/GPS가 제거되며, 네트워크가 없을 때는 Bluetooth 피어 투 피어 경로가 있습니다. 실제로 존재하는 온디바이스 추론도 진짜입니다. 320x320 검출기가 Neural Engine에서 실행되며 한 가지 질문에 답합니다 — 렌즈가 나를 향하고 있는가.",
+  ar: "أساس الخصوصية مشحون بالفعل: لا رقم هاتف ولا بريد إلكتروني، ولا ID مستخدم عالمي، وحمولات طوابير مشفرة، وEXIF/GPS منزوعان قبل مغادرة الصورة، ومسار Bluetooth من نظير إلى نظير عند انقطاع الشبكة. والاستدلال على الجهاز الموجود فعلًا حقيقي: كاشف بدقة 320x320 يعمل على Neural Engine ويجيب عن سؤال واحد — هل هناك عدسة موجهة نحوك.",
   ru: "Основа приватности уже в продукте: без номера телефона и почты, без глобального ID, шифрование полезной нагрузки очередей, EXIF/GPS снимаются до отправки фото, а без сети остаётся Bluetooth «точка-точка». Локальный вывод на устройстве тоже не пустое обещание: детектор 320x320 считается на Neural Engine и отвечает на один вопрос — направлен ли на вас объектив.",
   de: "Die Privatsphäre-Basis ist ausgeliefert: keine Telefonnummer und keine E-Mail, keine globale Benutzer-ID, verschlüsselte Queue-Nutzdaten, EXIF/GPS verschwinden vor dem Foto-Versand, und ohne Netz bleibt der Bluetooth-Weg von Paar zu Paar. Und die Inferenz auf dem Gerät ist kein Versprechen, sondern vorhanden: ein 320x320-Detektor rechnet auf der Neural Engine und beantwortet eine Frage — zeigt eine Linse auf Sie?",
   fr: "Le socle de confidentialité est livré : pas de numéro de téléphone ni d’e-mail, pas d’identifiant global, charge utile des files chiffrée, EXIF/GPS retirés avant l’envoi de la photo et, sans réseau, le trajet Bluetooth de pair à pair. Et l’inférence sur l’appareil existe bel et bien : un détecteur 320x320 calcule sur le Neural Engine et répond à une seule question — un objectif est-il pointé vers vous ?",
@@ -141,6 +157,9 @@ const L1_DONE: Localized<string> = {
 
 const L1_NEXT: Localized<string> = {
   en: "The assistant itself is not in the client yet: the iOS repository has no dialogue or generative model, no speech recognizer and no local inference server, so this portal does not count it as shipped. The weights that do ship only detect objects.",
+  "pt-BR": "O assistente em si ainda não está no cliente: o repositório iOS não tem modelo de diálogo ou generativo, nem reconhecedor de fala, nem servidor de inferência local, então este portal não o considera entregue. Os pesos que de fato são entregues apenas detectam objetos.",
+  ko: "어시스턴트 자체는 아직 클라이언트에 없습니다. iOS 저장소에는 대화 모델이나 생성 모델, 음성 인식기, 로컬 추론 서버가 없으므로 이 포털은 이를 출시된 것으로 계산하지 않습니다. 실제로 출시되는 가중치는 객체만 감지합니다.",
+  ar: "المساعد نفسه ليس في العميل بعد: لا يوجد في مستودع iOS أي نموذج حواري أو توليدي، ولا متعرف على الكلام، ولا خادم استدلال محلي، لذا لا تحتسبه هذه البوابة مشحونًا. أما الأوزان المشحونة فعلًا فتكشف الأجسام فقط.",
   ru: "Самого ассистента в клиенте ещё нет: в iOS-репозитории нет ни диалоговой, ни генеративной модели, ни распознавания речи, ни локального сервера вывода, поэтому портал не считает это выпущенным. Те веса, что поставляются, занимаются только детекцией объектов.",
   de: "Der Assistent selbst ist noch nicht im Client: Im iOS-Repository gibt es weder ein Dialog- noch ein generatives Modell, weder Spracherkennung noch einen lokalen Inferenzserver, also zählt diese Seite sie nicht als ausgeliefert. Die mitgelieferten Gewichte erkennen nur Objekte.",
   fr: "L’assistant lui-même n’est pas encore dans le client : le dépôt iOS ne contient ni modèle de dialogue ni modèle génératif, ni reconnaissance vocale, ni serveur d’inférence local, donc ce portail ne le compte pas comme livré. Les poids livrés ne font que détecter des objets.",
@@ -162,6 +181,9 @@ const L1_NEXT: Localized<string> = {
 
 const L2_DESC: Localized<string> = {
   en: "The layer you host yourself: create agents in Bot Studio, configure them, and let several roles run apart from each other.",
+  "pt-BR": "A camada que você hospeda por conta própria: crie agentes no Bot Studio, configure-os e deixe vários papéis rodarem separados uns dos outros.",
+  ko: "직접 호스팅하는 계층입니다. Bot Studio에서 에이전트를 만들고 구성하며, 여러 역할을 서로 분리된 채로 실행하게 합니다.",
+  ar: "الطبقة التي تستضيفها بنفسك: أنشئ وكلاء في Bot Studio، واضبط إعداداتهم، ودع عدة أدوار تعمل منفصلة بعضها عن بعض.",
   ru: "Уровень, который размещаете сами: агентов создаёте в Bot Studio, настраиваете, и несколько ролей работают изолированно.",
   de: "Die Ebene, die Sie selbst betreiben: Agenten in Bot Studio anlegen, konfigurieren und mehrere Rollen getrennt voneinander laufen lassen.",
   fr: "Le niveau que vous hébergez vous-même : créer les agents dans Bot Studio, les configurer et faire tourner plusieurs rôles isolés les uns des autres.",
@@ -183,6 +205,9 @@ const L2_DESC: Localized<string> = {
 
 const L2_DONE: Localized<string> = {
   en: "Live: the Bot Studio portal and its engine repository are both public, one process supervises any number of popopx-cli instances, the console binds 127.0.0.1:8090 by default and the bot control ports never leave loopback. Its orchestrator now routes subtasks between sibling agents in the same workbench, under default-deny grants, five read-only capabilities and one audit trail.",
+  "pt-BR": "Em operação: o portal do Bot Studio e o repositório do motor são ambos públicos, um processo supervisiona qualquer número de instâncias do popopx-cli, o console escuta em 127.0.0.1:8090 por padrão e as portas de controle do bot nunca saem do loopback. Seu orquestrador agora roteia subtarefas entre agentes irmãos na mesma bancada, sob concessões de negação por padrão, cinco capacidades somente leitura e um único registro de auditoria.",
+  ko: "운영 중: Bot Studio 포털과 그 엔진 저장소는 모두 공개되어 있고, 하나의 프로세스가 임의 개수의 popopx-cli 인스턴스를 감독하며, 콘솔은 기본적으로 127.0.0.1:8090에 바인딩되고 봇 제어 포트는 루프백을 벗어나지 않습니다. 오케스트레이터는 이제 같은 워크벤치의 형제 에이전트 사이에서 하위 작업을 라우팅하며, 기본 거부 방식의 권한 부여, 읽기 전용 기능 다섯 개, 하나의 감사 추적 아래에서 동작합니다.",
+  ar: "مشحون: بوابة Bot Studio ومستودع محركها كلاهما عام، وعملية واحدة تشرف على أي عدد من نسخ popopx-cli، وتستمع وحدة التحكم افتراضيًا على 127.0.0.1:8090، ولا تغادر منافذ تحكم البوت الاسترجاع المحلي (loopback) قط. ومنسقها يوجه الآن المهام الفرعية بين وكلاء أشقاء في ورشة العمل نفسها، وفق تخويلات الرفض الافتراضي، وخمس قدرات للقراءة فقط، وسجل تدقيق واحد.",
   ru: "Работает: портал Bot Studio и репозиторий движка опубликованы, один процесс ведёт произвольное число экземпляров popopx-cli, консоль типово привязана к 127.0.0.1:8090, а порты управления ботами не выходят за пределы локальной петли. Его оркестратор теперь передаёт подзадачи между агентами одного рабочего стола — с разрешениями по умолчанию «запрещено», пятью возможностями только для чтения и единым журналом аудита.",
   de: "Verfügbar: Bot-Studio-Portal und Engine-Repository sind offen, ein Prozess beaufsichtigt beliebig viele popopx-cli-Instanzen, die Konsole bindet standardmäßig 127.0.0.1:8090, und die Bot-Steuerports verlassen nie das Loopback. Sein Orchestrator reicht jetzt Teilaufgaben zwischen Schwesteragenten derselben Werkbank weiter — mit standardmäßig verweigerten Freigaben, fünf schreibgeschützten Fähigkeiten und einem gemeinsamen Prüfpfad.",
   fr: "Disponible : le portail Bot Studio et le dépôt du moteur sont publics, un seul processus supervise un nombre illimité d’instances de popopx-cli, la console se lie par défaut à 127.0.0.1:8090 et les ports de contrôle des bots ne sortent jamais de la boucle locale. Son orchestrateur transmet désormais des sous-tâches entre agents frères du même espace de travail, avec des autorisations refusées par défaut, cinq capacités en lecture seule et une piste d’audit unique.",
@@ -204,6 +229,9 @@ const L2_DONE: Localized<string> = {
 
 const L2_NEXT: Localized<string> = {
   en: "Evolving: orchestration still stops at the workbench boundary. The orchestrator runs inside one Studio process and only routes work between sibling bots; a cross-product orchestrator is still absent, and PAP remains zero.",
+  "pt-BR": "Em evolução: a orquestração ainda para na fronteira da bancada. O orquestrador roda dentro de um único processo do Studio e só roteia trabalho entre bots irmãos; um orquestrador entre produtos ainda não existe, e o PAP continua em zero.",
+  ko: "발전 중: 오케스트레이션은 여전히 워크벤치 경계에서 멈춥니다. 오케스트레이터는 하나의 Studio 프로세스 안에서 실행되며 형제 봇 사이에서만 작업을 라우팅합니다. 제품을 가로지르는 오케스트레이터는 아직 없고, PAP는 여전히 0입니다.",
+  ar: "قيد التطور: لا يزال التنسيق يتوقف عند حدود ورشة العمل. يعمل المنسق داخل عملية Studio واحدة ولا يوجه العمل إلا بين بوتات شقيقة؛ وما زال المنسق العابر للمنتجات غائبًا، وPAP ما زال صفرًا.",
   ru: "Развивается: оркестрация по-прежнему заканчивается на границе рабочего стола. Оркестратор работает внутри одного процесса Studio и передаёт работу только между агентами-соседями; межпродуктового оркестратора по-прежнему нет, а PAP остаётся нулём.",
   de: "In Entwicklung: Orchestrierung endet weiterhin an der Werkbankgrenze. Der Orchestrator läuft in einem Studio-Prozess und reicht Arbeit nur zwischen Schwester-Bots weiter; ein produktübergreifender Orchestrator fehlt weiterhin, PAP bleibt null.",
   fr: "En évolution : l’orchestration s’arrête encore à la frontière de l’espace de travail. L’orchestrateur tourne dans un seul processus Studio et ne transmet le travail qu’entre bots frères ; un orchestrateur inter-produits reste absent, et PAP reste à zéro.",
@@ -225,6 +253,9 @@ const L2_NEXT: Localized<string> = {
 
 const L3_DESC: Localized<string> = {
   en: "The outward-facing layer: through Service Suite and Mac Node an agent reaches external tools, services and your own hardware.",
+  "pt-BR": "A camada voltada para fora: por meio do Service Suite e do Mac Node, um agente alcança ferramentas externas, serviços e o seu próprio hardware.",
+  ko: "외부를 향한 계층입니다. Service Suite와 Mac Node를 통해 에이전트가 외부 도구, 서비스, 그리고 사용자 자신의 하드웨어에 닿습니다.",
+  ar: "الطبقة المتجهة إلى الخارج: عبر Service Suite وMac Node يصل الوكيل إلى أدوات وخدمات خارجية وإلى عتادك أنت.",
   ru: "Уровень наружу: через Service Suite и Mac Node агент дотягивается до внешних инструментов, сервисов и вашего собственного оборудования.",
   de: "Die nach außen gerichtete Ebene: Über Service Suite und Mac Node erreicht ein Agent externe Werkzeuge, Dienste und die eigene Hardware.",
   fr: "Le niveau tourné vers l’extérieur : par Service Suite et Mac Node, un agent atteint les outils externes, les services et votre propre matériel.",
@@ -246,6 +277,9 @@ const L3_DESC: Localized<string> = {
 
 const L3_DONE: Localized<string> = {
   en: "Live: service-account chats, the two-level menu, the zero-knowledge channel envelope and H5 authorisation; Mac Node runs Ollama, the Qwen weights and the LTX-2.5 MLX plus FFmpeg pipeline on the machine itself, its console bound to loopback by construction. With a signed one-time pairing credential, a bound Mac Node also runs the owner-enabled assistant loop: a briefing at the hour you set, read-only mail triage with approval-gated sending, a home-device sentinel, a signed LAN-only Discover feed that refreshes the phone, and signed update cards.",
+  "pt-BR": "Em operação: chats de conta de serviço, o menu de dois níveis, o envelope do canal de conhecimento zero e a autorização H5; o Mac Node roda Ollama, os pesos Qwen e o pipeline LTX-2.5 MLX mais FFmpeg na própria máquina, com seu console ligado ao loopback por construção. Com uma credencial de emparelhamento assinada e de uso único, um Mac Node vinculado também executa o laço do assistente habilitado pelo proprietário: um briefing na hora que você definir, triagem de e-mails somente leitura com envio sujeito a aprovação, uma sentinela de dispositivos da casa, um feed do Descobrir assinado e restrito à LAN que atualiza o telefone, e cartões de atualização assinados.",
+  ko: "운영 중: 서비스 계정 채팅, 2단계 메뉴, 영지식 채널 봉투, H5 권한 부여. Mac Node는 Ollama, Qwen 가중치, LTX-2.5 MLX와 FFmpeg 파이프라인을 기기 자체에서 실행하며, 콘솔은 구조적으로 루프백에 바인딩됩니다. 서명된 일회성 페어링 자격 증명이 있으면 바인딩된 Mac Node는 소유자가 활성화한 어시스턴트 루프도 실행합니다. 설정한 시각의 브리핑, 승인 후에만 발송하는 읽기 전용 메일 분류, 가정 기기 센티널, 휴대폰을 새로 고치는 서명된 LAN 전용 발견 피드, 서명된 업데이트 카드가 그것입니다.",
+  ar: "مشحون: محادثات حسابات الخدمة، والقائمة ذات المستويين، ومظروف القناة عديمة المعرفة، وتخويل H5؛ ويشغل Mac Node كلا من Ollama وأوزان Qwen وخط أنابيب LTX-2.5 MLX مع FFmpeg على الجهاز نفسه، ووحدته التحكمية مرتبطة بالاسترجاع المحلي (loopback) بحكم التصميم. وباعتماد اقتران موقّع لمرة واحدة، يشغل Mac Node المقترن أيضًا حلقة المساعد التي يشغلها المالك: إحاطة في الساعة التي تحددها، وفرز بريد للقراءة فقط مشروط إرساله بموافقة، وحارس لأجهزة المنزل، وتغذية اكتشاف للشبكة المحلية فقط تحمل توقيعًا وتزود الهاتف بالتحديثات، وبطاقات تحديث موقّعة.",
   ru: "Работает: переписка с сервисными аккаунтами, двухуровневое меню, конверт канала с ротацией ключей с нулевым знанием и H5-авторизация; Mac Node запускает Ollama, веса Qwen и конвейер LTX-2.5 MLX с FFmpeg на самой машине, его консоль по построению привязана к локальной петле. С подписанным одноразовым учётным данным сопряжения привязанный Mac Node также ведёт включаемый владельцем цикл помощника: сводка в заданный час, только чтение почты с отправкой после подтверждения, сторож домашних устройств, подписанная локальная лента Discover, обновляющая телефон, и подписанные карточки обновлений.",
   de: "Verfügbar: Unterhaltungen mit Dienstkonten, das Menü mit zwei Ebenen, der Kanalumschlag mit Zero-Knowledge-Schlüsselrotation und die H5-Autorisierung; Mac Node führt Ollama, die Qwen-Gewichte und die Kette aus LTX-2.5 MLX und FFmpeg auf dem Rechner selbst aus, die Konsole ist konstruktionsbedingt an Loopback gebunden. Mit einer signierten einmaligen Kopplungs-Berechtigung führt ein gebundener Mac Node außerdem die vom Besitzer aktivierte Assistentenschleife aus: ein Briefing zur eingestellten Stunde, schreibgeschützte Mail-Sichtung mit freigabegesteuertem Versand, ein Hausgeräte-Wächter, ein signierter LAN-only-Discover-Feed, der das Handy aktualisiert, und signierte Update-Karten.",
   fr: "Disponible : les comptes de service, le menu à deux niveaux, l’enveloppe de canal à rotation de clés à connaissance nulle et l’autorisation H5 ; Mac Node exécute Ollama, les poids Qwen et le pipeline LTX-2.5 MLX avec FFmpeg sur la machine elle-même, sa console étant liée au bouclage par construction. Avec un justificatif de couplage signé à usage unique, un Mac Node lié exécute aussi la boucle d’assistant activée par le propriétaire : un briefing à l’heure choisie, un tri des mails en lecture seule avec envoi soumis à approbation, une sentinelle des appareils domestiques, un flux Discover signé limité au réseau local qui rafraîchit le téléphone, et des cartes de mise à jour signées.",
@@ -267,6 +301,9 @@ const L3_DONE: Localized<string> = {
 
 const L3_NEXT: Localized<string> = {
   en: "Evolving: a shared cross-product scheduler is still missing. The shipped loop links a paired phone to a bound Mac Node; Bot Studio reaches Mac Node only through owner-approved loopback tools, not a job bus, and PAP remains zero.",
+  "pt-BR": "Em evolução: ainda falta um agendador compartilhado entre produtos. O laço entregue liga um telefone emparelhado a um Mac Node vinculado; o Bot Studio alcança o Mac Node apenas por ferramentas de loopback aprovadas pelo proprietário, não por um barramento de tarefas, e o PAP continua em zero.",
+  ko: "발전 중: 제품을 가로지르는 공유 스케줄러가 아직 없습니다. 출시된 루프는 페어링된 휴대폰을 바인딩된 Mac Node에 연결합니다. Bot Studio는 작업 버스가 아니라 소유자가 승인한 루프백 도구를 통해서만 Mac Node에 닿고, PAP는 여전히 0입니다.",
+  ar: "قيد التطور: ما زال المنسق المجدول المشترك العابر للمنتجات غائبًا. الحلقة المشحونة تربط هاتفًا مقترنًا بـMac Node مقترن؛ ولا يصل Bot Studio إلى Mac Node إلا عبر أدوات استرجاع محلي يوافق عليها المالك، لا عبر ناقل مهام، وPAP ما زال صفرًا.",
   ru: "Развивается: общего межпродуктового планировщика по-прежнему нет. Работающий цикл связывает сопряжённый телефон с привязанным Mac Node; Bot Studio обращается к Mac Node только через одобренные владельцем локальные инструменты, а не через шину задач, и PAP остаётся нулём.",
   de: "In Entwicklung: ein gemeinsamer produktübergreifender Scheduler fehlt weiterhin. Die ausgelieferte Schleife verbindet ein gekoppeltes Handy mit einem gebundenen Mac Node; Bot Studio erreicht Mac Node nur über vom Besitzer freigegebene Loopback-Werkzeuge, nicht über einen Job-Bus, und PAP bleibt null.",
   fr: "En évolution : un ordonnanceur commun entre produits manque encore. La boucle livrée relie un téléphone appairé à un Mac Node lié ; Bot Studio n’atteint Mac Node que par des outils locaux approuvés par le propriétaire, pas par un bus de tâches, et PAP reste à zéro.",
@@ -293,6 +330,9 @@ const L3_NEXT: Localized<string> = {
  */
 export const STATUS_AVAILABLE: Localized<string> = {
   en: "Available",
+  "pt-BR": "Disponível",
+  ko: "사용 가능",
+  ar: "متاح",
   ru: "Доступно",
   de: "Verfügbar",
   fr: "Disponible",
@@ -314,6 +354,9 @@ export const STATUS_AVAILABLE: Localized<string> = {
 
 export const STATUS_EVOLVING: Localized<string> = {
   en: "Evolving",
+  "pt-BR": "Em evolução",
+  ko: "발전 중",
+  ar: "قيد التطور",
   ru: "Развивается",
   de: "In Entwicklung",
   fr: "En évolution",
@@ -335,6 +378,9 @@ export const STATUS_EVOLVING: Localized<string> = {
 
 const FOOT: Localized<string> = {
   en: "These three layers describe capability; the six-layer diagram on /ecosystem/ describes the same system as engineering. Every line here is either in a repository or it is labelled Evolving — and the Agent protocol status says the same thing: the SMP Agent Protocol has a Version 7 specification and a server-side implementation, PAP has zero.",
+  "pt-BR": "Estas três camadas descrevem capacidade; o diagrama de seis camadas em /ecosystem/ descreve o mesmo sistema como engenharia. Cada linha aqui está em um repositório ou recebe o rótulo Em evolução — e o status do protocolo de agente diz o mesmo: o SMP Agent Protocol tem uma especificação Versão 7 e uma implementação no lado do servidor, o PAP tem zero.",
+  ko: "이 세 계층은 역량을 설명하고, /ecosystem/의 6계층 다이어그램은 같은 시스템을 엔지니어링으로 설명합니다. 여기의 모든 항목은 저장소에 있거나 발전 중으로 표시되어 있으며, 에이전트 프로토콜 현황도 같은 이야기를 합니다. SMP Agent Protocol에는 Version 7 명세와 서버 측 구현이 있고, PAP에는 0입니다.",
+  ar: "تصف هذه الطبقات الثلاث القدرات؛ أما مخطط الطبقات الست على /ecosystem/ فيصف النظام نفسه بوصفه هندسة. كل سطر هنا إما موجود في مستودع أو موسوم بقيد التطور — وحالة بروتوكول الوكيل تقول الشيء نفسه: لدى SMP Agent Protocol مواصفة الإصدار 7 وتنفيذ على جانب الخادم، ولدى PAP صفر.",
   ru: "Эти три уровня — про возможности; шестислойная схема на /ecosystem/ — про инженерию той же системы. Каждая строка здесь либо есть в репозитории, либо помечена «Развивается» — и статус Agent-протокола говорит то же самое: у SMP Agent Protocol есть спецификация Version 7 и серверная реализация, у PAP реализаций ноль.",
   de: "Diese drei Ebenen beschreiben Fähigkeiten; das Diagramm mit sechs Ebenen auf /ecosystem/ beschreibt dieselbe Systemtechnik. Jede Zeile hier ist entweder in einem Repository vorhanden oder als „In Entwicklung“ gekennzeichnet — und der Agent-Protokollstatus sagt dasselbe: Das SMP Agent Protocol hat eine Version-7-Spezifikation und eine serverseitige Implementierung, PAP hat keine.",
   fr: "Ces trois niveaux parlent de capacité ; le schéma à six niveaux sur /ecosystem/ parle d’ingénierie du même système. Chaque ligne ici est soit dans un dépôt, soit marquée « En évolution » — et le statut du protocole Agent dit la même chose : le SMP Agent Protocol a une spécification Version 7 et une implémentation serveur, PAP en a zéro.",
@@ -382,7 +428,9 @@ export function AiThreeLayers(): ReactElement {
             <LayerCard key={layer.name} layer={layer} index={index} />
           ))}
         </ol>
-        <p className="mt-5 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">{note}</p>
+        <p className="mt-5 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">
+          <LtrText text={note} />
+        </p>
       </div>
     </section>
   );
@@ -398,12 +446,14 @@ function LayerCard({ layer, index }: { layer: Layer; index: number }): ReactElem
         className={`glass glass-hover flex h-full min-w-0 flex-1 flex-col border p-5 ${tone.ring}`}
       >
         <div className="flex items-start justify-between gap-3">
-          <h3 className="min-w-0 break-words text-[16px] font-semibold tracking-tight text-white">
+          <h3 dir="ltr" className="min-w-0 break-words text-start text-[16px] font-semibold tracking-tight text-white">
             {layer.name}
           </h3>
           <span className="chip shrink-0 font-mono text-[10.5px] text-faint">{`0${index + 1}`}</span>
         </div>
-        <p className="mt-3 min-w-0 break-words text-[13.5px] leading-relaxed text-mute">{desc}</p>
+        <p className="mt-3 min-w-0 break-words text-[13.5px] leading-relaxed text-mute">
+          <LtrText text={desc} />
+        </p>
         <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-4 border-t border-hair pt-4">
           <StateRow tone="mesh" label={STATUS_AVAILABLE} text={layer.done} />
           <StateRow tone="warn" label={STATUS_EVOLVING} text={layer.next} />
@@ -434,7 +484,9 @@ function StateRow({
           {value}
         </span>
       </div>
-      <p className="mt-2 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">{body}</p>
+      <p className="mt-2 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">
+        <LtrText text={body} />
+      </p>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, type ReactElement } from "react";
 import Link from "next/link";
 import { pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
+import { Ltr, LtrText } from "@/components/Ltr";
 import { BRAND_CLAIM, BRAND_CLAIM_LOCAL, BRAND_MISSION, BRAND_POSITIONING } from "@/lib/seo";
 import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
 
@@ -14,7 +15,7 @@ import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
  *    the sentence that explains it underneath. The positioning sentence now sits
  *    below the subtitle, and the document head still carries it as `POPOPX — …`
  *    (`SEO_TITLE` in `src/lib/seo.ts`), so the first screen and the tab cannot drift
- *    in any of the 18 languages. The subtitle is the ecosystem mission — brand
+ *    in any of the 21 languages. The subtitle is the ecosystem mission — brand
  *    framing, not a technical claim; the claims a visitor could check are the four
  *    badges, each with its own source in the ledger;
  *  - the four badges are the four claims the client code supports — no global
@@ -27,7 +28,7 @@ import { IOS_REPO_URL, SITE_URL } from "@/lib/site";
  *    `apps/ios/Shared/Navigation/MainTabView.swift` (§2), but nothing on the screen is a
  *    screenshot, and no invented contact, message or avatar appears;
  *  - the technical chips under each tab are protocol identifiers and constant
- *    names, so they are locale-free on purpose and identical in all 18
+ *    names, so they are locale-free on purpose and identical in all 21
  *    languages; each one is quoted from the source (§3, §4, §6, §8, §9);
  *  - no store link is rendered anywhere: the App Store record does not resolve
  *    and the existing ruling says nothing may be shown until it does (§12).
@@ -46,6 +47,9 @@ const HERO_COPY: Record<
   // a Chinese tagline of this shape sounds like.
   eyebrow: {
     en: "Connect Freely · Communicate Privately · Collaborate Intelligently",
+    "pt-BR": "Conecte-se livremente · Comunique-se com privacidade · Colabore com inteligência",
+    ko: "자유롭게 연결 · 사적으로 소통 · 지능적으로 협업",
+    ar: "اتصل بحرية · تواصل بخصوصية · تعاون بذكاء",
     ru: "Подключайтесь свободно · Общайтесь конфиденциально · Сотрудничайте разумно",
     de: "Frei verbinden · Privat kommunizieren · Intelligent zusammenarbeiten",
     fr: "Connectez librement · Communiquez en privé · Collaborez intelligemment",
@@ -74,6 +78,9 @@ const HERO_COPY: Record<
 
   ctaGet: {
     en: "Get the client & build it",
+    "pt-BR": "Obtenha o cliente e compile-o",
+    ko: "클라이언트 받고 직접 빌드하기",
+    ar: "احصل على العميل وابنه",
     ru: "Получить клиент и собрать",
     de: "Client holen und bauen",
     fr: "Obtenir le client et le compiler",
@@ -94,6 +101,9 @@ const HERO_COPY: Record<
   },
   ctaRepo: {
     en: "Open the source repository",
+    "pt-BR": "Abrir o repositório de código-fonte",
+    ko: "소스 저장소 열기",
+    ar: "افتح مستودع المصدر",
     ru: "Открыть репозиторий с кодом",
     de: "Quellcode-Repository öffnen",
     fr: "Ouvrir le dépôt du code source",
@@ -114,6 +124,9 @@ const HERO_COPY: Record<
   },
   ctaSecurity: {
     en: "Read the security model",
+    "pt-BR": "Ler o modelo de segurança",
+    ko: "보안 모델 읽기",
+    ar: "اقرأ نموذج الأمان",
     ru: "Прочитать модель безопасности",
     de: "Sicherheitsmodell lesen",
     fr: "Lire le modèle de sécurité",
@@ -140,6 +153,9 @@ const BADGE_COPY: Record<
 > = {
   identityLabel: {
     en: "No global user ID",
+    "pt-BR": "Sem ID de usuário global",
+    ko: "글로벌 사용자 ID 없음",
+    ar: "لا معرّف مستخدم عام (ID)",
     ru: "Нет глобального ID",
     de: "Keine globale Benutzer-ID",
     fr: "Aucun identifiant global",
@@ -160,6 +176,9 @@ const BADGE_COPY: Record<
   },
   identityNote: {
     en: "No phone number, no email, no global public key",
+    "pt-BR": "Sem número de telefone, sem e-mail, sem chave pública global",
+    ko: "전화번호도, 이메일도, 글로벌 공개 키도 없음",
+    ar: "لا رقم هاتف، ولا بريد إلكتروني، ولا مفتاح عام عالمي",
     ru: "Ни номера телефона, ни почты, ни глобального открытого ключа",
     de: "Keine Telefonnummer, keine E-Mail, kein globaler öffentlicher Schlüssel",
     fr: "Ni numéro de téléphone, ni e-mail, ni clé publique globale",
@@ -180,6 +199,9 @@ const BADGE_COPY: Record<
   },
   e2eeLabel: {
     en: "End-to-end encrypted",
+    "pt-BR": "Criptografia ponta a ponta",
+    ko: "종단간 암호화",
+    ar: "مشفّر من الطرف إلى الطرف",
     ru: "Сквозное шифрование",
     de: "Ende-zu-Ende verschlüsselt",
     fr: "Chiffré de bout en bout",
@@ -200,6 +222,9 @@ const BADGE_COPY: Record<
   },
   e2eeNote: {
     en: "Queue payload AES-256-GCM · Bluetooth link via Noise XX",
+    "pt-BR": "Payload da fila AES-256-GCM · Link Bluetooth via Noise XX",
+    ko: "큐 페이로드 AES-256-GCM · Bluetooth 링크는 Noise XX",
+    ar: "حمولة الطابور AES-256-GCM · رابط Bluetooth عبر Noise XX",
     ru: "Нагрузка очереди AES-256-GCM · Bluetooth по Noise XX",
     de: "Queue-Nutzdaten AES-256-GCM · Bluetooth über Noise XX",
     fr: "Charge de file AES-256-GCM · lien Bluetooth via Noise XX",
@@ -220,6 +245,9 @@ const BADGE_COPY: Record<
   },
   bleLabel: {
     en: "Offline Bluetooth link",
+    "pt-BR": "Link Bluetooth offline",
+    ko: "오프라인 Bluetooth 링크",
+    ar: "رابط Bluetooth دون اتصال",
     ru: "Офлайн-канал Bluetooth",
     de: "Offline-Bluetooth-Verbindung",
     fr: "Lien Bluetooth hors ligne",
@@ -240,6 +268,9 @@ const BADGE_COPY: Record<
   },
   bleNote: {
     en: "Dual-role CoreBluetooth GATT, peer to peer",
+    "pt-BR": "GATT via CoreBluetooth com dois papéis, ponto a ponto",
+    ko: "듀얼 롤 CoreBluetooth GATT, 피어 투 피어",
+    ar: "CoreBluetooth GATT بدورين، من نظير إلى نظير",
     ru: "Двухролевая GATT на CoreBluetooth, напрямую",
     de: "Dual-Role CoreBluetooth-GATT, Peer-to-Peer",
     fr: "GATT CoreBluetooth double rôle, de pair à pair",
@@ -260,6 +291,9 @@ const BADGE_COPY: Record<
   },
   ossLabel: {
     en: "AGPL-3.0 source",
+    "pt-BR": "Código-fonte AGPL-3.0",
+    ko: "AGPL-3.0 소스",
+    ar: "مصدر AGPL-3.0",
     ru: "Код под AGPL-3.0",
     de: "Quellcode unter AGPL-3.0",
     fr: "Code sous AGPL-3.0",
@@ -280,6 +314,9 @@ const BADGE_COPY: Record<
   },
   ossNote: {
     en: "The client repository is public; LICENSE is the full AGPL-3.0 text",
+    "pt-BR": "O repositório do cliente é público; o arquivo LICENSE é o texto completo da AGPL-3.0",
+    ko: "클라이언트 저장소는 공개되어 있고, LICENSE는 AGPL-3.0 전문입니다",
+    ar: "مستودع العميل عام؛ وملف LICENSE هو نص AGPL-3.0 الكامل",
     ru: "Репозиторий клиента открыт; LICENSE — полный текст AGPL-3.0",
     de: "Das Client-Repository ist öffentlich; LICENSE ist der vollständige AGPL-3.0-Text",
     fr: "Le dépôt du client est public ; LICENSE est le texte intégral AGPL-3.0",
@@ -303,6 +340,9 @@ const BADGE_COPY: Record<
 const TAB_LABELS: Record<TabId, Localized<string>> = {
   messages: {
     en: "Messages",
+    "pt-BR": "Mensagens",
+    ko: "메시지",
+    ar: "الرسائل",
     ru: "Сообщения",
     de: "Nachrichten",
     fr: "Messages",
@@ -323,6 +363,9 @@ const TAB_LABELS: Record<TabId, Localized<string>> = {
   },
   contacts: {
     en: "Contacts",
+    "pt-BR": "Contatos",
+    ko: "연락처",
+    ar: "جهات الاتصال",
     ru: "Контакты",
     de: "Kontakte",
     fr: "Contacts",
@@ -343,6 +386,9 @@ const TAB_LABELS: Record<TabId, Localized<string>> = {
   },
   cabin: {
     en: "Cabin",
+    "pt-BR": "Cabine",
+    ko: "캐빈",
+    ar: "المقصورة",
     ru: "Кабина",
     de: "Kabine",
     fr: "Cabine",
@@ -363,6 +409,9 @@ const TAB_LABELS: Record<TabId, Localized<string>> = {
   },
   discover: {
     en: "Discover",
+    "pt-BR": "Descobrir",
+    ko: "발견",
+    ar: "اكتشاف",
     ru: "Поиск",
     de: "Entdecken",
     fr: "Découvrir",
@@ -383,6 +432,9 @@ const TAB_LABELS: Record<TabId, Localized<string>> = {
   },
   me: {
     en: "Me",
+    "pt-BR": "Eu",
+    ko: "나",
+    ar: "أنا",
     ru: "Я",
     de: "Ich",
     fr: "Moi",
@@ -406,6 +458,9 @@ const TAB_LABELS: Record<TabId, Localized<string>> = {
 const TAB_NOTES: Record<TabId, Localized<string>> = {
   messages: {
     en: "A connection is a pair of one-time queue addresses",
+    "pt-BR": "Uma conexão é um par de endereços de fila de uso único",
+    ko: "연결은 일회성 큐 주소 한 쌍입니다",
+    ar: "الاتصال زوج من عناوين طوابير أحادية الاستخدام",
     ru: "Соединение — пара одноразовых адресов очередей",
     de: "Eine Verbindung ist ein Paar einmaliger Queue-Adressen",
     fr: "Une connexion est une paire d’adresses de file à usage unique",
@@ -426,6 +481,9 @@ const TAB_NOTES: Record<TabId, Localized<string>> = {
   },
   contacts: {
     en: "Invitation links and one-time addresses are the only way in",
+    "pt-BR": "Links de convite e endereços de uso único são o único caminho de entrada",
+    ko: "초대 링크와 일회성 주소만이 들어오는 길입니다",
+    ar: "روابط الدعوة والعناوين أحادية الاستخدام هي المدخل الوحيد",
     ru: "Пригласительные ссылки и одноразовые адреса — единственный путь",
     de: "Einladungslinks und einmalige Adressen sind der einzige Weg",
     fr: "Liens d’invitation et adresses à usage unique sont la seule entrée",
@@ -446,6 +504,9 @@ const TAB_NOTES: Record<TabId, Localized<string>> = {
   },
   cabin: {
     en: "Offline groups with a per-epoch key and a signed roster",
+    "pt-BR": "Grupos offline com uma chave por época e uma lista de membros assinada",
+    ko: "에폭별 키와 서명된 명부를 쓰는 오프라인 그룹",
+    ar: "مجموعات دون اتصال بمفتاح لكل حقبة وقائمة أعضاء موقّعة",
     ru: "Офлайн-группы: ключ на эпоху и подписанный список",
     de: "Offline-Gruppen mit epochenweisem Schlüssel und signierter Liste",
     fr: "Groupes hors ligne avec clé par époque et liste signée",
@@ -466,6 +527,9 @@ const TAB_NOTES: Record<TabId, Localized<string>> = {
   },
   discover: {
     en: "A signed directory, plus service accounts and channels",
+    "pt-BR": "Um diretório assinado, além de contas de serviço e canais",
+    ko: "서명된 디렉터리, 그리고 서비스 계정과 채널",
+    ar: "دليل موقّع، إضافة إلى حسابات الخدمة والقنوات",
     ru: "Подписанный каталог, сервисные аккаунты и каналы",
     de: "Signiertes Verzeichnis, plus Service-Konten und Kanäle",
     fr: "Annuaire signé, comptes de service et canaux",
@@ -486,6 +550,9 @@ const TAB_NOTES: Record<TabId, Localized<string>> = {
   },
   me: {
     en: "Emergency wipe, duress password and decoy profile",
+    "pt-BR": "Apagamento de emergência, senha de coação e perfil chamariz",
+    ko: "긴급 와이프, 강압 비밀번호, 위장 프로필",
+    ar: "محو الطوارئ وكلمة مرور الإكراه والملف الخادع",
     ru: "Экстренное стирание, стресс-пароль и обманка",
     de: "Notfall-Wipe, Erpressungs-Passwort und Tarnprofil",
     fr: "Effacement d’urgence, mot de contrainte et profil leurre",
@@ -509,7 +576,7 @@ const TAB_NOTES: Record<TabId, Localized<string>> = {
 /**
  * Locale-free on purpose: each string is a protocol identifier, a type name or
  * a build constant quoted from the client source, so it is the same text in all
- * 18 languages and no translation can change its meaning.
+ * 21 languages and no translation can change its meaning.
  */
 const TAB_TECH: Record<TabId, string> = {
   messages: "AES-256-GCM payload · ratchetSync",
@@ -522,6 +589,9 @@ const TAB_TECH: Record<TabId, string> = {
 const PHONE_COPY: Record<"frameNote" | "releaseNote" | "tablistLabel" | "badgeRowLabel", Localized<string>> = {
   frameNote: {
     en: "Illustration, not a screenshot — the five tab names and their order are taken from the client’s MainTabView.",
+    "pt-BR": "Ilustração, não uma captura de tela — os cinco nomes de aba e sua ordem vêm do MainTabView do cliente.",
+    ko: "일러스트레이션이며 스크린샷이 아닙니다 — 다섯 개의 탭 이름과 그 순서는 클라이언트의 MainTabView에서 가져왔습니다.",
+    ar: "رسم توضيحي وليس لقطة شاشة — أسماء التبويبات الخمسة وترتيبها مأخوذة من MainTabView في العميل.",
     ru: "Иллюстрация, не снимок экрана — пять имён вкладок и их порядок взяты из MainTabView клиента.",
     de: "Illustration, kein Screenshot — die fünf Tab-Namen und ihre Reihenfolge stammen aus MainTabView des Clients.",
     fr: "Illustration, et non une capture — les cinq noms d’onglets et leur ordre viennent du MainTabView du client.",
@@ -542,6 +612,9 @@ const PHONE_COPY: Record<"frameNote" | "releaseNote" | "tablistLabel" | "badgeRo
   },
   releaseNote: {
     en: "No App Store or TestFlight link is shown: the store record does not resolve yet, so the QR code and every link point back to this portal.",
+    "pt-BR": "Nenhum link do App Store ou do TestFlight é exibido: o registro na loja ainda não resolve, então o código QR e todos os links apontam de volta para este portal.",
+    ko: "App Store나 TestFlight 링크는 표시하지 않습니다. 스토어 기록이 아직 확인되지 않으므로, QR 코드와 모든 링크는 이 포털을 가리킵니다.",
+    ar: "لا يوجد رابط App Store أو TestFlight في هذه الصفحة: سجل المتجر لم يحلّ بعد، لذا يشير رمز QR وكل رابط إلى هذه البوابة.",
     ru: "Ссылок на App Store и TestFlight нет: запись в магазине ещё не разрешается, поэтому QR-код и все ссылки ведут на этот портал.",
     de: "Kein App-Store- oder TestFlight-Link: Der Storeeintrag löst noch nicht auf, deshalb zeigen QR-Code und alle Links auf dieses Portal zurück.",
     fr: "Aucun lien App Store ou TestFlight : la fiche de la boutique ne se résout pas encore, donc le QR code et tous les liens reviennent à ce portail.",
@@ -562,6 +635,9 @@ const PHONE_COPY: Record<"frameNote" | "releaseNote" | "tablistLabel" | "badgeRo
   },
   tablistLabel: {
     en: "Client tab bar preview",
+    "pt-BR": "Prévia da barra de abas do cliente",
+    ko: "클라이언트 탭 바 미리보기",
+    ar: "معاينة شريط تبويبات العميل",
     ru: "Предпросмотр панели вкладок клиента",
     de: "Vorschau der Client-Tab-Leiste",
     fr: "Aperçu de la barre d’onglets du client",
@@ -582,6 +658,9 @@ const PHONE_COPY: Record<"frameNote" | "releaseNote" | "tablistLabel" | "badgeRo
   },
   badgeRowLabel: {
     en: "Four properties of the client",
+    "pt-BR": "Quatro propriedades do cliente",
+    ko: "클라이언트의 네 가지 속성",
+    ar: "أربع خصائص للعميل",
     ru: "Четыре свойства клиента",
     de: "Vier Eigenschaften des Clients",
     fr: "Quatre propriétés du client",
@@ -666,8 +745,8 @@ export function HeroSection(): ReactElement {
   return (
     <section id="hero" className="relative overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-brand-halo absolute -left-24 -top-32 h-[520px] w-[520px]" />
-        <div className="bg-mesh-halo absolute -right-20 top-40 h-[460px] w-[460px]" />
+        <div className="bg-brand-halo absolute -left-24 -top-32 h-[520px] w-[520px] rtl:left-auto rtl:-right-24" />
+        <div className="bg-mesh-halo absolute -right-20 top-40 h-[460px] w-[460px] rtl:right-auto rtl:-left-20" />
       </div>
 
       <div className="section-wrap grid grid-cols-[minmax(0,1fr)] gap-12 pb-16 pt-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 lg:pb-24 lg:pt-20">
@@ -686,14 +765,20 @@ export function HeroSection(): ReactElement {
                 lost 30px). The sizing is a second `clamp` rather than an `em`
                 ratio so the sentence stays readable at 300px, where the
                 heading itself is already at its floor. */}
-            <span className="block">{BRAND_CLAIM}</span>
+            <span className="block">
+              {/* Locale-free English; isolated so its trailing period is not
+                  reordered to the front of the run by an RTL paragraph. */}
+              <Ltr>{BRAND_CLAIM}</Ltr>
+            </span>
             <span className="mt-2 block max-w-[40ch] text-[clamp(1rem,2.2vw,1.5rem)] font-semibold leading-[1.25] tracking-[-0.01em] text-brand-soft">
               {claim}
             </span>
           </h1>
-          <p className="mt-6 max-w-[64ch] text-[15px] leading-[1.75] text-mute">{subtitle}</p>
+          <p className="mt-6 max-w-[64ch] text-[15px] leading-[1.75] text-mute">
+            <LtrText text={subtitle} />
+          </p>
           <p className="mt-4 min-w-0 max-w-[56ch] break-words hyphens-auto text-[13.5px] leading-relaxed text-faint">
-            {positioning}
+            <LtrText text={positioning} />
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-2.5">
@@ -744,8 +829,12 @@ export function HeroSection(): ReactElement {
                   aria-hidden
                 />
                 <div className="min-w-0">
-                  <dt className="text-[13.5px] font-semibold text-white">{badge.label}</dt>
-                  <dd className="mt-1 text-[12px] leading-[1.6] text-faint">{badge.note}</dd>
+                  <dt className="text-[13.5px] font-semibold text-white">
+                    <LtrText text={badge.label} />
+                  </dt>
+                  <dd className="mt-1 text-[12px] leading-[1.6] text-faint">
+                    <LtrText text={badge.note} />
+                  </dd>
                 </div>
               </div>
             ))}
@@ -768,9 +857,12 @@ export function HeroSection(): ReactElement {
               >
                 <p className="eyebrow">{pick(TAB_LABELS[tab], locale)}</p>
                 <p className="mt-3 text-[14px] leading-[1.6] text-white">
-                  {pick(TAB_NOTES[tab], locale)}
+                  <LtrText text={pick(TAB_NOTES[tab], locale)} />
                 </p>
-                <p className="code-surface mt-4 block break-words px-2.5 py-2 font-mono text-[11px] leading-[1.6] text-brand-soft">
+                <p
+                  dir="ltr"
+                  className="code-surface mt-4 block break-words px-2.5 py-2 text-start font-mono text-[11px] leading-[1.6] text-brand-soft"
+                >
                   {TAB_TECH[tab]}
                 </p>
                 <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-1.5">
@@ -785,9 +877,13 @@ export function HeroSection(): ReactElement {
                     >
                       <PhoneTabIcon tab={item} />
                       <span className="min-w-0 flex-1 truncate">
-                        {item === tab
-                          ? pick(TAB_NOTES[item], locale)
-                          : pick(TAB_LABELS[item], locale)}
+                        <LtrText
+                          text={
+                            item === tab
+                              ? pick(TAB_NOTES[item], locale)
+                              : pick(TAB_LABELS[item], locale)
+                          }
+                        />
                       </span>
                     </li>
                   ))}
@@ -815,7 +911,9 @@ export function HeroSection(): ReactElement {
                       }`}
                     >
                       <PhoneTabIcon tab={item} />
-                      <span className="max-w-full truncate">{pick(TAB_LABELS[item], locale)}</span>
+                      <span className="max-w-full truncate">
+                        <LtrText text={pick(TAB_LABELS[item], locale)} />
+                      </span>
                     </button>
                   );
                 })}
@@ -823,17 +921,20 @@ export function HeroSection(): ReactElement {
             </div>
           </div>
 
-          <p className="max-w-[38ch] text-center text-[11.5px] leading-[1.7] text-faint">{frameNote}</p>
+          <p className="max-w-[38ch] text-center text-[11.5px] leading-[1.7] text-faint">
+            <LtrText text={frameNote} />
+          </p>
 
           <a
             href={SITE_URL}
+            dir="ltr"
             className="chip text-faint hover:text-mute"
             title={releaseNote}
           >
             popopx.chat
           </a>
           <p className="max-w-[46ch] text-center text-[11.5px] leading-[1.7] text-faint">
-            {releaseNote}
+            <LtrText text={releaseNote} />
           </p>
         </div>
       </div>

@@ -1,19 +1,19 @@
 "use client";
 
 /**
- * i18n runtime for the POPOPX portal — exactly the languages the iOS client
- * declares, resolved on the client only.
+ * i18n runtime for the POPOPX portal — the client's 18 declared languages plus
+ * `pt-BR`, `ko` and Arabic (RTL), resolved on the client only.
  *
  * The locale set, the types and the display names live in `locales.ts` so the
  * root layout (a Server Component) may read them; this module is the client
  * half: the provider, the stored preference and the lookup helpers.
  *
- * Why client-side resolution rather than 18 generated routes: the project is a
+ * Why client-side resolution rather than 21 generated routes: the project is a
  * Next.js `output: "export"` static build, so there is one HTML document and no
  * server, no middleware and no cookies allowed. `localStorage` keeps the
  * choice, a first visit gets the portal's declared default (`zh-Hans`, the same
  * value the document `<html lang>` and the metadata were built for), and every
- * stored value is re-checked against the 18 — so a visitor can never reach a
+ * stored value is re-checked against the 21 — so a visitor can never reach a
  * page with missing copy.
  */
 
@@ -31,6 +31,7 @@ import {
   HTML_LANG,
   STORAGE_KEY,
   isLocale,
+  isRightToLeft,
   type Locale,
   type Localized,
 } from "./locales";
@@ -68,7 +69,7 @@ export function LocaleProvider({
     try {
       const value = window.localStorage.getItem(STORAGE_KEY);
       // A stale or hand-edited entry is ignored rather than trusted: every
-      // stored value has to be one of the 18 before it may render the page.
+      // stored value has to be one of the 21 before it may render the page.
       if (value && isLocale(value)) stored = value;
     } catch {
       // Private mode or a blocked storage area: this page view keeps the default.
@@ -79,7 +80,7 @@ export function LocaleProvider({
   useEffect(() => {
     const root = document.documentElement;
     root.lang = HTML_LANG[locale];
-    root.dir = "ltr";
+    root.dir = isRightToLeft(locale) ? "rtl" : "ltr";
   }, [locale]);
 
   const setLocale = useCallback((next: Locale) => {

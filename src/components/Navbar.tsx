@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import Link from "next/link";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { LanguageMenu } from "@/components/LanguageMenu";
 import {
   BOT_STUDIO_URL,
@@ -33,7 +34,7 @@ import {
  *    They used to sit in the bar as chips, but `section-wrap` caps the bar at
  *    1180 px and seven locale-dependent labels already use it, so the chips
  *    moved out rather than the labels being clipped.
- *  - Copy is authored in all 18 locales the engine declares, typed as a total
+ *  - Copy is authored in all 21 locales the engine declares, typed as a total
  *    `Localized<string>` map, so the compiler rejects a missing variant.
  */
 
@@ -46,6 +47,9 @@ import {
 export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   home: {
     en: "Home",
+    "pt-BR": "Início",
+    ko: "홈",
+    ar: "الرئيسية",
     ru: "Главная",
     de: "Start",
     fr: "Accueil",
@@ -66,6 +70,9 @@ export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   },
   products: {
     en: "Products",
+    "pt-BR": "Produtos",
+    ko: "제품",
+    ar: "المنتجات",
     ru: "Продукты",
     de: "Produkte",
     fr: "Produits",
@@ -86,6 +93,9 @@ export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   },
   ecosystem: {
     en: "Ecosystem",
+    "pt-BR": "Ecossistema",
+    ko: "생태계",
+    ar: "المنظومة",
     ru: "Экосистема",
     de: "Ökosystem",
     fr: "Écosystème",
@@ -106,6 +116,9 @@ export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   },
   security: {
     en: "Security",
+    "pt-BR": "Segurança",
+    ko: "보안",
+    ar: "الأمان",
     ru: "Безопасность",
     de: "Sicherheit",
     fr: "Sécurité",
@@ -126,6 +139,9 @@ export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   },
   developers: {
     en: "Developers",
+    "pt-BR": "Desenvolvedores",
+    ko: "개발자",
+    ar: "المطوّرون",
     ru: "Разработчикам",
     de: "Entwickler",
     fr: "Développeurs",
@@ -146,6 +162,9 @@ export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   },
   resources: {
     en: "Resources",
+    "pt-BR": "Recursos",
+    ko: "리소스",
+    ar: "الموارد",
     ru: "Ресурсы",
     de: "Ressourcen",
     fr: "Ressources",
@@ -166,6 +185,9 @@ export const ROUTE_LABELS: Record<RouteId, Localized<string>> = {
   },
   download: {
     en: "Download",
+    "pt-BR": "Baixar",
+    ko: "다운로드",
+    ar: "التنزيل",
     ru: "Загрузки",
     de: "Download",
     fr: "Télécharger",
@@ -200,6 +222,9 @@ const NAV_COPY: Record<
 > = {
   skip: {
     en: "Skip to main content",
+    "pt-BR": "Pular para o conteúdo principal",
+    ko: "본문으로 건너뛰기",
+    ar: "انتقل إلى المحتوى الرئيسي",
     ru: "Перейти к основному содержанию",
     de: "Zum Hauptinhalt springen",
     fr: "Aller au contenu principal",
@@ -220,6 +245,9 @@ const NAV_COPY: Record<
   },
   sections: {
     en: "Page sections",
+    "pt-BR": "Seções da página",
+    ko: "페이지 섹션",
+    ar: "أقسام الصفحة",
     ru: "Разделы страницы",
     de: "Seitenbereiche",
     fr: "Sections de la page",
@@ -240,6 +268,9 @@ const NAV_COPY: Record<
   },
   portals: {
     en: "Portal shortcuts",
+    "pt-BR": "Atalhos do portal",
+    ko: "포털 바로가기",
+    ar: "اختصارات البوابة",
     ru: "Быстрый переход к порталам",
     de: "Portal-Verknüpfungen",
     fr: "Raccourcis des portails",
@@ -260,6 +291,9 @@ const NAV_COPY: Record<
   },
   nodeCaption: {
     en: "Mac Node edge engine",
+    "pt-BR": "Motor de borda do Mac Node",
+    ko: "Mac Node 엣지 엔진",
+    ar: "محرك الحافة Mac Node",
     ru: "Узловой движок для Mac",
     de: "Mac-Node-Edge-Engine",
     fr: "Moteur de nœud Mac",
@@ -280,6 +314,9 @@ const NAV_COPY: Record<
   },
   mpCaption: {
     en: "Service accounts & channels",
+    "pt-BR": "Contas de serviço e canais",
+    ko: "서비스 계정과 채널",
+    ar: "حسابات الخدمة والقنوات",
     ru: "Сервисные аккаунты и каналы",
     de: "Service-Konten und Kanäle",
     fr: "Comptes de service et canaux",
@@ -300,6 +337,9 @@ const NAV_COPY: Record<
   },
   studioCaption: {
     en: "Self-hosted bot workbench",
+    "pt-BR": "Bancada de bots auto-hospedada",
+    ko: "자체 호스팅 봇 워크벤치",
+    ar: "ورشة بوتات تستضيفها بنفسك",
     ru: "Верстак ботов на своём сервере",
     de: "Bot-Werkbank auf eigenem Server",
     fr: "Atelier de bots auto-hébergés",
@@ -320,6 +360,9 @@ const NAV_COPY: Record<
   },
   repo: {
     en: "Open-source repository",
+    "pt-BR": "Repositório de código aberto",
+    ko: "오픈 소스 저장소",
+    ar: "مستودع مفتوح المصدر",
     ru: "Репозиторий с открытым кодом",
     de: "Open-Source-Repository",
     fr: "Dépôt open source",
@@ -340,6 +383,9 @@ const NAV_COPY: Record<
   },
   openMenu: {
     en: "Open section menu",
+    "pt-BR": "Abrir o menu da seção",
+    ko: "섹션 메뉴 열기",
+    ar: "افتح قائمة الأقسام",
     ru: "Открыть меню разделов",
     de: "Bereichsmenü öffnen",
     fr: "Ouvrir le menu des sections",
@@ -360,6 +406,9 @@ const NAV_COPY: Record<
   },
   closeMenu: {
     en: "Close section menu",
+    "pt-BR": "Fechar o menu da seção",
+    ko: "섹션 메뉴 닫기",
+    ar: "أغلق قائمة الأقسام",
     ru: "Закрыть меню разделов",
     de: "Bereichsmenü schließen",
     fr: "Fermer le menu des sections",
@@ -479,7 +528,7 @@ export function Navbar(): ReactElement {
     <header className="sticky top-0 z-40 border-b border-hair bg-ink/70 backdrop-blur-xl">
       <a
         href="#top"
-        className={`sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:rounded-full focus:border focus:border-brand/60 focus:bg-ink focus:px-3 focus:py-1.5 focus:text-[12px] focus:text-white ${FOCUS}`}
+        className={`sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:rounded-full focus:border focus:border-brand/60 focus:bg-ink focus:px-3 focus:py-1.5 focus:text-[12px] focus:text-white ${FOCUS}`}
       >
         {skip}
       </a>
@@ -503,10 +552,10 @@ export function Navbar(): ReactElement {
             height="30"
             className="h-[30px] w-[30px] rounded-[8px] ring-1 ring-hair-strong"
           />
-          <span className="text-[15px] font-semibold tracking-[0.14em]">{BRAND}</span>
+          <span dir="ltr" className="text-[15px] font-semibold tracking-[0.14em]">{BRAND}</span>
         </Link>
 
-        <ul className="ml-2 hidden flex-1 items-center gap-1 xl:flex">
+        <ul className="ms-2 hidden flex-1 items-center gap-1 xl:flex">
           {ROUTES.map((route) => (
             <li key={route.id}>
               <RouteLink
@@ -517,8 +566,8 @@ export function Navbar(): ReactElement {
           ))}
         </ul>
 
-        <div className="ml-auto flex items-center gap-2 xl:ml-0">
-          <LanguageMenu align="right" />
+        <div className="ms-auto flex items-center gap-2 xl:ms-0">
+          <LanguageMenu align="end" />
 
           <a
             href={IOS_REPO_URL}
@@ -572,7 +621,9 @@ export function Navbar(): ReactElement {
               className={`btn-mesh px-4 py-2 text-[12.5px] ${FOCUS}`}
             >
               Mac Node
-              <span className="text-mute">· {nodeCaption}</span>
+              <span className="text-mute">
+                · <LtrText text={nodeCaption} />
+              </span>
             </a>
             <a
               href={MP_PORTAL_URL}
@@ -581,7 +632,9 @@ export function Navbar(): ReactElement {
               className={`btn-primary px-4 py-2 text-[12.5px] ${FOCUS}`}
             >
               Service Suite
-              <span className="text-mute">· {mpCaption}</span>
+              <span className="text-mute">
+                · <LtrText text={mpCaption} />
+              </span>
             </a>
             <a
               href={BOT_STUDIO_URL}
@@ -590,7 +643,9 @@ export function Navbar(): ReactElement {
               className={`btn-ghost px-4 py-2 text-[12.5px] ${FOCUS}`}
             >
               Bot Studio
-              <span className="text-mute">· {studioCaption}</span>
+              <span className="text-mute">
+                · <LtrText text={studioCaption} />
+              </span>
             </a>
           </div>
         </div>

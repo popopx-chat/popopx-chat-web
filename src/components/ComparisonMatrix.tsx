@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { Ltr, LtrText } from "@/components/Ltr";
 import { CodeBlock, SectionHeading, StatusDot } from "@/components/ui";
 import { pick, useLocale, type Localized } from "@/lib/i18n";
 import { IOS_REPO_URL } from "@/lib/site";
@@ -35,6 +36,9 @@ type Dimension = {
 const HEAD = {
   eyebrow: {
     en: "Architecture-level comparison",
+    "pt-BR": "Comparação em nível de arquitetura",
+    ko: "아키텍처 수준 비교",
+    ar: "مقارنة على مستوى المعمارية",
     ru: "Сравнение на уровне архитектуры",
     de: "Architekturvergleich",
     fr: "Comparaison au niveau de l’architecture",
@@ -55,6 +59,9 @@ const HEAD = {
   },
   title: {
     en: "Three architectures on five engineering questions",
+    "pt-BR": "Três arquiteturas em cinco questões de engenharia",
+    ko: "다섯 가지 엔지니어링 질문으로 본 세 가지 아키텍처",
+    ar: "ثلاث معماريات على خمسة أسئلة هندسية",
     ru: "Три архитектуры в ответ на пять инженерных вопросов",
     de: "Drei Architekturen auf fünf ingenieurstechnische Fragen",
     fr: "Trois architectures face à cinq questions d’ingénierie",
@@ -75,6 +82,9 @@ const HEAD = {
   },
   subtitle: {
     en: "The POPOPX column is this iOS client and each of its cells cites file:line in the public repository. The other two columns describe category-defining architecture in neutral engineering terms: no product is named and no internal detail of anyone else’s service is asserted.",
+    "pt-BR": "A coluna POPOPX é este cliente iOS e cada uma de suas células cita arquivo:linha no repositório público. As outras duas colunas descrevem a arquitetura que define a categoria em termos de engenharia neutros: nenhum produto é nomeado e nenhum detalhe interno do serviço de outra pessoa é afirmado.",
+    ko: "POPOPX 열은 이 iOS 클라이언트이며, 각 셀은 공개 저장소의 file:line을 인용합니다. 나머지 두 열은 범주를 정의하는 아키텍처를 중립적인 엔지니어링 용어로 설명합니다. 어떤 제품 이름도 언급하지 않으며, 다른 누구의 서비스 내부 세부 사항도 단정하지 않습니다.",
+    ar: "عمود POPOPX هو عميل iOS هذا، وكل خلية فيه تستشهد بـfile:line في المستودع العام. أما العمودان الآخران فيصفان معمارية نموذجية لفئة كاملة بألفاظ هندسية محايدة: دون تسمية أي منتج ودون تأكيد أي تفصيل داخلي في خدمة أي طرف آخر.",
     ru: "Колонка POPOPX — этот iOS-клиент, и каждая ячейка ссылается на файл:строку в открытом репозитории. Две другие колонки описывают архитектуру класса нейтральными инженерными словами: продукт не называется и ничего о внутренностях чужого сервиса не утверждается.",
     de: "Die POPOPX-Spalte ist dieser iOS-Client, jede Zelle zitiert Datei:Zeile im öffentlichen Repository. Die zwei anderen Spalten beschreiben die gattungsdefinierende Architektur in neutralen technischen Begriffen: kein Produkt wird genannt, keine Internals eines fremden Dienstes behauptet.",
     fr: "La colonne POPOPX est ce client iOS et chaque case cite fichier:ligne dans le dépôt public. Les deux autres colonnes décrivent l’architecture de catégorie en termes d’ingénierie neutres : aucun produit n’est nommé, aucun détail interne d’un service tiers n’est affirmé.",
@@ -94,19 +104,30 @@ const HEAD = {
     hu: "A POPOPX oszlop ez maga az iOS kliens, és minden cella fájl:sor hivatkozást kap a nyilvános repóban. A másik két oszlop a kategória meghatározó architektúráját semleges mérnöki szóval írja le: egyetlen terméknevet sem mondunk, sem más szolgáltatás belső részletét nem állítjuk.",
   },
   legendHead: {
-    en: "Legend", ru: "Легенда", de: "Legende", fr: "Légende", it: "Legenda",
+    en: "Legend",
+    "pt-BR": "Legenda",
+    ko: "범례",
+    ar: "دليل الرموز",
+    ru: "Легенда", de: "Legende", fr: "Légende", it: "Legenda",
     nl: "Legenda", cs: "Legenda", "zh-Hans": "图例", "zh-Hant": "圖例",
     es: "Leyenda", pl: "Legenda", ja: "凡例", th: "สัญลักษณ์", fi: "Selite",
     uk: "Легенда", bg: "Легенда", tr: "Gösterge", hu: "Jelmagyarázat",
   },
   colQuestion: {
-    en: "Question", ru: "Вопрос", de: "Frage", fr: "Question", it: "Domanda",
+    en: "Question",
+    "pt-BR": "Questão",
+    ko: "질문",
+    ar: "السؤال",
+    ru: "Вопрос", de: "Frage", fr: "Question", it: "Domanda",
     nl: "Vraag", cs: "Otázka", "zh-Hans": "问题", "zh-Hant": "問題",
     es: "Pregunta", pl: "Pytanie", ja: "質問", th: "คำถาม", fi: "Kysymys",
     uk: "Питання", bg: "Въпрос", tr: "Soru", hu: "Kérdés",
   },
   legendNote: {
     en: "A filled dot means the property follows from the architecture itself; a half dot means it holds only under conditions or for part of the media; an open dot means the architecture does not provide it. The two category columns carry no citations because they describe a class of design, not an audited product.",
+    "pt-BR": "Um ponto preenchido significa que a propriedade decorre da própria arquitetura; meio ponto significa que ela vale apenas sob condições ou para parte da mídia; um ponto vazado significa que a arquitetura não a fornece. As duas colunas de categoria não trazem citações porque descrevem uma classe de projeto, não um produto auditado.",
+    ko: "채워진 점은 그 속성이 아키텍처 자체에서 따라 나온다는 뜻이고, 반만 채운 점은 조건이 갖춰질 때만 또는 미디어의 일부에만 성립한다는 뜻이며, 테두리만 있는 점은 아키텍처가 이를 제공하지 않는다는 뜻입니다. 두 범주 열에는 인용이 없습니다. 감사된 제품이 아니라 설계의 한 부류를 설명하기 때문입니다.",
+    ar: "النقطة الممتلئة تعني أن الخاصية تنتج عن المعمارية نفسها؛ ونصف النقطة يعني أنها تتحقق فقط بشرط أو في جزء من الوسائط؛ والنقطة المفرغة تعني أن المعمارية لا توفرها. ولا يحمل عمودا الفئة أي استشهادات لأنهما يصفان نوعًا من التصميم، لا منتجًا مدققًا.",
     ru: "Заполненная точка — свойство следует из самой архитектуры; половинная — держится лишь при условиях или для части медиа; пустая — архитектура этого не даёт. Две классовые колонки без ссылок: они описывают класс дизайна, а не проверенный продукт.",
     de: "Gefüllter Punkt: die Eigenschaft folgt aus der Architektur selbst; halber Punkt: sie gilt nur unter Bedingungen oder für einen Teil der Medien; offener Punkt: die Architektur bietet das nicht. Die zwei Gattungsspalten haben keine Zitate, weil sie eine Bauart beschreiben, kein geprüftes Produkt.",
     fr: "Point plein : la propriété découle de l’architecture elle-même ; demi-point : elle ne tient que sous conditions ou pour une partie des médias ; point creux : l’architecture ne la fournit pas. Les deux colonnes de catégorie sont sans citation parce qu’elles décrivent une famille de conception, pas un produit audité.",
@@ -127,6 +148,9 @@ const HEAD = {
   },
   closing: {
     en: "This is an architecture-level comparison, not a benchmark run. Every POPOPX row is checkable line by line in the open-source client,",
+    "pt-BR": "Esta é uma comparação em nível de arquitetura, não a execução de um benchmark. Cada linha POPOPX pode ser conferida linha por linha no cliente de código aberto,",
+    ko: "이것은 아키텍처 수준의 비교이며 벤치마크 실행이 아닙니다. POPOPX의 모든 행은 오픈 소스 클라이언트에서 줄 단위로 확인할 수 있습니다.",
+    ar: "هذه مقارنة على مستوى المعمارية، لا اختبار أداء. كل صف من صفوف POPOPX قابل للفحص سطر بسطر في العميل مفتوح المصدر،",
     ru: "Это сравнение на уровне архитектуры, а не замер скорости. Каждую строку POPOPX можно проверить построчно в открытом клиенте,",
     de: "Das ist ein Architekturvergleich, kein Benchmark. Jede POPOPX-Zeile lässt sich Zeile für Zeile im quelloffenen Client nachprüfen,",
     fr: "C’est une comparaison d’architecture, pas un banc d’essai. Chaque ligne POPOPX se vérifie ligne à ligne dans le client open source,",
@@ -150,7 +174,11 @@ const HEAD = {
 const COLUMNS: readonly { readonly id: ColumnId; readonly tag: string; readonly name: Localized<string> }[] = [
   {
     id: "popopx", tag: "popopx-chat · master", name: {
-      en: "POPOPX (this client)", ru: "POPOPX (этот клиент)", de: "POPOPX (dieser Client)",
+      en: "POPOPX (this client)",
+      "pt-BR": "POPOPX (este cliente)",
+      ko: "POPOPX (이 클라이언트)",
+      ar: "POPOPX (هذا العميل)",
+      ru: "POPOPX (этот клиент)", de: "POPOPX (dieser Client)",
       fr: "POPOPX (ce client)", it: "POPOPX (questo client)", nl: "POPOPX (deze cliënt)",
       cs: "POPOPX (tento klient)", "zh-Hans": "POPOPX（本客户端）", "zh-Hant": "POPOPX（本用戶端）",
       es: "POPOPX (este cliente)", pl: "POPOPX (ten klient)", ja: "POPOPX（本クライアント）",
@@ -160,7 +188,11 @@ const COLUMNS: readonly { readonly id: ColumnId; readonly tag: string; readonly 
   },
   {
     id: "central", tag: "category · no citations", name: {
-      en: "Centralized social platform", ru: "Централизованная соцплатформа", de: "Zentralisierte Social-Plattform",
+      en: "Centralized social platform",
+      "pt-BR": "Plataforma social centralizada",
+      ko: "중앙화된 소셜 플랫폼",
+      ar: "منصة اجتماعية مركزية",
+      ru: "Централизованная соцплатформа", de: "Zentralisierte Social-Plattform",
       fr: "Plateforme sociale centralisée", it: "Piattaforma social centralizzata", nl: "Centraliseerd social platform",
       cs: "Centralizovaná sociální platforma", "zh-Hans": "传统中心化社交平台", "zh-Hant": "傳統中心化社群平台",
       es: "Plataforma social centralizada", pl: "Scentralizowana platforma społeczna", ja: "集中型ソーシャルプラットフォーム",
@@ -170,7 +202,11 @@ const COLUMNS: readonly { readonly id: ColumnId; readonly tag: string; readonly 
   },
   {
     id: "e2ee", tag: "category · no citations", name: {
-      en: "E2EE messenger, generic", ru: "E2E-мессенджер, общий класс", de: "E2EE-Messenger, Gattung",
+      en: "E2EE messenger, generic",
+      "pt-BR": "Mensageiro E2EE, genérico",
+      ko: "일반적인 E2EE 메신저",
+      ar: "تطبيق مراسلة E2EE عام",
+      ru: "E2E-мессенджер, общий класс", de: "E2EE-Messenger, Gattung",
       fr: "Messagerie E2EE, catégorie", it: "Messenger E2EE, categoria", nl: "E2EE-messenger, categorie",
       cs: "E2EE messenger, obecně", "zh-Hans": "一般端到端加密聊天工具", "zh-Hant": "一般端對端加密聊天工具",
       es: "Mensajería E2EE, categoría", pl: "Komunikator E2EE, ogólnie", ja: "一般的な E2EE メッセンジャー",
@@ -184,7 +220,11 @@ const COLUMNS: readonly { readonly id: ColumnId; readonly tag: string; readonly 
 const VERDICTS: Record<Verdict, { readonly mark: string; readonly tone: "mesh" | "warn" | "alert"; readonly className: string; readonly name: Localized<string> }> = {
   full: {
     mark: "●", tone: "mesh", className: "text-mesh-soft", name: {
-      en: "follows from the design", ru: "следует из конструкции", de: "aus dem Design folgend",
+      en: "follows from the design",
+      "pt-BR": "decorre do projeto",
+      ko: "설계에서 따라 나옴",
+      ar: "ينتج عن التصميم",
+      ru: "следует из конструкции", de: "aus dem Design folgend",
       fr: "découle du design", it: "discende dal progetto", nl: "volgt uit het ontwerp",
       cs: "plyne z návrhu", "zh-Hans": "架构上具备", "zh-Hant": "架構上具備",
       es: "se sigue del diseño", pl: "wynika z konstrukcji", ja: "設計から従う",
@@ -194,7 +234,11 @@ const VERDICTS: Record<Verdict, { readonly mark: string; readonly tone: "mesh" |
   },
   partial: {
     mark: "◐", tone: "warn", className: "text-warn-soft", name: {
-      en: "only under conditions", ru: "лишь при условиях", de: "nur unter Bedingungen",
+      en: "only under conditions",
+      "pt-BR": "somente sob condições",
+      ko: "조건이 갖춰질 때만",
+      ar: "بشروط فقط",
+      ru: "лишь при условиях", de: "nur unter Bedingungen",
       fr: "seulement sous conditions", it: "solo a condizioni", nl: "alleen onder voorwaarden",
       cs: "jen za podmínek", "zh-Hans": "有条件成立", "zh-Hant": "有條件成立",
       es: "solo bajo condiciones", pl: "tylko przy warunkach", ja: "条件付きで成立",
@@ -204,7 +248,11 @@ const VERDICTS: Record<Verdict, { readonly mark: string; readonly tone: "mesh" |
   },
   none: {
     mark: "○", tone: "alert", className: "text-alert-soft", name: {
-      en: "not provided", ru: "не предоставляется", de: "nicht vorgesehen",
+      en: "not provided",
+      "pt-BR": "não fornecido",
+      ko: "제공되지 않음",
+      ar: "غير متوفر",
+      ru: "не предоставляется", de: "nicht vorgesehen",
       fr: "non fourni", it: "non fornito", nl: "niet voorzien",
       cs: "není poskytováno", "zh-Hans": "该架构不提供", "zh-Hant": "該架構不提供",
       es: "no se proporciona", pl: "nie jest zapewniane", ja: "提供されない",
@@ -220,6 +268,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cites: ["apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83", "apps/ios/Shared/Model/ChatModel.swift:426", "apps/ios/Shared/Features/AddFriend/PopopxAddFriendView.swift:698"],
     label: {
       en: "Does the identity system require a phone number, an email or a global ID?",
+      "pt-BR": "O sistema de identidade exige número de telefone, e-mail ou ID global?",
+      ko: "신원 시스템이 전화번호, 이메일 또는 전역 ID를 요구합니까?",
+      ar: "هل يشترط نظام الهوية رقم هاتف أو بريد إلكتروني أو ID عالمي؟",
       ru: "Требует ли система идентичности номер телефона, почту или глобальный ID?",
       de: "Verlangt das Identitätssystem Telefonnummer, E-Mail oder eine globale ID?",
       fr: "Le système d’identité exige-t-il un numéro, un e-mail ou une ID globale ?",
@@ -241,6 +292,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cells: {
       popopx: { v: "full", t: {
         en: "Registration binds no phone number or email and there is no global user ID; new contacts come from a one-time invite address.",
+        "pt-BR": "O cadastro não vincula número de telefone nem e-mail e não existe ID de usuário global; novos contatos vêm de um endereço de convite de uso único.",
+        ko: "가입은 전화번호도 이메일도 연결하지 않으며 전역 사용자 ID도 없습니다. 새 연락처는 일회성 초대 주소에서 시작됩니다.",
+        ar: "لا يربط التسجيل أي رقم هاتف أو بريد إلكتروني، ولا يوجد ID مستخدم عالمي؛ وجهات الاتصال الجديدة تأتي من عنوان دعوة لمرة واحدة.",
         ru: "Регистрация не привязывает номер или почту, глобального ID пользователя нет; новые контакты — через одноразовый адрес приглашения.",
         de: "Die Registrierung bindet keine Telefonnummer und kein E-Mail, es gibt keine globale Benutzer-ID; neue Kontakte kommen über eine einmalige Einladungsadresse.",
         fr: "L’enregistrement ne lie ni numéro ni e-mail et il n’y a pas d’ID utilisateur globale ; les nouveaux contacts viennent d’une adresse d’invitation à usage unique.",
@@ -261,6 +315,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       central: { v: "none", t: {
         en: "The account is keyed by a phone number or an email address — that is the category’s defining property, not some vendor’s implementation detail.",
+        "pt-BR": "A conta é identificada por um número de telefone ou um endereço de e-mail — essa é a propriedade que define a categoria, não um detalhe de implementação de algum fornecedor.",
+        ko: "계정은 전화번호나 이메일 주소로 식별됩니다. 그것이 이 범주의 정의적 속성이며, 특정 업체의 구현 세부 사항이 아닙니다.",
+        ar: "الحساب مقترن برقم هاتف أو بعنوان بريد إلكتروني — وهذه هي الخاصية التي تحدد الفئة، وليست تفصيل تنفيذ عند بائع بعينه.",
         ru: "Аккаунт привязан к номеру телефона или почте — это определяющее свойство класса, а не деталь реализации какого-то вендора.",
         de: "Das Konto wird über Telefonnummer oder E-Mail-Adresse identifiziert – das ist das Definitionsmerkmal der Gattung, nicht ein Detail eines Anbieters.",
         fr: "Le compte est indexé sur un numéro ou une adresse e-mail — c’est la propriété définissant la catégorie, pas le détail d’implémentation d’un éditeur.",
@@ -281,6 +338,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       e2ee: { v: "partial", t: {
         en: "Encryption protects message content, yet the account still needs an identifier the issuing server assigns — crypto strength and identity collection are separate choices.",
+        "pt-BR": "A criptografia protege o conteúdo das mensagens, mas a conta ainda precisa de um identificador atribuído pelo servidor emissor — força criptográfica e coleta de identidade são escolhas separadas.",
+        ko: "암호화는 메시지 내용을 보호하지만, 계정에는 여전히 발급 서버가 부여하는 식별자가 필요합니다. 암호 강도와 신원 수집은 별개의 선택입니다.",
+        ar: "التشفير يحمي محتوى الرسائل، لكن الحساب ما زال يحتاج إلى معرّف يمنحه الخادم الذي يصدره — فقوة التشفير وجمع الهويات اختياران منفصلان.",
         ru: "Шифрование защищает содержание сообщений, но аккаунту всё равно нужен идентификатор, который выдаёт сервер — стойкость криптографии и сбор личности это разные решения.",
         de: "Verschlüsselung schützt den Nachrichteninhalt, aber das Konto braucht weiterhin eine Kennung, die der Ausgabe-Server vergibt — Kryptostärke und Identitätserfassung sind getrennte Entscheidungen.",
         fr: "Le chiffrement protège le contenu des messages, mais le compte a quand même besoin d’un identifiant attribué par le serveur émetteur — force cryptographique et collecte d’identité sont deux choix distincts.",
@@ -306,6 +366,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cites: ["apps/ios/POPOPXChat/APITypes.swift:589-615,597-604"],
     label: {
       en: "Does the server side hold the social relationship?",
+      "pt-BR": "O lado do servidor guarda a relação social?",
+      ko: "서버 측이 사회적 관계를 보유합니까?",
+      ar: "هل يحتفظ جانب الخادم بالعلاقة الاجتماعية؟",
       ru: "Держит ли серверная сторона социальные связи?",
       de: "Hält die Serverseite die soziale Beziehung?",
       fr: "Le côté serveur détient-il la relation sociale ?",
@@ -327,6 +390,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cells: {
       popopx: { v: "full", t: {
         en: "Per connection the client types carry one receive queue and one send queue, each with a single host field — there is no column in those types that stores a relationship.",
+        "pt-BR": "Por conexão, os tipos do cliente carregam uma fila de recebimento e uma fila de envio, cada uma com um único campo de host — não há coluna nesses tipos que armazene uma relação.",
+        ko: "연결마다 클라이언트 타입은 수신 큐 하나와 발신 큐 하나를 가지며, 각 큐에는 호스트 필드가 하나뿐입니다. 그 타입들에는 관계를 저장하는 열이 없습니다.",
+        ar: "في كل اتصال تحمل أنواع العميل طابور استقبال واحد وطابور إرسال واحد، ولكل منهما حقل مضيف واحد — ولا يوجد في تلك الأنواع أي عمود يخزن علاقة.",
         ru: "На каждое соединение в типах клиента — одна входящая и одна исходящая очередь, каждая с одним полем хоста; колонки для связи в этих типах нет.",
         de: "Pro Verbindung tragen die Client-Typen eine Empfangs- und eine Sende-Queue, je mit einem einzigen Host-Feld — in diesen Typen gibt es keine Beziehungsspalte.",
         fr: "Par connexion, les types du client portent une file de réception et une file d’envoi, chacune avec un seul champ hôte — aucune colonne de ces types ne stocke une relation.",
@@ -347,6 +413,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       central: { v: "none", t: {
         en: "The friend list, follow graph and address book live in the platform’s own database — that storage is exactly what makes the feature work.",
+        "pt-BR": "A lista de amigos, o grafo de seguidores e a agenda de endereços ficam no banco de dados da própria plataforma — esse armazenamento é exatamente o que faz o recurso funcionar.",
+        ko: "친구 목록, 팔로우 그래프, 주소록은 플랫폼 자체 데이터베이스에 있습니다. 바로 그 저장이 이 기능을 성립시킵니다.",
+        ar: "قائمة الأصدقاء ومخطط المتابعة ودليل العناوين تقيم في قاعدة بيانات المنصة نفسها — وهذا التخزين هو بالضبط ما يجعل الميزة تعمل.",
         ru: "Список друзей, граф подписок и адресная книга живут в базе данных платформы — это хранилище и есть то, что делает функцию возможной.",
         de: "Freundesliste, Follower-Graph und Adressbuch liegen in der Datenbank der Plattform — dieser Speicher ist genau das, was die Funktion möglich macht.",
         fr: "La liste d’amis, le graphe d’abonnements et le carnet d’adresses résident dans la base de la plateforme — ce stockage est précisément ce qui fait fonctionner la fonction.",
@@ -367,6 +436,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       e2ee: { v: "partial", t: {
         en: "Payload encryption keeps content unreadable to the operator, while the contact list is normally still a server-side feature — encrypting bytes does not move the graph back to the device.",
+        "pt-BR": "A criptografia da carga mantém o conteúdo ilegível para o operador, enquanto a lista de contatos normalmente continua sendo um recurso do lado do servidor — criptografar bytes não devolve o grafo ao dispositivo.",
+        ko: "페이로드 암호화는 운영자가 내용을 읽을 수 없게 하지만, 연락처 목록은 보통 여전히 서버 측 기능입니다. 바이트를 암호화한다고 해서 그래프가 기기로 돌아오지는 않습니다.",
+        ar: "تشفير الحمولة يبقي المحتوى غير مقروء للمشغل، بينما تظل قائمة جهات الاتصال عادة ميزة على جانب الخادم — وتشفير البايتات لا يعيد المخطط إلى الجهاز.",
         ru: "Шифрование нагрузки делает содержимое нечитаемым для оператора, но список контактов обычно остаётся серверной функцией — шифрование байтов не переносит граф обратно на устройство.",
         de: "Payload-Verschlüsselung hält den Inhalt für den Betreiber unlesbar, die Kontaktliste ist aber meist weiter eine Serverfunktion — Bytes zu verschlüsseln zurückert den Graphen nicht auf das Gerät.",
         fr: "Le chiffrement de charge rend le contenu illisible pour l’opérateur, alors que la liste de contacts reste normalement une fonction serveur — chiffrer des octets ne renvoie pas le graphe sur l’appareil.",
@@ -392,6 +464,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:5,26,45-49", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-7", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Router/PopopxMessageRouter.swift:6-19,268"],
     label: {
       en: "Can communication continue with no cellular and no Wi-Fi?",
+      "pt-BR": "A comunicação continua sem celular e sem Wi-Fi?",
+      ko: "셀룰러도 Wi-Fi도 없이 통신이 계속될 수 있습니까?",
+      ar: "هل يمكن أن يستمر الاتصال بلا شبكة خلوية وبلا Wi-Fi؟",
       ru: "Продолжится ли связь без сотовой сети и без Wi-Fi?",
       de: "Lässt sich Kommunikation ohne Mobilfunk und ohne Wi-Fi fortsetzen?",
       fr: "La communication peut-elle continuer sans réseau cellulaire ni Wi-Fi ?",
@@ -413,6 +488,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cells: {
       popopx: { v: "full", t: {
         en: "Dual-role CoreBluetooth GATT peer-to-peer carries traffic device to device, flooding is deduplicated with Golomb-coded sets and the router picks the path in `dualChannel`.",
+        "pt-BR": "O GATT ponto a ponto com CoreBluetooth em papel duplo leva o tráfego de dispositivo a dispositivo, a inundação é deduplicada com conjuntos codificados por Golomb e o roteador escolhe o caminho em `dualChannel`.",
+        ko: "이중 역할 CoreBluetooth GATT 피어 투 피어가 트래픽을 기기에서 기기로 전달하고, 플러딩은 Golomb-coded set으로 중복 제거되며, 라우터는 `dualChannel`에서 경로를 선택합니다.",
+        ar: "نقل CoreBluetooth GATT ثنائي الدور حركة البيانات من جهاز إلى جهاز، ويجري إزالة تكرارات الإغراق بمجموعات مرمزة بـGolomb، ويختار الموجّه المسار في `dualChannel`.",
         ru: "Двурольный CoreBluetooth GATT передаёт трафик от устройства к устройству, затопление дедуплицируется множествами Голома, а маршрут выбирается в dualChannel.",
         de: "Dual-role CoreBluetooth-GATT überträgt Gerät zu Gerät, Fluten wird über Golomb-coded Sets entdupliziert und der Router wählt den Pfad in dualChannel.",
         fr: "Un GATT CoreBluetooth à double rôle transporte le trafic d’appareil à appareil, l’inondation est dédupliquée par ensembles de Golomb et le routeur choisit la voie dans dualChannel.",
@@ -433,6 +511,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       central: { v: "none", t: {
         en: "Reachability means a cellular or Wi-Fi path back to the operator’s datacenter; without either one delivery simply waits for the next connection.",
+        "pt-BR": "Alcançabilidade significa um caminho celular ou Wi-Fi de volta ao datacenter do operador; sem nenhum dos dois, a entrega simplesmente espera a próxima conexão.",
+        ko: "도달 가능성이란 운영자의 데이터센터로 돌아가는 셀룰러 또는 Wi-Fi 경로를 뜻합니다. 둘 중 어느 것도 없으면 전달은 다음 연결을 기다릴 뿐입니다.",
+        ar: "يعني الاتصال المتاح مسارًا خلويًا أو عبر Wi-Fi يعود إلى مركز بيانات المشغل؛ ودون أي منهما ينتظر التسليم ببساطة الاتصال التالي.",
         ru: "Доступность означает сотовый или Wi-Fi путь обратно в дата-центр оператора; без него доставка просто ждёт следующего подключения.",
         de: "Erreichbarkeit heißt ein Mobilfunk- oder Wi-Fi-Pfad zurück ins Rechenzentrum des Betreibers; ohne beide wartet die Zustellung schlicht auf die nächste Verbindung.",
         fr: "Être joignable suppose une voie cellulaire ou Wi-Fi vers le centre de données de l’opérateur ; sans l’une des deux, la remise attend la connexion suivante.",
@@ -453,6 +534,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       e2ee: { v: "none", t: {
         en: "End-to-end encryption still assumes both peers reach the service’s own servers, often through a relay or a TURN-style path; the transport is not device direct.",
+        "pt-BR": "A criptografia ponta a ponta ainda pressupõe que os dois pares alcancem os servidores do próprio serviço, muitas vezes por um retransmissor ou um caminho no estilo TURN; o transporte não é direto entre dispositivos.",
+        ko: "종단간 암호화는 여전히 양쪽 피어가 그 서비스 자체의 서버에 도달한다고 전제하며, 흔히 중계나 TURN 방식 경로를 거칩니다. 전송이 기기 간 직접 연결은 아닙니다.",
+        ar: "التشفير من الطرف إلى الطرف يفترض مع ذلك أن يصل الطرفان إلى خوادم الخدمة نفسها، غالبًا عبر مرحّل أو مسار من طراز TURN؛ فالنقل ليس مباشرًا بين الأجهزة.",
         ru: "Сквозное шифрование по-прежнему предполагает, что обе стороны достают серверы самого сервиса, часто через ретранслятор или путь типа TURN; транспорт не является прямым между устройствами.",
         de: "Ende-zu-Ende-Verschlüsselung setzt voraus, dass beide Gegenstellen die eigenen Server des Dienstes erreichen, oft über ein Relais oder einen TURN-artigen Pfad; der Transport ist nicht direkt von Gerät zu Gerät.",
         fr: "Le chiffrement de bout en bout suppose que les deux pairs atteignent les serveurs du service, souvent via un relais ou une voie de type TURN ; le transport n’est pas direct entre appareils.",
@@ -478,6 +562,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:18-21,366-378 (drop at :375)", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:22-24,433-442", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:25-27"],
     label: {
       en: "Is media compressed locally before upload, with EXIF/GPS stripped?",
+      "pt-BR": "A mídia é comprimida localmente antes do upload, com EXIF/GPS removidos?",
+      ko: "미디어는 업로드 전에 로컬에서 압축되고 EXIF/GPS가 제거됩니까?",
+      ar: "هل تضغط الوسائط محليًا قبل الرفع، مع نزع EXIF/GPS؟",
       ru: "Сжимается ли медиа локально до загрузки и удаляются ли EXIF/GPS?",
       de: "Wird Medien lokal vor dem Upload komprimiert und EXIF/GPS entfernt?",
       fr: "Le média est-il compressé localement avant l’envoi, avec EXIF/GPS retirés ?",
@@ -499,6 +586,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cells: {
       popopx: { v: "partial", t: {
         en: "Still images are re-encoded through ImageIO with no metadata dictionary and video through AVAssetWriter with an empty metadata list; animated GIF and APNG pass through untouched and keep their metadata.",
+        "pt-BR": "Imagens estáticas são recodificadas via ImageIO sem dicionário de metadados, e vídeos via AVAssetWriter com uma lista de metadados vazia; GIF animado e APNG passam intactos e mantêm seus metadados.",
+        ko: "정지 이미지는 메타데이터 사전 없이 ImageIO로, 동영상은 빈 메타데이터 목록으로 AVAssetWriter를 통해 다시 인코딩됩니다. 애니메이션 GIF와 APNG는 손대지 않은 채 통과하며 메타데이터를 유지합니다.",
+        ar: "تعاد الصور الثابتة ترميزها عبر ImageIO دون قاموس بيانات وصفية، والفيديو عبر AVAssetWriter بقائمة بيانات وصفية فارغة؛ أما GIF وAPNG المتحركان فيمران دون تغيير ويحتفظان ببياناتهما الوصفية.",
         ru: "Статичные изображения перекодируются через ImageIO без словаря метаданных, видео — через AVAssetWriter с пустым списком метаданных; GIF и APNG проходят нетронутыми и сохраняют метаданные.",
         de: "Standbilder werden über ImageIO ohne Metadaten-Wörterbuch neu kodiert, Video über AVAssetWriter mit leerer Metadatenliste; animierte GIF und APNG laufen unverändert durch und behalten ihre Metadaten.",
         fr: "Les images fixes sont ré-encodées via ImageIO sans dictionnaire de métadonnées et la vidéo via AVAssetWriter avec une liste de métadonnées vide ; GIF et APNG animés passent tels quels et gardent leurs métadonnées.",
@@ -519,6 +609,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       central: { v: "none", t: {
         en: "Original-quality upload keeps the camera metadata, position included, and any server-side processing happens after the copy has already left the device.",
+        "pt-BR": "O upload em qualidade original preserva os metadados da câmera, posição inclusive, e qualquer processamento no servidor acontece depois que a cópia já saiu do dispositivo.",
+        ko: "원본 화질 업로드는 위치까지 포함한 카메라 메타데이터를 유지하며, 서버 측 처리는 사본이 이미 기기를 떠난 뒤에 일어납니다.",
+        ar: "الرفع بجودة أصلية يحتفظ ببيانات الكاميرا الوصفية، بما فيها الموقع، وأي معالجة على جانب الخادم تحدث بعد أن تكون النسخة قد غادرت الجهاز بالفعل.",
         ru: "Загрузка в исходном качестве сохраняет метаданные камеры, включая позицию, а любая серверная обработка происходит после того, как копия уже покинула устройство.",
         de: "Originalqualitäts-Upload behält die Kamera-Metadaten samt Position, und jegliche Serververarbeitung geschieht, nachdem die Kopie das Gerät schon verlassen hat.",
         fr: "Un envoi en qualité d’origine conserve les métadonnées de l’appareil, position comprise, et tout traitement serveur intervient après que la copie a quitté l’appareil.",
@@ -539,6 +632,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       e2ee: { v: "partial", t: {
         en: "Encrypting a file protects it in transit but says nothing about the metadata the sender attached before encryption — the cipher property and the strip policy are different decisions.",
+        "pt-BR": "Criptografar um arquivo o protege em trânsito, mas não diz nada sobre os metadados que o remetente anexou antes da criptografia — a propriedade da cifra e a política de remoção são decisões diferentes.",
+        ko: "파일을 암호화하면 전송 중에는 보호되지만, 발신자가 암호화 전에 붙인 메타데이터에 대해서는 아무것도 말해 주지 않습니다. 암호 속성과 제거 정책은 별개의 결정입니다.",
+        ar: "تشفير الملف يحميه أثناء النقل لكنه لا يقول أي شيء عن البيانات الوصفية التي أضافها المرسل قبل التشفير — فخاصية التشفير وسياسة النزع قراران مختلفان.",
         ru: "Шифрование файла защищает его при передаче, но ничего не говорит о метаданных, которые отправитель приложил до шифрования — свойство шифра и политика очистки это разные решения.",
         de: "Eine Datei zu verschlüsseln schützt sie unterwegs, sagt aber nichts über die Metadaten, die der Absender vor der Verschlüsselung angehängt hat — die Eigenschaft der Chiffre und die Regel fürs Entfernen sind verschiedene Entscheidungen.",
         fr: "Chiffrer un fichier le protège en transit mais ne dit rien des métadonnées que l’expéditeur a jointes avant le chiffrement — propriété du chiffrement et politique de suppression sont deux décisions distinctes.",
@@ -564,6 +660,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cites: ["apps/ios/Shared/Features/ServiceAccount/BotMenuBarView.swift:40-42,137-138", "apps/ios/Shared/Features/ServiceAccount/PopopxEcoModels.swift:487-495", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383"],
     label: {
       en: "Can the commercial service account be self-hosted?",
+      "pt-BR": "A conta de serviço comercial pode ser auto-hospedada?",
+      ko: "상용 서비스 계정을 자체 호스팅할 수 있습니까?",
+      ar: "هل يمكن استضافة حساب الخدمة التجاري بنفسك؟",
       ru: "Может ли коммерческий сервис-аккаунт быть самостоятельно размещённым?",
       de: "Lässt sich der kommerzielle Service-Account selbst hosten?",
       fr: "Le compte de service commercial peut-il être auto-hébergé ?",
@@ -585,6 +684,9 @@ const DIMENSIONS: readonly Dimension[] = [
     cells: {
       popopx: { v: "full", t: {
         en: "The service-account suite ships as its own public repository with its own portal; the client enforces the menu and card rules itself, and the server table it accepts is signed by the pinned Ed25519 root.",
+        "pt-BR": "O conjunto de conta de serviço é entregue como um repositório público próprio, com portal próprio; o cliente aplica ele mesmo as regras de menu e de cartão, e a tabela de servidores que ele aceita é assinada pela raiz Ed25519 fixada.",
+        ko: "서비스 계정 제품군은 자체 포털을 갖춘 별도의 공개 저장소로 출시됩니다. 클라이언트는 메뉴와 카드 규칙을 스스로 강제하며, 클라이언트가 받아들이는 서버 표는 고정된 Ed25519 루트로 서명됩니다.",
+        ar: "تأتي حزمة حساب الخدمة كمستودع عام خاص بها مع بوابتها الخاصة؛ ويفرض العميل قواعد القائمة والبطاقات بنفسه، وجدول الخوادم الذي يقبله يحمل توقيع جذر Ed25519 المثبت.",
         ru: "Набор сервис-аккаунтов поставляется как отдельный открытый репозиторий со своим порталом; клиент сам применяет правила меню и карточек, а принимаемая таблица серверов подписана закреплённым Ed25519-корнем.",
         de: "Die Service-Account-Suite erscheint als eigenes öffentliches Repository mit eigenem Portal; der Client erzwingt Menü- und Kartenregeln selbst, und die akzeptierte Servertabelle ist vom gepinnten Ed25519-Root signiert.",
         fr: "La suite de comptes de service est son propre dépôt public avec son propre portail ; le client applique lui-même les règles de menu et de carte, et la table de serveurs acceptée est signée par la racine Ed25519 épinglée.",
@@ -605,6 +707,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       central: { v: "none", t: {
         en: "On a centralized platform the commercial account is issued and operated by the platform itself; a third party cannot host that same service from its own machine room.",
+        "pt-BR": "Em uma plataforma centralizada, a conta comercial é emitida e operada pela própria plataforma; um terceiro não consegue hospedar esse mesmo serviço na própria sala de máquinas.",
+        ko: "중앙화된 플랫폼에서 상용 계정은 플랫폼 자체가 발급하고 운영합니다. 제3자가 같은 서비스를 자기 전산실에서 호스팅할 수는 없습니다.",
+        ar: "في منصة مركزية يصدر الحساب التجاري وتشغله المنصة نفسها؛ ولا يمكن لطرف ثالث استضافة الخدمة ذاتها من غرفة آلاته.",
         ru: "На централизованной платформе коммерческий аккаунт выдаётся и управляется самой платформой; третья сторона не может разместить тот же сервис из собственного машинного зала.",
         de: "Auf einer zentralisierten Plattform wird das kommerzielle Konto von der Plattform selbst ausgegeben und betrieben; ein Dritter kann denselben Dienst nicht aus seinem eigenen Maschinenraum hosten.",
         fr: "Sur une plateforme centralisée, le compte commercial est émis et exploité par la plateforme elle-même ; un tiers ne peut pas héberger ce même service depuis sa propre salle machine.",
@@ -625,6 +730,9 @@ const DIMENSIONS: readonly Dimension[] = [
       } },
       e2ee: { v: "partial", t: {
         en: "The server software of that category is often open and self-hostable, yet the official-account function normally stays with whoever operates the network, so self-hosting does not hand the role over.",
+        "pt-BR": "O software de servidor dessa categoria costuma ser aberto e auto-hospedável, mas a função de conta oficial normalmente permanece com quem opera a rede, então a auto-hospedagem não transfere esse papel.",
+        ko: "그 범주의 서버 소프트웨어는 흔히 공개되어 있고 자체 호스팅이 가능하지만, 공식 계정 기능은 보통 네트워크를 운영하는 쪽에 남으므로 자체 호스팅이 그 역할을 넘겨주지는 않습니다.",
+        ar: "برمجيات الخادم في تلك الفئة غالبًا مفتوحة وقابلة للاستضافة الذاتية، لكن وظيفة الحساب الرسمي تبقى عادة مع من يشغل الشبكة، فالاستضافة الذاتية لا تسلّم الدور.",
         ru: "Серверное ПО этой категории часто открыто и может размещаться самостоятельно, но функция официальных аккаунтов обычно остаётся у того, кто управляет сетью, поэтому самостоятельное размещение не передаёт эту роль.",
         de: "Die Server-Software dieser Kategorie ist oft offen und selbst hostbar, die Amtskonto-Funktion bleibt aber meist beim Betreiber des Netzes, sodass Self-Hosting die Rolle nicht überträgt.",
         fr: "Le logiciel serveur de cette catégorie est souvent ouvert et auto-hébergeable, mais la fonction de compte officiel reste normalement à celui qui exploite le réseau, donc l’auto-hébergement ne transfère pas ce rôle.",
@@ -676,20 +784,20 @@ export function ComparisonMatrix(): ReactElement {
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-[11.5px] leading-relaxed text-faint">{pick(HEAD.legendNote, locale)}</p>
+          <p className="mt-3 text-[11.5px] leading-relaxed text-faint"><LtrText text={pick(HEAD.legendNote, locale)} /></p>
         </div>
 
         {/* ── the matrix ─────────────────────────────────────────────── */}
         <div className="glass mt-6 p-5 sm:p-7">
           <div className="no-scrollbar mt-1 overflow-x-auto">
-            <table className="w-full min-w-[1020px] border-separate border-spacing-0 text-left text-[12px] leading-relaxed">
+            <table className="w-full min-w-[1020px] border-separate border-spacing-0 text-start text-[12px] leading-relaxed">
               <thead>
                 <tr>
-                  <th scope="col" className="w-[236px] border-b border-hair pb-2 pr-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colQuestion, locale)}</th>
+                  <th scope="col" className="w-[236px] border-b border-hair pb-2 pe-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colQuestion, locale)}</th>
                   {COLUMNS.map((col) => (
-                    <th key={col.id} scope="col" className="border-b border-hair pb-2 pr-4 align-top">
+                    <th key={col.id} scope="col" className="border-b border-hair pb-2 pe-4 align-top">
                       <span className="block text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(col.name, locale)}</span>
-                      <code className="mt-1 block font-mono text-[9.5px] text-faint">{col.tag}</code>
+                      <code dir="ltr" className="mt-1 block font-mono text-[9.5px] text-faint">{col.tag}</code>
                     </th>
                   ))}
                 </tr>
@@ -697,23 +805,23 @@ export function ComparisonMatrix(): ReactElement {
               <tbody>
                 {DIMENSIONS.map((dim) => (
                   <tr key={dim.id}>
-                    <th scope="row" className="border-b border-hair py-4 pr-4 text-left align-top">
-                      <span aria-hidden className="mr-2 font-mono text-[11px] text-brand-soft">{dim.mark}</span>
+                    <th scope="row" className="border-b border-hair py-4 pe-4 text-start align-top">
+                      <span aria-hidden className="me-2 font-mono text-[11px] text-brand-soft">{dim.mark}</span>
                       <span className="text-[12.5px] font-semibold text-white">{pick(dim.label, locale)}</span>
                     </th>
                     {COLUMNS.map((col) => {
                       const cell = dim.cells[col.id];
                       return (
-                        <td key={col.id} className="border-b border-hair py-4 pr-4 align-top">
+                        <td key={col.id} className="border-b border-hair py-4 pe-4 align-top">
                           <span className="mb-1.5 inline-flex items-center gap-1.5">
                             <StatusDot tone={VERDICTS[cell.v].tone} />
                             <span aria-hidden className={`font-mono text-[11px] ${VERDICTS[cell.v].className}`}>{VERDICTS[cell.v].mark}</span>
                             <span className={`text-[10.5px] uppercase tracking-wide ${VERDICTS[cell.v].className}`}>{pick(VERDICTS[cell.v].name, locale)}</span>
                           </span>
-                          <p className="text-mute">{pick(cell.t, locale)}</p>
+                          <p className="text-mute"><LtrText text={pick(cell.t, locale)} /></p>
                           {col.id === "popopx" ? (
                             <ul className="mt-2 flex flex-col gap-1 font-mono text-[10px] leading-snug text-faint">
-                              {dim.cites.map((cite) => (<li key={cite}>{cite}</li>))}
+                              {dim.cites.map((cite) => (<li key={cite}><Ltr>{cite}</Ltr></li>))}
                             </ul>
                           ) : null}
                         </td>
@@ -731,7 +839,7 @@ export function ComparisonMatrix(): ReactElement {
           <CodeBlock code={POPOPX_LEDGER} showCopy={false} maxHeightClass="max-h-[168px]" />
         </div>
         <p className="hairline-top mt-5 text-[11.5px] leading-relaxed text-faint">
-          {pick(HEAD.closing, locale)}{" "}
+          <LtrText text={pick(HEAD.closing, locale)} />{" "}
           <a href={IOS_REPO_URL} target="_blank" rel="noreferrer" className="text-brand-soft underline decoration-brand/50 underline-offset-2">popopx-chat</a>.
         </p>
       </div>

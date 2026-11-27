@@ -33,6 +33,10 @@
     background-attachment: fixed;
   }
 
+  html[dir="rtl"] body {
+    font-family: "SF Arabic", "Geeza Pro", "Segoe UI", Tahoma, system-ui, sans-serif;
+  }
+
   /* Anchor targets sit under the sticky glass navbar. */
   section[id] {
     scroll-margin-top: 88px;
@@ -76,6 +80,28 @@
   html[lang^="zh"] :is(h1, h2, h3) {
     word-break: keep-all;
     overflow-wrap: anywhere;
+  }
+
+  /* Arabic is cursive: any letter-spacing inserts gaps that visibly break the
+     joins between letters, so the whole RTL document drops tracking — table
+     headers, verdict labels and eyebrow labels included. */
+  html[dir="rtl"] * {
+    letter-spacing: normal;
+  }
+
+  html[dir="rtl"] .eyebrow {
+    text-transform: none;
+  }
+
+  /* Every code surface swings back to LTR even inside an RTL document: a
+     `file:line` suffix or a protocol name must not reorder around Arabic. */
+  html[dir="rtl"] :is(code, pre, .font-mono) {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  html[dir="rtl"] .flow-line::after {
+    animation-direction: reverse;
   }
 
   pre {

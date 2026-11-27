@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { Ltr, LtrText } from "@/components/Ltr";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import {
@@ -34,10 +35,13 @@ import {
  */
 
 /* The copy block below is fifteen exhaustive literal maps: `Localized<T>` is
-   checked slot by slot, and a derived or spread map would let one of the eighteen
+   checked slot by slot, and a derived or spread map would let one of the twenty-one
    locales silently inherit another one's text. */
 const EYEBROW: Localized<string> = {
   en: "Ecosystem panorama",
+  "pt-BR": "Panorama do ecossistema",
+  ko: "생태계 파노라마",
+  ar: "بانوراما المنظومة",
   ru: "Панорама экосистемы",
   de: "Ökosystem-Panorama",
   fr: "Panorama de l’écosystème",
@@ -59,6 +63,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "How four products form one map — the links that are live, and the ones still evolving",
+  "pt-BR": "Como quatro produtos formam um só mapa — os links que estão no ar e os que ainda estão em evolução",
+  ko: "네 제품이 하나의 지도가 되는 방식 — 실제로 연결된 선과 아직 발전 중인 선",
+  ar: "كيف تشكل أربعة منتجات خريطة واحدة — الروابط المشحونة، وتلك التي ما زالت قيد التطور",
   ru: "Как четыре продукта складываются в одну карту — линии, что уже связаны, и те, что ещё развиваются",
   de: "Wie vier Produkte eine Karte bilden — die Verbindungen, die live sind, und die, die sich noch entwickeln",
   fr: "Comment quatre produits forment une carte — les liens qui sont en ligne et ceux qui évoluent encore",
@@ -80,6 +87,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "The client is the entry point. Bot Studio, the service-account suite and Mac Node are each deployed on their own and meet it over the SMP network or a local console bridge, and this map only draws the lines the ledger can open in source. Everything else is dashed.",
+  "pt-BR": "O cliente é o ponto de entrada. Bot Studio, o conjunto de conta de serviço e o Mac Node são cada um implantado por conta própria e se encontram com ele pela rede SMP ou por uma ponte local de console, e este mapa só desenha as linhas que o registro de fatos consegue abrir no código. Todo o resto é tracejado.",
+  ko: "클라이언트가 진입점입니다. Bot Studio, 서비스 계정 제품군, Mac Node는 각각 따로 배포되어 SMP 네트워크나 로컬 콘솔 브리지를 통해 클라이언트와 만나며, 이 지도는 사실 대장이 소스에서 열어 보여 줄 수 있는 선만 그립니다. 나머지는 모두 점선입니다.",
+  ar: "العميل هو نقطة الدخول. وBot Studio وحزمة حساب الخدمة وMac Node كل منها منشور على حدة ويلتقي بالعميل عبر شبكة SMP أو جسر وحدة تحكم محلي، وهذه الخريطة لا ترسم إلا الخطوط التي يستطيع سجل الحقائق فتحها في المصدر. وكل ما عدا ذلك متقطع.",
   ru: "Клиент — это точка входа. Bot Studio, набор сервисных аккаунтов и Mac Node развёрнуты независимо друг от друга и общаются с ним через сеть SMP или локальный консольный мост; эта карта рисует только те линии, по которым реестр отсылает к исходному коду. Всё остальное — пунктир.",
   de: "Der Client ist der Einstieg. Bot Studio, die Dienstkonten-Suite und Mac Node werden jeweils für sich betrieben und begegnen ihm über das Netzwerk SMP oder eine lokale Konsolenbrücke; gezeichnet werden nur die Linien, deren Quellcode das Ledger nennen kann. Alles andere ist gestrichelt.",
   fr: "Le client est le point d’entrée. Bot Studio, la suite de comptes de service et Mac Node sont déployés chacun de leur côté et le rejoignent par le réseau SMP ou par un pont console local ; cette carte ne trace que les lignes dont le registre peut citer la source. Tout le reste est en pointillés.",
@@ -101,6 +111,9 @@ const LEAD: Localized<string> = {
 
 const FACT_CHAT: Localized<string> = {
   en: "Five tabs — Messages, Contacts, Cabin, Discover, Me — in 18 interface languages, with no phone number, no e-mail and no global user ID.",
+  "pt-BR": "Cinco abas — Mensagens, Contatos, Cabine, Descobrir, Eu — em 18 idiomas da interface, sem número de telefone, sem e-mail e sem ID de usuário global.",
+  ko: "다섯 개의 탭 — 메시지, 연락처, 캐빈, 발견, 나 — 이 18개 인터페이스 언어로 제공되며, 전화번호도 이메일도 전역 사용자 ID도 없습니다.",
+  ar: "خمسة تبويبات — الرسائل وجهات الاتصال والمقصورة واكتشاف وأنا — بـ18 لغة واجهة، بلا رقم هاتف ولا بريد إلكتروني ولا ID مستخدم عالمي.",
   ru: "Пять вкладок — «Сообщения», «Контакты», «Кабина», «Поиск» и «Я» — и 18 языков интерфейса; без номера телефона, без почты и без глобального ID пользователя.",
   de: "Fünf Bereiche — Nachrichten, Kontakte, Kabine, Entdecken, Ich — in 18 Lokalisierungen, ohne Telefonnummer, ohne E-Mail und ohne globale Benutzer-ID.",
   fr: "Cinq onglets — Messages, Contacts, Cabine, Découvrir, Moi — en 18 localizations, sans numéro de téléphone, sans courriel et sans identifiant global.",
@@ -122,6 +135,9 @@ const FACT_CHAT: Localized<string> = {
 
 const FACT_STUDIO: Localized<string> = {
   en: "One process supervises any number of popopx-cli instances; the console binds 127.0.0.1:8090 by default and the bot control ports 5230-5299 are never published off loopback.",
+  "pt-BR": "Um processo supervisiona qualquer número de instâncias do popopx-cli; o console escuta em 127.0.0.1:8090 por padrão e as portas de controle do bot 5230-5299 nunca são publicadas fora do loopback.",
+  ko: "하나의 프로세스가 임의 개수의 popopx-cli 인스턴스를 감독하며, 콘솔은 기본적으로 127.0.0.1:8090에 바인딩되고 봇 제어 포트 5230-5299는 루프백 밖으로 공개되지 않습니다.",
+  ar: "عملية واحدة تشرف على أي عدد من نسخ popopx-cli؛ وتستمع وحدة التحكم افتراضيًا على 127.0.0.1:8090، ولا يجري نشر منافذ تحكم البوت 5230-5299 خارج الاسترجاع المحلي (loopback) قط.",
   ru: "Один процесс управляет любым числом экземпляров popopx-cli; консоль по умолчанию привязана к 127.0.0.1:8090, а порты управления ботами 5230-5299 никогда не публикуются за пределы локальной петли.",
   de: "Ein Prozess beaufsichtigt beliebig viele Instanzen von popopx-cli; die Konsole ist standardmäßig an 127.0.0.1:8090 gebunden, und die Steuerports der Bots, 5230-5299, gehen niemals über Loopback hinaus.",
   fr: "Un seul processus supervise un nombre illimité d’instances de popopx-cli ; la console se lie par défaut à 127.0.0.1:8090 et les ports de contrôle des bots, 5230-5299, ne sortent jamais de l’interface de bouclage.",
@@ -143,6 +159,9 @@ const FACT_STUDIO: Localized<string> = {
 
 const FACT_SUITE: Localized<string> = {
   en: "A FastAPI gateway, POPX-CP metering and channel envelope encryption with zero-knowledge key rotation, plus nine business plugins that can each be switched off on its own.",
+  "pt-BR": "Um gateway FastAPI, medição POPX-CP e criptografia do envelope do canal com rotação de chaves de conhecimento zero, além de nove plugins de negócio que podem ser desligados individualmente.",
+  ko: "FastAPI 게이트웨이, POPX-CP 미터링, 영지식 키 회전을 갖춘 채널 봉투 암호화, 그리고 각각 개별적으로 끌 수 있는 아홉 개의 비즈니스 플러그인입니다.",
+  ar: "بوابة FastAPI، وقياس POPX-CP، وتشفير مظروف القناة بدوران مفاتيح عديم المعرفة، إضافة إلى تسع إضافات أعمال يمكن إيقاف كل منها على حدة.",
   ru: "Шлюз FastAPI, учёт POPX-CP и шифрование конвертов каналов с ротацией ключей с нулевым знанием, плюс девять бизнес-плагинов, каждый из которых можно отключить отдельно.",
   de: "Ein Gateway mit FastAPI, das Metering über POPX-CP und die Umschlagverschlüsselung der Kanäle mit Zero-Knowledge-Schlüsselrotation, dazu neun Business-Plugins, die sich einzeln abschalten lassen.",
   fr: "Une passerelle avec FastAPI, le comptage POPX-CP et le chiffrement des enveloppes de canal avec rotation de clés à connaissance nulle, plus neuf extensions métier désactivables une par une.",
@@ -164,6 +183,9 @@ const FACT_SUITE: Localized<string> = {
 
 const FACT_NODE: Localized<string> = {
   en: "Runs Ollama, the Qwen and Inkling weights and the LTX-2.5 MLX plus FFmpeg pipeline on the machine itself, and its console is bound to loopback by construction.",
+  "pt-BR": "Roda Ollama, os pesos Qwen e Inkling e o pipeline LTX-2.5 MLX mais FFmpeg na própria máquina, e seu console é ligado ao loopback por construção.",
+  ko: "Ollama, Qwen 및 Inkling 가중치, LTX-2.5 MLX와 FFmpeg 파이프라인을 기기 자체에서 실행하며, 콘솔은 구조적으로 루프백에 바인딩됩니다.",
+  ar: "يشغل Ollama وأوزان Qwen وInkling وخط أنابيب LTX-2.5 MLX مع FFmpeg على الجهاز نفسه، ووحدته التحكمية مرتبطة بالاسترجاع المحلي (loopback) بحكم التصميم.",
   ru: "Запускает на самой машине Ollama, веса Qwen и Inkling и конвейер LTX-2.5 MLX вместе с FFmpeg; его консоль по построению привязана к локальной петле.",
   de: "Auf dem Rechner selbst laufen Ollama, die Modellgewichte von Qwen und Inkling und die Pipeline aus LTX-2.5 MLX und FFmpeg; die Konsole ist konstruktionsbedingt an Loopback gebunden.",
   fr: "Fait tourner Ollama, les poids de Qwen et d’Inkling et le pipeline de LTX-2.5 MLX et FFmpeg sur la machine elle-même, et sa console est liée par construction à l’interface de bouclage.",
@@ -185,6 +207,9 @@ const FACT_NODE: Localized<string> = {
 
 const LINK_CHAT_SUITE: Localized<string> = {
   en: "Live: service-account chats, the two-level menu, the zero-knowledge channel envelope and the H5 authorisation — client and suite speak one wire protocol.",
+  "pt-BR": "Em operação: chats de conta de serviço, o menu de dois níveis, o envelope do canal de conhecimento zero e a autorização H5 — cliente e conjunto falam um único protocolo de transmissão.",
+  ko: "운영 중: 서비스 계정 채팅, 2단계 메뉴, 영지식 채널 봉투, H5 권한 부여 — 클라이언트와 제품군은 하나의 전선 프로토콜을 사용합니다.",
+  ar: "مشحون: محادثات حسابات الخدمة، والقائمة ذات المستويين، ومظروف القناة عديمة المعرفة، وتخويل H5 — فالعميل والحزمة يتحدثان بروتوكول خط واحد.",
   ru: "Работает: переписка с сервисными аккаунтами, двухуровневое меню, конверт канала с нулевым знанием и H5 авторизация — клиент и набор говорят на одном протоколе передачи.",
   de: "Online: Unterhaltungen mit Dienstkonten, das Menü mit zwei Ebenen, der Zero-Knowledge-Kanalumschlag und die Autorisierung über H5 — Client und Suite sprechen dasselbe Wire-Protokoll.",
   fr: "En ligne : les sessions des comptes de service, le menu à deux niveaux, l’enveloppe de canal à connaissance nulle et l’autorisation H5 — client et suite parlent le même protocole de ligne.",
@@ -206,6 +231,9 @@ const LINK_CHAT_SUITE: Localized<string> = {
 
 const LINK_CHAT_STUDIO: Localized<string> = {
   en: "Live: bot conversations ride the SMP network, while Studio drives its own popopx-cli. Neither one embeds the other.",
+  "pt-BR": "Em operação: as conversas de bot trafegam pela rede SMP, enquanto o Studio comanda seu próprio popopx-cli. Nenhum dos dois embute o outro.",
+  ko: "운영 중: 봇 대화는 SMP 네트워크를 타고, Studio는 자체 popopx-cli를 구동합니다. 어느 쪽도 다른 쪽을 내장하지 않습니다.",
+  ar: "مشحون: محادثات البوتات تسير على شبكة SMP، بينما يقود Studio نسخ popopx-cli الخاصة به. ولا واحد منهما يضم الآخر.",
   ru: "Работает: беседы с ботами идут по сети SMP, а Bot Studio запускает свой собственный popopx-cli. Ни один из них не встраивается в другой.",
   de: "Online: Bot-Unterhaltungen laufen über das Netzwerk SMP, und Studio treibt sein eigenes popopx-cli an. Keine von beiden ist in die andere eingebettet.",
   fr: "En ligne : les conversations de bots passent par le réseau SMP, tandis que Studio pilote son propre popopx-cli. Aucun des deux n’embarque l’autre.",
@@ -227,6 +255,9 @@ const LINK_CHAT_STUDIO: Localized<string> = {
 
 const LINK_CHAT_NODE: Localized<string> = {
   en: "Live: a signed one-time pairing offer, plus the node starting the popopx-chat daemon on its own machine so engine results reach the phone. With the owner's switch on, that link also carries the assistant loop: a briefing at the hour you set, read-only mail triage whose sending waits for confirmation, a home-device sentinel, a signed LAN-only Discover feed that refreshes the phone, and signed update cards.",
+  "pt-BR": "Em operação: uma oferta de emparelhamento assinada e de uso único, além de o nó iniciar o daemon popopx-chat na própria máquina para que os resultados do motor cheguem ao telefone. Com o interruptor do proprietário ligado, esse link também carrega o laço do assistente: um briefing na hora que você definir, triagem de e-mails somente leitura cujo envio espera confirmação, uma sentinela de dispositivos da casa, um feed do Descobrir assinado e restrito à LAN que atualiza o telefone, e cartões de atualização assinados.",
+  ko: "운영 중: 서명된 일회성 페어링 제안, 그리고 엔진 결과가 휴대폰에 닿도록 노드가 자체 기기에서 popopx-chat 데몬을 시작하는 기능입니다. 소유자가 스위치를 켜면 그 연결이 어시스턴트 루프도 전달합니다. 설정한 시각의 브리핑, 발송이 확인을 기다리는 읽기 전용 메일 분류, 가정 기기 센티널, 휴대폰을 새로 고치는 서명된 LAN 전용 발견 피드, 서명된 업데이트 카드입니다.",
+  ar: "مشحون: عرض اقتران موقّع لمرة واحدة، إضافة إلى قيام العقدة بتشغيل خدمة popopx-chat على جهازها هي حتى تصل نتائج المحرك إلى الهاتف. ومع تشغيل مفتاح المالك، يحمل ذلك الرابط أيضًا حلقة المساعد: إحاطة في الساعة التي تحددها، وفرز بريد للقراءة فقط ينتظر إرساله تأكيدًا، وحارس لأجهزة المنزل، وتغذية اكتشاف للشبكة المحلية فقط تحمل توقيعًا وتزود الهاتف بالتحديثات، وبطاقات تحديث موقّعة.",
   ru: "Работает: подписанное одноразовое приглашение для сопряжения, плюс узел сам запускает на своей машине демон popopx-chat, чтобы результаты движка доходили до телефона. Если владелец включил тумблер, эта же связка несёт цикл помощника: сводку в заданный час, сортировку почты только для чтения с отправкой после подтверждения, сторож домашних устройств, подписанную ленту Discover только в локальной сети, обновляющую телефон, и подписанные карточки обновлений.",
   de: "Online: ein signiertes einmaliges Kopplungsangebot, dazu dass der Knoten den Daemon popopx-chat auf dem eigenen Rechner startet, damit die Ergebnisse der Engine das Handy erreichen. Ist der Schalter des Besitzers an, trägt dieselbe Verbindung auch die Assistentenschleife: ein Briefing zur eingestellten Stunde, schreibgeschützte Mail-Sichtung, deren Versand auf Bestätigung wartet, ein Hausgeräte-Wächter, ein signierter LAN-only-Discover-Feed, der das Handy aktualisiert, und signierte Update-Karten.",
   fr: "En ligne : une offre de couplage signée à usage unique, et le nœud qui démarre le démon popopx-chat sur sa propre machine pour que les résultats du moteur reviennent sur le téléphone. Quand l’interrupteur du propriétaire est activé, ce même lien porte aussi la boucle d’assistant : un briefing à l’heure choisie, un tri des mails en lecture seule dont l’envoi attend confirmation, une sentinelle des appareils domestiques, un flux Discover signé limité au réseau local qui rafraîchit le téléphone, et des cartes de mise à jour signées.",
@@ -248,6 +279,9 @@ const LINK_CHAT_NODE: Localized<string> = {
 
 const LINK_PAP: Localized<string> = {
   en: "Planned: PAP, the POPOPX Agent Protocol, has zero implementations today. The SMP Agent Protocol itself has a version-7 spec and a server-side implementation.",
+  "pt-BR": "Planejado: o PAP, POPOPX Agent Protocol, tem zero implementações hoje. O próprio SMP Agent Protocol tem uma especificação versão 7 e uma implementação no lado do servidor.",
+  ko: "계획 중: POPOPX Agent Protocol인 PAP는 오늘 구현이 0건입니다. SMP Agent Protocol 자체는 version-7 명세와 서버 측 구현을 갖추고 있습니다.",
+  ar: "مخطط: PAP، أي POPOPX Agent Protocol، له صفر تنفيذات اليوم. أما SMP Agent Protocol نفسه فلديه مواصفة الإصدار 7 وتنفيذ على جانب الخادم.",
   ru: "В планах: у PAP, протокола POPOPX Agent, сегодня ноль реализаций. Сам протокол SMP Agent имеет спецификацию Version 7 и серверную реализацию.",
   de: "In Planung: PAP, das POPOPX Agent Protocol, hat heute null Implementierungen. Das SMP Agent Protocol selbst hat eine Spezifikation mit Version 7 und eine serverseitige Implementierung.",
   fr: "En projet : PAP, le POPOPX Agent Protocol, n’a aucune implémentation aujourd’hui. Le SMP Agent Protocol, lui, a une spécification Version 7 et une implémentation côté serveur.",
@@ -269,6 +303,9 @@ const LINK_PAP: Localized<string> = {
 
 const LINK_AUTO: Localized<string> = {
   en: "Evolving: no shared scheduler drives these three. Bot Studio reaches Mac Node only through loopback privacy tools, and calendar writes wait for the owner's approval — a controlled call, not a job bus. The one scheduled loop that ships is the phone↔Mac Node line above.",
+  "pt-BR": "Em evolução: nenhum agendador compartilhado comanda estes três. O Bot Studio alcança o Mac Node apenas por ferramentas de privacidade em loopback, e as escritas no calendário esperam a aprovação do proprietário — uma chamada controlada, não um barramento de tarefas. O único laço agendado entregue é a linha telefone↔Mac Node acima.",
+  ko: "발전 중: 이 셋을 구동하는 공유 스케줄러는 없습니다. Bot Studio는 루프백 프라이버시 도구를 통해서만 Mac Node에 닿으며, 캘린더 쓰기는 소유자의 승인을 기다립니다. 작업 버스가 아니라 통제된 호출입니다. 출시된 유일한 예약 루프는 위의 휴대폰↔Mac Node 연결입니다.",
+  ar: "قيد التطور: لا مجدول مشترك يقود هذه الثلاثة. ولا يصل Bot Studio إلى Mac Node إلا عبر أدوات خصوصية على الاسترجاع المحلي (loopback)، وكتابات التقويم تنتظر موافقة المالك — استدعاء مضبوط، لا ناقل مهام. والحلقة المجدولة الوحيدة المشحونة هي خط الهاتف وMac Node أعلاه.",
   ru: "Развивается: общего планировщика, который двигал бы эти три продукта, нет. Bot Studio обращается к Mac Node только через локальные инструменты приватности, а запись в календарь ждёт одобрения владельца — это управляемый вызов, а не шина задач. Единственный работающий цикл по расписанию — линия телефон↔Mac Node выше.",
   de: "In Entwicklung: Kein gemeinsamer Scheduler treibt diese drei. Bot Studio erreicht Mac Node nur über lokale Datenschutz-Werkzeuge, und Kalendereinträge warten auf die Freigabe des Besitzers — ein kontrollierter Aufruf, kein Job-Bus. Die einzige ausgelieferte Schleife nach Zeitplan ist die Handy↔Mac-Node-Linie oben.",
   fr: "En évolution : aucun ordonnanceur commun ne pilote ces trois produits. Bot Studio n’atteint Mac Node que par des outils de confidentialité locaux, et les écritures d’agenda attendent l’approbation du propriétaire — un appel contrôlé, pas un bus de tâches. La seule boucle planifiée livrée est la ligne téléphone↔Mac Node ci-dessus.",
@@ -290,6 +327,9 @@ const LINK_AUTO: Localized<string> = {
 
 const STATUS_LIVE: Localized<string> = {
   en: "Live",
+  "pt-BR": "Em operação",
+  ko: "운영 중",
+  ar: "مشحون",
   ru: "Работает",
   de: "Online",
   fr: "En ligne",
@@ -311,6 +351,9 @@ const STATUS_LIVE: Localized<string> = {
 
 const STATUS_PLANNED: Localized<string> = {
   en: "Planned",
+  "pt-BR": "Planejado",
+  ko: "계획 중",
+  ar: "مخطط",
   ru: "В планах",
   de: "In Planung",
   fr: "En projet",
@@ -332,6 +375,9 @@ const STATUS_PLANNED: Localized<string> = {
 
 const FOOT_NOTE: Localized<string> = {
   en: "The diagram above is a sketch: the lines are decoration, the page loads nothing from these four hosts, and only a click navigates. A solid line corresponds to a source line ledger §16 can open; a dashed line is a plan, not a promise.",
+  "pt-BR": "O diagrama acima é um esboço: as linhas são decoração, a página não carrega nada destes quatro hosts, e só um clique navega. Uma linha sólida corresponde a uma linha de código que o registro de fatos §16 consegue abrir; uma linha tracejada é um plano, não uma promessa.",
+  ko: "위 다이어그램은 스케치입니다. 선은 장식이고, 페이지는 이 네 호스트에서 아무것도 불러오지 않으며, 클릭해야만 이동합니다. 실선은 사실 대장 §16이 열어 보여 줄 수 있는 소스 줄에 해당합니다. 점선은 약속이 아니라 계획입니다.",
+  ar: "المخطط أعلاه رسم تخطيطي: الخطوط زينة، والصفحة لا تحمل شيئًا من هذه المضيفات الأربعة، والنقر وحده يتنقل. والخط المتصل يقابل سطر مصدر يستطيع سجل الحقائق §16 فتحه؛ والخط المتقطع خطة، لا وعد.",
   ru: "Приведённая выше схема условна: линии — это оформление, страница не загружает ничего с этих четырёх сайтов, и только клик выполняет переход. Сплошная линия соответствует строке исходного кода, которую реестр §16 может открыть; пунктирная — это план, а не обещание.",
   de: "Das Diagramm oben ist eine Skizze: die Linien sind Dekoration, die Seite lädt von diesen vier Hosts nichts, und nur ein Klick navigiert. Eine durchgezogene Linie steht für eine Quellcodezeile, die das Ledger §16 öffnen kann; eine gestrichelte ist ein Plan, kein Versprechen.",
   fr: "Le schéma ci-dessus est une esquisse : les traits sont décoratifs, la page ne charge rien chez ces quatre hôtes et seul un clic navigue. Un trait plein correspond à une ligne de source que le registre §16 peut ouvrir ; un trait interrompu est un plan, pas une promesse.",
@@ -431,7 +477,7 @@ export function EcosystemPanorama(): ReactElement {
             <LinkRow key={link.id} link={link} />
           ))}
         </ol>
-        <p className="mt-5 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">{note}</p>
+        <p className="mt-5 min-w-0 break-words text-[12.5px] leading-relaxed text-faint"><LtrText text={note} /></p>
       </div>
     </section>
   );
@@ -450,7 +496,7 @@ function NodeCard({ node, index }: { node: Node; index: number }): ReactElement 
       {index > 0 ? (
         <span
           aria-hidden
-          className="w-px shrink-0 self-stretch border-l border-dashed border-hair-strong md:hidden"
+          className="w-px shrink-0 self-stretch border-s border-dashed border-hair-strong md:hidden"
         />
       ) : null}
       <article className={`glass glass-hover flex h-full min-w-0 flex-1 flex-col border p-5 ${tone.ring}`}>
@@ -463,7 +509,7 @@ function NodeCard({ node, index }: { node: Node; index: number }): ReactElement 
           </div>
           <span className="chip shrink-0 font-mono text-[10.5px] text-faint">{`0${index + 1}`}</span>
         </div>
-        <p className="mt-3 min-w-0 break-words text-[13px] leading-relaxed text-mute">{fact}</p>
+        <p className="mt-3 min-w-0 break-words text-[13px] leading-relaxed text-mute"><LtrText text={fact} /></p>
         <div className="hairline-top mt-auto flex min-w-0 items-center gap-2 pt-4">
           <StatusDot tone={node.tone} pulse={index === 0} />
           <span className="min-w-0 break-words text-[12px] text-faint">{live}</span>
@@ -547,9 +593,9 @@ function LinkRow({ link }: { link: Link }): ReactElement {
       />
       <div className="min-w-0 flex-1">
         <p className="min-w-0 break-words font-mono text-[12px] leading-relaxed text-mute">
-          {link.path}
+          <Ltr>{link.path}</Ltr>
         </p>
-        <p className="mt-1 min-w-0 break-words text-[13px] leading-relaxed text-faint">{label}</p>
+        <p className="mt-1 min-w-0 break-words text-[13px] leading-relaxed text-faint"><LtrText text={label} /></p>
       </div>
       <span
         className={`chip shrink-0 ${link.live ? "text-mesh-soft" : "text-warn-soft"}`}

@@ -1,7 +1,7 @@
-// Oracle fixture — correct copy: all eighteen slots authored, with the
+// Oracle fixture — correct copy: all twenty-one slots authored, with the
 // legitimate Latin that translated technical prose keeps (a command, an enum
 // raw value, a hyphenated Latin abbreviation) and clean script boundaries.
-type Locale = "en" | "ru" | "de" | "fr" | "it" | "nl" | "cs" | "zh-Hans" | "zh-Hant" | "es" | "pl" | "ja" | "th" | "fi" | "uk" | "bg" | "tr" | "hu";
+type Locale = "en" | "ru" | "de" | "fr" | "it" | "nl" | "cs" | "zh-Hans" | "zh-Hant" | "es" | "pl" | "ja" | "th" | "fi" | "uk" | "bg" | "tr" | "hu" | "pt-BR" | "ko" | "ar";
 type Localized<T> = Record<Locale, T>;
 
 export const CLEAN_LITERAL = {
@@ -23,4 +23,7 @@ export const CLEAN_LITERAL = {
   bg: "В хранилището няма фиксирана версия на Xcode: CI ползва само xcodebuild -version",
   tr: "Depo Xcode sürümünü sabitlemiyor: CI yalnızca xcodebuild -version çalıştırıyor",
   hu: "A tároló nem rögzít Xcode-verziót: a CI csak az xcodebuild -version parancsot futtatja",
+  "pt-BR": "Nada no repositório fixa uma versão do Xcode: a CI só executa xcodebuild -version",
+  ko: "저장소는 Xcode 버전을 고정하지 않습니다. CI는 xcodebuild -version만 실행합니다",
+  ar: "لا يثبّت المستودع إصدار Xcode: تشغّل CI الأمر xcodebuild -version فقط",
 } satisfies Localized<string>;

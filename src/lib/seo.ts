@@ -3,7 +3,7 @@ import type { Localized } from "./locales";
 import { SITE_ORIGIN } from "./site";
 
 /**
- * What the document head says, in all 18 interface languages.
+ * What the document head says, in all 21 interface languages.
  *
  * `layout.tsx` is a Server Component and `locales.ts` is the only module the
  * server may evaluate for locale data, so the maps live here — a `"use client"`
@@ -12,23 +12,26 @@ import { SITE_ORIGIN } from "./site";
  * `<html lang>` the export is built for) and `LocaleMeta` re-applies the active
  * slot to the browser tab.
  *
- * That split is the whole story of an 18-language `<title>` in a static export:
+ * That split is the whole story of a 21-language `<title>` in a static export:
  * there is one HTML document per route, so a crawler that does not run
  * JavaScript indexes exactly one title — the zh-Hans one — and there are no
  * translated URLs to point `hreflang` at. What the visitor sees in the tab and
  * what the search result shows are therefore aligned by *content*, not by
- * pretending there are eighteen pages. The per-route `pageMetadata` below stays
- * Simplified Chinese for the same reason.
+ * pretending there is a translated URL per language. The per-route
+ * `pageMetadata` below stays Simplified Chinese for the same reason.
  */
 
 /**
  * The positioning sentence. `SEO_TITLE` below is the same sentence in the
  * `POPOPX — <positioning>` form the document head uses, and the Hero prints it as
- * the line under its heading: two literal 18-slot maps in this one module, updated
+ * the line under its heading: two literal 21-slot maps in this one module, updated
  * together, so tab and first screen agree in every language.
  */
 export const BRAND_POSITIONING: Localized<string> = {
   en: "POPOPX Is a Privacy-First Intelligent Connection Platform",
+  "pt-BR": "A POPOPX é uma plataforma de conexão inteligente com prioridade à privacidade",
+  ko: "POPOPX는 프라이버시 우선 지능형 연결 플랫폼입니다",
+  ar: "POPOPX منصة اتصال ذكية تضع الخصوصية أولًا",
   ru: "POPOPX — это платформа интеллектуальных соединений с приоритетом конфиденциальности",
   de: "POPOPX ist eine datenschutzorientierte intelligente Verbindungsplattform",
   fr: "POPOPX est une plateforme de connexion intelligente à confidentialité prioritaire",
@@ -51,7 +54,7 @@ export const BRAND_POSITIONING: Localized<string> = {
 /**
  * The brand claim, kept locale-free on purpose.
  *
- * A translated slogan stops being a slogan, and a Latin string inside an 18-slot
+ * A translated slogan stops being a slogan, and a Latin string inside a 21-slot
  * map is exactly what the residue probe in `tools/check-i18n.mjs` exists to
  * complain about. So `Connect Everything.` is printed identically in every
  * language — the same treatment `PortalCards` gives product names — while
@@ -62,6 +65,9 @@ export const BRAND_CLAIM = "Connect Everything.";
 /** The claim's restatement, in the language the visitor reads the page in. */
 export const BRAND_CLAIM_LOCAL: Localized<string> = {
   en: "Connect everything, and let intelligence collaborate freely.",
+  "pt-BR": "Conecte tudo e deixe a inteligência colaborar livremente.",
+  ko: "모든 것을 연결하고, 지능이 자유롭게 협업하게 합니다.",
+  ar: "اربط كل شيء، ودع الذكاء يتعاون بحرية.",
   ru: "Соединить всё — и дать разуму свободно сотрудничать.",
   de: "Alles verbinden — und Intelligenz frei zusammenarbeiten lassen.",
   fr: "Tout connecter — et laisser l’intelligence collaborer librement.",
@@ -89,6 +95,9 @@ export const BRAND_CLAIM_LOCAL: Localized<string> = {
  */
 export const BRAND_MISSION: Localized<string> = {
   en: "POPOPX does not merely provide connection tools — it builds an open ecosystem where people, AI, agents, devices, and services connect securely and collaborate freely.",
+  "pt-BR": "A POPOPX não apenas fornece ferramentas de conexão — ela constrói um ecossistema aberto onde pessoas, IA, agentes, dispositivos e serviços se conectam com segurança e colaboram livremente.",
+  ko: "POPOPX는 단순히 연결 도구를 제공하는 데 그치지 않습니다 — 사람, AI, 에이전트, 기기, 서비스가 안전하게 연결되고 자유롭게 협업하는 열린 생태계를 만듭니다.",
+  ar: "لا يقدّم POPOPX أدوات اتصال فحسب — بل يبني منظومة مفتوحة يتصل فيها الناس والذكاء الاصطناعي والوكلاء والأجهزة والخدمات بأمان ويتعاونون بحرية.",
   ru: "POPOPX не просто даёт инструменты соединения — он строит открытую экосистему, где люди, ИИ, агенты, устройства и сервисы связываются безопасно и сотрудничают свободно.",
   de: "POPOPX stellt nicht bloß Verbindungs-Werkzeuge bereit, es baut ein offenes Ökosystem, in dem Menschen, KI, Agenten, Geräte und Dienste sich sicher verbinden und frei zusammenarbeiten.",
   fr: "POPOPX ne fournit pas de simples outils de connexion : il construit un écosystème ouvert où les personnes, l’IA, les agents, les appareils et les services se relient en sécurité et collaborent librement.",
@@ -110,6 +119,9 @@ export const BRAND_MISSION: Localized<string> = {
 
 export const SEO_TITLE: Localized<string> = {
   en: "POPOPX — Privacy-First Intelligent Connection Platform",
+  "pt-BR": "POPOPX — Plataforma de conexão inteligente com prioridade à privacidade",
+  ko: "POPOPX — 프라이버시 우선 지능형 연결 플랫폼",
+  ar: "POPOPX — منصة اتصال ذكية تضع الخصوصية أولًا",
   ru: "POPOPX — Платформа интеллектуальных соединений с приоритетом конфиденциальности",
   de: "POPOPX — Datenschutz-First intelligente Verbindungsplattform",
   fr: "POPOPX — Plateforme de connexion intelligente à confidentialité prioritaire",
@@ -139,6 +151,9 @@ export const SEO_TITLE: Localized<string> = {
  */
 export const SEO_DESCRIPTION: Localized<string> = {
   en: "POPOPX does not merely provide connection tools — it builds an open ecosystem where people, AI, agents, devices, and services connect securely and collaborate freely. The official portal: queue-based addressing, end-to-end encryption and zero tracking across four AGPL-3.0 open-source sites.",
+  "pt-BR": "A POPOPX não apenas fornece ferramentas de conexão — ela constrói um ecossistema aberto onde pessoas, IA, agentes, dispositivos e serviços se conectam com segurança e colaboram livremente. O portal oficial: endereçamento por fila, criptografia ponta a ponta e rastreamento zero em quatro sites de código aberto sob AGPL-3.0.",
+  ko: "POPOPX는 단순히 연결 도구를 제공하는 데 그치지 않습니다 — 사람, AI, 에이전트, 기기, 서비스가 안전하게 연결되고 자유롭게 협업하는 열린 생태계를 만듭니다. 공식 포털: 네 개의 AGPL-3.0 오픈 소스 사이트 전반에 걸친 큐 기반 주소 지정, 종단간 암호화, 추적 제로.",
+  ar: "لا يقدّم POPOPX أدوات اتصال فحسب — بل يبني منظومة مفتوحة يتصل فيها الناس والذكاء الاصطناعي والوكلاء والأجهزة والخدمات بأمان ويتعاونون بحرية. البوابة الرسمية: عنونة قائمة على الطوابير، وتشفير من الطرف إلى الطرف، وانعدام التتبع عبر أربعة مواقع مفتوحة المصدر بـ AGPL-3.0.",
   ru: "POPOPX не просто даёт инструменты соединения — он строит открытую экосистему, где люди, ИИ, агенты, устройства и сервисы связываются безопасно и сотрудничают свободно. Официальный портал: адресация на основе очередей, сквозное шифрование и ноль отслеживания — четыре сайта под AGPL-3.0.",
   de: "POPOPX stellt nicht bloß Verbindungs-Werkzeuge bereit, es baut ein offenes Ökosystem, in dem Menschen, KI, Agenten, Geräte und Dienste sich sicher verbinden und frei zusammenarbeiten. Das offizielle Portal: Queue-basierte Adressierung, Ende-zu-Ende-Verschlüsselung und null Tracking — vier Sites unter AGPL-3.0.",
   fr: "POPOPX ne fournit pas de simples outils de connexion : il construit un écosystème ouvert où les personnes, l’IA, les agents, les appareils et les services se relient en sécurité et collaborent librement. Le portail officiel : adressage par file, chiffrement de bout en bout et zéro suivi — quatre sites sous AGPL-3.0.",

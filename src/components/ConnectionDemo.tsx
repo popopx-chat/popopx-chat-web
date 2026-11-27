@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import { TONES, type Tone } from "@/components/EcosystemHub";
 import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
@@ -15,7 +16,7 @@ import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
  * font and no third-party script: the whole panel is four `useState` cells
  * (tab, step, approval, revocation) over three tabs, and clicking a button
  * moves a counter in this page's own React state. That is what makes the disclaimer honest rather than decorative — the
- * visitor is watching a *model* of the flow, so the panel says so in all 18
+ * visitor is watching a *model* of the flow, so the panel says so in all 21
  * languages before it says anything else.
  *
  * Two honesty rules shape the copy, and both are measurable rather than
@@ -41,6 +42,9 @@ import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
 
 const NOTICE_LABEL: Localized<string> = {
   en: "Notice",
+  "pt-BR": "Aviso",
+  ko: "안내",
+  ar: "ملاحظة",
   ru: "Важно",
   de: "Hinweis",
   fr: "À noter",
@@ -71,6 +75,9 @@ const GHOST = `inline-flex min-w-0 items-center gap-2 rounded-full border border
 
 const EYEBROW: Localized<string> = {
   en: "Three scenarios, played out",
+  "pt-BR": "Três cenários, encenados",
+  ko: "세 가지 시나리오, 끝까지 재현",
+  ar: "ثلاثة سيناريوهات، معروضة بالكامل",
   ru: "Три сценария по шагам",
   de: "Drei Szenarien, Schritt für Schritt",
   fr: "Trois scénarios, joués étape par étape",
@@ -92,6 +99,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "What the connection does when you actually use it",
+  "pt-BR": "O que a conexão faz quando você de fato a usa",
+  ko: "실제로 사용할 때 연결이 하는 일",
+  ar: "ما يفعله الاتصال حين تستخدمه بالفعل",
   ru: "Что соединение делает, когда им действительно пользуются",
   de: "Was die Verbindung tut, wenn man sie wirklich benutzt",
   fr: "Ce que fait la connexion quand on s’en sert vraiment",
@@ -113,6 +123,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "Not a video. Each line is a state of this page’s own interface — nothing is fetched, nothing is uploaded, and the buttons only ever do what their label says. Scenario one opens by default because it is the one the codebase already runs end to end.",
+  "pt-BR": "Não é um vídeo. Cada linha é um estado da interface desta própria página — nada é buscado, nada é enviado, e os botões só fazem o que o rótulo diz. O cenário um abre por padrão porque é o único que a base de código já executa de ponta a ponta.",
+  ko: "동영상이 아닙니다. 각 줄은 이 페이지 자체 인터페이스의 한 상태입니다. 아무것도 가져오지 않고, 아무것도 업로드하지 않으며, 버튼은 표시된 대로만 동작합니다. 시나리오 1은 코드베이스가 이미 처음부터 끝까지 실행하는 흐름이므로 기본으로 열립니다.",
+  ar: "ليس فيديو. كل سطر هو حالة من واجهة هذه الصفحة نفسها — لا يجري جلب أي شيء، ولا رفع أي شيء، والأزرار لا تفعل إلا ما يقول عنوانها. والسيناريو الأول مفتوح افتراضيًا لأنه السيناريو الذي تشغله الشيفرة من أوله إلى آخره بالفعل.",
   ru: "Это не видео. Каждая строка — состояние самого этой страницы: ничего не запрашивается по сети, ничего не загружается, а кнопки делают ровно то, что на них написано. Первый сценарий открыт по умолчанию, потому что он в коде уже работает от начала до конца.",
   de: "Kein Video. Jede Zeile ist ein Zustand dieser Seite selbst — es wird nichts geladen, nichts hochgeladen, und die Knöpfe tun genau das, was auf ihnen steht. Szenario eins ist vorausgewählt, weil der Code es bereits durchläuft.",
   fr: "Pas une vidéo. Chaque ligne est un état de cette page elle-même — rien n’est demandé au réseau, rien n’est téléversé, et les boutons font exactement ce que dit leur libellé. Le scénario un s’ouvre par défaut car le code l’exécute déjà de bout en bout.",
@@ -139,6 +152,9 @@ const LEAD: Localized<string> = {
  */
 const DISCLAIMER: Localized<string> = {
   en: "Concept interaction demo (Interactive Concept Demo) — the flow, the roles and the wire values below are a working model of the design, not a screen recording. Initiating, negotiating, approving and auditing are implemented on the stand-in bot and the Mac node today, in-process agent-to-agent routing now runs inside Bot Studio, and the phone↔Mac Node assistant loop ships; a shared cross-product scheduler and the network permission gateway below are still evolving along the roadmap, and every such step carries an amber dot here.",
+  "pt-BR": "Demonstração de interação conceitual (Interactive Concept Demo) — o fluxo, os papéis e os valores de transmissão abaixo são um modelo funcional do projeto, não uma gravação de tela. Iniciar, negociar, aprovar e auditar estão implementados no bot substituto e no Mac Node hoje, o roteamento agente a agente em processo agora roda dentro do Bot Studio, e o laço do assistente telefone↔Mac Node é entregue; um agendador compartilhado entre produtos e o gateway de permissão de rede abaixo ainda estão em evolução conforme o roteiro, e cada passo desses carrega um ponto âmbar aqui.",
+  ko: "개념 상호작용 데모(Interactive Concept Demo)입니다. 아래의 흐름, 역할, 전선 값은 설계의 동작 모델이며 화면 녹화가 아닙니다. 시작, 협상, 승인, 감사는 오늘날 대역 봇과 Mac Node에서 구현되어 있고, 프로세스 내 에이전트 간 라우팅은 이제 Bot Studio 안에서 실행되며, 휴대폰↔Mac Node 어시스턴트 루프는 출시되었습니다. 제품을 가로지르는 공유 스케줄러와 아래의 네트워크 권한 게이트웨이는 여전히 로드맵을 따라 발전 중이며, 그런 단계마다 여기에는 황색 점이 붙습니다.",
+  ar: "عرض تفاعلي تصوري (Interactive Concept Demo) — المسار والأدوار وقيم الخط أدناه نموذج عملي للتصميم، لا تسجيل شاشة. البدء والتفاوض والموافقة والتدقيق منفذة اليوم على البوت البديل وعقدة Mac، وتوجيه الوكيل إلى الوكيل داخل العملية يجري الآن داخل Bot Studio، وحلقة المساعد بين الهاتف وMac Node مشحونة؛ أما المنسق المجدول العابر للمنتجات وبوابة أذونات الشبكة أدناه فما زالا قيد التطور على خارطة الطريق، وكل خطوة من هذا القبيل تحمل هنا نقطة كهرمانية.",
   ru: "Интерактивная концепт-демонстрация (Interactive Concept Demo) — приведённые ниже поток, роли и сетевые значения это рабочая модель замысла, а не запись экрана. Запуск, согласование, одобрение и аудит сегодня реализованы на стороне бота-заместителя и Mac-узла; маршрутизация между агентами в процессе уже работает внутри Bot Studio, а цикл помощника телефон↔Mac Node поставлен. Общий планировщик между продуктами и сетевой шлюз прав ниже ещё развиваются по дорожной карте, и каждый такой шаг помечен здесь жёлтым.",
   de: "Interaktives Konzept-Demo (Interactive Concept Demo) — Ablauf, Rollen und Leitungs Werte unten sind ein Arbeitsmodell des Entwurfs, keine Bildschirmaufzeichnung. Anstoßen, Verhandeln, Freigeben und Prüfen laufen heute auf der Stand-in-Bot-Seite und dem Mac-Node; agentenübergreifendes Routing im Prozess läuft jetzt in Bot Studio, und die Assistentenschleife Handy↔Mac Node ist ausgeliefert. Ein gemeinsamer Scheduler über Produkte hinweg und das Netzwerk-Gateway unten entwickeln sich laut Roadmap noch, und jeder solche Schritt hat hier einen gelben Punkt.",
   fr: "Démo conceptuelle interactive (Interactive Concept Demo) — le flux, les rôles et les valeurs en ligne ci-dessous sont un modèle de travail de la conception, pas un enregistrement d’écran. Lancer, négocier, approuver et auditer sont déjà implémentés du côté du bot suppléant et du nœud Mac ; le routage entre agents en cours de processus tourne désormais dans Bot Studio, et la boucle d’assistant téléphone↔Mac Node est livrée. Un ordonnanceur commun entre produits et la passerelle réseau ci-dessous évoluent encore selon la feuille de route, et chaque étape concernée porte un point jaune ici.",
@@ -160,6 +176,9 @@ const DISCLAIMER: Localized<string> = {
 
 const S1_TAB: Localized<string> = {
   en: "Scenario 1 · Private scheduling",
+  "pt-BR": "Cenário 1 · Agendamento privado",
+  ko: "시나리오 1 · 비공개 일정 조정",
+  ar: "السيناريو 1 · جدولة خاصة",
   ru: "Сценарий 1 · приватное планирование",
   de: "Szenario 1 · Private Terminfindung",
   fr: "Scénario 1 · Prise de rendez-vous privée",
@@ -181,6 +200,9 @@ const S1_TAB: Localized<string> = {
 
 const S2_TAB: Localized<string> = {
   en: "Scenario 2 · Phone to your own Mac",
+  "pt-BR": "Cenário 2 · Do telefone para o seu próprio Mac",
+  ko: "시나리오 2 · 휴대폰에서 내 Mac으로",
+  ar: "السيناريو 2 · من الهاتف إلى Mac الخاص بك",
   ru: "Сценарий 2 · Телефон к своему Mac",
   de: "Szenario 2 · Telefon zum eigenen Mac",
   fr: "Scénario 2 · Du téléphone à son propre Mac",
@@ -202,6 +224,9 @@ const S2_TAB: Localized<string> = {
 
 const S3_TAB: Localized<string> = {
   en: "Scenario 3 · Agent to agent",
+  "pt-BR": "Cenário 3 · Agente para agente",
+  ko: "시나리오 3 · 에이전트 간",
+  ar: "السيناريو 3 · من وكيل إلى وكيل",
   ru: "Сценарий 3 · Агент к агенту",
   de: "Szenario 3 · Agent zu Agent",
   fr: "Scénario 3 · D’agent à agent",
@@ -223,6 +248,9 @@ const S3_TAB: Localized<string> = {
 
 const S1_STEP1: Localized<string> = {
   en: "The initiator taps the request on their own device. The agent picks it up locally — no mailbox is contacted and no calendar service is asked.",
+  "pt-BR": "Quem inicia toca na solicitação no próprio dispositivo. O agente a capta localmente — nenhuma caixa de correio é contatada e nenhum serviço de calendário é consultado.",
+  ko: "요청자는 자기 기기에서 요청을 탭합니다. 에이전트는 이를 로컬에서 처리합니다. 어떤 메일함에도 접속하지 않고, 어떤 캘린더 서비스에도 묻지 않습니다.",
+  ar: "ينقر البادئ الطلب على جهازه. ويلتقطه الوكيل محليًا — لا يراسل أي صندوق بريد ولا يسأل أي خدمة تقويم.",
   ru: "Инициатор нажимает запрос на своём устройстве. Агент подхватывает его локально — почта не опрашивается и календарный сервис не вызывается.",
   de: "Der Initiator tippt die Anfrage auf dem eigenen Gerät. Der Agent nimmt sie lokal an — kein Postfach wird angefasst, kein Kalenderdienst gefragt.",
   fr: "L’initiateur touche la demande sur son propre appareil. L’agent la prend en charge localement — aucune boîte mail n’est contactée, aucun service de calendrier interrogé.",
@@ -244,6 +272,9 @@ const S1_STEP1: Localized<string> = {
 
 const S1_STEP2: Localized<string> = {
   en: "Agent A and Agent B exchange masked availability over the encrypted queue only: free and busy windows. Never an event title, never the mailbox behind it.",
+  "pt-BR": "O Agente A e o Agente B trocam disponibilidade mascarada apenas pela fila criptografada: janelas livres e ocupadas. Nunca o título de um evento, nunca a caixa de correio por trás dele.",
+  ko: "Agent A와 Agent B는 암호화된 큐로만 마스킹된 가용성, 즉 비어 있는 시간과 사용 중인 시간대를 교환합니다. 일정 제목은 결코 오가지 않으며, 그 뒤의 메일함도 결코 오가지 않습니다.",
+  ar: "يتبادل الوكيل A والوكيل B التوافر المحجوب عبر الطابور المشفر فقط: نوافذ حر ومشغول. لا عنوان حدث قط، ولا صندوق البريد الذي يقف خلفه.",
   ru: "Агент A и агент B обмениваются маскированной занятостью только по шифрованной очереди: окна «свободно» и «занято». Ни названия событий, ни почты за ними.",
   de: "Agent A und Agent B tauschen maskierte Verfügbarkeit nur über die verschlüsselte Warteschlange: freie und belegte Fenster. Nie ein Titel eines Termins, nie das Postfach dahinter.",
   fr: "L’agent A et l’agent B échangent la disponibilité masquée uniquement via la file chiffrée : créneaux libres et occupés. Jamais un intitulé d’événement, jamais la boîte mail derrière.",
@@ -265,6 +296,9 @@ const S1_STEP2: Localized<string> = {
 
 const S1_STEP3: Localized<string> = {
   en: "Both sides converge on the same two candidates — Tuesday 10:00 and Wednesday 14:30. Convergence itself writes zero bytes into either calendar.",
+  "pt-BR": "Os dois lados convergem nos mesmos dois candidatos — terça-feira 10:00 e quarta-feira 14:30. A própria convergência grava zero bytes em qualquer um dos calendários.",
+  ko: "양측은 같은 두 후보로 수렴합니다. 화요일 10:00과 수요일 14:30입니다. 수렴 자체는 어느 캘린더에도 0바이트를 기록합니다.",
+  ar: "يتفق الطرفان على المرشحين نفسيهما — الثلاثاء 10:00 والأربعاء 14:30. والاتفاق نفسه يكتب صفر بايت في أي من التقويمين.",
   ru: "Обе стороны сходятся на тех же двух вариантах — вторник 10:00 и среда 14:30. Само согласование не пишет в календари ни байта.",
   de: "Beide Seiten einigen sich auf dieselben zwei Kandidaten — Dienstag 10:00 und Mittwoch 14:30. Das Einigen selbst schreibt in keinen der Kalender ein Byte.",
   fr: "Les deux côtés convergent vers les mêmes deux créneaux — mardi 10:00 et mercredi 14:30. La convergence n’écrit zéro octet dans aucun des deux calendriers.",
@@ -286,6 +320,9 @@ const S1_STEP3: Localized<string> = {
 
 const S1_STEP4: Localized<string> = {
   en: "Nothing is booked yet. The owner’s tap on the confirmation card is what calls approve, and that tap is the only write in the whole flow.",
+  "pt-BR": "Nada está agendado ainda. O toque do proprietário no cartão de confirmação é o que chama approve, e esse toque é a única escrita em todo o fluxo.",
+  ko: "아직 예약된 것은 없습니다. 소유자가 확인 카드를 탭하는 것이 approve를 호출하며, 그 탭이 전체 흐름에서 유일한 쓰기입니다.",
+  ar: "لم يحجز شيء بعد. ونقرة المالك على بطاقة التأكيد هي ما يستدعي approve، وتلك النقرة هي الكتابة الوحيدة في المسار كله.",
   ru: "Пока не забронировано ничего. Подтверждение вызывает касание владельца на карточке, и это касание — единственная запись во потоке.",
   de: "Gebucht ist noch nichts. Erst der Tipp des Besitzers auf die Bestätigungskarte ruft die Freigabe auf, und dieser Tipp ist der einzige Schreibvorgang im ganzen Ablauf.",
   fr: "Rien n’est encore réservé. C’est le geste du propriétaire sur la carte de confirmation qui déclenche l’approbation, et ce geste est la seule écriture de tout le flux.",
@@ -307,6 +344,9 @@ const S1_STEP4: Localized<string> = {
 
 const S2_STEP1: Localized<string> = {
   en: "A task typed on the phone goes to the Mac Node paired with that phone. The pairing is a deep link the owner opened once, not an account.",
+  "pt-BR": "Uma tarefa digitada no telefone vai para o Mac Node emparelhado com esse telefone. O emparelhamento é um deep link que o proprietário abriu uma vez, não uma conta.",
+  ko: "휴대폰에 입력한 작업은 그 휴대폰과 페어링된 Mac Node로 갑니다. 페어링은 소유자가 한 번 연 딥 링크이며, 계정이 아닙니다.",
+  ar: "مهمة تكتب على الهاتف تذهب إلى Mac Node المقترن بذلك الهاتف. والاقتران رابط عميق فتحه المالك مرة واحدة، وليس حسابًا.",
   ru: "Задача, набранная на телефоне, уходит на Mac Node, сопряжённый с этим телефоном. Сопряжение — это ссылка, которую владелец открыл один раз, а не аккаунт.",
   de: "Eine auf dem Telefon getippte Aufgabe geht an den Mac Node, der mit diesem Telefon gekoppelt ist. Die Kopplung ist ein einmal geöffneter Link, kein Konto.",
   fr: "Une tâche tapée sur le téléphone part vers le Mac Node couplé à ce téléphone. Le couplage est un lien que le propriétaire a ouvert une fois, pas un compte.",
@@ -328,6 +368,9 @@ const S2_STEP1: Localized<string> = {
 
 const S2_STEP2: Localized<string> = {
   en: "The task lands in the console, which binds 127.0.0.1 by default: only that Mac can reach it. The phone gets to the machine through the encrypted queue, never through that port.",
+  "pt-BR": "A tarefa chega ao console, que escuta em 127.0.0.1 por padrão: só aquele Mac consegue alcançá-lo. O telefone chega à máquina pela fila criptografada, nunca por essa porta.",
+  ko: "작업은 콘솔에 도착하고, 콘솔은 기본적으로 127.0.0.1에 바인딩되므로 그 Mac만 접근할 수 있습니다. 휴대폰은 암호화된 큐를 통해 기기에 닿으며, 그 포트를 통해서는 결코 닿지 않습니다.",
+  ar: "تهبط المهمة في وحدة التحكم، التي تستمع افتراضيًا على 127.0.0.1: لا يصل إليها إلا ذلك الـMac. ويصل الهاتف إلى الجهاز عبر الطابور المشفر، لا عبر ذلك المنفذ قط.",
   ru: "Задача попадает в консоль, которая по умолчанию привязана к 127.0.0.1: доступ к ней есть только у того Mac. Телефон добирается до машины через шифрованную очередь, а не через тот порт.",
   de: "Die Aufgabe landet in der Konsole, die standardmäßig an 127.0.0.1 gebunden ist: nur dieser Mac kommt an sie. Das Telefon erreicht den Rechner über die verschlüsselte Warteschlange, nie über den Port.",
   fr: "La tâche atterrit dans la console, liée par défaut à 127.0.0.1 : seul ce Mac y accède. Le téléphone arrive à la machine par la file chiffrée, jamais par ce port.",
@@ -349,6 +392,9 @@ const S2_STEP2: Localized<string> = {
 
 const S2_STEP3: Localized<string> = {
   en: "The files are digested inside folders the owner listed by hand, and inference goes to a model service on the same machine. The raw file is not what travels.",
+  "pt-BR": "Os arquivos são reduzidos a um resumo (digest) dentro das pastas que o proprietário listou à mão, e a inferência vai para um serviço de modelo na mesma máquina. O que viaja não é o arquivo bruto.",
+  ko: "파일은 소유자가 직접 나열한 폴더 안에서 요약 처리되고, 추론은 같은 기기의 모델 서비스로 갑니다. 이동하는 것은 원본 파일이 아닙니다.",
+  ar: "يجري تلخيص الملفات داخل مجلدات أدرجها المالك بيده، ويذهب الاستدلال إلى خدمة نموذج على الجهاز نفسه. فالملف الخام ليس ما ينتقل.",
   ru: "Файлы разбираются внутри папок, которые владелец перечислил сам, а инференс идёт к сервису модели на той же машине. Путешествует не сам исходный файл.",
   de: "Die Dateien werden in von Hand gelisteten Ordnern verdaut, und die Inferenz geht an einen Modelldienst auf derselben Maschine. Was reist, ist nicht die Rohdatei.",
   fr: "Les fichiers sont digérés dans des dossiers listés à la main par le propriétaire, et l’inférence va à un service de modèle sur la même machine. Ce ne’est pas le fichier brut qui voyage.",
@@ -370,6 +416,9 @@ const S2_STEP3: Localized<string> = {
 
 const S2_STEP4: Localized<string> = {
   en: "What comes back to the phone is a summary card — the path, the size, the headings and the bullets — and the document itself stays at home.",
+  "pt-BR": "O que volta para o telefone é um cartão de resumo — o caminho, o tamanho, os títulos e os itens — e o documento em si fica em casa.",
+  ko: "휴대폰으로 돌아오는 것은 요약 카드입니다. 경로, 크기, 제목, 글머리 항목이 담기며, 문서 자체는 집에 남습니다.",
+  ar: "الذي يعود إلى الهاتف بطاقة ملخص — المسار والحجم والعناوين والنقاط — والمستند نفسه يبقى في المنزل.",
   ru: "Обратно на телефон приходит карточка-резюме: путь, размер, заголовки и пункты — а сам документ остаётся дома.",
   de: "Zurück aufs Telefon kommt eine Zusammenfassungs-Karte — Pfad, Größe, die Überschriften und die Punkte —, das Dokument selbst bleibt zu Hause.",
   fr: "Ce qui revient sur le téléphone est une carte de synthèse — le chemin, la taille, les titres et les puces — et le document lui-même reste à la maison.",
@@ -391,6 +440,9 @@ const S2_STEP4: Localized<string> = {
 
 const S3_STEP1: Localized<string> = {
   en: "A personal agent calls a service agent for one thing: this week’s free slots. The call carries that agent’s own identity — its own process, its own instance.",
+  "pt-BR": "Um agente pessoal chama um agente de serviço por uma única coisa: os horários livres desta semana. A chamada carrega a identidade do próprio agente — seu próprio processo, sua própria instância.",
+  ko: "개인 에이전트가 서비스 에이전트를 호출하는 이유는 하나입니다. 이번 주의 빈 시간대입니다. 호출에는 그 에이전트 자신의 신원, 즉 자체 프로세스와 자체 인스턴스가 실립니다.",
+  ar: "وكيل شخصي يستدعي وكيل خدمة لشيء واحد: فترات الحر هذا الأسبوع. ويحمل الاستدعاء هوية ذلك الوكيل نفسه — عمليته الخاصة، ونسخته الخاصة.",
   ru: "Личный агент обращается к сервисному агенту ради одного: свободные окна на этой неделе. Вызов несёт собственную идентичность агента — свой процесс, свой экземпляр.",
   de: "Ein persönlicher Agent ruft einen Dienst-Agenten für genau eines auf: die freien Fenster dieser Woche. Der Aufruf trägt die eigene Identität dieses Agenten — eigener Prozess, eigene Instanz.",
   fr: "Un agent personnel appelle un agent de service pour une seule chose : les créneaux libres de cette semaine. L’appel porte la propre identité de cet agent — son propre processus, sa propre instance.",
@@ -412,6 +464,9 @@ const S3_STEP1: Localized<string> = {
 
 const S3_STEP2: Localized<string> = {
   en: "The gateway checks the permission range before anything goes out: one named, read-only scope. This exact network scope string still has zero implementations; Bot Studio now enforces dotted read-only capabilities in-process, inside a single workbench. The network step is why this dot is amber.",
+  "pt-BR": "O gateway verifica o intervalo de permissão antes de qualquer coisa sair: um escopo nomeado, somente leitura. Esta string exata de escopo de rede ainda tem zero implementações; o Bot Studio agora aplica capacidades pontuadas somente leitura em processo, dentro de uma única bancada. O passo de rede é o motivo de este ponto ser âmbar.",
+  ko: "게이트웨이는 무엇이 나가기 전에 권한 범위를 확인합니다. 이름이 붙은 읽기 전용 스코프 하나입니다. 이 정확한 네트워크 스코프 문자열은 아직 구현이 0건입니다. Bot Studio는 이제 하나의 워크벤치 안에서 점 표기 읽기 전용 기능을 프로세스 내에서 강제합니다. 네트워크 단계가 있기 때문에 이 점은 황색입니다.",
+  ar: "تتحقق البوابة من نطاق الإذن قبل أن يخرج أي شيء: نطاق واحد مسمى وللقراءة فقط. سلسلة نطاق الشبكة هذه بعينها ما زال لها صفر تنفيذات؛ ويفرض Bot Studio الآن قدرات قراءة فقط مكتوبة بنقاط داخل العملية، داخل ورشة عمل واحدة. وخطوة الشبكة هي سبب كون هذه النقطة كهرمانية.",
   ru: "Шлюз проверяет диапазон прав до отправки: один именованный доступ только на чтение. Именно этой сетевой строки области по-прежнему нет ни в одной реализации; Bot Studio теперь применяет точечные возможности только для чтения в процессе, внутри одного рабочего стола. Сетевой шаг — вот почему точка жёлтая.",
   de: "Das Gateway prüft den Bereichsumfang, bevor etwas hinausgeht: ein benannter, nur lesender Umfang. Genau diese Netzwerk-Umfangskette hat weiterhin null Implementierungen; Bot Studio erzwingt punktgetrennte Nur-Lese-Fähigkeiten jetzt prozessintern, innerhalb einer Werkbank. Der Netzwerkschritt ist der Grund für den gelben Punkt.",
   fr: "La passerelle vérifie la portée de permission avant que quoi que ce sorte : un périmètre nommé, en lecture seule. Cette chaîne de portée réseau précise n’a toujours aucune implémentation ; Bot Studio applique désormais des capacités pointées en lecture seule, en cours de processus, dans un seul espace de travail. C’est l’étape réseau qui rend ce point jaune.",
@@ -433,6 +488,9 @@ const S3_STEP2: Localized<string> = {
 
 const S3_STEP3: Localized<string> = {
   en: "The owner is asked before the call goes out — an approval prompt on the requesting device — and at this gateway withdrawing it is one tap on the same card too, only it drops the whole pairing, not just this scope. Inside one Bot Studio workbench, a single grant can instead be toggled or deleted.",
+  "pt-BR": "O proprietário é consultado antes de a chamada sair — um pedido de aprovação no dispositivo solicitante — e neste gateway retirá-la é também um toque no mesmo cartão, só que ele derruba o emparelhamento inteiro, não apenas este escopo. Dentro de uma única bancada do Bot Studio, uma concessão individual pode, em vez disso, ser alternada ou excluída.",
+  ko: "호출이 나가기 전에 소유자에게 묻습니다. 요청 기기에 승인 프롬프트가 뜹니다. 이 게이트웨이에서 이를 철회하는 것도 같은 카드를 한 번 탭하는 일이지만, 이 스코프만이 아니라 페어링 전체를 끊습니다. 하나의 Bot Studio 워크벤치 안에서는 대신 개별 권한 부여를 켜고 끄거나 삭제할 수 있습니다.",
+  ar: "يجري سؤال المالك قبل أن يخرج الاستدعاء — طلب موافقة على الجهاز الطالب — وعند هذه البوابة يكون سحبها نقرة واحدة على البطاقة نفسها أيضًا، إلا أنها تسقط الاقتران كله لا هذا النطاق وحده. أما داخل ورشة عمل واحدة في Bot Studio، فيمكن بدلًا من ذلك تبديل تخويل واحد أو حذفه.",
   ru: "Владельца спрашивают до отправки вызова — подсказка одобрения на запрашивающем устройстве — и на этом шлюзе отозвать его тоже можно одним касанием на той же карточке, но снимается вся пара, а не одна эта область. Внутри одного рабочего стола Bot Studio отдельное разрешение, наоборот, можно переключить или удалить.",
   de: "Der Besitzer wird vor dem Hinausgehen des Aufrufs gefragt — eine Freigabe-Eingabeaufforderung auf dem anfordernden Gerät —, und an diesem Gateway ist der Widerruf ein Tipp auf derselben Karte, nur fällt die ganze Kopplung, nicht nur diese Reichweite. Innerhalb einer Bot-Studio-Werkbank lässt sich eine einzelne Freigabe dagegen umschalten oder löschen.",
   fr: "Le propriétaire est interrogé avant la sortie de l’appel — une invite d’approbation sur l’appareil demandeur — et sur cette passerelle, le retrait tient aussi en un geste sur la même carte, mais c’est l’appairage entier qui saute, pas ce seul périmètre. Dans un espace de travail Bot Studio, une autorisation isolée peut en revanche être basculée ou supprimée.",
@@ -454,6 +512,9 @@ const S3_STEP3: Localized<string> = {
 
 const S3_STEP4: Localized<string> = {
   en: "Every decision leaves a row in the local audit table: stage, event, level, timestamp, latency. It is a table in the app’s own database, not a log shipped somewhere.",
+  "pt-BR": "Cada decisão deixa uma linha na tabela de auditoria local: estágio, evento, nível, carimbo de data e hora, latência. É uma tabela no banco de dados do próprio app, não um log enviado para algum lugar.",
+  ko: "모든 결정은 로컬 감사 표에 한 행을 남깁니다. 단계, 이벤트, 수준, 타임스탬프, 지연입니다. 앱 자체 데이터베이스의 표이며, 어딘가로 보내지는 로그가 아닙니다.",
+  ar: "كل قرار يترك صف في جدول التدقيق المحلي: المرحلة، والحدث، والمستوى، والطابع الزمني، والزمن الاستجابة. إنه جدول في قاعدة بيانات التطبيق نفسها، لا سجل يرسل إلى مكان ما.",
   ru: "Каждое решение оставляет строку в локальной таблице аудита: этап, событие, уровень, метка времени, задержка. Это таблица в базе самого приложения, а не отосланный куда-то лог.",
   de: "Jede Entscheidung hinterlässt eine Zeile in der lokalen Audit-Tabelle: Stufe, Ereignis, Niveau, Zeitstempel, Verzögerung. Sie ist eine Tabelle in der Datenbank der App, kein weggeschicktes Protokoll.",
   fr: "Chaque décision laisse une ligne dans la table d’audit locale : étape, événement, niveau, horodatage, latence. C’est une table de la base de l’application, pas un journal expédié ailleurs.",
@@ -475,6 +536,9 @@ const S3_STEP4: Localized<string> = {
 
 const S1_RES: Localized<string> = {
   en: "Proposal confirmed on the device. Two candidates, one tap, and no third party ever read a calendar.",
+  "pt-BR": "Proposta confirmada no dispositivo. Dois candidatos, um toque, e nenhum terceiro jamais leu um calendário.",
+  ko: "기기에서 제안이 확정되었습니다. 두 개의 후보, 한 번의 탭, 그리고 어떤 제3자도 캘린더를 읽지 않았습니다.",
+  ar: "تأكد الاقتراح على الجهاز. مرشحان، ونقرة واحدة، ولم يقرأ أي طرف ثالث تقويمًا قط.",
   ru: "Предложение подтверждено на устройстве. Два варианта, одно касание, и никто посторонний не читал календарь.",
   de: "Vorschlag auf dem Gerät bestätigt. Zwei Kandidaten, ein Tipp, und kein Dritter hat je einen Kalender gelesen.",
   fr: "Proposition confirmée sur l’appareil. Deux créneaux, un geste, et aucun tiers n’a jamais lu un calendrier.",
@@ -496,6 +560,9 @@ const S1_RES: Localized<string> = {
 
 const S2_RES: Localized<string> = {
   en: "The digest came back. The files never left the Mac, and the port stayed shut to the network.",
+  "pt-BR": "O resumo voltou. Os arquivos nunca saíram do Mac, e a porta permaneceu fechada para a rede.",
+  ko: "요약이 돌아왔습니다. 파일은 Mac을 떠나지 않았고, 포트는 네트워크에 닫힌 채였습니다.",
+  ar: "عاد الملخص. لم تغادر الملفات الـMac قط، وبقي المنفذ مغلقًا أمام الشبكة.",
   ru: "Резюме вернулось. Файлы не покинули Mac, а порт остался закрыт для сети.",
   de: "Die Zusammenfassung kam zurück. Die Dateien verließen den Mac nie, und der Port blieb fürs Netz zu.",
   fr: "La synthèse est revenue. Les fichiers n’ont jamais quitté le Mac, et le port est resté fermé au réseau.",
@@ -517,6 +584,9 @@ const S2_RES: Localized<string> = {
 
 const S3_RES: Localized<string> = {
   en: "Granted, and written to the local ledger: one owner decision, one row. Withdrawing the grant goes through that same card and that same table; withdrawing only this scope at this network gateway does not exist, although Bot Studio's in-process grant table does allow per-grant removal.",
+  "pt-BR": "Concedido e gravado no registro de fatos local: uma decisão do proprietário, uma linha. Retirar a concessão passa pelo mesmo cartão e pela mesma tabela; retirar apenas este escopo neste gateway de rede não existe, embora a tabela de concessões em processo do Bot Studio permita a remoção por concessão.",
+  ko: "권한이 부여되어 로컬 사실 대장에 기록되었습니다. 소유자의 결정 하나, 행 하나입니다. 권한 철회는 같은 카드와 같은 표를 거칩니다. 이 네트워크 게이트웨이에서 이 스코프만 철회하는 것은 존재하지 않지만, Bot Studio의 프로세스 내 권한 부여 표는 개별 권한 부여 삭제를 허용합니다.",
+  ar: "ممنوح، ومسجل في سجل الحقائق المحلي: قرار مالك واحد، وصف واحد. وسحب التخويل يمر بالبطاقة نفسها والجدول نفسه؛ أما سحب هذا النطاق وحده عند بوابة الشبكة هذه فلا وجود له، وإن كان جدول التخويلات داخل عملية Bot Studio يسمح بإزالة كل تخويل على حدة.",
   ru: "Разрешение выдано и записано в локальный реестр: одно решение владельца, одна строка. Отзыв идёт через ту же карточку и ту же таблицу; отзыва только этой области на этом сетевом шлюзе нет, хотя таблица разрешений внутри Bot Studio допускает удаление по одному.",
   de: "Erlaubt und ins lokale Protokoll geschrieben: eine Besitzer-Entscheidung, eine Zeile. Der Widerruf läuft über dieselbe Karte und dieselbe Tabelle; nur diesen Umfang an diesem Netzwerk-Gateway zu widerrufen gibt es nicht, doch die Freigabetabelle in Bot Studio erlaubt das Entfernen einzelner Freigaben.",
   fr: "Accordé, et écrit dans le registre local : une décision du propriétaire, une ligne. Le retrait passe par la même carte et la même table ; ne retirer que cette portée sur cette passerelle réseau n’existe pas, même si la table des autorisations de Bot Studio permet de supprimer une autorisation isolée.",
@@ -538,6 +608,9 @@ const S3_RES: Localized<string> = {
 
 const RUN_LABEL: Localized<string> = {
   en: "Run the flow",
+  "pt-BR": "Executar o fluxo",
+  ko: "흐름 실행",
+  ar: "شغّل المسار",
   ru: "Прогнать поток",
   de: "Ablauf durchspielen",
   fr: "Jouer le flux",
@@ -559,6 +632,9 @@ const RUN_LABEL: Localized<string> = {
 
 const S1_ACT: Localized<string> = {
   en: "Approve and create the proposal",
+  "pt-BR": "Aprovar e criar a proposta",
+  ko: "승인하고 제안 생성",
+  ar: "وافق وأنشئ الاقتراح",
   ru: "Подтвердить и создать предложение",
   de: "Freigeben und Vorschlag anlegen",
   fr: "Approuver et créer la proposition",
@@ -580,6 +656,9 @@ const S1_ACT: Localized<string> = {
 
 const S2_ACT: Localized<string> = {
   en: "Hand the task to this Mac",
+  "pt-BR": "Entregar a tarefa a este Mac",
+  ko: "이 Mac에 작업 전달",
+  ar: "سلّم المهمة إلى هذا الـMac",
   ru: "Передать задачу этому Mac",
   de: "Aufgabe an diesen Mac übergeben",
   fr: "Confier la tâche à ce Mac",
@@ -601,6 +680,9 @@ const S2_ACT: Localized<string> = {
 
 const S3_ACT: Localized<string> = {
   en: "Approve the call",
+  "pt-BR": "Aprovar a chamada",
+  ko: "호출 승인",
+  ar: "وافق على الاستدعاء",
   ru: "Схвалить вызов",
   de: "Aufruf freigeben",
   fr: "Approuver l’appel",
@@ -622,6 +704,9 @@ const S3_ACT: Localized<string> = {
 
 const REVOKE_LABEL: Localized<string> = {
   en: "Revoke the grant",
+  "pt-BR": "Revogar a concessão",
+  ko: "권한 철회",
+  ar: "اسحب التخويل",
   ru: "Отозвать разрешение",
   de: "Erlaubnis widerrufen",
   fr: "Retirer la permission",
@@ -643,6 +728,9 @@ const REVOKE_LABEL: Localized<string> = {
 
 const RESET_LABEL: Localized<string> = {
   en: "Reset",
+  "pt-BR": "Redefinir",
+  ko: "재설정",
+  ar: "إعادة تعيين",
   ru: "Сбросить",
   de: "Zurücksetzen",
   fr: "Réinitialiser",
@@ -664,6 +752,9 @@ const RESET_LABEL: Localized<string> = {
 
 const AUDIT_APPROVED: Localized<string> = {
   en: "approved",
+  "pt-BR": "aprovado",
+  ko: "승인됨",
+  ar: "موافق عليه",
   ru: "разрешено",
   de: "freigegeben",
   fr: "approuvé",
@@ -685,6 +776,9 @@ const AUDIT_APPROVED: Localized<string> = {
 
 const AUDIT_REVOKED: Localized<string> = {
   en: "revoked",
+  "pt-BR": "revogado",
+  ko: "철회됨",
+  ar: "مسحوب",
   ru: "отозвано",
   de: "widerrufen",
   fr: "révoqué",
@@ -706,6 +800,9 @@ const AUDIT_REVOKED: Localized<string> = {
 
 const REVOKE_NOTE: Localized<string> = {
   en: "Revocation is implemented, at the granularity of a whole guest link or a whole pairing: one click flips the state and the next check is refused. Per-scope withdrawal is the part that is missing.",
+  "pt-BR": "A revogação está implementada, na granularidade de um link de convidado inteiro ou de um emparelhamento inteiro: um clique muda o estado e a próxima verificação é recusada. A retirada por escopo é a parte que falta.",
+  ko: "철회는 게스트 링크 전체 또는 페어링 전체 단위로 구현되어 있습니다. 한 번 클릭하면 상태가 뒤집히고 다음 확인은 거부됩니다. 빠져 있는 부분은 스코프별 철회입니다.",
+  ar: "الإلغاء منفذ على مستوى رابط ضيف كامل أو اقتران كامل: نقرة واحدة تقلب الحالة، ولا يقبل الفحص التالي. أما السحب لكل نطاق على حدة فهو الجزء الغائب.",
   ru: "Отзыв реализован — целой гостевой ссылки или целой пары: один клик меняет состояние, и следующая проверка отказывает. Не хватает отзыва по одной области прав.",
   de: "Widerruf ist implementiert, bezogen auf einen ganzen Gastlink oder eine ganze Kopplung: ein Klick setzt den Status, die nächste Prüfung wird abgewiesen. Was fehlt, ist der Widerruf nach Einzelumfang.",
   fr: "La révocation est implémentée, à l’échelle d’un lien invité entier ou d’un appairage entier : un geste change l’état et la vérification suivante refuse. Il manque la révocation par périmètre unique.",
@@ -846,10 +943,10 @@ export function ConnectionDemo(): ReactElement {
           className={`mt-7 min-w-0 break-words rounded-xl border ${tone.ring} bg-ink-800/60 px-4 py-3 text-[12.5px] leading-relaxed text-mute`}
         >
           <span className={`font-semibold ${tone.text}`}>
-            {noticeLabel}
+            <LtrText text={noticeLabel} />
             {" · "}
           </span>
-          {disclaimer}
+          <LtrText text={disclaimer} />
         </p>
 
         <div
@@ -886,8 +983,8 @@ export function ConnectionDemo(): ReactElement {
                   key={row.time}
                   className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11.5px] text-faint"
                 >
-                  <span>{row.time}</span>
-                  <span className="min-w-0 break-all">{row.scope}</span>
+                  <span dir="ltr">{row.time}</span>
+                  <span dir="ltr" className="min-w-0 break-all text-start">{row.scope}</span>
                   <span
                     className={`chip shrink-0 ${revoked ? "text-warn-soft" : "text-mesh-soft"}`}
                   >
@@ -897,7 +994,7 @@ export function ConnectionDemo(): ReactElement {
               ))}
               {revoked && (
                 <li className="min-w-0 break-words text-[11.5px] leading-relaxed text-warn-soft">
-                  {revokeNote}
+                  <LtrText text={revokeNote} />
                 </li>
               )}
             </ul>
@@ -931,7 +1028,9 @@ export function ConnectionDemo(): ReactElement {
                 <span className="mt-[6px] shrink-0">
                   <StatusDot tone={revoked ? "warn" : "mesh"} pulse={false} />
                 </span>
-                <span className="min-w-0 break-words">{resultLine}</span>
+                <span className="min-w-0 break-words">
+                  <LtrText text={resultLine} />
+                </span>
               </span>
             )}
           </div>
@@ -940,11 +1039,15 @@ export function ConnectionDemo(): ReactElement {
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="flex min-w-0 items-center gap-2">
             <StatusDot tone="mesh" pulse={false} />
-            <span className="min-w-0 break-words text-[12px] text-faint">{liveLabel}</span>
+            <span className="min-w-0 break-words text-[12px] text-faint">
+              <LtrText text={liveLabel} />
+            </span>
           </span>
           <span className="flex min-w-0 items-center gap-2">
             <StatusDot tone="warn" pulse={false} />
-            <span className="min-w-0 break-words text-[12px] text-faint">{nextLabel}</span>
+            <span className="min-w-0 break-words text-[12px] text-faint">
+              <LtrText text={nextLabel} />
+            </span>
           </span>
         </div>
       </div>
@@ -975,7 +1078,9 @@ function TabButton({
       }`}
     >
       <span className="shrink-0 font-mono text-[10.5px] text-faint">{`0${scenario.id}`}</span>
-      <span className="min-w-0 break-words">{label}</span>
+      <span className="min-w-0 break-words">
+        <LtrText text={label} />
+      </span>
     </button>
   );
 }
@@ -989,8 +1094,12 @@ function StepRow({ step }: { step: DemoStep }): ReactElement {
         <StatusDot tone={step.state === "live" ? "mesh" : "warn"} pulse={false} />
       </span>
       <div className="min-w-0">
-        <p className="min-w-0 break-words font-mono text-[11.5px] text-faint">{step.tag}</p>
-        <p className="mt-1 min-w-0 break-words text-[13px] leading-relaxed text-mute">{body}</p>
+        <p dir="ltr" className="min-w-0 break-words text-start font-mono text-[11.5px] text-faint">
+          {step.tag}
+        </p>
+        <p className="mt-1 min-w-0 break-words text-[13px] leading-relaxed text-mute">
+          <LtrText text={body} />
+        </p>
       </div>
     </li>
   );

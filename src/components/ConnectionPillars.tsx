@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import { TONES, type Tone } from "@/components/EcosystemHub";
 import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
@@ -30,15 +31,18 @@ import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
  *
  * The pillar names are locale-free, like the layer names and the product names:
  * `Connection Privacy`, `Connection Control`, `Connection Interoperability` are
- * the brand's own terms and get printed identically in all 18 languages.
+ * the brand's own terms and get printed identically in all 21 languages.
  */
 
 /* Every map below is an exhaustive literal: `Localized<T>` is checked slot by slot,
-   and a derived, spread or cast map would let one of the eighteen locales silently
+   and a derived, spread or cast map would let one of the twenty-one locales silently
    inherit another one's text. */
 
 const EYEBROW: Localized<string> = {
   en: "Three connection pillars",
+  "pt-BR": "Três pilares da conexão",
+  ko: "연결의 세 기둥",
+  ar: "ثلاث ركائز للاتصال",
   ru: "Три опоры соединения",
   de: "Drei Verbindungssäulen",
   fr: "Trois piliers de la connexion",
@@ -60,6 +64,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "Privacy, control and interoperability of the connection itself",
+  "pt-BR": "Privacidade, controle e interoperabilidade da própria conexão",
+  ko: "연결 자체의 프라이버시, 제어, 상호운용성",
+  ar: "الخصوصية والتحكم والتشغيل البيني للاتصال نفسه",
   ru: "Приватность, контроль и совместимость самого соединения",
   de: "Datenschutz, Kontrolle und Interoperabilität der Verbindung selbst",
   fr: "Confidentialité, contrôle et interopérabilité de la connexion elle-même",
@@ -81,6 +88,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "Centralised AI tools compete on model weights. POPOPX competes on the connection itself: every line below either points at an implementation in one of the four repositories or says Evolving, and it is the same test /ecosystem/ applies.",
+  "pt-BR": "As ferramentas de IA centralizadas competem nos pesos dos modelos. O POPOPX compete na própria conexão: cada linha abaixo aponta para uma implementação em um dos quatro repositórios ou diz Em evolução, e é o mesmo teste que /ecosystem/ aplica.",
+  ko: "중앙화된 AI 도구들은 모델 가중치로 경쟁합니다. POPOPX는 연결 자체로 경쟁합니다. 아래의 모든 항목은 네 저장소 중 하나의 구현을 가리키거나 발전 중이라고 밝히며, /ecosystem/이 적용하는 것과 같은 기준입니다.",
+  ar: "تتنافس أدوات الذكاء الاصطناعي المركزية على أوزان النماذج. أما POPOPX فينافس على الاتصال نفسه: كل سطر أدناه إما يشير إلى تنفيذ في أحد المستودعات الأربعة أو يقول قيد التطور، وهو الاختبار نفسه الذي تطبقه /ecosystem/.",
   ru: "Централизованные ИИ-инструменты соревнуются весами модели. POPOPX соревнуется самим соединением: каждая строка ниже либо указывает на реализацию в одном из четырёх репозиториев, либо помечена «Развивается» — и критерий тот же, что и на /ecosystem/.",
   de: "Zentralisierte KI-Werkzeuge konkurrieren um Modellgewichte. POPOPX konkurriert um die Verbindung selbst: Jede Zeile unten zeigt entweder auf eine Implementierung in einem der vier Repositories oder steht als „In Entwicklung“ — derselbe Maßstab, der auch auf /ecosystem/ gilt.",
   fr: "Les outils d’IA centralisés se disputent sur les poids de modèle. POPOPX se dispute sur la connexion elle-même : chaque ligne ci-dessous pointe soit vers une implémentation dans l’un des quatre dépôts, soit est marquée « En évolution » — même critère que sur /ecosystem/.",
@@ -106,6 +116,9 @@ const LEAD: Localized<string> = {
 
 const P1_DESC: Localized<string> = {
   en: "The connection never asks for an identity first. There is no global user ID, and addressing is a set of one-way queues rather than a graph anyone can walk.",
+  "pt-BR": "A conexão nunca pede uma identidade primeiro. Não existe ID de usuário global, e o endereçamento é um conjunto de filas unidirecionais, não um grafo que qualquer um pode percorrer.",
+  ko: "연결은 먼저 신원을 요구하지 않습니다. 전역 사용자 ID가 없으며, 주소 지정은 누구나 따라 걸을 수 있는 그래프가 아니라 단방향 큐의 집합입니다.",
+  ar: "لا يطلب الاتصال هوية أولًا قط. لا يوجد ID مستخدم عالمي، والعنونة مجموعة طوابير أحادية الاتجاه لا مخطط يستطيع أي أحد اجتيازه.",
   ru: "Соединение не требует сначала личность. Глобального ID пользователя нет, а адресация — это набор односторонних очередей, а не граф, по которому можно пройти.",
   de: "Die Verbindung verlangt nie zuerst eine Identität. Es gibt keine globale Benutzer-ID, und Adressierung ist ein Bündel einseitiger Warteschlangen statt eines Graphen, den jemand durchgehen kann.",
   fr: "La connexion ne demande jamais d’identité d’abord. Il n’y a pas d’identifiant global, et l’adressage est un ensemble de files unidirectionnelles plutôt qu’un graphe que quiconque peut parcourir.",
@@ -127,6 +140,9 @@ const P1_DESC: Localized<string> = {
 
 const P1_I1: Localized<string> = {
   en: "Sign-up asks for no phone number, no e-mail and no global key — every connection is its own pair of queues.",
+  "pt-BR": "O cadastro não pede número de telefone, nem e-mail, nem chave global — cada conexão é o seu próprio par de filas.",
+  ko: "가입은 전화번호도 이메일도 전역 키도 요구하지 않습니다. 모든 연결은 그 자체의 큐 쌍입니다.",
+  ar: "لا يطلب التسجيل رقم هاتف ولا بريد إلكتروني ولا مفتاح عالمي — فكل اتصال زوج طوابير خاص به.",
   ru: "Регистрация не требует ни номера телефона, ни почты, ни глобального ключа — каждое соединение это собственная пара очередей.",
   de: "Die Anmeldung braucht keine Nummer, keine E-Mail und keinen globalen Schlüssel — jede Verbindung ist ihr eigenes Paar von Warteschlangen.",
   fr: "L’inscription n’exige ni numéro, ni courriel, ni clé globale — chaque connexion est son propre couple de files.",
@@ -148,6 +164,9 @@ const P1_I1: Localized<string> = {
 
 const P1_I2: Localized<string> = {
   en: "The table that maps an offline neighbour to a contact lives in the Keychain: never in a backup, never in the chat database.",
+  "pt-BR": "A tabela que mapeia um vizinho offline para um contato fica no Keychain: nunca em um backup, nunca no banco de dados do chat.",
+  ko: "오프라인 이웃을 연락처로 매핑하는 표는 Keychain에 있습니다. 백업에도, 채팅 데이터베이스에도 결코 들어가지 않습니다.",
+  ar: "الجدول الذي يربط جارًا غير متصل بجهة اتصال يقيم في Keychain: لا في نسخة احتياطية قط، ولا في قاعدة بيانات المحادثة.",
   ru: "Таблица, сопоставляющая офлайн-соседа с контактом, живёт в Keychain: никогда в резервной копии и никогда в базе чата.",
   de: "Die Tabelle, die einen Offline-Nachbarn einem Kontakt zuordnet, liegt im Keychain: nie in einem Backup, nie in der Chat-Datenbank.",
   fr: "La table qui associe un voisin hors ligne à un contact vit dans le Keychain : jamais dans une sauvegarde, jamais dans la base de chat.",
@@ -169,6 +188,9 @@ const P1_I2: Localized<string> = {
 
 const P1_I3: Localized<string> = {
   en: "Offline it runs its own flood net: dual-role GATT, TTL 7, an unseen packet re-flooded once with one hop less — not the Bluetooth Mesh specification.",
+  "pt-BR": "Offline, ele opera a própria rede de inundação: GATT em papel duplo, TTL 7, um pacote não visto reenviado em inundação uma vez com um salto a menos — não é a especificação Bluetooth Mesh.",
+  ko: "오프라인에서는 자체 플러드 네트를 운영합니다. 이중 역할 GATT, TTL 7, 처음 보는 패킷은 홉 하나를 줄여 한 번 다시 플러딩합니다. Bluetooth Mesh 명세가 아닙니다.",
+  ar: "وعند انقطاع الاتصال يشغل شبكة إغراق خاصة به: GATT ثنائي الدور، وTTL 7، وحزمة لم تر من قبل يعاد إغراقها مرة واحدة بخطوة أقل — وليس مواصفة Bluetooth Mesh.",
   ru: "Вне сети работает собственная лавинная сеть: два роли GATT, TTL 7, невиданный пакет ретранслируется один раз на один хоп меньше — это не спецификация Bluetooth Mesh.",
   de: "Offline läuft ein eigenes Flutnetz: GATT in beiden Rollen, TTL 7, ein unbekanntes Paket wird einmal mit einem Hop weniger weitergereicht — nicht die Bluetooth-Mesh-Spezifikation.",
   fr: "Hors ligne, son propre réseau inondant : GATT à double rôle, TTL 7, un paquet inaperçu re-propagé une fois avec un saut de moins — pas la spécification Bluetooth Mesh.",
@@ -190,6 +212,9 @@ const P1_I3: Localized<string> = {
 
 const P1_I4: Localized<string> = {
   en: "A peer is addressed by a public key that a handshake or an announce proved — never by the 8-byte wire id alone.",
+  "pt-BR": "Um par é endereçado por uma chave pública provada por um handshake ou um anúncio — nunca apenas pelo id de rede de 8 bytes.",
+  ko: "피어는 핸드셰이크나 announce로 증명된 공개 키로 주소 지정됩니다. 8바이트 전선 id만으로 주소가 정해지는 일은 결코 없습니다.",
+  ar: "يعنون النظير بمفتاح عام أثبته مصافحة أو إعلان — لا بمعرف الخط ذي 8 بايت وحده قط.",
   ru: "Собеседник адресуется открытым ключом, доказанным рукопожатием или анонсом — никогда одним 8-байтовым проводным id.",
   de: "Ein Gegenüber wird über einen öffentlichen Schlüssel adressiert, den ein Handschlag oder eine Ankündigung bewiesen hat — nie über die 8-Byte-Leitungskennung allein.",
   fr: "Un pair est adressé par une clé publique prouvée par une poignée de main ou une annonce — jamais par le seul identifiant 8 octets de la ligne.",
@@ -215,6 +240,9 @@ const P1_I4: Localized<string> = {
 
 const P2_DESC: Localized<string> = {
   en: "Every step between an agent and you passes a human. The approval is the owner's own tap; the audit is a local row written per step.",
+  "pt-BR": "Cada passo entre um agente e você passa por um humano. A aprovação é o toque do próprio proprietário; a auditoria é uma linha local gravada a cada passo.",
+  ko: "에이전트와 사용자 사이의 모든 단계는 사람을 거칩니다. 승인은 소유자 자신의 탭이고, 감사는 단계마다 기록되는 로컬 행입니다.",
+  ar: "كل خطوة بين وكيل وأنت تمر بإنسان. الموافقة نقرة المالك نفسه؛ والتدقيق صف محلي يكتب عند كل خطوة.",
   ru: "Каждый шаг между агентом и вами проходит через человека. Подтверждение — это собственное касание владельца, а аудит — локальная строка на каждый шаг.",
   de: "Jeder Schritt zwischen einem Agenten und dir geht durch einen Menschen. Die Zustimmung ist der eigene Tipp des Besitzers; das Audit ist eine lokale Zeile pro Schritt.",
   fr: "Chaque étape entre un agent et vous passe par un humain. La validation est le propre geste du propriétaire ; l’audit est une ligne locale écrite à chaque étape.",
@@ -236,6 +264,9 @@ const P2_DESC: Localized<string> = {
 
 const P2_I1: Localized<string> = {
   en: "Each agent is its own process and its own instance; the console binds 127.0.0.1 by default and a bot's control port is never opened outward.",
+  "pt-BR": "Cada agente é seu próprio processo e sua própria instância; o console escuta em 127.0.0.1 por padrão e a porta de controle de um bot nunca é aberta para fora.",
+  ko: "각 에이전트는 자체 프로세스이자 자체 인스턴스입니다. 콘솔은 기본적으로 127.0.0.1에 바인딩되며, 봇의 제어 포트는 외부로 열리지 않습니다.",
+  ar: "كل وكيل عمليته الخاصة ونسخته الخاصة؛ ووحدة التحكم تستمع افتراضيًا على 127.0.0.1، ومنفذ تحكم البوت لا يفتح إلى الخارج قط.",
   ru: "Каждый агент — отдельный процесс и отдельный экземпляр; консоль по умолчанию привязана к 127.0.0.1, а управляющий порт бота никогда не открывается наружу.",
   de: "Jeder Agent ist eigener Prozess und eigene Instanz; die Konsole bindet standardmäßig 127.0.0.1, und ein Bot-Steuerport wird nie nach außen geöffnet.",
   fr: "Chaque agent est son propre processus et sa propre instance ; la console se lie par défaut à 127.0.0.1 et le port de contrôle d’un bot n’est jamais ouvert vers l’extérieur.",
@@ -257,6 +288,9 @@ const P2_I1: Localized<string> = {
 
 const P2_I2: Localized<string> = {
   en: "Every transition of the negotiation state machine writes an audit row — stage, event, level, timestamp, latency.",
+  "pt-BR": "Cada transição da máquina de estados da negociação grava uma linha de auditoria — estágio, evento, nível, carimbo de data e hora, latência.",
+  ko: "협상 상태 머신의 모든 전이는 감사 행을 기록합니다. 단계, 이벤트, 수준, 타임스탬프, 지연입니다.",
+  ar: "كل انتقال في آلة حالة التفاوض يكتب صف تدقيق — المرحلة، والحدث، والمستوى، والطابع الزمني، والزمن الاستجابة.",
   ru: "Каждый переход машины согласований пишет строку аудита — этап, событие, уровень, метку времени и задержку.",
   de: "Jeder Übergang der Verhandlungs-Zustandsmaschine schreibt eine Audit-Zeile — Stufe, Ereignis, Niveau, Zeitstempel, Verzögerung.",
   fr: "Chaque transition de la machine à états de négociation écrit une ligne d’audit — étape, événement, niveau, horodatage, latence.",
@@ -278,6 +312,9 @@ const P2_I2: Localized<string> = {
 
 const P2_I3: Localized<string> = {
   en: "A converged proposal writes zero bytes to the calendar: the owner's tap on the confirmation card is what calls approve.",
+  "pt-BR": "Uma proposta convergida grava zero bytes no calendário: o toque do proprietário no cartão de confirmação é o que chama approve.",
+  ko: "수렴된 제안은 캘린더에 0바이트를 기록합니다. 소유자가 확인 카드를 탭하는 것이 approve를 호출합니다.",
+  ar: "الاقتراح المتوافق عليه يكتب صفر بايت في التقويم: نقرة المالك على بطاقة التأكيد هي ما يستدعي approve.",
   ru: "Согласованное предложение не пишет в календарь ни одного байта: запись запускает касание владельца на карточке подтверждения.",
   de: "Ein converged-Vorschlag schreibt null Bytes in den Kalender: erst der Tipp des Besitzers auf die Bestätigungskarte ruft approve auf.",
   fr: "Une proposition convergente écrit zéro octet dans le calendrier : c’est le geste du propriétaire sur la carte de confirmation qui déclenche l’approbation.",
@@ -299,6 +336,9 @@ const P2_I3: Localized<string> = {
 
 const P2_I4: Localized<string> = {
   en: "One-tap revocation is shipped: a guest link, a paired peer or a paired Mac device is revoked in one click, and the next check is refused.",
+  "pt-BR": "A revogação com um toque está entregue: um link de convidado, um par emparelhado ou um dispositivo Mac emparelhado é revogado em um clique, e a próxima verificação é recusada.",
+  ko: "원탭 철회는 출시되었습니다. 게스트 링크, 페어링된 피어, 페어링된 Mac 기기는 한 번의 클릭으로 철회되고 다음 확인은 거부됩니다.",
+  ar: "الإلغاء بنقرة واحدة مشحون: رابط ضيف أو نظير مقترن أو جهاز Mac مقترن يجري إلغاؤه بنقرة واحدة، ولا يقبل الفحص التالي.",
   ru: "Отзыв одним касанием готов: гостевая ссылка, сопряжённый агент или сопряжённый Mac отзываются одним касанием, и следующая проверка отклоняется.",
   de: "Ein-Tipp-Widerruf ist ausgeliefert: Gastlink, gekoppelter Agent oder gekoppeltes Mac-Gerät sind mit einem Tipp widerrufen, die nächste Prüfung schlägt fehl.",
   fr: "La révocation en un geste est livrée : lien invité, agent appairé ou Mac appairé sont révoqués d'un geste, et le contrôle suivant est refusé.",
@@ -320,6 +360,9 @@ const P2_I4: Localized<string> = {
 
 const P2_I5: Localized<string> = {
   en: "Network least-privilege ranges are not there yet: Bot Studio now enforces default-deny task grants by origin, target and capability inside one workbench, but no network gateway has a machine-checked scope string, and the only token label that exists still gates nothing.",
+  "pt-BR": "Os intervalos de privilégio mínimo de rede ainda não existem: o Bot Studio agora aplica concessões de tarefa com negação por padrão, por origem, destino e capacidade, dentro de uma bancada, mas nenhum gateway de rede tem uma string de escopo verificada por máquina, e o único rótulo de token que existe ainda não controla nada.",
+  ko: "네트워크 최소 권한 범위는 아직 없습니다. Bot Studio는 이제 하나의 워크벤치 안에서 출처, 대상, 기능별로 기본 거부 방식의 작업 권한 부여를 강제하지만, 어떤 네트워크 게이트웨이에도 기계가 검증하는 스코프 문자열이 없고, 존재하는 유일한 토큰 레이블은 여전히 아무것도 막지 않습니다.",
+  ar: "نطاقات الامتياز الأدنى على الشبكة ليست موجودة بعد: يفرض Bot Studio الآن تخويلات مهام بالرفض الافتراضي حسب الأصل والهدف والقدرة داخل ورشة عمل واحدة، لكن لا بوابة شبكة لديها سلسلة نطاق يتحقق منها الحاسوب، والتسمية الرمزية الوحيدة القائمة لا تتحكم في شيء بعد.",
   ru: "Сетевых областей минимальных прав пока нет: Bot Studio теперь принудительно применяет отказ по умолчанию для задач по источнику, цели и возможности внутри одного рабочего стола, но ни один сетевой шлюз не имеет проверяемой машиной строки области, а единственная метка в токене по-прежнему ничего не ограничивает.",
   de: "Netzwerk-Mindestrechte fehlen noch: Bot Studio erzwingt jetzt standardmäßig verweigerte Aufgabenfreigaben nach Herkunft, Ziel und Fähigkeit innerhalb einer Werkbank, aber kein Netzwerk-Gateway hat eine maschinell geprüfte Bereichskette, und das einzige Token-Etikett blockiert weiterhin nichts.",
   fr: "Les portées de moindre privilège réseau manquent encore : Bot Studio applique désormais des autorisations de tâches refusées par défaut selon l’origine, la cible et la capacité au sein d’un même espace de travail, mais aucune passerelle réseau n’a de chaîne de portée vérifiée par la machine, et la seule étiquette de jeton ne filtre toujours rien.",
@@ -345,6 +388,9 @@ const P2_I5: Localized<string> = {
 
 const P3_DESC: Localized<string> = {
   en: "The connection is open outward and open in source. The protocol has a specification, the cross-platform envelope agrees byte for byte, and the compute runs on your own machine.",
+  "pt-BR": "A conexão é aberta para fora e aberta no código. O protocolo tem uma especificação, o envelope multiplataforma coincide byte a byte, e o processamento roda na sua própria máquina.",
+  ko: "연결은 외부로 열려 있고 소스에서도 열려 있습니다. 프로토콜에는 명세가 있고, 크로스 플랫폼 봉투는 바이트 단위로 일치하며, 연산은 사용자 자신의 기기에서 실행됩니다.",
+  ar: "الاتصال مفتوح نحو الخارج ومفتوح في المصدر. فللبروتوكول مواصفة، والمظروف العابر للمنصات متطابق بايت ببايت، والحوسبة تجري على جهازك.",
   ru: "Соединение открыто наружу и открыто в исходниках. У протокола есть спецификация, конверт между платформами совпадает побайтно, а вычисления идут на вашей машине.",
   de: "Die Verbindung ist nach außen offen und offen im Quellcode. Das Protokoll hat eine Spezifikation, der plattformübergreifende Umschlag stimmt byte für byte überein, und die Rechenarbeit läuft auf dem eigenen Rechner.",
   fr: "La connexion est ouverte vers l’extérieur et ouverte dans le source. Le protocole a une spécification, l’enveloppe multiplateforme s’accorde octet pour octet, et le calcul tourne sur votre propre machine.",
@@ -366,6 +412,9 @@ const P3_DESC: Localized<string> = {
 
 const P3_I1: Localized<string> = {
   en: "The SMP Agent Protocol is open — a Version 7 specification and its implementation are both in the repository, and it runs as a library inside the app's own process. PAP is still zero.",
+  "pt-BR": "O SMP Agent Protocol é aberto — uma especificação Versão 7 e sua implementação estão ambas no repositório, e ele roda como biblioteca dentro do próprio processo do app. O PAP continua em zero.",
+  ko: "SMP Agent Protocol은 열려 있습니다. Version 7 명세와 그 구현이 모두 저장소에 있고, 앱 자체 프로세스 안에서 라이브러리로 실행됩니다. PAP는 여전히 0입니다.",
+  ar: "SMP Agent Protocol مفتوح — مواصفة الإصدار 7 وتنفيذها كلاهما في المستودع، ويعمل كمكتبة داخل عملية التطبيق نفسها. وPAP ما زال صفرًا.",
   ru: "Протокол SMP Agent открыт — спецификация Version 7 и её реализация лежат в репозитории, и работает он библиотекой внутри самого приложения, а не демоном. Реализаций PAP по-прежнему ноль.",
   de: "Das SMP Agent Protocol ist offen — Version-7-Spezifikation und Umsetzung stehen beide im Repository, und es läuft als Bibliothek im Prozess der App selbst. PAP hat weiterhin null.",
   fr: "Le SMP Agent Protocol est ouvert — spécification Version 7 et implémentation sont dans le dépôt, et il tourne comme bibliothèque dans le processus de l’application, pas en démon. PAP en est toujours à zéro.",
@@ -387,6 +436,9 @@ const P3_I1: Localized<string> = {
 
 const P3_I2: Localized<string> = {
   en: "The iOS and Android offline envelope agree byte for byte: four fields in one key order, plus 28 mesh values copied from one configuration, all proven with vectors minted from the iOS code.",
+  "pt-BR": "O envelope offline do iOS e do Android coincide byte a byte: quatro campos em uma única ordem de chaves, mais 28 valores de malha copiados de uma única configuração, todos comprovados com vetores gerados a partir do código iOS.",
+  ko: "iOS와 Android의 오프라인 봉투는 바이트 단위로 일치합니다. 하나의 키 순서를 따르는 네 개의 필드, 그리고 하나의 구성에서 복사한 28개의 메시 값이며, 모두 iOS 코드에서 생성한 벡터로 증명되었습니다.",
+  ar: "المظروف غير المتصل في iOS وAndroid متطابق بايت ببايت: أربعة حقول بترتيب مفاتيح واحد، إضافة إلى 28 قيمة شبكية منسوخة من إعداد واحد، وكلها مثبتة بمتجهات مولدة من شيفرة iOS.",
   ru: "Офлайн-конверты iOS и Android совпадают побайтно: четыре поля в одном порядке ключей плюс 28 сетевых значений, списанных с одной конфигурации, — всё доказано векторами, отчеканенными из кода iOS.",
   de: "Die Offline-Umschläge von iOS und Android stimmen byte für byte überein: vier Felder in einer Schlüsselreihenfolge, dazu 28 Mesh-Werte aus einer Konfiguration, alles bewiesen mit Vektoren, die aus dem iOS-Code geprägt wurden.",
   fr: "Les enveloppes hors ligne d’iOS et d’Android s’accordent octet pour octet : quatre champs dans un ordre de clés, plus 28 valeurs de mesh recopiées d’une même configuration, le tout prouvé par des vecteurs frappés depuis le code iOS.",
@@ -408,6 +460,9 @@ const P3_I2: Localized<string> = {
 
 const P3_I3: Localized<string> = {
   en: "Local compute stays on loopback: files are digested inside hand-listed folders, and inference goes to a model service on 127.0.0.1.",
+  "pt-BR": "O processamento local fica no loopback: os arquivos são reduzidos a resumo dentro de pastas listadas à mão, e a inferência vai para um serviço de modelo em 127.0.0.1.",
+  ko: "로컬 연산은 루프백에 머뭅니다. 파일은 직접 나열한 폴더 안에서 요약 처리되고, 추론은 127.0.0.1의 모델 서비스로 갑니다.",
+  ar: "تبقى الحوسبة المحلية على الاسترجاع المحلي (loopback): يجري تلخيص الملفات داخل مجلدات مدرجة باليد، ويذهب الاستدلال إلى خدمة نموذج على 127.0.0.1.",
   ru: "Локальные вычисления не выходят за пределы обратной петли: файлы разбираются внутри вручную перечисленных папок, а инференс идёт к сервису модели на 127.0.0.1.",
   de: "Lokale Rechenarbeit bleibt auf loopback: Dateien werden in von Hand gelisteten Ordnern verdaut, und die Inferenz geht an einen Modelldienst auf 127.0.0.1.",
   fr: "Le calcul local reste sur loopback : les fichiers sont digérés dans des dossiers listés à la main, et l’inférence va à un service de modèle sur 127.0.0.1.",
@@ -429,6 +484,9 @@ const P3_I3: Localized<string> = {
 
 const P3_I4: Localized<string> = {
   en: "Cross-platform mesh is one end short: a desktop client does exist and packages for macOS, but its Bluetooth transport is a stub that reports UNSUPPORTED, and the iOS app target is iPhone-only.",
+  "pt-BR": "A malha multiplataforma está devendo uma ponta: existe um cliente desktop e pacotes para macOS, mas seu transporte Bluetooth é um stub que informa UNSUPPORTED, e o alvo do app iOS é somente iPhone.",
+  ko: "크로스 플랫폼 메시는 한쪽 끝이 빠져 있습니다. 데스크톱 클라이언트는 실제로 존재하고 macOS용 패키지도 있지만, 그 Bluetooth 전송은 UNSUPPORTED를 보고하는 스텁이며, iOS 앱 타깃은 iPhone 전용입니다.",
+  ar: "الشبكة العابرة للمنصات ينقصها طرف واحد: يوجد عميل سطح مكتب فعلًا وحزم لـmacOS، لكن نقل Bluetooth فيه بديل صوري يعلن UNSUPPORTED، وهدف تطبيق iOS مخصص لـiPhone فقط.",
   ru: "Стыковка сетки между платформами не доделана на один конец: десктопный клиент есть и собирается под macOS, но его Bluetooth-транспорт — заглушка, которая сообщает UNSUPPORTED, а целевое устройство основного приложения iOS — только iPhone.",
   de: "Der plattformübergreifende Mesh hat noch ein offenes Ende: ein Desktop-Client existiert und wird für macOS verpackt, doch sein Bluetooth-Transport ist ein Platzhalter, der UNSUPPORTED meldet, und das Ziel der iOS-App ist nur iPhone.",
   fr: "Le maillage entre plateformes manque d’un bout : un client bureau existe bien et s’empaquette pour macOS, mais son transport Bluetooth est un bouchon qui annonce UNSUPPORTED, et la cible de l’app iOS ne couvre que l’iPhone.",
@@ -450,6 +508,9 @@ const P3_I4: Localized<string> = {
 
 const FOOT: Localized<string> = {
   en: "No line here is a roadmap promise. A sentence that points at code in a repository says Available; one that does not says Evolving. The same measurement backs the three AI layers and the six scenarios above, and every count is re-derivable from the open repositories.",
+  "pt-BR": "Nenhuma linha aqui é uma promessa de roteiro. Uma frase que aponta para código em um repositório diz Disponível; uma que não aponta diz Em evolução. A mesma medição sustenta as três camadas de IA e os seis cenários acima, e toda contagem pode ser derivada novamente a partir dos repositórios abertos.",
+  ko: "여기의 어떤 항목도 로드맵상의 약속이 아닙니다. 저장소의 코드를 가리키는 문장은 사용 가능이라고 표시되고, 그렇지 않은 문장은 발전 중이라고 표시됩니다. 같은 측정이 위의 세 AI 계층과 여섯 시나리오를 뒷받침하며, 모든 집계 수치는 공개 저장소에서 다시 도출할 수 있습니다.",
+  ar: "لا سطر هنا وعد من خارطة طريق. الجملة التي تشير إلى شيفرة في مستودع تقول متاح؛ والتي لا تشير تقول قيد التطور. والقياس نفسه يسند طبقات الذكاء الاصطناعي الثلاث والسيناريوهات الستة أعلاه، وكل عدد قابل لإعادة الاشتقاق من المستودعات المفتوحة.",
   ru: "Ни одна строка здесь не обещание из роадмапа. Предложение, указывающее на код в репозитории, помечено «Доступно», остальное — «Развивается». Тот же замер стоит за тремя уровнями ИИ и шестью сценариями выше, и любое число можно заново получить из открытых репозиториев.",
   de: "Keine Zeile hier ist ein Roadmap-Versprechen. Ein Satz, der auf Code in einem Repository zeigt, sagt Verfügbar; einer, der es nicht tut, sagt In Entwicklung. Dieselbe Messung stützt die drei KI-Ebenen und die sechs Szenarien oben, und jede Zahl lässt sich aus den offenen Repositories neu ableiten.",
   fr: "Aucune ligne ici n’est une promesse de feuille de route. Une phrase qui pointe vers du code dans un dépôt dit Disponible ; une autre qui ne le fait pas dit En évolution. La même mesure soutient les trois niveaux d’IA et les six scénarios ci-dessus, et tout comptage se redérive des dépôts ouverts.",
@@ -539,14 +600,20 @@ export function ConnectionPillars(): ReactElement {
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="flex min-w-0 items-center gap-2">
             <StatusDot tone="mesh" pulse={false} />
-            <span className="min-w-0 break-words text-[12px] text-faint">{useCopy(STATUS_AVAILABLE)}</span>
+            <span className="min-w-0 break-words text-[12px] text-faint">
+              <LtrText text={useCopy(STATUS_AVAILABLE)} />
+            </span>
           </span>
           <span className="flex min-w-0 items-center gap-2">
             <StatusDot tone="warn" pulse={false} />
-            <span className="min-w-0 break-words text-[12px] text-faint">{useCopy(STATUS_EVOLVING)}</span>
+            <span className="min-w-0 break-words text-[12px] text-faint">
+              <LtrText text={useCopy(STATUS_EVOLVING)} />
+            </span>
           </span>
         </div>
-        <p className="mt-3 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">{useCopy(FOOT)}</p>
+        <p className="mt-3 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">
+          <LtrText text={useCopy(FOOT)} />
+        </p>
       </div>
     </section>
   );
@@ -566,13 +633,15 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }): React
             <span className={`shrink-0 ${tone.text}`}>
               <PillarIcon kind={pillar.icon} />
             </span>
-            <h3 className="min-w-0 break-words text-[15.5px] font-semibold tracking-tight text-white">
+            <h3 dir="ltr" className="min-w-0 break-words text-start text-[15.5px] font-semibold tracking-tight text-white">
               {pillar.name}
             </h3>
           </span>
           <span className="chip shrink-0 font-mono text-[10.5px] text-faint">{`0${index + 1}`}</span>
         </div>
-        <p className="mt-3 min-w-0 break-words text-[13.5px] leading-relaxed text-mute">{desc}</p>
+        <p className="mt-3 min-w-0 break-words text-[13.5px] leading-relaxed text-mute">
+          <LtrText text={desc} />
+        </p>
         <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-3 border-t border-hair pt-4">
           {pillar.items.map((item, itemIndex) => (
             <PillarRow key={`${pillar.name}-${itemIndex}`} item={item} />
@@ -592,7 +661,9 @@ function PillarRow({ item }: { item: PillarItem }): ReactElement {
       <span className="mt-[7px] shrink-0">
         <StatusDot tone={item.state === "live" ? "mesh" : "warn"} pulse={false} />
       </span>
-      <p className="min-w-0 break-words text-[12.5px] leading-relaxed text-faint">{text}</p>
+      <p className="min-w-0 break-words text-[12.5px] leading-relaxed text-faint">
+        <LtrText text={text} />
+      </p>
     </li>
   );
 }

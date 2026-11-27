@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
 import { COPY_FEEDBACK, useCopied } from "./ui";
 import { LanguageMenu } from "./LanguageMenu";
 import { SITE_ORIGIN } from "@/lib/site";
@@ -45,6 +46,9 @@ const CODE_IN_PATHNAME = /^\/i\/v1\/([^/?#]{1,512})\/?$/;
 
 const EYEBROW: Localized<string> = {
   en: "Encrypted invitation",
+  "pt-BR": "Convite criptografado",
+  ko: "암호화된 초대",
+  ar: "دعوة مشفّرة",
   ru: "Зашифрованное приглашение",
   de: "Verschlüsselte Einladung",
   fr: "Invitation chiffrée",
@@ -66,6 +70,9 @@ const EYEBROW: Localized<string> = {
 
 const HEADING: Localized<string> = {
   en: "You have been invited to POPOPX Chat",
+  "pt-BR": "Você foi convidado para o POPOPX Chat",
+  ko: "POPOPX Chat에 초대되었습니다",
+  ar: "دعيت إلى POPOPX Chat",
   ru: "Вас пригласили в POPOPX Chat",
   de: "Sie wurden in POPOPX Chat eingeladen",
   fr: "Vous êtes invité dans POPOPX Chat",
@@ -87,6 +94,9 @@ const HEADING: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "The invitation is sealed inside this link. The page loads nothing from elsewhere, sends the code to nobody, and this address is not written to any server log.",
+  "pt-BR": "O convite está selado dentro deste link. A página não carrega nada de outro lugar, não envia o código a ninguém, e este endereço não é gravado em nenhum log de servidor.",
+  ko: "초대는 이 링크 안에 봉인되어 있습니다. 페이지는 다른 곳에서 아무것도 불러오지 않고, 코드를 누구에게도 보내지 않으며, 이 주소는 어떤 서버 로그에도 기록되지 않습니다.",
+  ar: "الدعوة مختومة داخل هذا الرابط. ولا تحمّل الصفحة شيئًا من مكان آخر، ولا ترسل الرمز إلى أي جهة، وهذا العنوان لا يدخل في أي سجل خادم.",
   ru: "Код приглашения запечатан внутри самой ссылки. Страница ничего не загружает со стороны, никуда его не отправляет, и сервер не ведёт журнал обращений.",
   de: "Der Einladungscode steckt in diesem Link selbst. Die Seite lädt nichts von anderswo, sendet den Code nirgendwohin, und der Server schreibt kein Protokoll der aufgerufenen Adresse.",
   fr: "Le code de l’invitation est scellé dans ce lien. La page ne charge rien d’ailleurs, n’envoie le code nulle part, et le serveur n’enregistre aucune trace de l’adresse ouverte.",
@@ -108,6 +118,9 @@ const LEAD: Localized<string> = {
 
 const OPEN_LABEL: Localized<string> = {
   en: "Open in POPOPX Chat",
+  "pt-BR": "Abrir no POPOPX Chat",
+  ko: "POPOPX Chat에서 열기",
+  ar: "افتح في POPOPX Chat",
   ru: "Открыть в POPOPX Chat",
   de: "In POPOPX Chat öffnen",
   fr: "Ouvrir dans POPOPX Chat",
@@ -129,6 +142,9 @@ const OPEN_LABEL: Localized<string> = {
 
 const COPY_INVITE: Localized<string> = {
   en: "Copy the invitation link",
+  "pt-BR": "Copiar o link do convite",
+  ko: "초대 링크 복사",
+  ar: "انسخ رابط الدعوة",
   ru: "Скопировать ссылку",
   de: "Einladungslink kopieren",
   fr: "Copier le lien d’invitation",
@@ -150,6 +166,9 @@ const COPY_INVITE: Localized<string> = {
 
 const HINT_AFTER_TAP: Localized<string> = {
   en: "If nothing opened, copy the link and paste it into POPOPX Chat.",
+  "pt-BR": "Se nada abriu, copie o link e cole no POPOPX Chat.",
+  ko: "아무것도 열리지 않았다면 링크를 복사해 POPOPX Chat에 붙여넣으면 됩니다.",
+  ar: "إذا لم يفتح شيء، فانسخ الرابط وألصقه في POPOPX Chat.",
   ru: "Если ничего не открылось, скопируйте ссылку и вставьте её в POPOPX Chat.",
   de: "Wenn sich nichts geöffnet hat, kopieren Sie den Link und fügen Sie ihn in POPOPX Chat ein.",
   fr: "Si rien ne s’ouvre, copiez le lien et collez-le dans POPOPX Chat.",
@@ -171,6 +190,9 @@ const HINT_AFTER_TAP: Localized<string> = {
 
 const NO_CODE: Localized<string> = {
   en: "This address carries no invitation code. Open POPOPX Chat and paste the full invitation link there.",
+  "pt-BR": "Este endereço não contém código de convite. Abra o POPOPX Chat e cole lá o link completo do convite.",
+  ko: "이 주소에는 초대 코드가 없습니다. POPOPX Chat을 열어 그곳에 전체 초대 링크를 붙여넣으면 됩니다.",
+  ar: "هذا العنوان لا يحمل أي رمز دعوة. افتح POPOPX Chat وألصق رابط الدعوة الكامل هناك.",
   ru: "В этой ссылке нет кода приглашения. Скопируйте полную ссылку и откройте её в приложении.",
   de: "Dieser Link enthält keinen Einladungscode. Kopieren Sie den vollständigen Einladungslink und öffnen Sie ihn in der App.",
   fr: "Ce lien ne contient aucun code d’invitation. Copiez le lien complet et ouvrez-le dans l’application.",
@@ -192,6 +214,9 @@ const NO_CODE: Localized<string> = {
 
 const DOWNLOAD_LABEL: Localized<string> = {
   en: "Not installed yet? Get POPOPX Chat",
+  "pt-BR": "Ainda não instalou? Obtenha o POPOPX Chat",
+  ko: "아직 설치하지 않으셨나요? POPOPX Chat 받기",
+  ar: "لم تثبّته بعد؟ احصل على POPOPX Chat",
   ru: "Приложение не установлено? Скачать",
   de: "Noch nicht installiert? App herunterladen",
   fr: "Pas encore installé ? Télécharger l’app",
@@ -213,6 +238,9 @@ const DOWNLOAD_LABEL: Localized<string> = {
 
 const CHIP_NO_LOG: Localized<string> = {
   en: "No access log",
+  "pt-BR": "Sem log de acesso",
+  ko: "접속 로그 없음",
+  ar: "لا سجل وصول",
   ru: "Без журнала доступа",
   de: "Ohne Zugriffsprotokoll",
   fr: "Sans journal d’accès",
@@ -234,6 +262,9 @@ const CHIP_NO_LOG: Localized<string> = {
 
 const CHIP_LOCAL: Localized<string> = {
   en: "Nothing loaded from elsewhere",
+  "pt-BR": "Nada carregado de outro lugar",
+  ko: "외부에서 불러온 것 없음",
+  ar: "لا شيء هنا يأتي من مكان آخر",
   ru: "Ничего не загружается извне",
   de: "Nichts von anderswo geladen",
   fr: "Rien chargé d’ailleurs",
@@ -312,9 +343,11 @@ export function InviteCard(): ReactElement {
       >
         <p className="eyebrow">{eyebrow}</p>
         <h1 className="mt-3 break-words text-2xl font-semibold leading-snug tracking-tight text-white hyphens-auto sm:text-[28px]">
-          {heading}
+          <LtrText text={heading} />
         </h1>
-        <p className="mt-4 text-[14.5px] leading-relaxed text-mute">{lead}</p>
+        <p className="mt-4 text-[14.5px] leading-relaxed text-mute">
+          <LtrText text={lead} />
+        </p>
 
         {ready && (
           <div className="animate-rise-in mt-7 flex flex-col gap-3">
@@ -328,7 +361,7 @@ export function InviteCard(): ReactElement {
                 width="16"
                 height="16"
                 aria-hidden="true"
-                className="shrink-0"
+                className="shrink-0 rtl:-scale-x-100"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.8"
@@ -338,7 +371,7 @@ export function InviteCard(): ReactElement {
                 <path d="M5 12h13" />
                 <path d="M13 6l6 6-6 6" />
               </svg>
-              <span>{openLabel}</span>
+              <span><LtrText text={openLabel} /></span>
             </a>
             <button
               type="button"
@@ -362,18 +395,20 @@ export function InviteCard(): ReactElement {
                 <path d="M15 5.5A2.5 2.5 0 0 0 12.5 3H6a3 3 0 0 0-3 3v6.5A2.5 2.5 0 0 0 5.5 15" />
               </svg>
               <span className={copied ? "text-mesh-soft" : ""}>
-                {copied ? copiedLabel : copyLabel}
+                <LtrText text={copied ? copiedLabel : copyLabel} />
               </span>
             </button>
             {tapped && (
-              <p className="text-[13px] leading-relaxed text-faint">{hint}</p>
+              <p className="text-[13px] leading-relaxed text-faint">
+                <LtrText text={hint} />
+              </p>
             )}
           </div>
         )}
 
         {measured && !ready && (
           <p className="animate-rise-in mt-7 rounded-xl border border-hair bg-black/30 px-4 py-3 text-[13.5px] leading-relaxed text-mute">
-            {noCode}
+            <LtrText text={noCode} />
           </p>
         )}
 
@@ -382,13 +417,13 @@ export function InviteCard(): ReactElement {
             href="/download/"
             className={`inline-flex items-center gap-1.5 rounded-lg text-brand-soft underline-offset-4 hover:underline ${FOCUS}`}
           >
-            {downloadLabel}
+            <LtrText text={downloadLabel} />
           </a>
         </p>
 
         <div className="mt-5 flex flex-wrap gap-2">
-          <span className="pill">{chipNoLog}</span>
-          <span className="pill">{chipLocal}</span>
+          <span className="pill"><LtrText text={chipNoLog} /></span>
+          <span className="pill"><LtrText text={chipLocal} /></span>
         </div>
       </main>
     </div>

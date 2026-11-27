@@ -3,6 +3,7 @@
 import type { ReactElement } from "react";
 import { useCopy, type Localized } from "@/lib/i18n";
 import { ROUTE_LABELS } from "@/components/Navbar";
+import { LtrText } from "@/components/Ltr";
 import { CodeBlock, SectionHeading, StatusDot } from "@/components/ui";
 import {
   BOT_STUDIO_REPO_URL,
@@ -56,6 +57,9 @@ const BUILD_COMMAND =
 
 const BUILD_TITLE: Localized<string> = {
   en: "Build it from the public source",
+  "pt-BR": "Compile a partir do código-fonte público",
+  ko: "공개 소스에서 직접 빌드하기",
+  ar: "ابنِه من المصدر العام",
   ru: "Сборка из публичного исходника",
   de: "Aus dem öffentlichen Quellcode bauen",
   fr: "Construire depuis le source public",
@@ -77,6 +81,9 @@ const BUILD_TITLE: Localized<string> = {
 
 const ROW_VERSION: Localized<string> = {
   en: "App MARKETING_VERSION",
+  "pt-BR": "MARKETING_VERSION do app",
+  ko: "앱 MARKETING_VERSION",
+  ar: "MARKETING_VERSION في التطبيق",
   ru: "MARKETING_VERSION приложения",
   de: "MARKETING_VERSION der App",
   fr: "MARKETING_VERSION de l’app",
@@ -108,6 +115,9 @@ const ROW_VERSION: Localized<string> = {
  */
 const FACT_VERSION: Localized<string> = {
   en: "v1.2.0 is this fork’s own number, adopted on 2026-11-24. It replaced the inherited one in the app target and its two extensions; the test and framework targets still print the old number. The SMP and XFTP handshake versions and the database schema were left alone, so the client still talks to the relays as before. No store link comes with it.",
+  "pt-BR": "v1.2.0 é o número próprio deste fork, adotado em 2026-11-24. Ele substituiu o número herdado no alvo do app e em suas duas extensões; os alvos de teste e de framework ainda imprimem o número antigo. As versões de handshake do SMP e do XFTP e o esquema do banco de dados ficaram intactos, então o cliente continua falando com os retransmissores como antes. Nenhum link de loja vem com isso.",
+  ko: "v1.2.0은 2026-11-24에 채택된 이 포크 자체의 번호입니다. 앱 타깃과 두 확장에서 물려받은 번호를 대체했습니다. 테스트 및 프레임워크 타깃은 여전히 예전 번호를 출력합니다. SMP와 XFTP 핸드셰이크 버전과 데이터베이스 스키마는 그대로 두었으므로 클라이언트는 이전과 같이 릴레이와 통신합니다. 함께 제공되는 스토어 링크는 없습니다.",
+  ar: "v1.2.0 رقم هذا التفرع نفسه، اعتمد في 2026-11-24. حل محل الرقم الموروث في هدف التطبيق وإضافتيه؛ أما هدفا الاختبار وإطار العمل فلا يزالان يطبعان الرقم القديم. وقد تركت إصدارات مصافحة SMP وXFTP ومخطط قاعدة البيانات دون مساس، لذا ما زال العميل يخاطب المرحّلات كما كان. ولا يأتي معه أي رابط متجر.",
   ru: "v1.2.0 — собственное число этого форка, введённое 2026-11-24. Оно заменило унаследованное в настройках цели приложения и двух его расширений; тестовая цель и цель framework всё ещё печатают старое число. Версии рукопожатия SMP и XFTP и схема базы данных не менялись, так что клиент по-прежнему говорит с релеями как раньше. Ссылки в магазин это не даёт.",
   de: "v1.2.0 ist die eigene Nummer dieses Forks, eingeführt am 2026-11-24. Sie ersetzt die geerbte in den Build-Einstellungen des App-Ziels und seiner zwei Erweiterungen; das Test- und das Framework-Ziel drucken noch die alte Nummer. Die SMP- und XFTP-Handshake-Versionen und das Datenbankschema blieben unverändert, der Client spricht also weiterhin wie zuvor mit den Relays. Ein Store-Link ergibt sich daraus nicht.",
   fr: "v1.2.0 est le numéro propre à ce fork, adopté le 2026-11-24. Il remplace l’hérité dans les réglages de build de la cible app et de ses deux extensions ; les cibles de test et de framework affichent encore l’ancien numéro. Les versions de poignée de main SMP et XFTP et le schéma de base sont restés tels quels, donc le client parle toujours aux relays comme avant. Cela n’apporte aucun lien de store.",
@@ -129,6 +139,9 @@ const FACT_VERSION: Localized<string> = {
 
 const ROW_TARGET: Localized<string> = {
   en: "Deployment target",
+  "pt-BR": "Alvo de implantação",
+  ko: "배포 대상",
+  ar: "هدف النشر",
   ru: "Целевая платформа",
   de: "Deployment-Ziel",
   fr: "Cible de déploiement",
@@ -150,6 +163,9 @@ const ROW_TARGET: Localized<string> = {
 
 const ROW_SWIFT: Localized<string> = {
   en: "SWIFT_VERSION in the app",
+  "pt-BR": "SWIFT_VERSION no app",
+  ko: "앱의 SWIFT_VERSION",
+  ar: "SWIFT_VERSION في التطبيق",
   ru: "SWIFT_VERSION в приложении",
   de: "SWIFT_VERSION der App",
   fr: "SWIFT_VERSION dans l'app",
@@ -171,6 +187,9 @@ const ROW_SWIFT: Localized<string> = {
 
 const ROW_XCODE: Localized<string> = {
   en: "What CI logs about Xcode",
+  "pt-BR": "O que a CI registra sobre o Xcode",
+  ko: "CI가 Xcode에 대해 기록하는 것",
+  ar: "ما يسجله CI عن Xcode",
   ru: "Что CI пишет про Xcode",
   de: "Was CI über Xcode protokolliert",
   fr: "Ce que CI journalise sur Xcode",
@@ -192,6 +211,9 @@ const ROW_XCODE: Localized<string> = {
 
 const FACT_UNPINNED: Localized<string> = {
   en: "Nothing in the repository pins an Xcode build: CI only runs xcodebuild -version and logs whatever the runner has. So this page claims no floor like Xcode 16+ or Swift 5.9+ — there is no such requirement to verify.",
+  "pt-BR": "Nada no repositório fixa uma build do Xcode: a CI só executa xcodebuild -version e registra o que o runner tiver. Portanto esta página não afirma nenhum piso como Xcode 16+ ou Swift 5.9+ — não existe tal requisito a verificar.",
+  ko: "저장소에는 Xcode 빌드를 고정하는 것이 없습니다. CI는 xcodebuild -version만 실행하고 러너에 있는 것을 그대로 기록합니다. 그래서 이 페이지는 Xcode 16+나 Swift 5.9+ 같은 최소 버전을 주장하지 않습니다. 검증할 그런 요구 사항이 없기 때문입니다.",
+  ar: "لا شيء في المستودع يحدد إصدار Xcode بعينه: فـCI لا يشغل سوى xcodebuild -version ويسجل ما لدى المشغل. لذا لا تزعم هذه الصفحة حدًا أدنى مثل Xcode 16+ أو Swift 5.9+ — فلا وجود لمتطلب كهذا يتم التحقق منه.",
   ru: "Репозиторий не закрепляет версию Xcode: CI только запускает xcodebuild -version и пишет то, что есть на раннере. Поэтому здесь нет обещания «Xcode 16+» или «Swift 5.9+» — такой требования нет, и проверять нечего.",
   de: "Im Repository ist keine Xcode-Version festgenagelt: CI führt nur xcodebuild -version aus und loggt, was der Runner hat. Deshalb behauptet diese Seite keine Untergrenze wie Xcode 16+ oder Swift 5.9+ — eine solche Anforderung gibt es nicht.",
   fr: "Rien dans le dépôt n'épingle une version d'Xcode : CI lance seulement xcodebuild -version et journalise ce que le runner contient. Cette page ne revendique donc aucun plancher du type Xcode 16+ ou Swift 5.9+ — il n'y a pas une telle exigence à vérifier.",
@@ -213,6 +235,9 @@ const FACT_UNPINNED: Localized<string> = {
 
 const FACT_KIT_ONLY: Localized<string> = {
   en: "swift-tools-version: 6.0 is the manifest line of PopopxMeshKit, and the .iOS(.v15) floor written there constrains the package only — the app itself still needs iOS 17.0.",
+  "pt-BR": "swift-tools-version: 6.0 é a linha de manifesto do PopopxMeshKit, e o piso .iOS(.v15) escrito ali restringe apenas o pacote — o app em si ainda exige iOS 17.0.",
+  ko: "swift-tools-version: 6.0은 PopopxMeshKit의 매니페스트 줄이며, 거기에 적힌 .iOS(.v15) 최소 버전은 패키지만 제약합니다. 앱 자체는 여전히 iOS 17.0이 필요합니다.",
+  ar: "السطر swift-tools-version: 6.0 هو سطر بيان PopopxMeshKit، والحد الأدنى .iOS(.v15) المكتوب فيه يقيد الحزمة وحدها — أما التطبيق نفسه فما زال يحتاج iOS 17.0.",
   ru: "swift-tools-version: 6.0 — строка манифеста пакета PopopxMeshKit, и указанная там граница .iOS(.v15) касается только пакета: приложению по-прежнему нужен iOS 17.0.",
   de: "swift-tools-version: 6.0 ist die Manifestzeile von PopopxMeshKit, und die dort geschriebene .iOS(.v15)-Grenze betrifft nur das Paket — die App selbst braucht weiterhin iOS 17.0.",
   fr: "swift-tools-version: 6.0 est la ligne de manifeste du paquet PopopxMeshKit, et le plancher .iOS(.v15) qui y est écrit ne contraint que le paquet — l'app elle-même exige toujours iOS 17.0.",
@@ -234,6 +259,9 @@ const FACT_KIT_ONLY: Localized<string> = {
 
 const BUILD_SCHEME: Localized<string> = {
   en: "The shared scheme is POPOPX (iOS); the two extensions ship as POPOPX NSE and POPOPX SE.",
+  "pt-BR": "O esquema compartilhado é POPOPX (iOS); as duas extensões são entregues como POPOPX NSE e POPOPX SE.",
+  ko: "공유 스킴은 POPOPX (iOS)이며, 두 확장은 POPOPX NSE와 POPOPX SE로 출시됩니다.",
+  ar: "المخطط المشترك هو POPOPX (iOS)؛ وتأتي الإضافتان باسم POPOPX NSE وPOPOPX SE.",
   ru: "Общая схема называется POPOPX (iOS); два расширения поставляются как POPOPX NSE и POPOPX SE.",
   de: "Das gemeinsame Scheme ist POPOPX (iOS); die zwei Erweiterungen erscheinen als POPOPX NSE und POPOPX SE.",
   fr: "Le scheme partagé est POPOPX (iOS) ; les deux extensions sont livrées comme POPOPX NSE et POPOPX SE.",
@@ -255,6 +283,9 @@ const BUILD_SCHEME: Localized<string> = {
 
 const CMD_CAPTION: Localized<string> = {
   en: "The command CI runs, copied verbatim; scripts/ci/ios-stub-libs.sh runs before it.",
+  "pt-BR": "O comando que a CI executa, copiado literalmente; scripts/ci/ios-stub-libs.sh roda antes dele.",
+  ko: "CI가 실행하는 명령이며 그대로 옮겼습니다. 그 전에 scripts/ci/ios-stub-libs.sh가 실행됩니다.",
+  ar: "الأمر الذي يشغله CI، منسوخ كما هو؛ ويسبقه تشغيل scripts/ci/ios-stub-libs.sh.",
   ru: "Команда, которую запускает CI, скопирована дословно; перед ней отрабатывает scripts/ci/ios-stub-libs.sh.",
   de: "Der Befehl, den CI ausführt, wortwörtlich übernommen; vorher läuft scripts/ci/ios-stub-libs.sh.",
   fr: "La commande exécutée par CI, copiée mot pour mot ; scripts/ci/ios-stub-libs.sh tourne avant elle.",
@@ -276,6 +307,9 @@ const CMD_CAPTION: Localized<string> = {
 
 const BUILD_SCRIPTS: Localized<string> = {
   en: "Helper scripts live in scripts/ios/: prepare.sh, download-libs.sh and server-config-mint.swift.",
+  "pt-BR": "Os scripts auxiliares ficam em scripts/ios/: prepare.sh, download-libs.sh e server-config-mint.swift.",
+  ko: "도우미 스크립트는 scripts/ios/에 있습니다: prepare.sh, download-libs.sh, server-config-mint.swift.",
+  ar: "توجد سكربتات مساعدة في scripts/ios/: prepare.sh وdownload-libs.sh وserver-config-mint.swift.",
   ru: "Вспомогательные скрипты лежат в scripts/ios/: prepare.sh, download-libs.sh и server-config-mint.swift.",
   de: "Hilfsskripte liegen in scripts/ios/: prepare.sh, download-libs.sh und server-config-mint.swift.",
   fr: "Les scripts d'aide se trouvent dans scripts/ios/ : prepare.sh, download-libs.sh et server-config-mint.swift.",
@@ -297,6 +331,9 @@ const BUILD_SCRIPTS: Localized<string> = {
 
 const ENGINE_TITLE: Localized<string> = {
   en: "The engine that signs the server list",
+  "pt-BR": "O motor que assina a lista de servidores",
+  ko: "서버 목록에 서명하는 엔진",
+  ar: "المحرك الذي يصدر توقيع قائمة الخوادم",
   ru: "Движок, который подписывает список серверов",
   de: "Die Engine, die die Serverliste signiert",
   fr: "Le moteur qui signe la liste de serveurs",
@@ -318,6 +355,9 @@ const ENGINE_TITLE: Localized<string> = {
 
 const ENGINE_BODY: Localized<string> = {
   en: "popopx-server-up-bot signs cluster.json — SMP, XFTP, notification, chat relay and STUN/TURN entries — into an offline-verifiable config payload, then turns the SERVER_CFG_ACK receipts it collects back into a coverage figure.",
+  "pt-BR": "O popopx-server-up-bot assina o cluster.json — entradas de SMP, XFTP, notificação, retransmissor de chat e STUN/TURN — em uma carga de configuração verificável offline, e então converte os recibos SERVER_CFG_ACK que coleta de volta em um número de cobertura.",
+  ko: "popopx-server-up-bot은 cluster.json, 즉 SMP, XFTP, 알림, 채팅 중계, STUN/TURN 항목에 서명해 오프라인에서 검증 가능한 구성 페이로드로 만들고, 수집한 SERVER_CFG_ACK 영수증을 다시 커버리지 수치로 바꿉니다.",
+  ar: "يوقع popopx-server-up-bot الملف cluster.json — مدخلات SMP وXFTP والإشعارات ومرحّل المحادثة وSTUN/TURN — ضمن حمولة إعداد قابلة للتحقق دون اتصال، ثم يعيد تحويل إيصالات SERVER_CFG_ACK التي يجمعها إلى رقم تغطية.",
   ru: "popopx-server-up-bot подписывает cluster.json — записи SMP, XFTP, уведомлений, chat relay и STUN/TURN — в офлайн-проверяемый конфигуационный payload, а затем превращает полученные SERVER_CFG_ACK-квитанции в цифру покрытия.",
   de: "popopx-server-up-bot signiert cluster.json — SMP-, XFTP-, Benachrichtigungs-, Chat-Relay- und STUN/TURN-Einträge — zu einem offline überprüfbaren Konfigurationsdatenpaket und rechnet die eingehenden SERVER_CFG_ACK-Quittungen in eine Abdeckungsquote um.",
   fr: "popopx-server-up-bot signe cluster.json — entrées SMP, XFTP, notification, chat relay et STUN/TURN — en une charge de configuration vérifiable hors ligne, puis convertit les accusés SERVER_CFG_ACK reçus en un taux de couverture.",
@@ -339,6 +379,9 @@ const ENGINE_BODY: Localized<string> = {
 
 const ENGINE_TIERS: Localized<string> = {
   en: "On the client the result lands in two tiers of storage only — UserDefaults and App Group files — and connectivity is probed twice after apply: at three seconds and at ten seconds.",
+  "pt-BR": "No cliente, o resultado fica em apenas dois níveis de armazenamento — UserDefaults e arquivos do App Group — e a conectividade é verificada duas vezes após a aplicação: aos três segundos e aos dez segundos.",
+  ko: "클라이언트에서 결과는 UserDefaults와 App Group 파일, 이렇게 두 계층의 저장소에만 들어가며, 적용 후 3초와 10초에 연결 상태를 확인합니다.",
+  ar: "في العميل تهبط النتيجة في طبقتين من التخزين فقط — UserDefaults وملفات App Group — ويجري اختبار الاتصال مرتين بعد التطبيق: عند ثلاث ثوان وعند عشر ثوان.",
   ru: "На стороне клиента результат попадает ровно в два уровня хранения — UserDefaults и файлы в App Group, — а связность проверяется дважды после применения: на третьей и на десятой секунде.",
   de: "Auf der Client-Seite landet das Ergebnis in genau zwei Speicherebenen — UserDefaults und App-Group-Dateien — und die Erreichbarkeit wird nach dem Anwenden zweimal geprüft: nach drei und nach zehn Sekunden.",
   fr: "Côté client, le résultat n'arrive que dans deux niveaux de stockage — UserDefaults et fichiers App Group — et la connectivité est sondée deux fois après l'application : à trois secondes et à dix secondes.",
@@ -369,8 +412,12 @@ function FactRow({ label, value }: { label: Localized<string>; value: string }):
   const l = useCopy(label);
   return (
     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-2">
-      <dt className="text-[12.5px] text-faint">{l}</dt>
-      <dd className="font-mono text-[12.5px] text-mute">{value}</dd>
+      <dt className="text-[12.5px] text-faint">
+        <LtrText text={l} />
+      </dt>
+      <dd dir="ltr" className="text-start font-mono text-[12.5px] text-mute">
+        {value}
+      </dd>
     </div>
   );
 }
@@ -383,6 +430,9 @@ function FactRow({ label, value }: { label: Localized<string>; value: string }):
  */
 const STATUS_PENDING: Localized<string> = {
   en: "In development · source not published yet",
+  "pt-BR": "Em desenvolvimento · código ainda não publicado",
+  ko: "개발 중 · 소스 미공개",
+  ar: "قيد التطوير · المصدر غير منشور بعد",
   ru: "В разработке · исходник ещё не опубликован",
   de: "In Entwicklung · Quellcode noch nicht veröffentlicht",
   fr: "En développement · source pas encore publié",
@@ -419,7 +469,13 @@ const EXTERNAL = "mt-1 inline-flex items-center gap-2 font-mono text-[12.5px] te
 function RepoLink({ repo }: { repo: { href: string; name: string } }): ReactElement {
   return (
     <li>
-      <a href={repo.href} target="_blank" rel="noopener noreferrer" className={EXTERNAL}>
+      <a
+        href={repo.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        dir="ltr"
+        className={`${EXTERNAL} text-start`}
+      >
         {repo.name}
       </a>
     </li>
@@ -450,22 +506,33 @@ export function DeveloperGuide(): ReactElement {
         <div className="mt-9 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
           {/* Measured toolchain facts, straight out of the project file. */}
           <article className="glass p-5 sm:p-6">
-            <p className="eyebrow">apps/ios · project.pbxproj</p>
+            <p dir="ltr" className="eyebrow text-start">apps/ios · project.pbxproj</p>
             <dl className="mt-4 divide-y divide-hair">
               {FACT_ROWS.map((row) => (
                 <FactRow key={row.value} label={row.label} value={row.value} />
               ))}
             </dl>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{versionFact}</p>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{unpinned}</p>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{kitOnly}</p>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{scheme}</p>
-            <p className="mt-4 text-[11.5px] leading-relaxed text-faint">{scripts}</p>
+            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">
+              <LtrText text={versionFact} />
+            </p>
+            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">
+              <LtrText text={unpinned} />
+            </p>
+            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">
+              <LtrText text={kitOnly} />
+            </p>
+            <p className="mt-3 text-[12.5px] leading-relaxed text-mute">
+              <LtrText text={scheme} />
+            </p>
+            <p className="mt-4 text-[11.5px] leading-relaxed text-faint">
+              <LtrText text={scripts} />
+            </p>
             <a
               href={IOS_REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex font-mono text-[12.5px] text-brand-soft underline decoration-hair underline-offset-4 transition-colors duration-200 hover:text-white"
+              dir="ltr"
+              className="mt-4 inline-flex text-start font-mono text-[12.5px] text-brand-soft underline decoration-hair underline-offset-4 transition-colors duration-200 hover:text-white"
             >
               popopx-chat · master
             </a>
@@ -476,17 +543,26 @@ export function DeveloperGuide(): ReactElement {
             {/* The engine that feeds the client its server list — ledger §7, two tiers. */}
             <div className="glass-inset p-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <p className="eyebrow">{engineTitle}</p>
+                <p className="eyebrow">
+                  <LtrText text={engineTitle} />
+                </p>
                 <span className="chip flex items-center gap-2 py-1 text-[11px] text-warn-soft">
                   <StatusDot tone="warn" />
-                  {pending}
+                  {/* One wrapping flex item: `LtrText` emits several inline
+                      `<bdi>`s, and as direct flex children they cannot break
+                      between words, so the chip overflowed at 300px. */}
+                  <span><LtrText text={pending} /></span>
                 </span>
               </div>
-              <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{engineBody}</p>
-              <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{engineTiers}</p>
+              <p className="mt-3 text-[12.5px] leading-relaxed text-mute">
+                <LtrText text={engineBody} />
+              </p>
+              <p className="mt-3 text-[12.5px] leading-relaxed text-mute">
+                <LtrText text={engineTiers} />
+              </p>
               <div className="mt-3 flex flex-wrap gap-2 font-mono text-[10.5px] text-faint">
                 {["popopx-server-up-bot", "cluster.json", "Ed25519", "SERVER_CFG_ACK"].map((chip) => (
-                  <span key={chip} className="chip">
+                  <span key={chip} dir="ltr" className="chip">
                     {chip}
                   </span>
                 ))}
@@ -497,7 +573,7 @@ export function DeveloperGuide(): ReactElement {
 
         {/* The published tree, by name and path only — no upstream descriptions. */}
         <div className="glass mt-12 p-5 sm:p-6">
-          <p className="eyebrow">github.com/popopx-chat</p>
+          <p dir="ltr" className="eyebrow text-start">github.com/popopx-chat</p>
           <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-x-6 gap-y-2 sm:grid-cols-2">
             {REPOS.map((repo) => (
               <RepoLink key={repo.name} repo={repo} />

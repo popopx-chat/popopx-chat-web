@@ -1,9 +1,14 @@
 /**
  * Locale data, with no React and no `"use client"`.
  *
- * The 18 tags are copied verbatim, in order, from `CFBundleLocalizations` in
- * `apps/ios/POPOPX--iOS--Info.plist` of the client repository — the single
- * source of truth both for the iOS app and for this portal.
+ * The first 18 tags are copied verbatim, in order, from
+ * `CFBundleLocalizations` in `apps/ios/POPOPX--iOS--Info.plist` of the client
+ * repository — the single source of truth for what the iOS app ships today.
+ * `pt-BR`, `ko` and `ar` follow them as portal additions: the client repository
+ * already carries their `.xcloc` translation catalogs under
+ * `apps/ios/POPOPX Localizations/`, but its `Info.plist` still declares only the
+ * 18 tags above. The portal therefore says "21 interface languages" about
+ * itself and keeps every "client ships 18" sentence factual.
  *
  * This file exists separately from `i18n.tsx` because of the Next.js module
  * boundary: a `"use client"` module exposes its *values* to a Server Component
@@ -12,9 +17,9 @@
  * from a module the server is allowed to evaluate. `i18n.tsx` re-exports
  * everything here, so client code has one import path.
  *
- * `Localized<T>` is a total `Record`, which is what makes "the portal speaks the
- * same 18 languages" a compile-time fact instead of a claim: a copy object that
- * omits a language does not type-check, and `tools/check-i18n.mjs` plus
+ * `Localized<T>` is a total `Record`, which is what makes "the portal speaks 21
+ * languages" a compile-time fact instead of a claim: a copy object that omits a
+ * language does not type-check, and `tools/check-i18n.mjs` plus
  * `npm run check:i18n` catch the things the type cannot see — a slot still
  * holding the English text, stale `zh-CN`/`zh-TW` tags, simplified/traditional
  * leakage, and the derived maps or `as` casts that would fake totality.
@@ -22,8 +27,21 @@
 
 export const LOCALES = [
   "en", "ru", "de", "fr", "it", "nl", "cs", "zh-Hans", "zh-Hant", "es",
-  "pl", "ja", "th", "fi", "uk", "bg", "tr", "hu",
+  "pl", "ja", "th", "fi", "uk", "bg", "tr", "hu", "pt-BR", "ko", "ar",
 ] as const;
+
+/**
+ * The 18 tags the iOS client's `CFBundleLocalizations` declares today. Kept as
+ * an explicit literal rather than a slice of `LOCALES`: the portal's language
+ * list and the client's shipped list are allowed to differ, and that difference
+ * is a fact the download page states out loud.
+ */
+export const CLIENT_LOCALES = [
+  "en", "ru", "de", "fr", "it", "nl", "cs", "zh-Hans", "zh-Hant", "es",
+  "pl", "ja", "th", "fi", "uk", "bg", "tr", "hu",
+] as const satisfies readonly Locale[];
+
+export const CLIENT_LOCALE_COUNT: number = CLIENT_LOCALES.length;
 
 export type Locale = (typeof LOCALES)[number];
 
@@ -55,6 +73,9 @@ export const HTML_LANG: Record<Locale, string> = {
   bg: "bg",
   tr: "tr",
   hu: "hu",
+  "pt-BR": "pt-BR",
+  ko: "ko",
+  ar: "ar",
 };
 
 /**
@@ -81,6 +102,9 @@ export const LOCALE_NATIVE: Localized<string> = {
   bg: "Български",
   tr: "Türkçe",
   hu: "Magyar",
+  "pt-BR": "Português (Brasil)",
+  ko: "한국어",
+  ar: "العربية",
 };
 
 /** Language names in the default interface language, for the "also known as" line. */
@@ -103,6 +127,9 @@ export const LOCALE_NAME: Localized<string> = {
   bg: "保加利亚语",
   tr: "土耳其语",
   hu: "匈牙利语",
+  "pt-BR": "葡萄牙语（巴西）",
+  ko: "韩语",
+  ar: "阿拉伯语",
 };
 
 /** Abbreviations for the compact language trigger. */
@@ -125,6 +152,9 @@ export const LOCALE_SHORT: Record<Locale, string> = {
   bg: "BG",
   tr: "TR",
   hu: "HU",
+  "pt-BR": "PT",
+  ko: "KO",
+  ar: "AR",
 };
 
 export const LOCALE_COUNT: number = LOCALES.length;
@@ -133,7 +163,7 @@ export function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value);
 }
 
-/** Right-to-left scripts would need this; none of the 18 are RTL. */
-export function isRightToLeft(_locale: Locale): boolean {
-  return false;
+/** Arabic is the one RTL script in the set; every other locale stays LTR. */
+export function isRightToLeft(locale: Locale): boolean {
+  return locale === "ar";
 }

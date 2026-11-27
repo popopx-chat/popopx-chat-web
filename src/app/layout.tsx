@@ -21,12 +21,15 @@ import {
 /**
  * Root layout.
  *
- * The portal ships the same 18 languages as the POPOPX iOS client (see
- * `src/lib/i18n.tsx`). This is a static export, so the seven routes are seven
- * HTML documents and the language switch happens client-side: metadata and the
- * document `<html lang>` are emitted for the default locale (`zh-Hans`),
- * `LocaleProvider` keeps `lang`/`dir` in sync at runtime and `LocaleMeta`
- * mirrors the homepage title and description into the active language.
+ * The portal ships 21 interface languages: the 18 the POPOPX iOS client
+ * declares in `CFBundleLocalizations`, plus `pt-BR`, `ko` and Arabic (RTL) —
+ * see `src/lib/locales.ts`. This is a static export, so the seven routes are
+ * seven HTML documents and the language switch happens client-side: metadata
+ * and the document `<html lang>` are emitted for the default locale
+ * (`zh-Hans`), a tiny pre-hydration script applies a stored choice before the
+ * first paint (so an Arabic visitor never sees a flash of LTR), and
+ * `LocaleProvider` keeps `lang`/`dir` in sync at runtime. `LocaleMeta` mirrors
+ * the homepage title and description into the active language.
  * Nothing here reaches
  * the network: the icon set, the manifest and every font are same-origin
  * assets, and the only third-party origins mentioned below are `sameAs`
@@ -43,13 +46,21 @@ import {
  * as the document `<title>` while the server is still composing the homepage, so
  * the exported HTML keeps a Simplified Chinese title and the six other routes
  * keep their own. The Hero prints that sentence back as `BRAND_POSITIONING`,
- * below the mission line and under its own `<h1>` — two literal 18-slot maps in
+ * below the mission line and under its own `<h1>` — two literal 21-slot maps in
  * `src/lib/seo.ts`, updated together, so tab and first screen agree in every
  * language.
  */
 const TITLE = SEO_TITLE[DEFAULT_LOCALE];
 
 const DESCRIPTION = SEO_DESCRIPTION[DEFAULT_LOCALE];
+
+/**
+ * Runs before the first paint so a stored `ar` preference lands on the `<html>`
+ * element without a flash of the zh-Hans/LTR document. The locale list and the
+ * key are compile-time constants; the only input is localStorage, whose value
+ * is checked against the same 21 tags `LocaleProvider` accepts.
+ */
+const LOCALE_BOOTSTRAP = `try{var l=localStorage.getItem("popopx.locale");if(l&&${JSON.stringify(LOCALES)}.indexOf(l)!==-1){document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr"}}catch(e){}`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -160,6 +171,11 @@ export default function RootLayout({ children }: { children: ReactNode }): React
   return (
     <html lang={HTML_LANG[DEFAULT_LOCALE]} dir="ltr" suppressHydrationWarning>
       <body>
+        <script
+          // The value is a constant built above: no user input reaches this
+          // string, and localStorage is read-only here.
+          dangerouslySetInnerHTML={{ __html: LOCALE_BOOTSTRAP }}
+        />
         <script
           type="application/ld+json"
           // The object above is built from `src/lib/site.ts` constants only —

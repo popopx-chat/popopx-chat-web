@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { Ltr, LtrText } from "@/components/Ltr";
 import { CodeBlock, SectionHeading, StatusDot } from "@/components/ui";
 import { pick, useLocale, type Localized } from "@/lib/i18n";
 import { IOS_REPO_URL } from "@/lib/site";
@@ -37,6 +38,9 @@ type Row = {
 const HEAD = {
   eyebrow: {
     en: "Zero trust · verified line by line",
+    "pt-BR": "Confiança zero · verificado linha a linha",
+    ko: "제로 트러스트 · 줄 단위 검증",
+    ar: "ثقة صفرية · تحقّق سطرًا بسطر",
     ru: "Нулевое доверие · проверка построчно",
     de: "Zero Trust · Zeile für Zeile geprüft",
     fr: "Confiance zéro · vérifié ligne par ligne",
@@ -57,6 +61,9 @@ const HEAD = {
   },
   title: {
     en: "Zero-trust architecture and the cryptography checklist",
+    "pt-BR": "Arquitetura de confiança zero e a lista de verificação de criptografia",
+    ko: "제로 트러스트 아키텍처와 암호화 체크리스트",
+    ar: "بنية الثقة الصفرية وقائمة التحقق التشفيرية",
     ru: "Архитектура нулевого доверия и чек-лист криптопримитивов",
     de: "Zero-Trust-Architektur und Krypto-Checkliste",
     fr: "Architecture de confiance zéro et liste de contrôle cryptographique",
@@ -77,6 +84,9 @@ const HEAD = {
   },
   subtitle: {
     en: "Six stages the bytes really pass through, and every primitive that touches them — each with the file and line it was read from.",
+    "pt-BR": "Seis etapas pelas quais os bytes realmente passam, e cada primitiva que os toca — cada uma com o arquivo e a linha de onde foi lida.",
+    ko: "바이트가 실제로 지나는 여섯 단계, 그리고 그 바이트를 만지는 모든 프리미티브 — 각 항목에는 읽어 낸 파일과 줄이 함께 붙습니다.",
+    ar: "ست مراحل تعبر البايتات عبرها فعليًا، وكل بدائية تلامسها — كل منها مع الملف والسطر الذي قرئت منه.",
     ru: "Шесть этапов, которые байты действительно проходят, и каждый примитив, что их касается, — с файлом и строкой.",
     de: "Sechs Stufen, die die Bytes wirklich durchlaufen, und jedes Primitive, das sie anfasst — jeweils mit Datei und Zeile.",
     fr: "Les six étapes que les octets traversent réellement, et chaque primitive qui les touche, avec le fichier et la ligne d’où c’est lu.",
@@ -97,6 +107,9 @@ const HEAD = {
   },
   panel: {
     en: "What the client types say the relay sees",
+    "pt-BR": "O que os tipos do cliente dizem que o retransmissor vê",
+    ko: "클라이언트 타입으로 본 중계의 시야",
+    ar: "ما تقوله أنواع العميل إن المرحّل يراه",
     ru: "Что, судя по типам клиента, видит реле",
     de: "Was die Client-Typen über das Relay aussagen",
     fr: "Ce que les types du client disent du relais",
@@ -117,6 +130,9 @@ const HEAD = {
   },
   closing: {
     en: "Open the client repository and check any row against the cited line — a sentence without a line number does not belong on this page.",
+    "pt-BR": "Abra o repositório do cliente e confira qualquer linha contra a linha citada — uma frase sem número de linha não pertence a esta página.",
+    ko: "클라이언트 저장소를 열면 어떤 행이든 인용된 줄과 대조할 수 있습니다 — 줄 번호가 없는 문장은 이 페이지에 어울리지 않습니다.",
+    ar: "افتح مستودع العميل وتحقق من أي صف مقابل السطر المذكور — جملة بلا رقم سطر لا مكان لها في هذه الصفحة.",
     ru: "Откройте репозиторий клиента и сверьте любую строку с указанной — предложение без номера строки здесь неуместно.",
     de: "Öffne das Client-Repo und prüfe jede Zeile an der Fundstelle — ein Satz ohne Zeilennummer gehört nicht auf diese Seite.",
     fr: "Ouvrez le dépôt du client et vérifiez chaque ligne citée — une phrase sans numéro de ligne n’a pas sa place ici.",
@@ -136,7 +152,11 @@ const HEAD = {
     hu: "Nyisd meg a kliens repóját és ellenőrizd minden sorát a hivatkozott sornak — szám nélküli mondat nem tartozik ide.",
   },
   flowTitle: {
-    en: "Data flow, device to relay", ru: "Поток данных: от устройства к релею",
+    en: "Data flow, device to relay",
+    "pt-BR": "Fluxo de dados, do dispositivo ao retransmissor",
+    ko: "데이터 흐름, 기기에서 중계까지",
+    ar: "تدفق البيانات، من الجهاز إلى المرحّل",
+    ru: "Поток данных: от устройства к релею",
     de: "Datenfluss: vom Gerät zum Relay", fr: "Flux des données : de l’appareil au relais",
     it: "Flusso dei dati: dal dispositivo al relay", nl: "Gegevensstroom: van toestel naar relay",
     cs: "Datový tok: ze zařízení k relay", "zh-Hans": "数据流向：从设备到中继",
@@ -147,7 +167,11 @@ const HEAD = {
     tr: "Veri akışı: cihazdan aktarma sunucusuna", hu: "Adatfolyam: eszköztől a továbbítóig",
   },
   tableTitle: {
-    en: "Cryptography baseline, checked in the client", ru: "Криптобаза, сверенная с клиентом",
+    en: "Cryptography baseline, checked in the client",
+    "pt-BR": "Linha de base de criptografia, verificada no cliente",
+    ko: "클라이언트에서 확인한 암호화 기준선",
+    ar: "خط الأساس التشفيري، متحقّق منه في العميل",
+    ru: "Криптобаза, сверенная с клиентом",
     de: "Krypto-Baseline, im Client geprüft", fr: "La base cryptographique, vérifiée dans le client",
     it: "La base crittografica, verificata sul client", nl: "Cryptografie-baseline, in de client gecheckt",
     cs: "Kryptografická základna zkontrolovaná v klientu", "zh-Hans": "密码学基线：逐条对照客户端",
@@ -158,20 +182,32 @@ const HEAD = {
     tr: "Kriptografi tabanı, istemcide doğrulandı", hu: "Kriptográfiai alapvonal, a kliensben ellenőrizve",
   },
   colPrimitive: {
-    en: "Primitive", ru: "Примитив", de: "Primitive", fr: "Primitive", it: "Primitivo",
+    en: "Primitive",
+    "pt-BR": "Primitiva",
+    ko: "프리미티브",
+    ar: "البدائية",
+    ru: "Примитив", de: "Primitive", fr: "Primitive", it: "Primitivo",
     nl: "Primitief", cs: "Primitivum", "zh-Hans": "原语", "zh-Hant": "原語", es: "Primitiva",
     pl: "Prymityw", ja: "プリミティブ", th: "ตัวเข้ารหัส", fi: "Alkio", uk: "Примітив",
     bg: "Примитив", tr: "Primitif", hu: "Primitív",
   },
   colUse: {
-    en: "Where it is used", ru: "Где применяется", de: "Wo es eingesetzt wird",
+    en: "Where it is used",
+    "pt-BR": "Onde é usada",
+    ko: "사용 위치",
+    ar: "موضع الاستخدام",
+    ru: "Где применяется", de: "Wo es eingesetzt wird",
     fr: "Où il est utilisé", it: "Dove viene usato", nl: "Waar het wordt gebruikt",
     cs: "Kde se používá", "zh-Hans": "实际用途", "zh-Hant": "實際用途", es: "Dónde se usa",
     pl: "Gdzie jest używany", ja: "使われ方", th: "ใช้งานที่ใด", fi: "Missä käytetään",
     uk: "Де застосовується", bg: "Къде се използва", tr: "Nerede kullanılıyor", hu: "Hol alkalmazzák",
   },
   colStatus: {
-    en: "Status", ru: "Статус", de: "Status", fr: "Statut", it: "Stato", nl: "Status",
+    en: "Status",
+    "pt-BR": "Status",
+    ko: "상태",
+    ar: "الحالة",
+    ru: "Статус", de: "Status", fr: "Statut", it: "Stato", nl: "Status",
     cs: "Stav", "zh-Hans": "核查状态", "zh-Hant": "核查狀態", es: "Estado", pl: "Status",
     ja: "状態", th: "สถานะ", fi: "Tila", uk: "Статус", bg: "Статус", tr: "Durum", hu: "Állapot",
   },
@@ -182,7 +218,11 @@ const COL_CITE = "file:line";
 
 const STATUS_LABEL: Record<CryptoStatus, Localized<string>> = {
   verified: {
-    en: "in client code", ru: "в коде клиента", de: "im Client-Code", fr: "dans le code client",
+    en: "in client code",
+    "pt-BR": "no código do cliente",
+    ko: "클라이언트 코드 내",
+    ar: "في كود العميل",
+    ru: "в коде клиента", de: "im Client-Code", fr: "dans le code client",
     it: "nel codice del client", nl: "in clientcode", cs: "v kódu klienta",
     "zh-Hans": "客户端代码内", "zh-Hant": "客戶端程式碼內", es: "en el código del cliente",
     pl: "w kodzie klienta", ja: "クライアント実装内", th: "ในโค้ดไคลเอนต์",
@@ -190,7 +230,11 @@ const STATUS_LABEL: Record<CryptoStatus, Localized<string>> = {
     tr: "istemci kodunda", hu: "a kliens kódjában",
   },
   boundary: {
-    en: "boundary stated", ru: "граница указана", de: "Grenze benannt", fr: "limite énoncée",
+    en: "boundary stated",
+    "pt-BR": "fronteira declarada",
+    ko: "경계 명시",
+    ar: "الحدود معلنة",
+    ru: "граница указана", de: "Grenze benannt", fr: "limite énoncée",
     it: "confine dichiarato", nl: "grens benoemd", cs: "hranice uvedena",
     "zh-Hans": "边界已标注", "zh-Hant": "邊界已標註", es: "frontera declarada",
     pl: "granica opisana", ja: "境界を明示", th: "ระบุขอบเขตแล้ว", fi: "raja ilmoitettu",
@@ -204,6 +248,9 @@ const FLOW: readonly Stage[] = [
     cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:349,356,918-919", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:457-459,503-505"],
     label: {
       en: "Device sandbox. The media engine's temporary files and the whole server table are written with FileProtectionType.complete.",
+      "pt-BR": "Sandbox do dispositivo. Os arquivos temporários do motor de mídia e a tabela de servidores inteira são gravados com FileProtectionType.complete.",
+      ko: "기기 샌드박스. 미디어 엔진의 임시 파일과 서버 테이블 전체가 FileProtectionType.complete로 기록됩니다.",
+      ar: "بيئة عزل الجهاز. الملفات المؤقتة لمحرك الوسائط وجدول الخوادم كله مكتوبة بـ FileProtectionType.complete.",
       ru: "Песочница устройства. Временные файлы медиадвижка и вся таблица серверов записаны с FileProtectionType.complete.",
       de: "Geräte-Sandbox. Temporäre Dateien der Media-Engine und die ganze Servertabelle werden mit FileProtectionType.complete geschrieben.",
       fr: "Bac à sable de l’appareil. Les fichiers temporaires du moteur média et toute la table des serveurs s’écrivent avec FileProtectionType.complete.",
@@ -228,6 +275,9 @@ const FLOW: readonly Stage[] = [
     cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:18-21,366-378", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:22-24,433-442", "apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:11-15,731,735-738"],
     label: {
       en: "On-device compression, no metadata dictionary: ImageIO re-encodes, AVAssetWriter writes metadata = [], LZFSE packs the .ppxlz.",
+      "pt-BR": "Compressão no dispositivo, sem dicionário de metadados: o ImageIO recodifica, o AVAssetWriter grava metadata = [], o LZFSE empacota o .ppxlz.",
+      ko: "온디바이스 압축, 메타데이터 딕셔너리 없음: ImageIO가 다시 인코딩하고, AVAssetWriter는 metadata = []를 기록하며, LZFSE가 .ppxlz를 묶습니다.",
+      ar: "ضغط على الجهاز بلا معجم بيانات وصفية: ImageIO يعيد الترميز، وAVAssetWriter يكتب metadata = []، وLZFSE يحزم ملف .ppxlz.",
       ru: "Сжатие на устройстве без словаря метаданных: ImageIO перекодировывает, AVAssetWriter пишет metadata = [], LZFSE пакует .ppxlz.",
       de: "Kompression am Gerät ohne Metadaten-Wörterbuch: ImageIO kodiert neu, AVAssetWriter schreibt metadata = [], LZFSE packt das .ppxlz.",
       fr: "Compression sur l’appareil, sans dictionnaire de métadonnées : ImageIO recode, AVAssetWriter écrit metadata = [], LZFSE emballe le .ppxlz.",
@@ -252,6 +302,9 @@ const FLOW: readonly Stage[] = [
     cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,125,175,219", "apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123"],
     label: {
       en: "End-to-end sealing: hand-written Noise XX over X25519 on BLE with ChaCha20-Poly1305 frames; AES-256-GCM only for queue payloads.",
+      "pt-BR": "Selagem ponta a ponta: Noise XX escrito à mão sobre X25519 em BLE com quadros ChaCha20-Poly1305; AES-256-GCM apenas para payloads de fila.",
+      ko: "종단간 봉인: BLE에서 X25519를 기반으로 직접 작성한 Noise XX와 ChaCha20-Poly1305 프레임. AES-256-GCM은 큐 페이로드에만 씁니다.",
+      ar: "ختم من الطرف إلى الطرف: Noise XX مكتوب يدويًا فوق X25519 على BLE بإطارات ChaCha20-Poly1305؛ وAES-256-GCM لحمولات الطوابير فقط.",
       ru: "Упаковка от конца до конца: в BLE рукописный Noise XX на X25519 с кадрами ChaCha20-Poly1305; AES-256-GCM только для содержимого очередей.",
       de: "End-zu-End-Versiegelung: handgeschriebenes Noise XX über X25519 auf BLE mit ChaCha20-Poly1305-Rahmen; AES-256-GCM nur für Queue-Nutzlasten.",
       fr: "Scellement de bout en bout : un Noise XX écrit à la main sur X25519 côté BLE avec des trames ChaCha20-Poly1305 ; AES-256-GCM pour les charges de file seulement.",
@@ -276,6 +329,9 @@ const FLOW: readonly Stage[] = [
     cites: ["apps/ios/POPOPXChat/APITypes.swift:589-615", "apps/ios/POPOPXChat/APITypes.swift:597-604"],
     label: {
       en: "One-way queue relay: the queue types expose one server field per direction plus the switch state — no contact field, no relationship field.",
+      "pt-BR": "Retransmissor de fila unidirecional: os tipos de fila expõem um campo de servidor por direção mais o estado do switch — nenhum campo de contato, nenhum campo de relacionamento.",
+      ko: "단방향 큐 중계: 큐 타입은 방향마다 서버 필드 하나와 스위치 상태만 노출합니다 — 연락처 필드도, 관계 필드도 없습니다.",
+      ar: "مرحّل طابور أحادي الاتجاه: تعرض أنواع الطابور حقل خادم واحدًا لكل اتجاه إضافة إلى حالة المبدّل — لا حقل جهة اتصال ولا حقل علاقة.",
       ru: "Однонаправленный релей очередей: типы очереди показывают по одному серверному полю на направление плюс состояние переключения — без полей контактов и связей.",
       de: "Einseitige Queue-Weitergabe: die Queue-Typen zeigen je Richtung genau ein Serverfeld plus den Umschaltzustand — kein Kontakt-, kein Beziehungsfeld.",
       fr: "Relais de file à sens unique : les types de file n’exposent qu’un champ serveur par direction et l’état de bascule — aucun champ contact ni relation.",
@@ -300,6 +356,9 @@ const FLOW: readonly Stage[] = [
     cites: ["apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:5,64,196", "apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:341,381-422"],
     label: {
       en: "Zero-knowledge channel envelope popopx.channel.enc.v1: the per-epoch keys are what keep the relay blind to the content.",
+      "pt-BR": "Envelope de canal de conhecimento zero popopx.channel.enc.v1: são as chaves por época que mantêm o retransmissor cego ao conteúdo.",
+      ko: "영지식 채널 봉투 popopx.channel.enc.v1: 중계가 내용을 볼 수 없게 하는 것은 에폭별 키입니다.",
+      ar: "مغلّف القناة عديمة المعرفة popopx.channel.enc.v1: مفاتيح كل حقبة هي ما يبقي المرحّل أعمى عن المحتوى.",
       ru: "Конверт канала с нулевым разглашением popopx.channel.enc.v1: именно ключи по эпохам не дают релею видеть содержимое.",
       de: "Zero-Knowledge-Kanalumschlag popopx.channel.enc.v1: die Epoch-Schlüssel sind der Grund, dass das Relay den Inhalt nicht liest.",
       fr: "Enveloppe de canal à connaissance nulle popopx.channel.enc.v1 : ce sont les clés par epoch qui aveuglent le relais sur le contenu.",
@@ -324,6 +383,9 @@ const FLOW: readonly Stage[] = [
     cites: ["apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383,388,401,411-421,516-523", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigSignalHandler.swift:99-103", "apps/ios/Shared/Features/ServerConfigSync/PopopxServerConfigStore.swift:172,443-461"],
     label: {
       en: "Config surface: Ed25519 against one pinned 32-byte root, a rollback.json snapshot before applying, connectivity probes at 3 s and 10 s.",
+      "pt-BR": "Superfície de configuração: Ed25519 contra uma raiz fixada de 32 bytes, um instantâneo rollback.json antes de aplicar, sondas de conectividade em 3 s e 10 s.",
+      ko: "구성 표면: 고정된 32바이트 루트 하나에 대한 Ed25519, 적용 전 rollback.json 스냅샷, 3 s와 10 s의 연결성 검사.",
+      ar: "سطح التهيئة: Ed25519 مقابل جذر واحد مثبّت بطول 32 بايت، ولقطة rollback.json قبل التطبيق، وفحوص اتصال عند 3 s و 10 s.",
       ru: "Слой конфигурации: Ed25519 против зашитого 32-байтного корня, снимок rollback.json до применения и проверки связности на 3-й и 10-й секунде.",
       de: "Konfigurationsebene: Ed25519 gegen einen fest verankerten 32-Byte-Root, rollback.json-Snapshot vor dem Anwenden, Verbindungstests nach 3 s und 10 s.",
       fr: "Surface de configuration : Ed25519 contre une racine fixe de 32 octets, instantané rollback.json avant application, tests de connexion à 3 s et 10 s.",
@@ -351,6 +413,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:5,356,618-632,644", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxMeshIdentity.swift:9,12-19,35-59"],
     use: {
       en: "Key agreement in the hand-written Noise XX handshake, and the mesh node identity.",
+      "pt-BR": "Acordo de chaves no handshake Noise XX escrito à mão, e a identidade do nó da malha.",
+      ko: "직접 작성한 Noise XX 핸드셰이크의 키 합의, 그리고 메시 노드 신원.",
+      ar: "اتفاق المفاتيح في مصافحة Noise XX المكتوبة يدويًا، وهوّية عقدة mesh.",
       ru: "Соглашение по ключу в рукописном рукопожатии Noise XX и идентичность узла сети.",
       de: "Schlüsselaustausch im handgeschriebenen Noise-XX-Handshake und Identität des Mesh-Knotens.",
       fr: "Accord de clé dans le handshake Noise XX écrit à la main, et identité du nœud du maillage.",
@@ -375,6 +440,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift:125,128,175,219", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupCrypto.swift:123,153-157", "apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:64,196"],
     use: {
       en: "Three places: BLE/mesh transport frames, offline group messages on an epoch key with AAD, and the service-account channel envelope.",
+      "pt-BR": "Três lugares: quadros do transporte BLE/malha, mensagens de grupo offline em uma chave de época com AAD e o envelope do canal de contas de serviço.",
+      ko: "세 곳: BLE/메시 전송 프레임, AAD를 쓰는 에폭 키 기반 오프라인 그룹 메시지, 서비스 계정 채널 봉투.",
+      ar: "ثلاثة مواضع: إطارات نقل BLE/mesh، ورسائل المجموعات دون اتصال على مفتاح حقبة مع AAD، ومغلّف قناة حساب الخدمة.",
       ru: "Три места: кадры BLE/сети, офлайн-сообщения групп по ключу эпохи с AAD и конверт канала сервис-аккаунта.",
       de: "Drei Stellen: BLE-/Mesh-Transportrahmen, Offline-Gruppennachrichten je Epoch-Schlüssel mit AAD und der Kanalumschlag des Servicekontos.",
       fr: "Trois endroits : les trames BLE/maillage, les messages de groupe hors ligne par clé d’epoch avec AAD, et l’enveloppe du canal de compte service.",
@@ -399,6 +467,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:103,121-123"],
     use: {
       en: "Only the queue payload layer. It is not the BLE channel cipher — that one is Noise with ChaCha20-Poly1305.",
+      "pt-BR": "Apenas a camada de payload da fila. Não é a cifra do canal BLE — essa é Noise com ChaCha20-Poly1305.",
+      ko: "큐 페이로드 계층에만 해당합니다. BLE 채널 암호가 아닙니다 — 그쪽은 ChaCha20-Poly1305를 쓰는 Noise입니다.",
+      ar: "طبقة حمولة الطابور فقط. وليست شيفرة قناة BLE — تلك هي Noise مع ChaCha20-Poly1305.",
       ru: "Только слой содержимого очереди. Это не шифр BLE-канала — там Noise и ChaCha20-Poly1305.",
       de: "Nur die Nutzlastebene der Warteschlange. Nicht die BLE-Kanalverschlüsselung – die ist Noise mit ChaCha20-Poly1305.",
       fr: "Seulement la couche de charge utile de la file. Ce n’est pas le chiffrement du canal BLE — celui-là est Noise avec ChaCha20-Poly1305.",
@@ -423,6 +494,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/Shared/Features/ServerConfigSync/PopopxServerClusterConfig.swift:381-383,388,401,403-409,411-421,516-523", "apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Groups/PopopxGroupWire.swift:145", "apps/ios/Shared/Features/Discover/DiscoverCatalogModels.swift:596-600", "apps/ios/Shared/Features/ServiceAccount/ChannelKeyRotationManager.swift:294-304"],
     use: {
       en: "Verifies the server cluster config against a hardcoded 32-byte root (key id k-ad1dc5463a), fail-closed. Group, catalog and channel signatures are trust-on-first-use — that root does not cover them.",
+      "pt-BR": "Verifica a configuração do cluster de servidores contra uma raiz de 32 bytes fixada em código (id de chave k-ad1dc5463a), fail-closed (fecha em caso de falha). As assinaturas de grupo, catálogo e canal são trust-on-first-use — essa raiz não as cobre.",
+      ko: "서버 클러스터 구성을 하드코딩된 32바이트 루트(키 id k-ad1dc5463a)에 대조해 검증하며, fail-closed입니다. 그룹, 카탈로그, 채널 서명은 최초 사용 시 신뢰 방식입니다 — 그 루트가 이들을 포괄하지 않습니다.",
+      ar: "يتحقق من تهيئة عنقود الخوادم مقابل جذر مضمّن في الكود بطول 32 بايت (معرّف المفتاح k-ad1dc5463a)، بأسلوب fail-closed. وتواقيع المجموعات والكتالوج والقنوات قائمة على الثقة عند أول استخدام (trust-on-first-use) — ولا يغطيها ذلك الجذر.",
       ru: "Проверяет конфиг кластера серверов против жёстко заданного 32-байтного корня (key id k-ad1dc5463a), с отказом при ошибке. Подписи групп, каталога и канала — доверие при первом использовании.",
       de: "Prüft die Server-Cluster-Konfiguration gegen einen hartcodierten 32-Byte-Root (key id k-ad1dc5463a), fail-closed. Gruppen-, Katalog- und Kanal-Signaturen sind trust-on-first-use — dieser Root deckt sie nicht ab.",
       fr: "Vérifie la config du cluster serveur contre une racine codée en dur de 32 octets (key id k-ad1dc5463a), en échec bloquant. Les signatures de groupe, de catalogue et de canal sont en confiance au premier usage.",
@@ -447,6 +521,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/Shared/Features/ServiceAccount/PopopxH5Launcher.swift:7,120-122,130-142"],
     use: {
       en: "Pairwise-anonymous H5 authorisation for service accounts, keyed by that contact's session key from the Keychain.",
+      "pt-BR": "Autorização H5 anônima entre pares para contas de serviço, usando a chave de sessão desse contato no Keychain.",
+      ko: "서비스 계정을 위한 쌍별 익명 H5 권한 부여로, 키는 Keychain에 있는 그 연락처의 세션 키입니다.",
+      ar: "تخويل H5 مجهول الهوية بين الطرفين لحسابات الخدمة، مفتاحه مفتاح جلسة تلك الجهة من Keychain.",
       ru: "Попарно анонимная H5-авторизация сервис-аккаунтов на ключе сессии этого контакта из Keychain.",
       de: "Paarweise anonyme H5-Autorisierung für Servicekonten, mit dem Sitzungsschlüssel dieses Kontakts aus dem Keychain.",
       fr: "Autorisation H5 pairwise-anonyme pour les comptes service, avec la clé de session de ce contact depuis le Trousseau.",
@@ -471,6 +548,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/Shared/Features/AntiTheftDuress/PopopxDuressAuthManager.swift:341-345"],
     use: {
       en: "Derives the duress password, 100,000 rounds.",
+      "pt-BR": "Deriva a senha de coação, 100,000 rodadas.",
+      ko: "강압 비밀번호를 도출하며, 100,000 라운드입니다.",
+      ar: "يشتق كلمة مرور الإكراه، 100,000 جولة.",
       ru: "Выводит пароль принуждения, 100 000 итераций.",
       de: "Leitet das Zwangspasswort ab, 100.000 Runden.",
       fr: "Dérive le mot de passe de contrainte, 100 000 tours.",
@@ -495,6 +575,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/Shared/Features/BadgeCredits/PopopxBadgeCreditsModels.swift:1542-1545,1553-1559,1577-1583"],
     use: {
       en: "Signs commerce badge and credit payloads — deliberately not Ed25519.",
+      "pt-BR": "Assina payloads de selo e crédito de comércio — deliberadamente não Ed25519.",
+      ko: "커머스 배지와 크레딧 페이로드에 서명합니다 — 의도적으로 Ed25519가 아닙니다.",
+      ar: "يوقّع حمولات شارات التجارة والرصيد — عمدًا ليس بـ Ed25519.",
       ru: "Подписывает данные коммерческих бейджей и кредитов — намеренно не Ed25519.",
       de: "Signiert Commerce-Badge- und Guthriftendaten – bewusst nicht Ed25519.",
       fr: "Signe les charges des badges commerciaux et des crédits — volontairement pas Ed25519.",
@@ -519,6 +602,9 @@ const CRYPTO: readonly Row[] = [
     cites: ["apps/ios/Shared/Features/MediaCompression/PopopxMediaEngine.swift:11-15,731,735-738,741,743-745,846", "apps/ios/Shared/Features/MediaCompression/PopopxIncomingFileUnpacker.swift:5,32"],
     use: {
       en: "Apple's Compression framework, chunked streaming into .ppxlz with magic PPXLZ1, kept only when it saves at least 15% — and it is not zstd.",
+      "pt-BR": "O framework Compression da Apple, streaming em blocos para .ppxlz com magic PPXLZ1, mantido apenas quando economiza pelo menos 15% — e não é zstd.",
+      ko: "Apple의 Compression 프레임워크, .ppxlz로 청크 스트리밍, 매직 PPXLZ1, 최소 15%를 절약할 때만 유지 — 그리고 zstd가 아닙니다.",
+      ar: "إطار Compression من Apple، بث مقسّم إلى .ppxlz ببصمة PPXLZ1، ولا يبقى إلا عندما يوفر 15% على الأقل — وهو ليس zstd.",
       ru: "Фреймворк Compression, потоковое сжатие по частям в .ppxlz с магией PPXLZ1; остаётся только при экономии от 15% — и это не zstd.",
       de: "Apples Compression-Framework, chunkiges Streaming in .ppxlz mit Magie PPXLZ1, behalten nur bei mindestens 15% Ersparnis – und es ist kein zstd.",
       fr: "Le framework Compression d’Apple, flux par blocs vers .ppxlz avec le magic PPXLZ1, conservé s’il économise au moins 15 % — et ce n’est pas du zstd.",
@@ -545,6 +631,9 @@ const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly s
     chip: "rcvServer · sndServer", cites: ["apps/ios/POPOPXChat/APITypes.swift:589-615"],
     text: {
       en: "Per connection there is one receive queue and one send queue, and each type carries a single server field — no relationship column.",
+      "pt-BR": "Por conexão há uma fila de recebimento e uma fila de envio, e cada tipo carrega um único campo de servidor — nenhuma coluna de relacionamento.",
+      ko: "연결마다 수신 큐 하나와 송신 큐 하나가 있고, 각 타입은 서버 필드 하나만 담습니다 — 관계 컬럼은 없습니다.",
+      ar: "لكل اتصال طابور استقبال واحد وطابور إرسال واحد، وكل نوع يحمل حقل خادم واحدًا — بلا عمود علاقة.",
       ru: "На каждое соединение — одна входящая и одна исходящая очередь, и в каждом типе одно серверное поле; колонки связей нет.",
       de: "Pro Verbindung gibt es eine Empfangs- und eine Send-Queue, jeder Typ hat genau ein Serverfeld — keine Beziehungsspalte.",
       fr: "Par connexion, une file de réception et une file d’envoi, et chaque type ne porte qu’un champ serveur — aucune colonne de relation.",
@@ -569,6 +658,9 @@ const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly s
     cites: ["apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83", "apps/ios/Shared/Model/ChatModel.swift:426", "apps/ios/Shared/Components/PopopxControls.swift:245"],
     text: {
       en: "No phone number, no email, no global public key; the optional userAddress is a one-time UserContactLink, and no model carries a phoneNumber field.",
+      "pt-BR": "Sem número de telefone, sem e-mail, sem chave pública global; o userAddress opcional é um UserContactLink de uso único, e nenhum modelo carrega um campo phoneNumber.",
+      ko: "전화번호도, 이메일도, 글로벌 공개 키도 없으며, 선택적인 userAddress는 일회성 UserContactLink이고, 어떤 모델에도 phoneNumber 필드가 없습니다.",
+      ar: "لا رقم هاتف ولا بريد إلكتروني ولا مفتاح عام عالمي؛ وuserAddress الاختياري هو UserContactLink لاستخدام واحد، ولا يحمل أي نموذج حقل phoneNumber.",
       ru: "Ни номера телефона, ни почты, ни глобального публичного ключа; необязательный userAddress — одноразовый UserContactLink, поля phoneNumber в моделях нет.",
       de: "Keine Telefonnummer, kein E-Mail, kein globaler öffentlicher Schlüssel; das optionale userAddress ist ein einmaliger UserContactLink, kein Modell hat ein phoneNumber-Feld.",
       fr: "Pas de numéro, pas d’e-mail, pas de clé publique globale ; le userAddress optionnel est un UserContactLink à usage unique, aucun modèle n’a de champ phoneNumber.",
@@ -592,6 +684,9 @@ const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly s
     chip: "protocol property", cites: [],
     text: {
       en: "“The relay holds no social graph” is a property of the open protocol, not something iOS code can prove — so this panel lists only the fields the client types actually show.",
+      "pt-BR": "“O retransmissor não guarda grafo social” é uma propriedade do protocolo aberto, não algo que o código iOS possa provar — por isso este painel lista apenas os campos que os tipos do cliente realmente mostram.",
+      ko: "“중계는 소셜 그래프를 보유하지 않는다”는 열린 프로토콜의 속성이지 iOS 코드가 증명할 수 있는 것이 아닙니다 — 그래서 이 패널은 클라이언트 타입이 실제로 보여 주는 필드만 나열합니다.",
+      ar: "«المرحّل لا يحتفظ بأي رسم بياني اجتماعي» خاصية في البروتوكول المفتوح، وليست شيئًا يستطيع كود iOS إثباته — لذا يسرد هذا اللوح الحقول التي تعرضها أنواع العميل فعلًا فقط.",
       ru: "«Реле не держит социальный граф» — свойство открытого протокола, а не то, что доказывает код iOS; панель перечисляет только видимые поля типов клиента.",
       de: "„Das Relay hält keinen Sozialgraphen“ ist eine Eigenschaft des offenen Protokolls, kein Beweis aus iOS-Code — die Liste zeigt nur die Felder der Client-Typen.",
       fr: "« Le relais ne détient aucun graphe social » est une propriété du protocole ouvert, pas une preuve tirée du code iOS ; ce panneau ne liste que les champs vus par le client.",
@@ -616,6 +711,9 @@ const PANEL_POINTS: readonly { readonly chip: string; readonly cites: readonly s
 /** The one primitive the client does *not* implement — stated, not claimed. */
 const RATCHET_NOTE: Localized<string> = {
   en: "The double ratchet sits on the core side: Swift only surfaces ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), so this page never calls it an iOS Swift implementation.",
+  "pt-BR": "A catraca dupla fica do lado do core: o Swift só expõe ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), então esta página nunca a chama de implementação Swift para iOS.",
+  ko: "더블 래칫은 코어 쪽에 있습니다: Swift는 ratchetSync*(apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18)만 노출하므로, 이 페이지는 이를 iOS Swift 구현이라고 부르지 않습니다.",
+  ar: "السقّاطة المزدوجة (double ratchet) تقع في جانب النواة: لا يكشف Swift سوى ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18)، لذا لا تسميها هذه الصفحة تنفيذًا بـ Swift على iOS.",
   ru: "Двойной рэтчет живёт на стороне ядра: Swift показывает лишь ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), поэтому страница не называет его реализацией на Swift для iOS.",
   de: "Der Double Ratchet sitzt auf der Kernseite: Swift stellt nur ratchetSync* bereit (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), darum behauptet diese Seite keine iOS-Swift-Implementierung.",
   fr: "Le double ratchet est du côté du noyau : Swift n’expose que ratchetSync* (apps/ios/Shared/Features/SecureEphemeral/PopopxSecurePayload.swift:18), cette page ne l’appelle donc pas une implémentation Swift iOS.",
@@ -658,7 +756,9 @@ export function SecurityArchitecture(): ReactElement {
         />
         {/* ── data flow, device to relay ─────────────────────────────── */}
         <div className="glass mt-10 p-5 sm:p-7">
-          <p className="eyebrow">{pick(HEAD.flowTitle, locale)}</p>
+          <p className="eyebrow">
+            <LtrText text={pick(HEAD.flowTitle, locale)} />
+          </p>
           <ol className="no-scrollbar mt-5 flex items-stretch gap-2 overflow-x-auto pb-1">
             {FLOW.map((stage, i) => (
               <li key={stage.index} className="flex min-w-[268px] shrink-0 items-stretch gap-2">
@@ -666,19 +766,19 @@ export function SecurityArchitecture(): ReactElement {
                   <div className="flex items-center gap-2">
                     <span aria-hidden className={`font-mono text-[15px] font-semibold ${stage.tone === "mesh" ? "text-mesh-soft" : "text-brand-soft"}`}>{stage.index}</span>
                     <StatusDot tone={stage.tone} pulse={i === 0} />
-                    <code className="chip ml-auto font-mono text-[10px] text-[#d7d7ea]">{stage.chip}</code>
+                    <code className="chip ms-auto font-mono text-[10px] text-[#d7d7ea]">{stage.chip}</code>
                   </div>
-                  <p className="text-[12.5px] leading-relaxed text-mute">{pick(stage.label, locale)}</p>
+                  <p className="text-[12.5px] leading-relaxed text-mute"><LtrText text={pick(stage.label, locale)} /></p>
                   <ul className="hairline-top mt-auto flex flex-col gap-1 pt-2.5 font-mono text-[10.5px] leading-snug text-faint">
-                    {stage.cites.map((cite) => (<li key={cite}>{cite}</li>))}
+                    {stage.cites.map((cite) => (<li key={cite}><Ltr>{cite}</Ltr></li>))}
                   </ul>
                 </div>
                 {stage.arrow.length > 0 ? (
                   <div className="flex w-[78px] shrink-0 flex-col items-center justify-center gap-1">
-                    <svg aria-hidden viewBox="0 0 78 12" className="h-3 w-full text-brand-soft">
+                    <svg aria-hidden viewBox="0 0 78 12" className="h-3 w-full text-brand-soft rtl:-scale-x-100">
                       <line x1="0" y1="6" x2="64" y2="6" stroke="currentColor" strokeWidth="1" strokeDasharray="5 4" /><path d="M78 2 L66 6 L78 10 Z" fill="currentColor" />
                     </svg>
-                    <span className="max-w-full truncate font-mono text-[9.5px] text-faint">{stage.arrow}</span>
+                    <span dir="ltr" className="max-w-full truncate font-mono text-[9.5px] text-faint">{stage.arrow}</span>
                   </div>
                 ) : null}
               </li>
@@ -689,23 +789,23 @@ export function SecurityArchitecture(): ReactElement {
         <div className="glass mt-6 p-5 sm:p-7">
           <h3 className="text-[15px] font-semibold text-white sm:text-[17px]">{pick(HEAD.tableTitle, locale)}</h3>
           <div className="no-scrollbar mt-4 overflow-x-auto">
-            <table className="w-full min-w-[880px] border-separate border-spacing-0 text-left text-[12px] leading-relaxed">
+            <table className="w-full min-w-[880px] border-separate border-spacing-0 text-start text-[12px] leading-relaxed">
               <thead>
                 <tr>
-                  <th scope="col" className="w-[172px] border-b border-hair pb-2 pr-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colPrimitive, locale)}</th>
-                  <th scope="col" className="border-b border-hair pb-2 pr-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colUse, locale)}</th>
-                  <th scope="col" className="w-[268px] border-b border-hair pb-2 pr-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{COL_CITE}</th>
+                  <th scope="col" className="w-[172px] border-b border-hair pb-2 pe-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colPrimitive, locale)}</th>
+                  <th scope="col" className="border-b border-hair pb-2 pe-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colUse, locale)}</th>
+                  <th scope="col" className="w-[268px] border-b border-hair pb-2 pe-4 text-[11px] font-semibold uppercase tracking-wider text-brand-soft" dir="ltr">{COL_CITE}</th>
                   <th scope="col" className="border-b border-hair pb-2 text-[11px] font-semibold uppercase tracking-wider text-brand-soft">{pick(HEAD.colStatus, locale)}</th>
                 </tr>
               </thead>
               <tbody>
                 {CRYPTO.map((row) => (
                   <tr key={row.primitive}>
-                    <th scope="row" className="border-b border-hair py-3.5 pr-4 text-left align-top font-mono text-[12px] font-semibold text-white">{row.primitive}</th>
-                    <td className="border-b border-hair py-3.5 pr-4 align-top text-mute">{pick(row.use, locale)}</td>
-                    <td className="border-b border-hair py-3.5 pr-4 align-top">
+                    <th scope="row" dir="ltr" className="border-b border-hair py-3.5 pe-4 text-start align-top font-mono text-[12px] font-semibold text-white">{row.primitive}</th>
+                    <td className="border-b border-hair py-3.5 pe-4 align-top text-mute"><LtrText text={pick(row.use, locale)} /></td>
+                    <td className="border-b border-hair py-3.5 pe-4 align-top">
                       <ul className="flex flex-col gap-1 font-mono text-[10.5px] leading-snug text-faint">
-                        {row.cites.map((cite) => (<li key={cite}>{cite}</li>))}
+                        {row.cites.map((cite) => (<li key={cite}><Ltr>{cite}</Ltr></li>))}
                       </ul>
                     </td>
                     <td className="border-b border-hair py-3.5 align-top">
@@ -720,7 +820,7 @@ export function SecurityArchitecture(): ReactElement {
             </table>
           </div>
           <div className="mt-5">
-            <CodeBlock code={LEDGER_CODE} caption={pick(RATCHET_NOTE, locale)} showCopy={false} maxHeightClass="max-h-[150px]" />
+            <CodeBlock code={LEDGER_CODE} caption={<LtrText text={pick(RATCHET_NOTE, locale)} />} showCopy={false} maxHeightClass="max-h-[150px]" />
           </div>
         </div>
         {/* ── what the client types say the relay sees ───────────────── */}
@@ -729,18 +829,20 @@ export function SecurityArchitecture(): ReactElement {
           <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-3 lg:grid-cols-3">
             {PANEL_POINTS.map((point) => (
               <li key={point.chip} className="glass-inset flex flex-col gap-2 p-4">
-                <code className="break-words font-mono text-[10.5px] text-white">{point.chip}</code>
-                <p className="text-[12px] leading-relaxed text-mute">{pick(point.text, locale)}</p>
+                <code dir="ltr" className="break-words text-start font-mono text-[10.5px] text-white">
+                  {point.chip}
+                </code>
+                <p className="text-[12px] leading-relaxed text-mute"><LtrText text={pick(point.text, locale)} /></p>
                 {point.cites.length > 0 ? (
                   <ul className="hairline-top flex flex-col gap-1 pt-2 font-mono text-[10px] text-faint">
-                    {point.cites.map((cite) => (<li key={cite} className="break-words">{cite}</li>))}
+                    {point.cites.map((cite) => (<li key={cite} className="break-words"><Ltr>{cite}</Ltr></li>))}
                   </ul>
                 ) : null}
               </li>
             ))}
           </ul>
           <p className="hairline-top mt-5 text-[11.5px] leading-relaxed text-faint">
-            {pick(HEAD.closing, locale)}{" "}
+            <LtrText text={pick(HEAD.closing, locale)} />{" "}
             <a href={IOS_REPO_URL} target="_blank" rel="noreferrer" className="text-brand-soft underline decoration-brand/50 underline-offset-2">popopx-chat</a>.
           </p>
         </div>

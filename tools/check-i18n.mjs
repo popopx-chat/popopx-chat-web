@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /**
- * i18n completeness checker — the oracle behind "the portal speaks the same 18
- * languages as the POPOPX iOS client".
+ * i18n completeness checker — the oracle behind "the portal speaks 21
+ * interface languages". The first 18 are the tags the POPOPX iOS client ships
+ * today; `pt-BR`, `ko` and `ar` are portal additions whose client `.xcloc`
+ * catalogs exist but whose `CFBundleLocalizations` entries do not yet.
  *
- * TypeScript already proves a `Localized<T>` object lists all 18 locales (it is
+ * TypeScript already proves a `Localized<T>` object lists all 21 locales (it is
  * a total `Record`), so `npm run typecheck` catches a missing key. This script
  * catches the things the compiler cannot see:
  *
@@ -15,7 +17,7 @@
  *  3. simplified/traditional Chinese leakage inside the *same* slot, which the
  *     type system cannot see at all (a `zh-Hans` value written in traditional
  *     characters is a perfectly valid string);
- *  4. the three ways an 18-language claim is *faked* rather than made: a
+ *  4. the three ways a 21-language claim is *faked* rather than made: a
  *     function returning a derived `Localized<…>` map, an `as
  *     Localized<string>` cast over an untyped map, and a copy object built by
  *     spreading another map. All three type-check while most languages silently
@@ -41,12 +43,13 @@ const ROOT = process.cwd();
 const SRC = join(ROOT, "src");
 
 /**
- * The 18 tags from `CFBundleLocalizations` in
- * `apps/ios/POPOPX--iOS--Info.plist` of the client repository, same order.
+ * The portal's 21 tags: the 18 from `CFBundleLocalizations` in
+ * `apps/ios/POPOPX--iOS--Info.plist` of the client repository, same order,
+ * followed by the three portal additions.
  */
 const LOCALES = [
   "en", "ru", "de", "fr", "it", "nl", "cs", "zh-Hans", "zh-Hant", "es",
-  "pl", "ja", "th", "fi", "uk", "bg", "tr", "hu",
+  "pl", "ja", "th", "fi", "uk", "bg", "tr", "hu", "pt-BR", "ko", "ar",
 ];
 
 /** Tags that must never appear in copy objects (the old tri-lingual scheme). */
@@ -82,7 +85,7 @@ function hasNonLatinScript(text) {
  * is either a protocol/brand token or untranslated residue, so it is worth a
  * look — which is exactly what the two probes below provide.
  */
-const NON_LATIN_LOCALES = new Set(["ru", "uk", "bg", "zh-Hans", "zh-Hant", "ja", "th"]);
+const NON_LATIN_LOCALES = new Set(["ru", "uk", "bg", "zh-Hans", "zh-Hant", "ja", "th", "ko", "ar"]);
 
 /**
  * Latin tokens that legitimately stay Latin in every language: brands, product
@@ -271,8 +274,8 @@ function scan(dir) {
 
     const visit = (node) => {
       // A function returning a `Localized` map can only build it by *deriving*
-      // slots, which is exactly how an 18-language claim is faked: the helper takes
-      // three authored strings, fills the other fifteen from English, and TypeScript
+      // slots, which is exactly how a 21-language claim is faked: the helper takes
+      // three authored strings, fills the other eighteen from English, and TypeScript
       // still sees a total map. Copy must live in literal objects so this file can
       // read every language slot. `pick`/`useCopy` are exempt — they return `T`.
       if (
@@ -282,13 +285,13 @@ function scan(dir) {
       ) {
         const name = ts.isFunctionDeclaration(node) && node.name ? ` ${node.name.getText()}` : "";
         errors.push(
-          `${rel}${at(node)}: function${name} returns Localized<…> — a derived map hides unauthored languages from this oracle and from tsc. Author literal 18-key objects instead.`,
+          `${rel}${at(node)}: function${name} returns Localized<…> — a derived map hides unauthored languages from this oracle and from tsc. Author literal 21-key objects instead.`,
         );
       }
 
       // `x as Localized<string>` — or `as L` for such an alias — over a
       // `Record<string, string>` is the second way to fake the total map: the cast
-      // erases the key check, so fifteen languages can be missing at runtime while
+      // erases the key check, so eighteen languages can be missing at runtime while
       // tsc stays quiet. `satisfies` is deliberately NOT flagged: it validates every
       // key, which is the point of the total map. A cast to
       // `Partial<Record<Locale, …>>` is exempt too — it claims nothing is present,
@@ -298,7 +301,7 @@ function scan(dir) {
         const isMapType = t.includes("Localized<") || t.includes("Record<Locale") || mapAliases.has(t);
         if (isMapType && !t.includes("Partial<")) {
           errors.push(
-            `${rel}${at(node)}: as ${t} casts an untyped map into the total locale type — 18 languages are not proven here; write the literal (or use \`satisfies\`, which checks)`,
+            `${rel}${at(node)}: as ${t} casts an untyped map into the total locale type — 21 languages are not proven here; write the literal (or use \`satisfies\`, which checks)`,
           );
         }
       }
@@ -319,19 +322,19 @@ function scan(dir) {
 
         // A spread inside anything carrying a locale tag re-imports the blind spot
         // the derived-map rule above closes: `{...enMap, fr: "…"}` type-checks while
-        // fifteen languages silently render as whoever they were cloned from. This
+        // eighteen languages silently render as whoever they were cloned from. This
         // runs before the two-key threshold below, because that one-literal-key form
         // is exactly the shape the rule exists for.
         const spreads = node.properties.filter((prop) => ts.isSpreadAssignment(prop));
         if (spreads.length > 0 && localeKeys.length + staleKeys.length >= 1) {
           errors.push(
-            `${rel}${at(node)}: copy object spreads ${spreads.length} map(s) — every one of the 18 slots must be written literally or the oracle cannot see a missing language`,
+            `${rel}${at(node)}: copy object spreads ${spreads.length} map(s) — every one of the 21 slots must be written literally or the oracle cannot see a missing language`,
           );
         }
 
         // A copy object is any literal carrying two or more locale-ish tags,
         // stale or not: an object written with `zh-CN` / `zh-TW` / `en` is exactly
-        // the work the 18-language pass has to finish, so counting it only once
+        // the work the 21-language pass has to finish, so counting it only once
         // its keys were renamed would hide the backlog behind the rename errors.
         if (localeKeys.length + staleKeys.length >= 2) {
           stats.objects += 1;

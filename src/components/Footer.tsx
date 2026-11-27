@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { LtrText } from "@/components/Ltr";
 import { LOCALE_COUNT, LOCALES, pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
 import {
   ASSETS_LICENSE_URL,
@@ -31,7 +32,8 @@ import {
  *        images and marks not granted.
  *   §15  Bot Studio: the portal answers over HTTPS on its own name, while the
  *        engine repository it points back to publishes its `LICENSE` alone.
- *   §1   the 18 locale tags and their order = the client's `CFBundleLocalizations`.
+ *   §1   the 21 locale tags: the client's 18 `CFBundleLocalizations` first, in
+ *        their order, then the three the portal adds.
  *   src/lib/i18n.tsx  the language choice is persisted to `localStorage` under
  *        `popopx.locale`; no cookie is written, and switching is a re-render —
  *        the copy ships inside the page, so nothing is fetched.
@@ -51,6 +53,9 @@ const BUILD_YEAR = 2026;
 
 const TAGLINE: Localized<string> = {
   en: "The open-source licence, the trademark notice, the zero-tracking promise and the four official hosts — in one place.",
+  "pt-BR": "A licença de código aberto, o aviso de marca, a promessa de rastreamento zero e os quatro hosts oficiais — em um só lugar.",
+  ko: "오픈 소스 라이선스, 상표 고지, 추적 제로 약속, 네 개의 공식 호스트 — 이 모두가 한곳에 있습니다.",
+  ar: "ترخيص المصدر المفتوح، وإشعار العلامة التجارية، ووعد انعدام التتبع، والمضيفات الرسمية الأربعة — في مكان واحد.",
   ru: "Лицензия на исходный код, замечание о товарных знаках, обещание без отслеживания и четыре официальных сайта — в одном месте.",
   de: "Quellcode-Lizenz, Markenhinweis, Tracking-Versprechen und die vier offiziellen Hosts – an einem Ort.",
   fr: "La licence du code, la note sur les marques, la promesse zéro suivi et les quatre hôtes officiels — au même endroit.",
@@ -72,6 +77,9 @@ const TAGLINE: Localized<string> = {
 
 const H_ECOSYSTEM: Localized<string> = {
   en: "Four official hosts",
+  "pt-BR": "Quatro hosts oficiais",
+  ko: "네 개의 공식 호스트",
+  ar: "أربعة مضيفات رسمية",
   ru: "Четыре официальных сайта",
   de: "Vier offizielle Hosts",
   fr: "Quatre hôtes officiels",
@@ -93,6 +101,9 @@ const H_ECOSYSTEM: Localized<string> = {
 
 const H_OPENSOURCE: Localized<string> = {
   en: "Open source",
+  "pt-BR": "Código aberto",
+  ko: "오픈 소스",
+  ar: "مفتوح المصدر",
   ru: "Открытый код",
   de: "Offener Quellcode",
   fr: "Sources ouvertes",
@@ -114,6 +125,9 @@ const H_OPENSOURCE: Localized<string> = {
 
 export const H_PRIVACY: Localized<string> = {
   en: "Zero tracking",
+  "pt-BR": "Rastreamento zero",
+  ko: "추적 제로",
+  ar: "انعدام التتبع",
   ru: "Без отслеживания",
   de: "Kein Tracking",
   fr: "Zéro suivi",
@@ -135,6 +149,9 @@ export const H_PRIVACY: Localized<string> = {
 
 export const H_LEGAL: Localized<string> = {
   en: "Licence and marks",
+  "pt-BR": "Licença e marcas",
+  ko: "라이선스와 상표",
+  ar: "الترخيص والعلامات",
   ru: "Лицензия и знаки",
   de: "Lizenz und Marken",
   fr: "Licence et marques",
@@ -156,6 +173,9 @@ export const H_LEGAL: Localized<string> = {
 
 const H_LANGUAGES: Localized<string> = {
   en: "Languages",
+  "pt-BR": "Idiomas",
+  ko: "언어",
+  ar: "اللغات",
   ru: "Языки",
   de: "Sprachen",
   fr: "Langues",
@@ -177,28 +197,34 @@ const H_LANGUAGES: Localized<string> = {
 
 /** Reads after the number rendered from `LOCALE_COUNT`. */
 const LANG_LEAD: Localized<string> = {
-  en: "interface languages — the same tags and the same order as the client's CFBundleLocalizations.",
-  ru: "языков интерфейса — те же коды и тот же порядок, что в CFBundleLocalizations клиента.",
-  de: "Oberflächensprachen — dieselben Kürzel und dieselbe Reihenfolge wie CFBundleLocalizations des Clients.",
-  fr: "langues d'interface — mêmes codes et même ordre que le CFBundleLocalizations du client.",
-  it: "lingue dell'interfaccia — stessi tag e stesso ordine del CFBundleLocalizations del client.",
-  nl: "interfacetalen — dezelfde codes en dezelfde volgorde als CFBundleLocalizations van de client.",
-  cs: "jazyků rozhraní — stejné kódy a stejné pořadí jako CFBundleLocalizations klienta.",
-  "zh-Hans": "界面语言——标签与顺序都和客户端的 CFBundleLocalizations 一致。",
-  "zh-Hant": "介面語言——代碼與順序都和客戶端的 CFBundleLocalizations 一致。",
-  es: "idiomas de interfaz: los mismos códigos y el mismo orden que CFBundleLocalizations del cliente.",
-  pl: "języki interfejsu — te same kody i ta sama kolejność co CFBundleLocalizations klienta.",
-  ja: "対応言語——クライアントの CFBundleLocalizations と同じタグ・同じ順序。",
-  th: "ภาษาส่วนติดต่อผู้ใช้ — รหัสและลำดับเดียวกับ CFBundleLocalizations ของไคลเอนต์",
-  fi: "kieltä — samat tunnisteet ja sama järjestys kuin asiakkaan CFBundleLocalizations.",
-  uk: "мов інтерфейсу — ті самі коди й той самий порядок, що в CFBundleLocalizations клієнта.",
-  bg: "езика на интерфейса — същите кодове и същата последователност като CFBundleLocalizations на клиента.",
-  tr: "arayüz dili — istemcinin CFBundleLocalizations listesiyle aynı kodlar, aynı sıra.",
-  hu: "felületi nyelv — ugyanazok a címkék és ugyanaz a sorrend, mint az ügyfél CFBundleLocalizations listáján.",
+  en: "interface languages — the first 18 match the client's CFBundleLocalizations; the last three are portal additions.",
+  ru: "язык интерфейса — первые 18 совпадают с CFBundleLocalizations клиента, последние три добавлены порталом.",
+  de: "Oberflächensprachen — die ersten 18 entsprechen den CFBundleLocalizations des Clients; die letzten drei ergänzt das Portal.",
+  fr: "langues d'interface — les 18 premières correspondent aux CFBundleLocalizations du client ; les trois dernières sont ajoutées par le portail.",
+  it: "lingue dell'interfaccia — le prime 18 corrispondono alle CFBundleLocalizations del client; le ultime tre sono aggiunte del portale.",
+  nl: "interfacetalen — de eerste 18 komen overeen met de CFBundleLocalizations van de client; de laatste drie zijn toevoegingen van het portaal.",
+  cs: "jazyků rozhraní — prvních 18 odpovídá CFBundleLocalizations klienta; poslední tři přidává portál.",
+  "zh-Hans": "界面语言——前 18 种与客户端的 CFBundleLocalizations 一致，后 3 种由门户新增。",
+  "zh-Hant": "介面語言——前 18 種與客戶端的 CFBundleLocalizations 一致，後 3 種由入口網站新增。",
+  es: "idiomas de interfaz: los primeros 18 coinciden con las CFBundleLocalizations del cliente; los tres últimos los añade el portal.",
+  pl: "języków interfejsu — pierwsze 18 odpowiada CFBundleLocalizations klienta; ostatnie trzy dodaje portal.",
+  ja: "対応言語——最初の 18 はクライアントの CFBundleLocalizations と一致し、最後の 3 つはポータルが追加したものです。",
+  th: "ภาษาส่วนติดต่อผู้ใช้ — 18 ภาษแรกตรงกับ CFBundleLocalizations ของไคลเอนต์ ส่วนสามภาษาสุดท้ายพอร์ทัลเพิ่มเข้ามา",
+  fi: "kieltä — ensimmäiset 18 vastaavat asiakkaan CFBundleLocalizations-listaa; kolme viimeistä on lisätty portaalissa.",
+  uk: "мова інтерфейсу — перші 18 збігаються з CFBundleLocalizations клієнта; останні три додано порталом.",
+  bg: "езика на интерфейса — първите 18 съвпадат с CFBundleLocalizations на клиента; последните три са добавени от портала.",
+  tr: "arayüz dili — ilk 18'i istemcinin CFBundleLocalizations değeriyle aynı; son üçü portal ekliyor.",
+  hu: "felületi nyelv — az első 18 megegyezik az ügyfél CFBundleLocalizations listájával; az utolsó hármat a portál adja hozzá.",
+  "pt-BR": "idiomas de interface — os primeiros 18 correspondem ao CFBundleLocalizations do cliente; os três últimos são acréscimos do portal.",
+  ko: "인터페이스 언어 — 처음 18개는 클라이언트의 CFBundleLocalizations와 일치하고, 마지막 3개는 포털에서 추가했습니다.",
+  ar: "لغة واجهة — أول 18 تطابق CFBundleLocalizations في العميل؛ والثلاث الأخيرة إضافات من البوابة.",
 };
 
 const BACK_TO_TOP: Localized<string> = {
   en: "Back to top",
+  "pt-BR": "Voltar ao topo",
+  ko: "맨 위로",
+  ar: "العودة إلى الأعلى",
   ru: "Наверх",
   de: "Zurück nach oben",
   fr: "Haut de page",
@@ -220,6 +246,9 @@ const BACK_TO_TOP: Localized<string> = {
 
 export const ECO_NOTE: Localized<string> = {
   en: "Exactly four domains are official. This page links to the other three and loads nothing from them.",
+  "pt-BR": "Exatamente quatro domínios são oficiais. Esta página linka os outros três e não carrega nada deles.",
+  ko: "공식 도메인은 정확히 네 개입니다. 이 페이지는 나머지 세 곳으로 연결되며, 그곳에서 아무것도 불러오지 않습니다.",
+  ar: "أربعة نطاقات فقط رسمية. وترتبط هذه الصفحة بالثلاثة الأخرى ولا تحمّل منها شيئًا.",
   ru: "Официальных доменов ровно четыре. Эта страница ссылается на три других и ничего у них не загружает.",
   de: "Genau vier Domains sind offiziell. Diese Seite verlinkt die drei anderen und lädt nichts von ihnen.",
   fr: "Exactement quatre domaines sont officiels. Cette page pointe vers les trois autres et ne charge rien chez eux.",
@@ -241,6 +270,9 @@ export const ECO_NOTE: Localized<string> = {
 
 export const BLURB_MAIN: Localized<string> = {
   en: "This portal — the POPOPX iOS flagship client and the source behind it.",
+  "pt-BR": "Este portal — o cliente iOS principal da POPOPX e o código-fonte por trás dele.",
+  ko: "이 포털 — POPOPX iOS 플래그십 클라이언트와 그 뒤의 소스입니다.",
+  ar: "هذه البوابة — عميل POPOPX iOS الرئيسي والمصدر الذي يقف خلفه.",
   ru: "Этот портал: флагманский iOS-клиент POPOPX и его исходный код.",
   de: "Dieses Portal: der iOS-Flaggschiff-Client POPOPX und sein Quellcode.",
   fr: "Ce portail : le client iOS phare POPOPX et son code source.",
@@ -262,6 +294,9 @@ export const BLURB_MAIN: Localized<string> = {
 
 export const BLURB_NODE: Localized<string> = {
   en: "The Mac Node portal — the edge-services engine running beside the client.",
+  "pt-BR": "O portal do Mac Node — o motor de serviços de borda que roda ao lado do cliente.",
+  ko: "Mac Node 포털 — 클라이언트 곁에서 돌아가는 엣지 서비스 엔진입니다.",
+  ar: "بوابة Mac Node — محرك خدمات الحافة الذي يعمل إلى جانب العميل.",
   ru: "Портал Mac Node — движок периферийных сервисов, работающий рядом с клиентом.",
   de: "Das Mac-Node-Portal — die Edge-Services-Engine neben dem Client.",
   fr: "Le portail Mac Node — le moteur de services en bordure, à côté du client.",
@@ -283,6 +318,9 @@ export const BLURB_NODE: Localized<string> = {
 
 export const BLURB_MP: Localized<string> = {
   en: "The service-suite portal — service accounts and zero-knowledge channels, on your own server.",
+  "pt-BR": "O portal do Service Suite — contas de serviço e canais de conhecimento zero, no seu próprio servidor.",
+  ko: "서비스 스위트 포털 — 자체 서버에서 돌리는 서비스 계정과 영지식 채널입니다.",
+  ar: "بوابة Service Suite — حسابات الخدمة والقنوات عديمة المعرفة، على خادمك أنت.",
   ru: "Портал набора сервисов — сервисные аккаунты и каналы с нулевым знанием на вашем сервере.",
   de: "Das Suite-Portal — Dienstkonten und Zero-Knowledge-Kanäle auf dem eigenen Server.",
   fr: "Le portail de la suite — comptes de service et canaux zero-knowledge, sur votre serveur.",
@@ -304,6 +342,9 @@ export const BLURB_MP: Localized<string> = {
 
 export const BLURB_STUDIO: Localized<string> = {
   en: "The Bot Studio portal — the bot workbench you run on your own server.",
+  "pt-BR": "O portal do Bot Studio — a bancada de bots que você roda no seu próprio servidor.",
+  ko: "Bot Studio 포털 — 자체 서버에서 돌리는 봇 워크벤치입니다.",
+  ar: "بوابة Bot Studio — ورشة عمل الروبوتات التي تشغّلها على خادمك أنت.",
   ru: "Портал Bot Studio — мастерская ботов, работающая на вашем собственном сервере.",
   de: "Das Portal von Bot Studio — die Werkbank für Bots, die auf dem eigenen Server läuft.",
   fr: "Le portail Bot Studio — un atelier de bots que vous faites tourner sur votre propre serveur.",
@@ -325,6 +366,9 @@ export const BLURB_STUDIO: Localized<string> = {
 
 const L_LICENSE: Localized<string> = {
   en: "AGPL-3.0 licence text",
+  "pt-BR": "Texto da licença AGPL-3.0",
+  ko: "AGPL-3.0 라이선스 전문",
+  ar: "نص ترخيص AGPL-3.0",
   ru: "Текст лицензии AGPL-3.0",
   de: "AGPL-3.0-Lizenztext",
   fr: "Texte de la licence AGPL-3.0",
@@ -346,6 +390,9 @@ const L_LICENSE: Localized<string> = {
 
 const L_TRADEMARK: Localized<string> = {
   en: "POPOPX trademark policy",
+  "pt-BR": "Política de marcas da POPOPX",
+  ko: "POPOPX 상표 정책",
+  ar: "سياسة علامة POPOPX التجارية",
   ru: "Политика товарных знаков POPOPX",
   de: "Markenrichtlinie für POPOPX",
   fr: "Politique de marque POPOPX",
@@ -367,6 +414,9 @@ const L_TRADEMARK: Localized<string> = {
 
 const L_ASSETS: Localized<string> = {
   en: "Asset licence",
+  "pt-BR": "Licença de ativos",
+  ko: "에셋 라이선스",
+  ar: "ترخيص الأصول",
   ru: "Лицензия на материалы",
   de: "Lizenz für Assets",
   fr: "Licence des ressources",
@@ -388,6 +438,9 @@ const L_ASSETS: Localized<string> = {
 
 const R_CLIENT: Localized<string> = {
   en: "iOS client — source",
+  "pt-BR": "Cliente iOS — código-fonte",
+  ko: "iOS 클라이언트 — 소스",
+  ar: "عميل iOS — المصدر",
   ru: "Клиент iOS — исходники",
   de: "iOS-Client — Quellcode",
   fr: "Client iOS — source",
@@ -409,6 +462,9 @@ const R_CLIENT: Localized<string> = {
 
 const R_WEB: Localized<string> = {
   en: "This portal — source",
+  "pt-BR": "Este portal — código-fonte",
+  ko: "이 포털 — 소스",
+  ar: "هذه البوابة — المصدر",
   ru: "Этот портал — исходники",
   de: "Dieses Portal — Quellcode",
   fr: "Ce portail — source",
@@ -430,6 +486,9 @@ const R_WEB: Localized<string> = {
 
 const R_SUITE: Localized<string> = {
   en: "Service suite — source",
+  "pt-BR": "Service Suite — código-fonte",
+  ko: "서비스 스위트 — 소스",
+  ar: "Service Suite — المصدر",
   ru: "Набор сервисов — исходники",
   de: "Dienst-Suite — Quellcode",
   fr: "Suite de services — source",
@@ -451,6 +510,9 @@ const R_SUITE: Localized<string> = {
 
 const R_NODE: Localized<string> = {
   en: "Mac Node — source",
+  "pt-BR": "Mac Node — código-fonte",
+  ko: "Mac Node — 소스",
+  ar: "Mac Node — المصدر",
   ru: "Mac Node — исходники",
   de: "Mac Node — Quellcode",
   fr: "Mac Node — code source",
@@ -472,6 +534,9 @@ const R_NODE: Localized<string> = {
 
 const R_STUDIO: Localized<string> = {
   en: "Bot Studio — source",
+  "pt-BR": "Bot Studio — código-fonte",
+  ko: "Bot Studio — 소스",
+  ar: "Bot Studio — المصدر",
   ru: "Bot Studio — исходники",
   de: "Bot Studio — Quellcode",
   fr: "Bot Studio — code source",
@@ -493,6 +558,9 @@ const R_STUDIO: Localized<string> = {
 
 const P_COOKIE: Localized<string> = {
   en: "No cookie is ever set. The language you choose is written to localStorage under the key popopx.locale and nowhere else.",
+  "pt-BR": "Nenhum cookie é definido, jamais. O idioma que você escolhe é gravado no localStorage sob a chave popopx.locale e em nenhum outro lugar.",
+  ko: "쿠키는 절대 설정되지 않습니다. 선택한 언어는 popopx.locale 키로 localStorage에 기록될 뿐, 다른 어디에도 기록되지 않습니다.",
+  ar: "لا تضبط هذه الصفحة أي ملف تعريف ارتباط أبدًا. واللغة التي تختارها مكتوبة في localStorage تحت المفتاح popopx.locale ولا في أي مكان آخر.",
   ru: "Ни один cookie не устанавливается. Выбранный язык записывается в localStorage под ключом popopx.locale и больше никуда.",
   de: "Es wird nie ein Cookie gesetzt. Die gewählte Sprache steht in localStorage unter dem Schlüssel popopx.locale und sonst nirgends.",
   fr: "Aucun cookie n'est jamais déposé. La langue choisie est écrite dans localStorage sous la clé popopx.locale et nulle part ailleurs.",
@@ -514,6 +582,9 @@ const P_COOKIE: Localized<string> = {
 
 const P_ANALYTICS: Localized<string> = {
   en: "No third-party analytics, pixel or tracking script ships with this page.",
+  "pt-BR": "Nenhum script de análise, pixel ou rastreamento de terceiros acompanha esta página.",
+  ko: "이 페이지에는 타사 분석, 픽셀, 추적 스크립트가 포함되지 않습니다.",
+  ar: "لا تحمل هذه الصفحة أي تحليلات، ولا بكسل تتبع، ولا سكربت تتبع من طرف ثالث.",
   ru: "Страница не поставляется ни со сторонней аналитикой, ни с пикселем, ни со скриптом отслеживания.",
   de: "Diese Seite enthält keine Analytics-, Pixel- oder Tracking-Skripte Dritter.",
   fr: "Cette page n'embarque aucun script tiers d'analyse, de pixel ou de suivi.",
@@ -535,6 +606,9 @@ const P_ANALYTICS: Localized<string> = {
 
 const P_CDN: Localized<string> = {
   en: "No external CDN: the font stack, the images and every script come from this origin.",
+  "pt-BR": "Sem CDN externa: a pilha de fontes, as imagens e todos os scripts vêm desta origem.",
+  ko: "외부 CDN은 없습니다. 폰트 스택, 이미지, 모든 스크립트는 이 오리진에서 옵니다.",
+  ar: "لا CDN خارجي: حزمة الخطوط والصور وكل سكربت تأتي من هذا الأصل (origin).",
   ru: "Ни одного внешнего CDN: шрифты, изображения и скрипты берутся с этого же адреса.",
   de: "Kein externes CDN: Schriften, Bilder und Skripte kommen von dieser Origin.",
   fr: "Aucun CDN externe : polices, images et scripts proviennent de cette origine.",
@@ -557,6 +631,9 @@ const P_CDN: Localized<string> = {
 /** The code itself lives in the download section; the promise names that honestly. */
 const P_QR: Localized<string> = {
   en: "The QR code in the download section is drawn as inline SVG inside your own browser — no QR service, no image request.",
+  "pt-BR": "O código QR da seção de download é desenhado como SVG inline dentro do seu próprio navegador — sem serviço de QR, sem requisição de imagem.",
+  ko: "다운로드 섹션의 QR 코드는 브라우저 안에서 인라인 SVG로 그립니다 — QR 서비스도, 이미지 요청도 없습니다.",
+  ar: "رمز QR في قسم التنزيل مرسوم كـ SVG مضمّن داخل متصفحك — بلا خدمة QR وبلا طلب صورة.",
   ru: "QR-код в разделе загрузки рисуется внутри вашего браузера как инлайн SVG: ни QR-сервиса, ни запроса картинки.",
   de: "Der QR-Code im Download-Bereich wird im Browser als Inline-SVG gezeichnet — kein QR-Dienst, keine Bildanfrage.",
   fr: "Le QR code de la section téléchargement est dessiné dans votre navigateur en SVG en ligne — pas de service QR, pas de requête d'image.",
@@ -578,6 +655,9 @@ const P_QR: Localized<string> = {
 
 const P_SWITCH: Localized<string> = {
   en: "Switching language sends no request: every language is already inside the page.",
+  "pt-BR": "Trocar de idioma não envia requisição alguma: todos os idiomas já estão dentro da página.",
+  ko: "언어를 바꿔도 요청은 나가지 않습니다. 모든 언어가 이미 페이지 안에 있습니다.",
+  ar: "تبديل اللغة لا يرسل أي طلب: كل لغة موجودة أصلًا داخل الصفحة.",
   ru: "Переключение языка не отправляет запросов: все языки уже внутри страницы.",
   de: "Der Sprachwechsel schickt keine Anfrage: Alle Sprachen stecken bereits in der Seite.",
   fr: "Changer de langue n'envoie aucune requête : toutes les langues sont déjà dans la page.",
@@ -599,6 +679,9 @@ const P_SWITCH: Localized<string> = {
 
 const P_SCAN: Localized<string> = {
   en: "The build gate runs tools/scan-compliance.mjs over the shipped out/ files and fails on any tracker, off-origin asset, leaked local path or forbidden word.",
+  "pt-BR": "O portão de build executa tools/scan-compliance.mjs sobre os arquivos out/ publicados e falha em qualquer rastreador, ativo fora da origem, caminho local vazado ou palavra proibida.",
+  ko: "빌드 게이트는 배포된 out/ 파일 전체에 tools/scan-compliance.mjs를 실행하고, 트래커, 외부 오리진 에셋, 노출된 로컬 경로, 금지어가 하나라도 있으면 실패합니다.",
+  ar: "تشغّل بوابة البناء tools/scan-compliance.mjs على ملفات out/ المشحونة، وتفشل عند أي متتبع، أو أصل خارجي (off-origin)، أو مسار محلي مسرّب، أو كلمة محظورة.",
   ru: "Сборочный барьер прогоняет tools/scan-compliance.mjs по файлам в out/ и падает на любом трекере, внешнем ресурсе, локальном пути или запрещённом слове.",
   de: "Das Gate lässt tools/scan-compliance.mjs über die ausgelieferten out/-Dateien laufen und scheitert an jedem Tracker, Fremd-Asset, lokalen Pfad oder verbotenen Wort.",
   fr: "Le portique exécute tools/scan-compliance.mjs sur les fichiers livrés de out/ et échoue au moindre traceur, ressource externe, chemin local ou mot interdit.",
@@ -620,6 +703,9 @@ const P_SCAN: Localized<string> = {
 
 const LICENSED_AGPL: Localized<string> = {
   en: "Code released under AGPL-3.0-only.",
+  "pt-BR": "Código publicado sob AGPL-3.0-only.",
+  ko: "코드는 AGPL-3.0-only로 배포됩니다.",
+  ar: "الكود منشور تحت AGPL-3.0-only.",
   ru: "Код опубликован под AGPL-3.0-only.",
   de: "Veröffentlichter Quellcode: AGPL-3.0-only.",
   fr: "Code publié sous licence AGPL-3.0-only.",
@@ -641,6 +727,9 @@ const LICENSED_AGPL: Localized<string> = {
 
 const NOTE_SPDX: Localized<string> = {
   en: "In the client repository, LICENSE is the full AGPL-3.0 text and contains no SPDX line.",
+  "pt-BR": "No repositório do cliente, o arquivo LICENSE é o texto completo da AGPL-3.0 e não contém linha SPDX.",
+  ko: "클라이언트 저장소에서 LICENSE는 AGPL-3.0 전문이며 SPDX 줄을 포함하지 않습니다.",
+  ar: "في مستودع العميل، ملف LICENSE هو نص AGPL-3.0 الكامل ولا يحتوي على سطر SPDX.",
   ru: "В репозитории клиента LICENSE — это полный текст AGPL-3.0 без строки SPDX.",
   de: "Im Client-Repository ist LICENSE der vollständige AGPL-3.0-Text und enthält keine SPDX-Zeile.",
   fr: "Dans le dépôt du client, LICENSE est le texte intégral de l'AGPL-3.0 et ne contient aucune ligne SPDX.",
@@ -662,6 +751,9 @@ const NOTE_SPDX: Localized<string> = {
 
 const NOTE_TRADEMARK: Localized<string> = {
   en: "TRADEMARK-POPOPX.md states that the POPOPX marks are not registered.",
+  "pt-BR": "TRADEMARK-POPOPX.md afirma que as marcas POPOPX não são registradas.",
+  ko: "TRADEMARK-POPOPX.md는 POPOPX 상표가 등록되지 않았다고 명시합니다.",
+  ar: "يوضح TRADEMARK-POPOPX.md أن علامات POPOPX غير مسجّلة.",
   ru: "В TRADEMARK-POPOPX.md сказано, что знаки POPOPX не зарегистрированы.",
   de: "TRADEMARK-POPOPX.md hält fest, dass die POPOPX-Marken nicht eingetragen sind.",
   fr: "TRADEMARK-POPOPX.md indique que les marques POPOPX ne sont pas déposées.",
@@ -684,6 +776,9 @@ const NOTE_TRADEMARK: Localized<string> = {
 /** “Upstream” stays unnamed, exactly as the forbidden-word list requires. */
 const NOTE_ASSETS: Localized<string> = {
   en: "Images and marks owned by the upstream project are not granted by that licence.",
+  "pt-BR": "Imagens e marcas de propriedade do projeto de origem não são concedidas por essa licença.",
+  ko: "업스트림 프로젝트가 소유한 이미지와 상표는 그 라이선스의 부여 범위에 들지 않습니다.",
+  ar: "لا يمنح ذلك الترخيص الصور والعلامات المملوكة للمشروع الأعلى (upstream).",
   ru: "Изображения и знаки, принадлежащие вышестоящему проекту, этой лицензией не передаются.",
   de: "Bilder und Marken des Upstream-Projekts werden durch diese Lizenz nicht eingeräumt.",
   fr: "Les images et les marques appartenant au projet amont ne sont pas cédées par cette licence.",
@@ -861,20 +956,20 @@ export function Footer(): ReactElement {
               className={`inline-flex items-center gap-3 rounded-xl px-1 py-1 text-white ${FOCUS}`}
             >
               <BrandMark />
-              <span className="text-[17px] font-semibold tracking-tight">POPOPX</span>
-              <span className="chip font-mono text-[10.5px] text-faint">{SITE_HOST}</span>
+              <span dir="ltr" className="text-[17px] font-semibold tracking-tight">POPOPX</span>
+              <span dir="ltr" className="chip font-mono text-[10.5px] text-faint">{SITE_HOST}</span>
             </a>
 
-            <p className="mt-4 max-w-[38ch] text-[13px] leading-relaxed text-mute">{tagline}</p>
+            <p className="mt-4 max-w-[38ch] text-[13px] leading-relaxed text-mute"><LtrText text={tagline} /></p>
 
             <div className="glass-inset mt-7 p-4">
               <p className="eyebrow">{langTitle}</p>
               <p className="mt-2 text-[12.5px] leading-relaxed text-mute">
-                <span className="font-mono text-[13px] text-white">{LOCALE_COUNT}</span> {langLead}
+                <span dir="ltr" className="font-mono text-[13px] text-white">{LOCALE_COUNT}</span> <LtrText text={langLead} />
               </p>
               <ul className="mt-3 flex flex-wrap gap-1.5">
                 {LOCALES.map((tag) => (
-                  <li key={tag} className="chip font-mono text-[10.5px] text-faint">
+                  <li key={tag} dir="ltr" className="chip font-mono text-[10.5px] text-faint">
                     {tag}
                   </li>
                 ))}
@@ -895,6 +990,7 @@ export function Footer(): ReactElement {
                   <li key={portal.host}>
                     <a
                       href={portal.href}
+                      dir="ltr"
                       {...(portal.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className={`inline-flex items-center gap-1.5 rounded font-mono text-[13px] text-brand-soft underline decoration-hair-strong decoration-1 underline-offset-4 transition-colors duration-200 hover:text-white ${FOCUS}`}
                     >
@@ -902,13 +998,13 @@ export function Footer(): ReactElement {
                       {portal.external ? <ExternalGlyph /> : null}
                     </a>
                     <p className="mt-1.5 text-[12px] leading-relaxed text-faint">
-                      {pick(portal.blurb, locale)}
+                      <LtrText text={pick(portal.blurb, locale)} />
                     </p>
                   </li>
                 ))}
               </ul>
               <p className="hairline-top mt-5 pt-4 text-[12px] leading-relaxed text-faint">
-                {ecoNote}
+                <LtrText text={ecoNote} />
               </p>
             </nav>
 
@@ -924,7 +1020,7 @@ export function Footer(): ReactElement {
                       className={`${LINK_CLASS} ${FOCUS}`}
                     >
                       <SourceGlyph />
-                      <span>{pick(entry.label, locale)}</span>
+                      <span><LtrText text={pick(entry.label, locale)} /></span>
                       <ExternalGlyph />
                     </a>
                   </li>
@@ -939,7 +1035,7 @@ export function Footer(): ReactElement {
                   <li key={promise.en} className="flex items-start gap-2.5">
                     <CheckGlyph />
                     <span className="text-[12px] leading-relaxed text-faint">
-                      {pick(promise, locale)}
+                      <LtrText text={pick(promise, locale)} />
                     </span>
                   </li>
                 ))}
@@ -952,11 +1048,11 @@ export function Footer(): ReactElement {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <ColumnTitle text={legalTitle} />
             <p className="text-[12.5px] leading-relaxed text-faint">
-              <span className="font-mono text-mute">{`© ${BUILD_YEAR} POPOPX`}</span>
+              <span dir="ltr" className="font-mono text-mute">{`© ${BUILD_YEAR} POPOPX`}</span>
               <span aria-hidden className="mx-2">
                 ·
               </span>
-              {licensed}
+              <LtrText text={licensed} />
             </p>
           </div>
           <ul className="mt-5 grid gap-3 md:grid-cols-3">
@@ -965,7 +1061,7 @@ export function Footer(): ReactElement {
                 key={note.en}
                 className="glass glass-hover p-4 text-[12px] leading-relaxed text-faint"
               >
-                {pick(note, locale)}
+                <LtrText text={pick(note, locale)} />
               </li>
             ))}
           </ul>

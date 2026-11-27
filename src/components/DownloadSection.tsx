@@ -2,13 +2,14 @@
 
 import type { ReactElement } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { LOCALE_COUNT, LOCALES, LOCALE_NATIVE, useCopy, type Localized } from "@/lib/i18n";
+import { LtrText } from "@/components/Ltr";
+import { CLIENT_LOCALE_COUNT, LOCALE_COUNT, LOCALES, LOCALE_NATIVE, useCopy, type Localized } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import { CopyButton, SectionHeading } from "@/components/ui";
 
 /**
  * DownloadSection — `/download/`: store status, the local QR, v1.2.0 as written,
- * and the 18-language wall.
+ * and the language wall (18 client tags plus the 3 portal-only additions).
  *
  * The build-from-source panel and the config-engine panel that used to sit here
  * are on `/developers/` now (`src/components/DeveloperGuide.tsx`), together with
@@ -34,6 +35,9 @@ const QR_FG = "#E9E9F5";
 
 const EYEBROW: Localized<string> = {
   en: "Get it, and what is in it",
+  "pt-BR": "Como obter o app e o que vem nele",
+  ko: "받는 방법과 그 안의 내용",
+  ar: "كيف تحصل عليه، وما فيه",
   ru: "Как получить и что внутри",
   de: "Beziehen und was enthalten ist",
   fr: "Obtenir et ce qu'il contient",
@@ -55,6 +59,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "No store listing yet — the source is open today",
+  "pt-BR": "Ainda não há listagem na loja — o código-fonte está aberto hoje",
+  ko: "아직 스토어 등록이 없습니다 — 소스는 오늘도 공개되어 있습니다",
+  ar: "لا إدراج في المتجر بعد — والمصدر مفتوح اليوم",
   ru: "В магазине пока пусто — исходный код открыт уже сегодня",
   de: "Noch kein Store-Eintrag — der Quellcode ist heute offen",
   fr: "Pas encore de fiche en magasin — le source est ouvert dès aujourd'hui",
@@ -81,6 +88,9 @@ const TITLE: Localized<string> = {
  */
 const LEAD: Localized<string> = {
   en: "Two honest panels and one language wall: what you can get today, what the v1.2.0 notes really claim, and the 18 localizations the client ships with. Building from source is on the developers page.",
+  "pt-BR": "Dois painéis honestos e um muro de idiomas: o que você pode obter hoje, o que as notas da v1.2.0 realmente afirmam e as 18 localizações com que o cliente é entregue. Compilar a partir do código-fonte está na página de desenvolvedores.",
+  ko: "정직한 두 개의 패널과 하나의 언어 벽입니다. 오늘 받을 수 있는 것, v1.2.0 릴리스 노트가 실제로 주장하는 것, 클라이언트가 제공하는 18개 현지화입니다. 소스에서 빌드하는 방법은 개발자 페이지에 있습니다.",
+  ar: "لوحتان صادقتان وجدار لغوي واحد: ما يمكنك الحصول عليه اليوم، وما تقوله ملاحظات v1.2.0 في الحقيقة، و18 لغة توطين يشحنها العميل. والبناء من المصدر في صفحة المطورين.",
   ru: "Две честные панели и стена языков: что можно получить сегодня, что действительно сказано в заметках v1.2.0, и 18 локализаций клиента. Сборка из исходников — на странице для разработчиков.",
   de: "Zwei ehrliche Panels und eine Sprachwand: was es heute gibt, was die v1.2.0-Notes wirklich behaupten, und die 18 Lokalisierungen des Clients. Der Build aus dem Quellcode steht auf der Entwicklerseite.",
   fr: "Deux volets honnêtes et un mur de langues : ce qu'on obtient aujourd'hui, ce que les notes v1.2.0 affirment vraiment, et les 18 localizations du client. La compilation depuis le source est sur la page développeurs.",
@@ -102,6 +112,9 @@ const LEAD: Localized<string> = {
 
 const AVAIL_TITLE: Localized<string> = {
   en: "How to get the client today",
+  "pt-BR": "Como obter o cliente hoje",
+  ko: "오늘 클라이언트를 받는 방법",
+  ar: "كيف تحصل على العميل اليوم",
   ru: "Как получить клиента сегодня",
   de: "So bekommst du den Client heute",
   fr: "Comment obtenir le client aujourd'hui",
@@ -123,6 +136,9 @@ const AVAIL_TITLE: Localized<string> = {
 
 const AVAIL_BODY: Localized<string> = {
   en: "The App Store record for this client does not resolve: the iTunes lookup answers resultCount: 0, measured again on 2026-11-22. There is nothing to link to yet, and we are not going to pretend otherwise.",
+  "pt-BR": "O registro deste cliente na App Store não resolve: a consulta do iTunes responde resultCount: 0, medido de novo em 2026-11-22. Ainda não há nada para linkar, e não vamos fingir o contrário.",
+  ko: "이 클라이언트의 App Store 레코드는 조회되지 않습니다. 2026-11-22에 다시 측정한 iTunes 조회 결과는 resultCount: 0입니다. 아직 연결할 대상이 없으며, 그렇지 않은 척하지 않겠습니다.",
+  ar: "سجل هذا العميل في App Store لا يعطي نتيجة: يجيب بحث iTunes بـresultCount: 0، وقد قيس مرة أخرى في 2026-11-22. لا يوجد ما يمكن الربط به بعد، ولن نتظاهر بغير ذلك.",
   ru: "Запись клиента в App Store не резолвится: iTunes lookup отвечает resultCount: 0 — замер повторён 2026-11-22. Ссылку вести некуда, и мы не делаем вид, что это не так.",
   de: "Der App-Store-Eintrag dieses Clients lässt sich nicht auflösen: Der iTunes-Lookup antwortet resultCount: 0, am 2026-11-22 erneut gemessen. Es gibt noch nichts zu verlinken, und wir tun nicht so, als wäre es anders.",
   fr: "La fiche App Store de ce client ne se résout pas : la recherche iTunes répond resultCount: 0, mesurée à nouveau le 2026-11-22. Il n'y a encore rien à lier, et nous ne faisons pas semblant du contraire.",
@@ -144,6 +160,9 @@ const AVAIL_BODY: Localized<string> = {
 
 const AVAIL_RULING: Localized<string> = {
   en: "The standing ruling since 2026-11-16 is blunt: until that record resolves on its own, no App Store, Google Play or APK badge and no TestFlight code is rendered. Not another project's code, not an invented launch date.",
+  "pt-BR": "A regra em vigor desde 2026-11-16 é direta: até que esse registro se resolva por conta própria, nenhum selo da App Store, do Google Play ou de APK e nenhum código do TestFlight é renderizado. Nem código de outro projeto, nem data de lançamento inventada.",
+  ko: "2026-11-16부터 유지되는 결정은 단호합니다. 그 레코드가 스스로 조회될 때까지 App Store, Google Play, APK 배지도, TestFlight 코드도 표시하지 않습니다. 다른 프로젝트의 코드도, 지어낸 출시일도 아닙니다.",
+  ar: "القرار القائم منذ 2026-11-16 صريح: إلى أن يعطي ذلك السجل نتيجة من تلقاء نفسه، لا تعرض أي شارة App Store أو Google Play أو APK ولا أي رمز TestFlight. لا رمز مشروع آخر، ولا تاريخ إطلاق مختلق.",
   ru: "Постоянное решение с 2026-11-16: пока запись не разрешится сама, не рисуем ни бейджей App Store / Google Play / APK, ни TestFlight-кода. Ни чужих кодов, ни выдуманной даты релиза.",
   de: "Der Dauerbeschluss seit 2026-11-16: Solange der eigene Eintrag sich nicht auflöst, gibt es kein App-Store-, Google-Play- oder APK-Badge und keinen TestFlight-Code. Keinen Code eines anderen Projekts, kein erfundenes Startdatum.",
   fr: "La décision permanente depuis le 2026-11-16 : tant que sa propre fiche ne se résout pas, aucun badge App Store, Google Play ou APK, aucun code TestFlight. Ni le code d'un autre projet, ni une date de sortie inventée.",
@@ -165,6 +184,9 @@ const AVAIL_RULING: Localized<string> = {
 
 const AVAIL_HOW: Localized<string> = {
   en: "So today there are exactly two routes: build the client from the public source, or wait for the closed test channel to open. Both announcements land here first.",
+  "pt-BR": "Então hoje existem exatamente duas rotas: compilar o cliente a partir do código-fonte público, ou esperar a abertura do canal de teste fechado. Os dois anúncios aparecem aqui primeiro.",
+  ko: "그래서 오늘 경로는 정확히 두 가지입니다. 공개 소스에서 클라이언트를 빌드하거나, 비공개 테스트 채널이 열리기를 기다리는 것입니다. 두 소식 모두 여기에 먼저 올라옵니다.",
+  ar: "إذن ثمة طريقان بالضبط اليوم: بناء العميل من المصدر العام، أو انتظار فتح قناة الاختبار المغلق. والإعلانان معًا يصلان إلى هنا أولًا.",
   ru: "Значит сегодня есть ровно два пути: собрать клиента из публичного исходника либо дождаться открытия внутреннего тестового канала. Оба анонса выйдут здесь.",
   de: "Heute gibt es damit genau zwei Wege: den Client aus dem öffentlichen Quellcode bauen oder auf den offenen internen Testkanal warten. Beides wird hier angekündigt.",
   fr: "Donc deux routes seulement aujourd'hui : construire le client depuis le source public, ou attendre l'ouverture du canal de test interne. Les deux annonces sortiront ici.",
@@ -186,6 +208,9 @@ const AVAIL_HOW: Localized<string> = {
 
 const QR_ARIA: Localized<string> = {
   en: "QR code with the address of this portal",
+  "pt-BR": "Código QR com o endereço deste portal",
+  ko: "이 포털 주소의 QR 코드",
+  ar: "رمز QR لعنوان هذه البوابة",
   ru: "QR-код с адресом этого портала",
   de: "QR-Code mit der Adresse dieses Portals",
   fr: "QR code contenant l'adresse de ce portail",
@@ -207,6 +232,9 @@ const QR_ARIA: Localized<string> = {
 
 const QR_NOTE: Localized<string> = {
   en: "qrcode.react draws this code as inline SVG inside your own browser: no QR service, no image request, nothing leaves this origin.",
+  "pt-BR": "o qrcode.react desenha este código como SVG inline dentro do seu próprio navegador: nenhum serviço de QR, nenhuma requisição de imagem, nada sai desta origem.",
+  ko: "qrcode.react가 이 코드를 사용자 브라우저 안에서 인라인 SVG로 그립니다. QR 서비스도, 이미지 요청도 없으며, 이 오리진을 떠나는 것은 없습니다.",
+  ar: "يرسم qrcode.react هذا الرمز كـSVG مدمج داخل متصفحك: لا خدمة QR، ولا طلب صورة، ولا شيء يغادر هذا الأصل.",
   ru: "QR рисует qrcode.react прямо в браузере как инлайн SVG: ни QR-сервиса, ни запроса за картинкой, ничего с этого адреса не уходит.",
   de: "Der QR wird von qrcode.react als Inline-SVG im Browser gezeichnet: kein QR-Dienst, keine Bildanfrage, nichts verlässt diese Origin.",
   fr: "Le QR est dessiné dans votre navigateur par qrcode.react en SVG en ligne : pas de service QR, pas de requête d'image, rien ne quitte cette origine.",
@@ -228,6 +256,9 @@ const QR_NOTE: Localized<string> = {
 
 const RELEASE_TITLE: Localized<string> = {
   en: "What the release notes actually claim",
+  "pt-BR": "O que as notas de versão realmente afirmam",
+  ko: "릴리스 노트가 실제로 주장하는 것",
+  ar: "ما تقوله ملاحظات الإصدار في الحقيقة",
   ru: "Что реально говорят заметки о релизе",
   de: "Was die Release-Notes wirklich behaupten",
   fr: "Ce que les notes de version affirment vraiment",
@@ -249,6 +280,9 @@ const RELEASE_TITLE: Localized<string> = {
 
 const RELEASE_LEAD: Localized<string> = {
   en: "Three lines, each one read out of the shipping Swift source rather than a changelog heading. The file and line under each is the place a reader can go and check.",
+  "pt-BR": "Três linhas, cada uma extraída do código Swift entregue, e não de um título de registro de alterações. O arquivo e a linha sob cada uma são o lugar onde o leitor pode ir conferir.",
+  ko: "세 줄이며, 각각은 체인지로그 제목이 아니라 출시된 Swift 소스에서 읽어낸 것입니다. 각 항목 아래의 파일과 줄은 독자가 직접 가서 확인할 수 있는 지점입니다.",
+  ar: "ثلاثة أسطر، كل سطر مقروء من شيفرة Swift المشحونة لا من عنوان في سجل التغييرات. والملف والسطر تحت كل منها هو الموضع الذي يستطيع القارئ الذهاب إليه والتحقق.",
   ru: "Три строки, каждая прочитана из рабочего Swift-кода, а не из заголовка чейнджлога. Файл и строка под каждой — то место, где читатель может проверить.",
   de: "Drei Zeilen, jede dem ausgelieferten Swift-Quellcode gelesen, nicht einer Changelog-Überschrift. Datei und Zeile darunter sind die Stelle, die jemand nachprüfen kann.",
   fr: "Trois lignes, chacune lue dans le source Swift livré plutôt que dans un titre de changelog. Le fichier et la ligne dessous sont l’endroit où le lecteur peut vérifier.",
@@ -270,6 +304,9 @@ const RELEASE_LEAD: Localized<string> = {
 
 const REL_DUAL_NAME: Localized<string> = {
   en: "Two-channel routing",
+  "pt-BR": "Roteamento de dois canais",
+  ko: "이중 채널 라우팅",
+  ar: "توجيه عبر قناتين",
   ru: "Двухканальная маршрутизация",
   de: "Zwei-Kanal-Routing",
   fr: "Routage à deux canaux",
@@ -291,6 +328,9 @@ const REL_DUAL_NAME: Localized<string> = {
 
 const REL_DUAL_BODY: Localized<string> = {
   en: "SMP stays the default. When it does not answer inside three seconds, the very same message goes out over Bluetooth at the same time — concurrently, never instead; and when Bluetooth reports no BLE_ACK after five seconds, the send continues over SMP under the original message ID.",
+  "pt-BR": "O SMP continua sendo o padrão. Quando ele não responde em até três segundos, a mesma mensagem sai por Bluetooth ao mesmo tempo — de forma concorrente, nunca em substituição; e quando o Bluetooth informa ausência de BLE_ACK após cinco segundos, o envio continua pelo SMP sob o ID original da mensagem.",
+  ko: "SMP가 기본으로 유지됩니다. 3초 안에 응답이 없으면 같은 메시지가 동시에 Bluetooth로도 나갑니다. 대체가 아니라 병행입니다. Bluetooth가 5초 후 BLE_ACK를 보고하지 않으면, 전송은 원래 메시지 ID로 SMP를 통해 계속됩니다.",
+  ar: "يبقى SMP هو الافتراضي. وحين لا يجيب خلال ثلاث ثوان، تخرج الرسالة نفسها عبر Bluetooth في الوقت نفسه — بالتوازي، لا بدلًا منه؛ وحين لا يعلن Bluetooth وصول BLE_ACK بعد خمس ثوان، يستمر الإرسال عبر SMP بالـID الأصلي للرسالة.",
   ru: "SMP остаётся каналом по умолчанию. Если он не отвечает в течение трёх секунд, то же сообщение параллельно уходит по Bluetooth — параллельно, а не вместо; если же Bluetooth не даёт BLE_ACK за пять секунд, отправка продолжается через SMP под прежним идентификатором.",
   de: "SMP bleibt der Standard. Antwortet es nicht binnen drei Sekunden, geht dieselbe Nachricht gleichzeitig auch über Bluetooth raus – parallel, nie stattdessen; meldet Bluetooth nach fünf Sekunden keinen BLE_ACK, läuft der Versand unter derselben message-ID über SMP weiter.",
   fr: "SMP reste le canal par défaut. S’il ne répond pas dans les trois secondes, le même message part aussi en Bluetooth en parallèle — jamais à la place ; et si Bluetooth ne donne pas de BLE_ACK au bout de cinq secondes, l’envoi continue sur SMP sous l’identifiant d’origine.",
@@ -312,6 +352,9 @@ const REL_DUAL_BODY: Localized<string> = {
 
 const REL_BADGE_NAME: Localized<string> = {
   en: "StoreKit 2 privacy-node badge",
+  "pt-BR": "Selo de nó de privacidade do StoreKit 2",
+  ko: "StoreKit 2 프라이버시 노드 배지",
+  ar: "شارة عقدة الخصوصية في StoreKit 2",
   ru: "Бейдж приватного узла на StoreKit 2",
   de: "StoreKit-2-Datenschutzknoten-Abzeichen",
   fr: "Badge de nœud privé via StoreKit 2",
@@ -333,6 +376,9 @@ const REL_BADGE_NAME: Localized<string> = {
 
 const REL_BADGE_BODY: Localized<string> = {
   en: "The thirteen node-badge products are read from StoreKit at launch, so price and availability come from Apple rather than a table in the app; the capsule shows free, trial or lit with the time left, and the renewal switch stays Apple’s. Buying writes a local ledger record first, and only then is the transaction finished.",
+  "pt-BR": "Os treze produtos de selo de nó são lidos do StoreKit na inicialização, então preço e disponibilidade vêm da Apple, não de uma tabela no app; a cápsula mostra grátis, teste ou aceso com o tempo restante, e o interruptor de renovação continua sendo da Apple. A compra grava primeiro uma linha no registro de fatos local, e só então a transação é finalizada.",
+  ko: "열세 개의 노드 배지 상품은 실행 시 StoreKit에서 읽어오므로 가격과 제공 여부가 앱 안의 표가 아니라 Apple에서 옵니다. 캡슐은 무료, 체험, 또는 남은 시간이 표시된 활성 상태를 보여 주며, 갱신 스위치는 Apple의 몫으로 남습니다. 구매는 먼저 로컬 사실 대장에 기록을 쓰고, 그다음에야 거래가 완료됩니다.",
+  ar: "تقرأ منتجات شارة العقدة الثلاثة عشر من StoreKit عند التشغيل، فيأتي السعر والتوافر من Apple لا من جدول في التطبيق؛ وتعرض الكبسولة حالة مجاني أو تجربة أو مضيء مع الوقت المتبقي، ويبقى مفتاح التجديد لـApple. والشراء يكتب سجلًا محليًا في سجل الحقائق أولًا، وبعدها فقط تكتمل المعاملة.",
   ru: "Тринадцать продуктов бейджа читаются из StoreKit при старте, поэтому цена и наличие приходят от Apple, а не из таблицы в приложении; капсула показывает «свободен», «пробный» или «активен» с остатком времени, а переключатель продления остаётся у Apple. Покупка сначала пишет локальную запись, и только потом завершается транзакция.",
   de: "Die dreizehn Badge-Produkte werden beim Start von StoreKit gelesen, Preis und Verfügbarkeit kommen also von Apple und nicht aus einer Tabelle in der App; die Kapsel zeigt frei, Test oder aktiv mit Restzeit, und der Verlängerungsschalter bleibt Apples. Ein Kauf schreibt zuerst den lokalen Ledger-Eintrag und schließt die Transaktion erst danach ab.",
   fr: "Les treize produits du badge sont lus dans StoreKit au lancement, prix et disponibilité viennent donc d’Apple et non d’un tableau de l’app ; la capsule affiche libre, essai ou actif avec le temps restant, et l’interrupteur de renouvellement reste chez Apple. Un achat écrit d’abord le registre local, puis seulement la transaction est terminée.",
@@ -354,6 +400,9 @@ const REL_BADGE_BODY: Localized<string> = {
 
 const REL_BACKUP_NAME: Localized<string> = {
   en: "Local passphrase and database copies",
+  "pt-BR": "Frase secreta local e cópias do banco de dados",
+  ko: "로컬 패스프레이즈와 데이터베이스 사본",
+  ar: "عبارة المرور المحلية ونسخ قاعدة البيانات",
   ru: "Локальный пароль и копии базы данных",
   de: "Lokales Passwort und Datenbankkopien",
   fr: "Mot de passe local et copies de base",
@@ -375,6 +424,9 @@ const REL_BACKUP_NAME: Localized<string> = {
 
 const REL_BACKUP_BODY: Localized<string> = {
   en: "The chat database takes a passphrase you set yourself, with the option to keep it in the Keychain, and both databases are copied to .bak files on disk that the app can check and roll back. This is local protection only: identity keys, credits and badges stay on the device and are never uploaded — reinstalling without a backup still loses them.",
+  "pt-BR": "O banco de dados do chat aceita uma frase secreta que você mesmo define, com a opção de guardá-la no Keychain, e os dois bancos de dados são copiados para arquivos .bak em disco que o app pode verificar e reverter. Esta é apenas proteção local: chaves de identidade, créditos e selos ficam no dispositivo e nunca são enviados — reinstalar sem um backup ainda os perde.",
+  ko: "채팅 데이터베이스는 사용자가 직접 설정한 패스프레이즈를 사용하며, 이를 Keychain에 보관하는 옵션이 있습니다. 두 데이터베이스는 디스크의 .bak 파일로 복사되어 앱이 확인하고 롤백할 수 있습니다. 이것은 로컬 보호일 뿐입니다. 신원 키, 크레딧, 배지는 기기에 남고 결코 업로드되지 않습니다. 백업 없이 재설치하면 여전히 잃게 됩니다.",
+  ar: "تأخذ قاعدة بيانات المحادثة عبارة مرور تحددها بنفسك، مع خيار حفظها في Keychain، وتنسخ القاعدتان إلى ملفات .bak على القرص يستطيع التطبيق فحصها والرجوع إليها. وهذه حماية محلية فقط: مفاتيح الهوية والأرصدة والشارات تبقى على الجهاز ولا يجري رفعها قط — وإعادة التثبيت دون نسخة احتياطية يفقدها مع ذلك.",
   ru: "База чата получает пароль, который задаёте вы, с опцией хранить его в Keychain, а обе базы копируются в .bak-файлы на диске, которые приложение может проверить и откатить. Это только локальная защита: ключи, кредиты и бейджи остаются на устройстве и никуда не загружаются — переустановка без резервной копии всё равно их потеряет.",
   de: "Die Chat-Datenbank bekommt ein selbst gesetztes Passwort, das optional im Schlüsselbund liegt, und beide Datenbanken werden als .bak-Dateien auf die Platte kopiert, die die App prüfen und zurückspielen kann. Das ist nur lokaler Schutz: Identitätsschlüssel, Guthaben und Abzeichen bleiben auf dem Gerät und werden nie hochgeladen – ohne Backup geht ein Neuaufsetzen trotzdem verloren.",
   fr: "La base de chat reçoit une phrase secrète que vous fixez vous-même, avec l’option de la garder dans le trousseau, et les deux bases sont copiées en fichiers .bak sur le disque, que l’app peut vérifier et restaurer. Ce n’est qu’une protection locale : clés d’identité, crédits et badges restent sur l’appareil et ne sont jamais téléversés — réinstaller sans sauvegarde les perd quand même.",
@@ -414,6 +466,9 @@ const RELEASE_ITEMS: { name: Localized<string>; body: Localized<string>; cite: s
 
 const RELEASE_NOTE: Localized<string> = {
   en: "Every path above is relative to the client repository root — the same root the fact ledger cites. git grep -n finds each line; no row here is a reworded changelog heading.",
+  "pt-BR": "Todo caminho acima é relativo à raiz do repositório do cliente — a mesma raiz que o registro de fatos cita. git grep -n encontra cada linha; nenhuma linha aqui é um título de registro de alterações reescrito.",
+  ko: "위의 모든 경로는 클라이언트 저장소 루트를 기준으로 합니다. 사실 대장이 인용하는 것과 같은 루트입니다. git grep -n으로 각 줄을 찾을 수 있으며, 여기의 어떤 행도 표현만 바꾼 체인지로그 제목이 아닙니다.",
+  ar: "كل مسار أعلاه نسبي إلى جذر مستودع العميل — الجذر نفسه الذي يستشهد به سجل الحقائق. ويجد git grep -n كل سطر؛ ولا صف هنا هو عنوان من سجل التغييرات أعيدت صياغته.",
   ru: "Все пути выше — относительно корня репозитория клиента, того же корня, который цитирует журнал фактов. git grep -n находит каждый ряд; здесь ничего не переписано из заголовков чейнджлога.",
   de: "Alle Pfade oben sind relativ zur Wurzel des Client-Repos — dieselbe Wurzel, die das Faktenledger zitiert. git grep -n findet jede Zeile; keine Zeile hier ist eine umformulierte Changelog-Überschrift.",
   fr: "Les chemins ci-dessus sont relatifs à la racine du dépôt client — la même racine que cite le journal des faits. git grep -n trouve chaque ligne ; aucune ici n'est un titre de journal des modifications réécrit.",
@@ -435,6 +490,9 @@ const RELEASE_NOTE: Localized<string> = {
 
 const LANG_TITLE: Localized<string> = {
   en: "The client's own 18 localizations",
+  "pt-BR": "As 18 localizações do próprio cliente",
+  ko: "클라이언트 자체의 18개 현지화",
+  ar: "لغات التوطين الـ18 للعميل",
   ru: "18 собственных локализаций клиента",
   de: "Die 18 eigenen Lokalisierungen des Clients",
   fr: "Les 18 localizations propres au client",
@@ -456,6 +514,9 @@ const LANG_TITLE: Localized<string> = {
 
 const LANG_NOTE: Localized<string> = {
   en: "The list below is the client's own CFBundleLocalizations: exactly 18 tags, in the same order, and every name is written in its own language.",
+  "pt-BR": "A lista abaixo é o CFBundleLocalizations do próprio cliente: exatamente 18 tags, na mesma ordem, e cada nome é escrito no próprio idioma.",
+  ko: "아래 목록은 클라이언트 자체의 CFBundleLocalizations입니다. 정확히 18개 태그가 같은 순서로 있으며, 각 이름은 해당 언어로 표기되어 있습니다.",
+  ar: "القائمة أدناه هي CFBundleLocalizations الخاصة بالعميل: 18 وسم بالضبط، بالترتيب نفسه، وكل اسم مكتوب بلغته.",
   ru: "Список ниже — это CFBundleLocalizations самого клиента: ровно 18 тегов в том же порядке, и каждое название написано на своём языке.",
   de: "Die Liste unten ist die CFBundleLocalizations des Clients selbst: genau 18 Tags in derselben Reihenfolge, und jeder Name steht in seiner eigenen Sprache.",
   fr: "La liste ci-dessous est la CFBundleLocalizations du client lui-même : exactement 18 étiquettes, dans le même ordre, et chaque nom est écrit dans sa propre langue.",
@@ -475,6 +536,55 @@ const LANG_NOTE: Localized<string> = {
   hu: "Az alábbi lista az ügyfél saját CFBundleLocalizations listája: pontosan 18 címke ugyanabban a sorrendben, és minden név a saját nyelvén szerepel.",
 };
 
+/** The three interface languages this portal adds on top of the client's 18. */
+const PORTAL_ADD_TITLE: Localized<string> = {
+  en: "Portal-only additions",
+  ru: "Дополнения только на портале",
+  de: "Nur im Portal verfügbar",
+  fr: "Ajouts propres au portail",
+  it: "Aggiunte solo del portale",
+  nl: "Alleen op het portaal",
+  cs: "Jen na portálu",
+  "zh-Hans": "门户新增",
+  "zh-Hant": "入口網站新增",
+  es: "Añadidos solo del portal",
+  pl: "Tylko w portalu",
+  ja: "ポータル独自の追加",
+  th: "เฉพาะพอร์ทัล",
+  fi: "Vain portaalissa",
+  uk: "Лише на порталі",
+  bg: "Само в портала",
+  tr: "Yalnızca portala özel",
+  hu: "Csak a portálon",
+  "pt-BR": "Exclusivos do portal",
+  ko: "포털 전용 추가",
+  ar: "إضافات خاصة بالبوابة فقط",
+};
+
+const PORTAL_ADD_NOTE: Localized<string> = {
+  en: "These three interface languages are served by this portal; the client's CFBundleLocalizations still lists 18.",
+  ru: "Эти три языка интерфейса обслуживает портал; в CFBundleLocalizations клиента по-прежнему 18.",
+  de: "Diese drei Oberflächensprachen bietet das Portal; die CFBundleLocalizations des Clients listet weiterhin 18.",
+  fr: "Ces trois langues d’interface sont fournies par le portail ; les CFBundleLocalizations du client en listent toujours 18.",
+  it: "Queste tre lingue dell’interfaccia sono offerte dal portale; le CFBundleLocalizations del client ne elencano ancora 18.",
+  nl: "Deze drie interfacetalen worden door het portaal geleverd; de CFBundleLocalizations van de client vermeldt nog steeds 18.",
+  cs: "Tyto tři jazyky rozhraní nabízí portál; CFBundleLocalizations klienta stále uvádí 18.",
+  "zh-Hans": "这三种界面语言由本站提供；客户端的 CFBundleLocalizations 仍是 18 种。",
+  "zh-Hant": "這三種介面語言由本站提供；客戶端的 CFBundleLocalizations 仍是 18 種。",
+  es: "Estos tres idiomas de interfaz los ofrece el portal; las CFBundleLocalizations del cliente siguen siendo 18.",
+  pl: "Te trzy języki interfejsu udostępnia portal; CFBundleLocalizations klienta nadal wymienia 18.",
+  ja: "この 3 つの表示言語はポータルが提供します。クライアントの CFBundleLocalizations は引き続き 18 です。",
+  th: "สามภาษาของอินเทอร์เฟซนี้ให้บริการโดยพอร์ทัล ส่วน CFBundleLocalizations ของไคลเอนต์ยังมี 18 รายการ",
+  fi: "Nämä kolme käyttöliittymäkieltä tarjoaa portaali; asiakkaan CFBundleLocalizations listaa edelleen 18.",
+  uk: "Ці три мови інтерфейсу надає портал; CFBundleLocalizations клієнта досі містить 18.",
+  bg: "Тези три езика на интерфейса се предоставят от портала; CFBundleLocalizations на клиента все още изброява 18.",
+  tr: "Bu üç arayüz dili portal tarafından sunulur; istemcinin CFBundleLocalizations değeri hâlâ 18 listeler.",
+  hu: "Ezt a három felületi nyelvet a portál kínálja; az ügyfél CFBundleLocalizations listája továbbra is 18.",
+  "pt-BR": "Estes três idiomas de interface são oferecidos pelo portal; o CFBundleLocalizations do cliente ainda lista 18.",
+  ko: "이 세 가지 인터페이스 언어는 포털에서 제공합니다. 클라이언트의 CFBundleLocalizations에는 여전히 18개가 등록되어 있습니다.",
+  ar: "تقدّم هذه البوابة لغات الواجهة الثلاث هذه؛ ولا يزال CFBundleLocalizations في العميل يسرد 18.",
+};
+
 function QrCard(): ReactElement {
   const aria = useCopy(QR_ARIA);
   const note = useCopy(QR_NOTE);
@@ -482,8 +592,8 @@ function QrCard(): ReactElement {
   return (
     <div className="glass-inset flex flex-col gap-4 p-5">
       <div className="flex items-center justify-between gap-3">
-        <p className="eyebrow">qrcode.react · QRCodeSVG</p>
-        <span className="chip font-mono text-[10.5px] text-faint">SVG</span>
+        <p dir="ltr" className="eyebrow">qrcode.react · QRCodeSVG</p>
+        <span dir="ltr" className="chip font-mono text-[10.5px] text-faint">SVG</span>
       </div>
       <div className="flex flex-col items-start gap-4 xs:flex-row xs:items-center xs:gap-5">
         <div className="shrink-0 rounded-xl border border-hair-strong bg-ink p-3">
@@ -499,8 +609,8 @@ function QrCard(): ReactElement {
           />
         </div>
         <div className="min-w-0">
-          <p className="break-all font-mono text-[13.5px] text-white">{SITE_URL}</p>
-          <p className="mt-2 text-[12.5px] leading-relaxed text-mute">{note}</p>
+          <p dir="ltr" className="break-all font-mono text-[13.5px] text-white">{SITE_URL}</p>
+          <p className="mt-2 text-[12.5px] leading-relaxed text-mute"><LtrText text={note} /></p>
           <div className="mt-3">
             <CopyButton value={SITE_URL} />
           </div>
@@ -522,13 +632,13 @@ function ReleaseItem({
   return (
     <div className="glass-inset min-w-0 p-5">
       <div className="flex items-baseline justify-between gap-3">
-        <h4 className="text-[13.5px] font-semibold text-white">{name}</h4>
-        <span className="shrink-0 font-mono text-[10.5px] text-faint">
+        <h4 className="text-[13.5px] font-semibold text-white"><LtrText text={name} /></h4>
+        <span dir="ltr" className="shrink-0 font-mono text-[10.5px] text-faint">
           {`0${index + 1} / 03`}
         </span>
       </div>
-      <p className="mt-3 text-[12.5px] leading-relaxed text-mute">{body}</p>
-      <p className="mt-3 break-all font-mono text-[10.5px] text-faint">{item.cite}</p>
+      <p className="mt-3 text-[12.5px] leading-relaxed text-mute"><LtrText text={body} /></p>
+      <p dir="ltr" className="mt-3 break-all font-mono text-[10.5px] text-faint">{item.cite}</p>
     </div>
   );
 }
@@ -543,6 +653,8 @@ export function DownloadSection(): ReactElement {
   const releaseNote = useCopy(RELEASE_NOTE);
   const langTitle = useCopy(LANG_TITLE);
   const langNote = useCopy(LANG_NOTE);
+  const portalAddTitle = useCopy(PORTAL_ADD_TITLE);
+  const portalAddNote = useCopy(PORTAL_ADD_NOTE);
 
   return (
     <section id="download" className="relative py-16 sm:py-20">
@@ -553,12 +665,12 @@ export function DownloadSection(): ReactElement {
         <div className="mt-9 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
           <article className="glass p-5 sm:p-6">
             <h3 className="text-[15px] font-semibold text-white">{availTitle}</h3>
-            <p className="mt-3 text-[13.5px] leading-relaxed text-mute">{availBody}</p>
-            <p className="mt-3 text-[13.5px] leading-relaxed text-mute">{availRuling}</p>
-            <p className="mt-3 text-[13.5px] leading-relaxed text-brand-soft/90">{availHow}</p>
+            <p className="mt-3 text-[13.5px] leading-relaxed text-mute"><LtrText text={availBody} /></p>
+            <p className="mt-3 text-[13.5px] leading-relaxed text-mute"><LtrText text={availRuling} /></p>
+            <p className="mt-3 text-[13.5px] leading-relaxed text-brand-soft/90"><LtrText text={availHow} /></p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {["resultCount: 0", "2026-11-22", "2026-11-16"].map((chip) => (
-                <li key={chip} className="chip font-mono text-[10.5px] text-faint">
+                <li key={chip} dir="ltr" className="chip font-mono text-[10.5px] text-faint">
                   {chip}
                 </li>
               ))}
@@ -573,35 +685,52 @@ export function DownloadSection(): ReactElement {
         <div className="mt-12">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h3 className="text-[15px] font-semibold text-white">{releaseTitle}</h3>
-            <span className="chip font-mono text-[10.5px] text-faint">v1.2.0</span>
+            <span dir="ltr" className="chip font-mono text-[10.5px] text-faint">v1.2.0</span>
           </div>
-          <p className="mt-3 max-w-4xl text-[12.5px] leading-relaxed text-mute">{releaseLead}</p>
+          <p className="mt-3 max-w-4xl text-[12.5px] leading-relaxed text-mute"><LtrText text={releaseLead} /></p>
           <div className="mt-5 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-3">
             {RELEASE_ITEMS.map((item, index) => (
               <ReleaseItem key={item.cite} item={item} index={index} />
             ))}
           </div>
-          <p className="mt-4 max-w-4xl text-[11.5px] leading-relaxed text-faint">{releaseNote}</p>
+          <p className="mt-4 max-w-4xl text-[11.5px] leading-relaxed text-faint"><LtrText text={releaseNote} /></p>
         </div>
 
-        {/* 4 · The 18-language wall: the client's own tags, names in their own script. */}
+        {/* 4 · The language wall: the client's 18 tags, then the 3 portal-only additions. */}
         <div className="glass mt-12 p-5 sm:p-6">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h3 className="text-[15px] font-semibold text-white">{langTitle}</h3>
-            <span className="chip font-mono text-[10.5px] text-faint">{LOCALE_COUNT}</span>
+            <span dir="ltr" className="chip font-mono text-[10.5px] text-faint">
+              {CLIENT_LOCALE_COUNT} + {LOCALE_COUNT - CLIENT_LOCALE_COUNT}
+            </span>
           </div>
-          <p className="mt-3 max-w-4xl text-[12.5px] leading-relaxed text-mute">{langNote}</p>
+          <p className="mt-3 max-w-4xl text-[12.5px] leading-relaxed text-mute"><LtrText text={langNote} /></p>
           <ul className="mt-5 grid grid-cols-2 gap-1.5 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6">
-            {LOCALES.map((code) => (
+            {LOCALES.slice(0, CLIENT_LOCALE_COUNT).map((code) => (
               <li
                 key={code}
                 className="flex items-center justify-between gap-2 rounded-lg border border-hair px-2.5 py-1.5"
               >
                 <span className="truncate text-[12.5px] text-mute">{LOCALE_NATIVE[code]}</span>
-                <span className="shrink-0 font-mono text-[10px] text-faint">{code}</span>
+                <span dir="ltr" className="shrink-0 font-mono text-[10px] text-faint">{code}</span>
               </li>
             ))}
           </ul>
+          <div className="hairline-top mt-4 pt-3">
+            <p className="eyebrow"><LtrText text={portalAddTitle} /></p>
+            <p className="mt-1 max-w-4xl text-[11.5px] leading-relaxed text-faint"><LtrText text={portalAddNote} /></p>
+            <ul className="mt-3 grid grid-cols-2 gap-1.5 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6">
+              {LOCALES.slice(CLIENT_LOCALE_COUNT).map((code) => (
+                <li
+                  key={code}
+                  className="flex items-center justify-between gap-2 rounded-lg border border-hair px-2.5 py-1.5"
+                >
+                  <span className="truncate text-[12.5px] text-mute">{LOCALE_NATIVE[code]}</span>
+                  <span dir="ltr" className="shrink-0 font-mono text-[10px] text-faint">{code}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

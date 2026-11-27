@@ -6,6 +6,7 @@ import { useCopy, type Localized } from "@/lib/i18n";
 import { ROUTE_LABELS } from "@/components/Navbar";
 import { CTA_OPEN } from "@/components/PortalCards";
 import { STATUS_AVAILABLE, STATUS_EVOLVING } from "@/components/AiThreeLayers";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading, StatusDot } from "@/components/ui";
 import { TONES } from "@/components/EcosystemHub";
 import { BOT_STUDIO_URL, MP_PORTAL_URL, NODE_PORTAL_URL } from "@/lib/site";
@@ -28,7 +29,7 @@ import { BOT_STUDIO_URL, MP_PORTAL_URL, NODE_PORTAL_URL } from "@/lib/site";
  *  - Entries are `PortalCards`-style: an internal route uses `<Link>`, a sibling
  *    site uses `<a target="_blank" rel="noopener noreferrer">`. External anchors
  *    are navigation and load nothing here (see the privacy note in README), which
- *    is what the card footers state in all 18 languages.
+ *    is what the card footers state in all 21 languages.
  *  - Icons are inline `<svg>` line drawings with no `<text>`, no `<image>` and no
  *    remote reference, so a rendered page still asks for zero static assets from
  *    anywhere but this host.
@@ -40,6 +41,9 @@ import { BOT_STUDIO_URL, MP_PORTAL_URL, NODE_PORTAL_URL } from "@/lib/site";
 
 const EYEBROW: Localized<string> = {
   en: "Six real-world scenarios",
+  "pt-BR": "Seis cenários do mundo real",
+  ko: "여섯 가지 실제 시나리오",
+  ar: "ستة سيناريوهات واقعية",
   ru: "Шесть реальных сценариев",
   de: "Sechs echte Anwendungsfälle",
   fr: "Six cas d’usage réels",
@@ -61,6 +65,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "What this looks like on an ordinary day",
+  "pt-BR": "Como isso se parece num dia comum",
+  ko: "평범한 하루에 이것이 어떻게 보이는지",
+  ar: "كيف يبدو هذا في يوم عادي",
   ru: "Как это выглядит в обычный день",
   de: "Wie das an einem normalen Tag aussieht",
   fr: "À quoi cela ressemble un jour ordinaire",
@@ -82,6 +89,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "Start with the five you can open today; read the one marked Evolving afterward. Internal pages open here, the three sibling sites in a new tab, and this page loads nothing from them.",
+  "pt-BR": "Comece pelos cinco que você pode abrir hoje; depois leia o que está marcado como Em evolução. As páginas internas abrem aqui, os três sites irmãos em uma nova aba, e esta página não carrega nada deles.",
+  ko: "오늘 바로 열어 볼 수 있는 다섯 개부터 시작하고, ‘발전 중’으로 표시된 하나는 그다음에 읽으면 됩니다. 내부 페이지는 여기서 열리고, 세 개의 자매 사이트는 새 탭에서 열리며, 이 페이지는 그곳에서 아무것도 불러오지 않습니다.",
+  ar: "ابدأ بالخمسة التي يمكنك فتحها اليوم؛ واقرأ بعدها السيناريو الموسوم «قيد التطور». الصفحات الداخلية تفتح هنا، والمواقع الشقيقة الثلاثة في تبويب جديد، ولا تحمّل هذه الصفحة شيئًا منها.",
   ru: "Начните с пяти карточек, которые можно открыть уже сегодня, а одну с пометкой «Развивается» прочитайте после. Внутренние страницы открываются здесь, три соседних сайта — в новой вкладке, и эта страница у них ничего не загружает.",
   de: "Beginnen Sie mit den fünf Karten, die Sie heute schon öffnen können, und lesen Sie die eine mit „In Entwicklung“ danach. Portalseiten öffnen hier, die drei Schwester-Sites in einem neuen Tab, und diese Seite lädt von ihnen nichts.",
   fr: "Commencez par les cinq cartes que vous pouvez ouvrir aujourd’hui, puis lisez celle marquée « En évolution ». Les pages internes s’ouvrent ici, les trois sites frères dans un nouvel onglet, et cette page ne charge rien chez eux.",
@@ -103,6 +113,9 @@ const LEAD: Localized<string> = {
 
 const SC1_TITLE: Localized<string> = {
   en: "Private chat",
+  "pt-BR": "Chat privado",
+  ko: "프라이빗 채팅",
+  ar: "محادثة خاصة",
   ru: "Приватная переписка",
   de: "Private Unterhaltung",
   fr: "Messagerie privée",
@@ -124,6 +137,9 @@ const SC1_TITLE: Localized<string> = {
 
 const SC1_BODY: Localized<string> = {
   en: "You want to reach someone, not hand over a phone number first: sign-up asks for neither a number nor an e-mail, there is no global identity, and each connection is its own pair of queues.",
+  "pt-BR": "Você quer alcançar alguém, não entregar um número de telefone antes: o cadastro não pede número nem e-mail, não existe identidade global, e cada conexão tem o seu próprio par de filas.",
+  ko: "누군가에게 닿고 싶을 뿐, 먼저 전화번호를 건넬 필요는 없는 경우: 가입은 번호도 이메일도 묻지 않고, 글로벌 신원은 없으며, 각 연결은 그 자체로 큐 한 쌍입니다.",
+  ar: "تريد الوصول إلى شخص، لا تسليم رقم هاتف أولًا: التسجيل لا يطلب رقمًا ولا بريدًا إلكترونيًا، ولا وجود لهوية عالمية، وكل اتصال زوج طوابير قائم بذاته.",
   ru: "Хочется связаться с человеком, не отдавая сначала номер телефона: регистрация не просит ни номера, ни почты, глобального идентификатора нет, а каждое соединение — своя пара очередей.",
   de: "Man will jemanden erreichen, statt zuerst die Telefonnummer zu lassen: Die Anmeldung fragt weder nach Nummer noch nach E-Mail, es gibt keine globale Identität, und jede Verbindung ist ihr eigenes Queue-Paar.",
   fr: "On veut joindre quelqu’un sans donner d’abord son numéro : l’inscription ne demande ni numéro ni e-mail, il n’y a pas d’identité globale, et chaque connexion forme son propre couple de files.",
@@ -145,6 +161,9 @@ const SC1_BODY: Localized<string> = {
 
 const SC2_TITLE: Localized<string> = {
   en: "Personal AI",
+  "pt-BR": "IA pessoal",
+  ko: "개인 AI",
+  ar: "ذكاء اصطناعي شخصي",
   ru: "Персональный ассистент",
   de: "Persönlicher Assistent",
   fr: "Assistant personnel",
@@ -166,6 +185,9 @@ const SC2_TITLE: Localized<string> = {
 
 const SC2_BODY: Localized<string> = {
   en: "The small errands of a day should settle on the phone itself. The privacy base is already there, the offline Bluetooth path with it; the on-device assistant is still absent from the client.",
+  "pt-BR": "As pequenas tarefas do dia deveriam se resolver no próprio telefone. A base de privacidade já está lá, e o caminho Bluetooth offline junto com ela; o assistente no dispositivo ainda está ausente do cliente.",
+  ko: "하루의 자잘한 일은 휴대폰 자체에서 끝나야 합니다. 프라이버시 토대는 이미 있고, 오프라인 Bluetooth 경로도 함께 있습니다. 온디바이스 어시스턴트는 아직 클라이언트에 없습니다.",
+  ar: "المهام الصغيرة في اليوم مكانها الهاتف نفسه. أساس الخصوصية موجود أصلًا، ومعه مسار Bluetooth دون اتصال؛ أما المساعد على الجهاز فما زال غائبًا عن العميل.",
   ru: "Мелкие дела дня должны решаться на самом телефоне. Основа приватности уже есть, вместе с Bluetooth без сети; самого ассистента на устройстве в клиенте пока нет.",
   de: "Die kleinen Besorgungen eines Tages sollten sich auf dem Telefon selbst erledigen. Die Privatsphäre-Basis ist da, samt Bluetooth-Weg ohne Netz; der Assistent auf dem Gerät fehlt im Client noch.",
   fr: "Les petites tâches du jour devraient se régler sur le téléphone lui-même. Le socle de confidentialité est là, avec le trajet Bluetooth hors réseau ; l’assistant sur l’appareil manque encore au client.",
@@ -187,6 +209,9 @@ const SC2_BODY: Localized<string> = {
 
 const SC3_TITLE: Localized<string> = {
   en: "Your own agents",
+  "pt-BR": "Seus próprios agentes",
+  ko: "나만의 에이전트",
+  ar: "وكلاؤك الخاصون",
   ru: "Собственные агенты",
   de: "Eigene Agenten",
   fr: "Vos propres agents",
@@ -208,6 +233,9 @@ const SC3_TITLE: Localized<string> = {
 
 const SC3_BODY: Localized<string> = {
   en: "You want an assistant that answers to you, not somebody else’s bot. Bot Studio creates, configures and isolates several roles on your own machine, and its console stays on loopback.",
+  "pt-BR": "Você quer um assistente que responda a você, não o bot de outra pessoa. O Bot Studio cria, configura e isola vários papéis na sua própria máquina, e o console dele fica em loopback.",
+  ko: "다른 사람의 봇이 아니라 나에게 응답할 어시스턴트를 원하는 경우. Bot Studio는 자체 기기에서 여러 역할을 만들고 구성하고 격리하며, 콘솔은 루프백에 머뭅니다.",
+  ar: "تريد مساعدًا يخضع لك، لا روبوت شخص آخر. ينشئ Bot Studio عدة أدوار ويهيّئها ويعزلها على جهازك أنت، وتبقى لوحة تحكّمه على الاسترجاع المحلي (loopback).",
   ru: "Хочется помощника, который слушается вас, а не чужого бота. Bot Studio создаёт, настраивает и разводит по изоляции несколько ролей на вашей машине, а консоль остаётся на локальной петле.",
   de: "Man möchte einen Assistenten, der auf einen selbst hört, nicht auf einen fremden Bot. Bot Studio legt mehrere Rollen auf dem eigenen Rechner an, konfiguriert und isoliert sie, und die Konsole bleibt auf Loopback.",
   fr: "On veut un assistant qui vous obéisse, pas le robot de quelqu’un d’autre. Bot Studio crée, configure et isole plusieurs rôles sur votre propre machine, et sa console reste sur la boucle locale.",
@@ -229,6 +257,9 @@ const SC3_BODY: Localized<string> = {
 
 const SC4_TITLE: Localized<string> = {
   en: "Local intelligence",
+  "pt-BR": "Inteligência local",
+  ko: "로컬 인텔리전스",
+  ar: "ذكاء محلي",
   ru: "Локальные вычисления",
   de: "Lokale Rechenleistung",
   fr: "Intelligence locale",
@@ -250,6 +281,9 @@ const SC4_TITLE: Localized<string> = {
 
 const SC4_BODY: Localized<string> = {
   en: "Some material has no business on somebody else’s GPU: a video, a private recording. Mac Node runs the model and the media pipeline on your own Mac and keeps its console on loopback.",
+  "pt-BR": "Alguns materiais não têm por que estar na GPU de outra pessoa: um vídeo, uma gravação privada. O Mac Node roda o modelo e o pipeline de mídia no seu próprio Mac e mantém o console em loopback.",
+  ko: "다른 사람의 GPU에 둘 이유가 없는 자료가 있습니다: 동영상, 사적인 녹음. Mac Node는 모델과 미디어 파이프라인을 자체 Mac에서 실행하고 콘솔은 루프백에 둡니다.",
+  ar: "بعض المواد ليس لها مكان على GPU يملكه غيرك: فيديو، أو تسجيل خاص. يشغّل Mac Node النموذج وخط الوسائط على جهاز Mac الخاص بك ويبقي لوحة تحكّمه على الاسترجاع المحلي (loopback).",
   ru: "Есть материалы, которым не место на чужом GPU: видео, приватная запись. Mac Node запускает модель и медиаконвейер на вашем же Mac, а консоль держит на локальной петле.",
   de: "Manches gehört nicht auf fremde Grafikkarten: ein Video, eine private Aufnahme. Mac Node führt Modell und Medienpipeline auf dem eigenen Mac aus und hält die Konsole auf Loopback.",
   fr: "Certaines matières n’ont rien à faire sur le GPU d’autrui : une vidéo, un enregistrement privé. Mac Node exécute le modèle et le pipeline média sur votre propre Mac et garde sa console sur la boucle locale.",
@@ -271,6 +305,9 @@ const SC4_BODY: Localized<string> = {
 
 const SC5_TITLE: Localized<string> = {
   en: "Connected services",
+  "pt-BR": "Serviços conectados",
+  ko: "연결된 서비스",
+  ar: "خدمات متصلة",
   ru: "Подключённые сервисы",
   de: "Angebundene Dienste",
   fr: "Services connectés",
@@ -292,6 +329,9 @@ const SC5_TITLE: Localized<string> = {
 
 const SC5_BODY: Localized<string> = {
   en: "One more task should not mean one more app: the service comes into the chat. The suite gives a two-level menu, dynamic cards, the zero-knowledge channel envelope and H5 pages opened outside the app.",
+  "pt-BR": "Uma tarefa a mais não deveria significar um app a mais: o serviço entra no chat. A suíte oferece um menu de dois níveis, cartões dinâmicos, o envelope de canal de conhecimento zero e páginas H5 abertas fora do app.",
+  ko: "작업이 하나 늘 때마다 앱이 하나 늘어나서는 안 됩니다. 서비스가 채팅 안으로 들어옵니다. 스위트는 두 단계 메뉴, 동적 카드, 영지식 채널 봉투, 앱 밖에서 열리는 H5 페이지를 제공합니다.",
+  ar: "مهمة إضافية لا ينبغي أن تعني تطبيقًا إضافيًا: الخدمة تدخل إلى المحادثة. وتمنح المجموعة قائمة من مستويين، وبطاقات ديناميكية، ومغلّف القناة عديمة المعرفة، وصفحات H5 تفتح خارج التطبيق.",
   ru: "Одна новая задача не должна означать ещё одно приложение: сервис приходит в переписку. Набор даёт двухуровневое меню, динамические карточки, конверт канала с нулевым знанием и H5 вне приложения.",
   de: "Eine weitere Aufgabe sollte nicht eine weitere App bedeuten: Der Dienst kommt in die Unterhaltung. Die Suite gibt das Menü mit zwei Ebenen, dynamische Karten, den Zero-Knowledge-Kanalumschlag und H5-Seiten außerhalb der App.",
   fr: "Une tâche de plus ne devrait pas valoir une application de plus : le service vient dans la conversation. La suite donne le menu à deux niveaux, les cartes dynamiques, l’enveloppe de canal à connaissance nulle et les pages H5 ouvertes hors de l’application.",
@@ -313,6 +353,9 @@ const SC5_BODY: Localized<string> = {
 
 const SC6_TITLE: Localized<string> = {
   en: "Cross-device collaboration",
+  "pt-BR": "Colaboração entre dispositivos",
+  ko: "기기 간 협업",
+  ar: "تعاون بين الأجهزة",
   ru: "Работа между устройствами",
   de: "Geräteübergreifende Zusammenarbeit",
   fr: "Collaboration entre appareils",
@@ -334,6 +377,9 @@ const SC6_TITLE: Localized<string> = {
 
 const SC6_BODY: Localized<string> = {
   en: "Live once the owner turns it on: an iOS or Android phone paired to a bound Mac Node with a signed one-time credential gets the assistant loop — a briefing at the hour you set (08:00 by default), read-only mail triage whose sending waits for your confirmation, a home-device sentinel whose repairs wait for your approval, a signed LAN-only Discover feed that quietly refreshes the phone, and signed update cards. The phone↔Mac Node line is wired; a shared scheduler across products is not.",
+  "pt-BR": "No ar assim que o dono ativa: um telefone iOS ou Android emparelhado a um Mac Node vinculado, com uma credencial de uso único assinada, recebe o ciclo do assistente — um briefing na hora que você definir (08:00 por padrão), triagem de e-mails somente leitura cujo envio aguarda sua confirmação, um sentinela de dispositivos domésticos cujos reparos aguardam sua aprovação, um feed Descobrir assinado e restrito à LAN que atualiza o telefone em silêncio, e cartões de atualização assinados. A linha telefone↔Mac Node está ligada; um agendador compartilhado entre produtos, não.",
+  ko: "소유자가 켜면 작동합니다: 서명된 일회성 자격 증명으로 바인딩된 Mac Node에 페어링한 iOS 또는 Android 휴대폰이 어시스턴트 루프를 얻습니다 — 설정한 시각의 브리핑(기본값 08:00), 발송이 확인을 기다리는 읽기 전용 메일 분류, 수리가 승인을 기다리는 홈 기기 센티널, 휴대폰을 조용히 갱신하는 서명된 LAN 전용 Discover 피드, 그리고 서명된 업데이트 카드입니다. 휴대폰↔Mac Node 회선은 연결되어 있지만, 제품 전반을 아우르는 공유 스케줄러는 없습니다.",
+  ar: "يعمل بمجرد أن يشغّله المالك: هاتف iOS أو Android مقترن بعقدة Mac Node مرتبطة، وببيانات اعتماد موقّعة لاستخدام واحد، يحصل على حلقة المساعد — إحاطة في الساعة التي تحددها (08:00 افتراضيًا)، وفرز بريد للقراءة فقط ينتظر إرساله تأكيدك، وحارس لأجهزة المنزل تنتظر إصلاحاته موافقتك، وتغذية اكتشاف موقّعة على الشبكة المحلية (LAN) فقط تحدّث الهاتف بهدوء، وبطاقات تحديث موقّعة. وخط الهاتف↔Mac Node موصول؛ أما مجدول مشترك بين المنتجات فليس كذلك.",
   ru: "Работает, как только владелец это включит: телефон на iOS или Android, сопряжённый с привязанным Mac Node по подписанному одноразовому удостоверению, получает цикл помощника — сводку в заданный час (по умолчанию 08:00), сортировку почты только для чтения с отправкой после вашего подтверждения, сторож домашних устройств, чьи исправления ждут вашего одобрения, подписанную ленту Discover только в локальной сети, тихо обновляющую телефон, и подписанные карточки обновлений. Линия телефон↔Mac Node проложена; общего планировщика между продуктами нет.",
   de: "Live, sobald der Besitzer es einschaltet: Ein iOS- oder Android-Handy, das per signierter Einmal-Berechtigung an einen gebundenen Mac Node gekoppelt ist, erhält die Assistentenschleife — ein Briefing zur eingestellten Stunde (standardmäßig 08:00), schreibgeschützte Mail-Sichtung, deren Versand auf Ihre Bestätigung wartet, ein Hausgeräte-Wächter, dessen Reparaturen auf Ihre Freigabe warten, ein signierter LAN-only-Discover-Feed, der das Handy still aktualisiert, und signierte Update-Karten. Die Handy↔Mac-Node-Linie ist verdrahtet; einen gemeinsamen Scheduler über Produkte hinweg gibt es nicht.",
   fr: "Actif dès que le propriétaire l’active : un téléphone iOS ou Android appairé à un Mac Node lié par un justificatif signé à usage unique reçoit la boucle d’assistant — un briefing à l’heure choisie (08:00 par défaut), un tri des mails en lecture seule dont l’envoi attend votre confirmation, une sentinelle des appareils domestiques dont les correctifs attendent votre approbation, un flux Discover signé limité au réseau local qui rafraîchit discrètement le téléphone, et des cartes de mise à jour signées. La ligne téléphone↔Mac Node est câblée ; un ordonnanceur commun entre produits ne l’est pas.",
@@ -355,6 +401,9 @@ const SC6_BODY: Localized<string> = {
 
 const FOOT: Localized<string> = {
   en: "Five of the six can be opened and tried right now; the one marked Evolving is missing code, not a plan. Every icon here is a vector line drawn inside the page — no image files, no external fonts, no trackers, and the sibling sites load only when you click them.",
+  "pt-BR": "Cinco dos seis podem ser abertos e testados agora mesmo; o que está marcado como Em evolução carece de código, não de um plano. Todo ícone aqui é uma linha vetorial desenhada dentro da página — sem arquivos de imagem, sem fontes externas, sem rastreadores, e os sites irmãos só carregam quando você clica neles.",
+  ko: "여섯 개 중 다섯 개는 지금 바로 열어 보고 시험해 볼 수 있습니다. ‘발전 중’으로 표시된 하나에 빠진 것은 계획이 아니라 코드입니다. 이곳의 모든 아이콘은 페이지 안에서 그린 벡터 선입니다 — 이미지 파일도, 외부 폰트도, 트래커도 없으며, 자매 사이트는 클릭할 때만 로드됩니다.",
+  ar: "خمسة من الستة يمكن فتحها وتجربتها الآن؛ والسيناريو الموسوم «قيد التطور» تنقصه الشيفرة، لا الخطة. وكل أيقونة هنا خط متجهي مرسوم داخل الصفحة — بلا ملفات صور، وبلا خطوط خارجية، وبلا متتبعات، والمواقع الشقيقة لا تفتح إلا عندما تنقر عليها.",
   ru: "Пять из шести можно открыть и попробовать прямо сейчас; одной с пометкой «Развивается» не хватает кода, а не плана. Каждая иконка здесь — векторные линии внутри страницы: нет файлов изображений, внешних шрифтов и трекеров, а соседние сайты грузятся только по клику.",
   de: "Fünf der sechs lassen sich jetzt öffnen und ausprobieren; der einen mit „In Entwicklung“ fehlt Code, nicht Plan. Jedes Symbol hier ist eine Vektorlinie innerhalb der Seite — keine Bilddateien, keine externen Schriften, keine Tracker, und die Schwester-Sites laden erst auf Klick.",
   fr: "Cinq sur six s’ouvrent et s’essaient dès maintenant ; à celle marquée « En évolution », il manque du code, pas un plan. Chaque icône ici est un tracé vectoriel de la page — aucun fichier image, aucune police externe, aucun traqueur, et les sites frères ne se chargent qu’au clic.",
@@ -508,7 +557,9 @@ export function UserScenariosGrid(): ReactElement {
             <ScenarioCard key={`sc${index + 1}`} scenario={scenario} index={index} />
           ))}
         </ul>
-        <p className="mt-5 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">{note}</p>
+        <p className="mt-5 min-w-0 break-words text-[12.5px] leading-relaxed text-faint">
+          <LtrText text={note} />
+        </p>
       </div>
     </section>
   );
@@ -585,23 +636,27 @@ function CardBody({
         <span className={`min-w-0 break-words font-mono text-[10.5px] text-faint`}>{`0${index + 1}`}</span>
         <span className="flex shrink-0 items-center gap-2">
           <StatusDot tone={available ? "mesh" : "warn"} pulse={false} />
-          <span className={`chip ${toneText}`}>{status}</span>
+          <span className={`chip ${toneText}`}>
+            <LtrText text={status} />
+          </span>
         </span>
       </div>
       <div className="mt-4 flex items-start gap-3">
         <Icon className={`h-[22px] w-[22px] shrink-0 ${toneText}`} />
         <h3 className="min-w-0 break-words text-[15.5px] font-semibold leading-snug tracking-tight text-white">
-          {title}
+          <LtrText text={title} />
         </h3>
       </div>
       <p className="mt-3 min-w-0 break-words hyphens-auto text-[13px] leading-relaxed text-mute">
-        {body}
+        <LtrText text={body} />
       </p>
       <div className="hairline-top mt-auto flex min-w-0 items-center justify-between gap-3 pt-4">
-        <span className="min-w-0 break-words font-mono text-[12px] text-faint">{scenario.target}</span>
+        <span dir="ltr" className="min-w-0 break-words text-start font-mono text-[12px] text-faint">
+          {scenario.target}
+        </span>
         <span className="flex shrink-0 items-center gap-1.5 text-[12px] text-faint">
-          {action}
-          <span aria-hidden className="text-[13px]">
+          <LtrText text={action} />
+          <span aria-hidden className="text-[13px] rtl:-scale-x-100">
             {scenario.external ? "↗" : "→"}
           </span>
         </span>

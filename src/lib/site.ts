@@ -128,7 +128,7 @@ export const CRYPTO_REGISTRY_URL = `${MQ_REPO_URL}/blob/master/protocol/crypto-r
  * `href` carries the trailing slash because `next.config.mjs` sets
  * `trailingSlash: true`: a link without it costs a redirect, and in static
  * export the document is `out/<route>/index.html`. Labels are NOT here — they
- * are 18-slot copy objects and live in `Navbar.tsx`, where `check-i18n` can
+ * are 21-slot copy objects and live in `Navbar.tsx`, where `check-i18n` can
  * hold them to the exhaustive-`Localized` rule.
  */
 export const ROUTES = [

@@ -6,6 +6,7 @@ import { useCopy, type Localized } from "@/lib/i18n";
 import { ROUTE_LABELS } from "@/components/Navbar";
 import { BLURB_MAIN, BLURB_MP, BLURB_NODE, BLURB_STUDIO, ECO_NOTE } from "@/components/Footer";
 import { TONES, type Tone } from "@/components/EcosystemHub";
+import { LtrText } from "@/components/Ltr";
 import { SectionHeading } from "@/components/ui";
 import {
   BOT_STUDIO_HOST,
@@ -22,7 +23,7 @@ import {
  * The names, hosts and targets are the ones `src/lib/site.ts` already publishes —
  * the same four official origins `/ecosystem/` documents and the footer lists. The
  * one-liners are imported from `Footer` rather than re-authored, so a card and the
- * footer line under it cannot drift in 18 languages.
+ * footer line under it cannot drift in 21 languages.
  *
  * The client card is the only internal link. It points at `/download/`, which is
  * the portal's own answer to "where do I get it": the App Store record still does
@@ -34,6 +35,9 @@ import {
 
 const EYEBROW: Localized<string> = {
   en: "Four core products",
+  "pt-BR": "Quatro produtos centrais",
+  ko: "네 가지 핵심 제품",
+  ar: "أربعة منتجات أساسية",
   ru: "Четыре основных продукта",
   de: "Vier Kernprodukte",
   fr: "Quatre produits clés",
@@ -55,6 +59,9 @@ const EYEBROW: Localized<string> = {
 
 const TITLE: Localized<string> = {
   en: "Four entries, the whole ecosystem at a glance",
+  "pt-BR": "Quatro entradas, o ecossistema inteiro num relance",
+  ko: "네 개의 항목, 생태계 전체를 한눈에",
+  ar: "أربعة مداخل، والمنظومة كلها في لمحة",
   ru: "Четыре входа — вся экосистема с первого взгляда",
   de: "Vier Einstiege, das Ökosystem auf einen Blick",
   fr: "Quatre entrées, l’écosystème d’un coup d’œil",
@@ -76,6 +83,9 @@ const TITLE: Localized<string> = {
 
 const LEAD: Localized<string> = {
   en: "One client and three independently deployed official sites — Bot Studio, the service-account suite and Mac Node. Any card opens its own site; this portal loads nothing from them.",
+  "pt-BR": "Um cliente e três sites oficiais implantados de forma independente — Bot Studio, a suíte de contas de serviço e o Mac Node. Qualquer cartão abre o próprio site; este portal não carrega nada deles.",
+  ko: "하나의 클라이언트와 독립적으로 배포되는 세 개의 공식 사이트 — Bot Studio, 서비스 계정 스위트, Mac Node. 어떤 카드든 자기 사이트를 열며, 이 포털은 그곳에서 아무것도 불러오지 않습니다.",
+  ar: "عميل واحد وثلاثة مواقع رسمية منشورة باستقلال — Bot Studio وحزمة حسابات الخدمة وMac Node. أي بطاقة تفتح موقعها؛ وهذه البوابة لا تحمّل شيئًا منها.",
   ru: "Один клиент и три независимо размещённых официальных сайта — Bot Studio, набор сервисов и Mac Node. Каждая карточка ведёт на свой сайт, и этот портал у них ничего не загружает.",
   de: "Ein Client und drei unabhängig betriebene offizielle Sites — Bot Studio, die Service-Suite und Mac Node. Jede Karte öffnet ihre eigene Site; dieses Portal lädt nichts von ihnen.",
   fr: "Un client et trois sites officiels hébergés séparément — Bot Studio, la suite de services et Mac Node. Chaque carte ouvre son propre site ; ce portail ne charge rien chez eux.",
@@ -98,6 +108,9 @@ const LEAD: Localized<string> = {
 /** The label on a card that leaves the portal. */
 export const CTA_OPEN: Localized<string> = {
   en: "Open site",
+  "pt-BR": "Abrir site",
+  ko: "사이트 열기",
+  ar: "افتح الموقع",
   ru: "Открыть сайт",
   de: "Site öffnen",
   fr: "Ouvrir le site",
@@ -178,7 +191,9 @@ export function PortalCards(): ReactElement {
             <EntryCard key={entry.name} entry={entry} index={index} />
           ))}
         </ul>
-        <p className="mt-5 text-[12.5px] leading-relaxed text-faint">{note}</p>
+        <p className="mt-5 text-[12.5px] leading-relaxed text-faint">
+          <LtrText text={note} />
+        </p>
       </div>
     </section>
   );
@@ -226,15 +241,21 @@ function CardBody({
   return (
     <>
       <div className="flex items-start justify-between gap-3">
-        <h3 className="min-w-0 text-[16px] font-semibold tracking-tight text-white">{entry.name}</h3>
+        <h3 dir="ltr" className="min-w-0 text-start text-[16px] font-semibold tracking-tight text-white">
+          {entry.name}
+        </h3>
         <span className="chip shrink-0 font-mono text-[10.5px] text-faint">{`0${index + 1}`}</span>
       </div>
-      <p className="mt-3 min-w-0 break-words text-[13.5px] leading-relaxed text-mute">{blurb}</p>
+      <p className="mt-3 min-w-0 break-words text-[13.5px] leading-relaxed text-mute">
+        <LtrText text={blurb} />
+      </p>
       <div className="hairline-top mt-auto flex min-w-0 items-center justify-between gap-3 pt-4">
-        <span className={`min-w-0 truncate font-mono text-[12.5px] ${toneText}`}>{entry.target}</span>
+        <span dir="ltr" className={`min-w-0 truncate text-start font-mono text-[12.5px] ${toneText}`}>
+          {entry.target}
+        </span>
         <span className="flex shrink-0 items-center gap-1.5 text-[12px] text-faint">
-          {action}
-          <span aria-hidden className="text-[13px]">
+          <LtrText text={action} />
+          <span aria-hidden className="text-[13px] rtl:-scale-x-100">
             {entry.external ? "↗" : "→"}
           </span>
         </span>
