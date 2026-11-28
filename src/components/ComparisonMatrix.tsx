@@ -265,7 +265,7 @@ const VERDICTS: Record<Verdict, { readonly mark: string; readonly tone: "mesh" |
 const DIMENSIONS: readonly Dimension[] = [
   {
     id: "identity", mark: "01",
-    cites: ["apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83", "apps/ios/Shared/Model/ChatModel.swift:426", "apps/ios/Shared/Features/AddFriend/PopopxAddFriendView.swift:698"],
+    cites: ["apps/ios/Shared/Views/Onboarding/OnboardingView.swift:83", "apps/ios/Shared/Model/ChatModel.swift:426", "apps/ios/Shared/Features/AddFriend/PopopxAddFriendView.swift:720"],
     label: {
       en: "Does the identity system require a phone number, an email or a global ID?",
       "pt-BR": "O sistema de identidade exige número de telefone, e-mail ou ID global?",
