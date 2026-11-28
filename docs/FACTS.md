@@ -7,6 +7,8 @@
 
 2026-11-27 又钉了一次：上一轮（`691176e`）的 8 个插件／118 条路由在当时是对的，但套件随后落地的 `d68f2d5` 新增了第九个插件 `slack_discord`（7 条路由）与 4 条网关自身路由——README 现在的原话是 "nine business plugins" 与 **129 条路由**（59 + 70）。本轮把那 36 个 18 语槽位一并改成九／129，并把 §16 的配方重跑成 59 + 70。同一轮把首页五个组件与生态页套件卡共六个组件里 17 张 `Localized` map 的 306 个槽位按新代码改写：Bot Studio 的进程内多智能体编排与「已配对手机 ↔ 已绑定 Mac Node」的助手环从「演进中」翻成「已可用 / Live」，而 PAP、手机端内嵌模型权重、跨产品共享调度器、网络权限网关继续留在「演进中」。§19 是新落地的两块的逐条出处。
 
+2026-11-28 补钉：客户端推进到 `3d91fd9da`（App Store preflight 修复），本轮只重钉客户端工程文件在台账里的 7 条出处与 `sed` 配方——`apps/ios/POPOPX.xcodeproj/project.pbxproj` 构建设置区整体下移 10 行，`apps/ios/POPOPX (iOS).entitlements` 删掉两条 `?mode=developer` 副本（行号 9-13 → 9-11），NSE/SE 的 bundle id 不再含上游旧名；其余三个上游仓库未复测。
+
 主站上任何一句技术描述都必须能在本表中找到出处；本表没有的说法，页面不能写。
 
 Every technical claim rendered by the portal must be backed by a row here. If a sentence on the
@@ -19,7 +21,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 | `CFBundleLocalizations` 恰好 18 项，顺序 `en, ru, de, fr, it, nl, cs, zh-Hans, zh-Hant, es, pl, ja, th, fi, uk, bg, tr, hu` | `apps/ios/POPOPX--iOS--Info.plist:63-83` |
 | 打包产物里 18 个 `.lproj`（App、NSE、SE 各 18） | `apps/ios/*.lproj/`、`apps/ios/POPOPX NSE/`、`apps/ios/POPOPX SE/` |
 | `apps/ios/POPOPX Localizations` 里的 28 个 `.xcloc` 是导出给译者的工作目录，**不是** 28 种语言；页面严禁写 "28 语" | `apps/ios/POPOPX Localizations/` |
-| Xcode `developmentRegion = en`（源码 plist 无 `CFBundleDevelopmentRegion`，实测该行不存在）；主站默认语言 `zh-Hans` 是门户自己的选择 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:1921`、`apps/ios/POPOPX--iOS--Info.plist` |
+| Xcode `developmentRegion = en`（源码 plist 无 `CFBundleDevelopmentRegion`，实测该行不存在）；主站默认语言 `zh-Hans` 是门户自己的选择 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:1928`、`apps/ios/POPOPX--iOS--Info.plist` |
 | URL scheme 为 `popopx` | `apps/ios/POPOPX--iOS--Info.plist`（`CFBundleURLSchemes`） |
 
 ## 2. 五栏导航（真实名称）
@@ -82,7 +84,7 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 
 | 事实 | 出处 |
 | --- | --- |
-| `PopopxMeshKit` 是 SPM 包，两个 module：`PopopxMeshKit`、`PopopxMeshUI`，已链接进 App target | `apps/ios/PopopxMeshKit/Package.swift:10-13,16-19`、`apps/ios/POPOPX.xcodeproj/project.pbxproj:926-927,3217` |
+| `PopopxMeshKit` 是 SPM 包，两个 module：`PopopxMeshKit`、`PopopxMeshUI`，已链接进 App target | `apps/ios/PopopxMeshKit/Package.swift:10-13,16-19`、`apps/ios/POPOPX.xcodeproj/project.pbxproj:931-932,3227` |
 | 传输是**双角色 CoreBluetooth GATT 点对点**（`CBCentralManager` + `CBPeripheralManager`，单一 service UUID），不是 Bluetooth Mesh 规范 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:24,29,45-49`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Core/PopopxMeshConfig.swift:93-96` |
 | 泛洪转发用 Golomb-coded set 去重并分片 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxGCSFilter.swift:5-7` |
 | 通道加密为 NOISE over BLE | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Crypto/PopopxNoiseXX.swift` |
@@ -125,8 +127,8 @@ site cannot be traced to a `file:line` below, it is a defect, not marketing.
 
 | 事实 | 出处 |
 | --- | --- |
-| 部署目标 iOS 17.0：构建设置取 `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`，产物 `MinimumOSVersion = 17.0` 只在重新构建后才是可核对的事实（旧的 `apps/ios/build/artifacts/…` 已被清理，不再是出处） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2776`、`apps/ios/Shared/Navigation/MainTabView.swift:44-46` |
-| `SWIFT_VERSION = 5.0`（12 处）；`PopopxMeshKit` 包用 `swift-tools-version: 6.0` 且包内最低 `.iOS(.v15)`（仅包侧，不要写成 App 支持 iOS 15） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2789`、`apps/ios/PopopxMeshKit/Package.swift:1,12-13` |
+| 部署目标 iOS 17.0：构建设置取 `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`，产物 `MinimumOSVersion = 17.0` 只在重新构建后才是可核对的事实（旧的 `apps/ios/build/artifacts/…` 已被清理，不再是出处） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2786`、`apps/ios/Shared/Navigation/MainTabView.swift:44-46` |
+| `SWIFT_VERSION = 5.0`（12 处）；`PopopxMeshKit` 包用 `swift-tools-version: 6.0` 且包内最低 `.iOS(.v15)`（仅包侧，不要写成 App 支持 iOS 15） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2799`、`apps/ios/PopopxMeshKit/Package.swift:1,12-13` |
 | Xcode 版本没有被钉死，CI 只打印 `xcodebuild -version` | `.github/workflows/ios-sim.yml:101,116` |
 | 真实构建命令（CI 用，先跑 `scripts/ci/ios-stub-libs.sh` 与 `scripts/ci/ios-stub-mlpackage.sh`） | `.github/workflows/build.yml:1011-1012,1016-1026` |
 | 共享 scheme：`POPOPX (iOS)`、`POPOPX NSE`、`POPOPX SE` | `apps/ios/POPOPX.xcodeproj/xcshareddata/xcschemes/` |
@@ -189,7 +191,7 @@ git grep -i -c "SimpleX"   -- 'apps/ios'           | awk -F: '{s+=$NF} END {prin
 
 | 事实 | 出处 |
 | --- | --- |
-| 10 处 `MARKETING_VERSION` 实测是 **6 处 `1.2.0` / 4 处 `7.1.2`**：App、NSE、SE 三个 target 都已改号（各 Debug+Release 两条），仍留 `7.1.2` 的是 iOS Tests 与 `POPOPXChat` framework target。主站严禁写「整个工程统一到 1.2.0」，也严禁写「只有 App target 改号」（这句是 2026-11-23 的旧状态，客户端 `056aff908`（2026-11-25）之后不再成立） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2782,2832,2851,2869,2904,2940,2989,3044,3085,3118` |
+| 10 处 `MARKETING_VERSION` 实测是 **6 处 `1.2.0` / 4 处 `7.1.2`**：App、NSE、SE 三个 target 都已改号（各 Debug+Release 两条），仍留 `7.1.2` 的是 iOS Tests 与 `POPOPXChat` framework target。主站严禁写「整个工程统一到 1.2.0」，也严禁写「只有 App target 改号」（这句是 2026-11-23 的旧状态，客户端 `056aff908`（2026-11-25）之后不再成立） | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2792,2842,2861,2879,2914,2950,2999,3054,3095,3128` |
 
 复测配方（两条都要跑，光看行号看不出配属）：
 
@@ -198,7 +200,7 @@ grep -o 'MARKETING_VERSION = [0-9.]*' apps/ios/POPOPX.xcodeproj/project.pbxproj 
 grep -n -A14 'MARKETING_VERSION' apps/ios/POPOPX.xcodeproj/project.pbxproj | grep -E 'MARKETING_VERSION|PRODUCT_BUNDLE_IDENTIFIER'
 ```
 
-⚠️ NSE 与 SE 的 `PRODUCT_BUNDLE_IDENTIFIER` 字面量里含上游旧名（形如 `com.popopxchat.popopx` + 旧名 + `-NSE`）。
+⚠️ NSE 与 SE 的 `PRODUCT_BUNDLE_IDENTIFIER` 曾含上游旧名（形如 `com.popopxchat.popopx` + 旧名 + `-NSE`）；客户端 `3d91fd9da`（2026-11-28）起改为 `com.popopxchat.popopx.notification-service` 与 `com.popopxchat.popopx.share`。
 台账写得出，产物写不得——下载页与产品页一律不得渲染 bundle id。
 | 分支自己的版本化裁定（2026-11-24）：脱离上游 7.1.x 编号，SMP/XFTP 握手版本与数据库 Schema 明确不变，iOS 侧由 Xcode Build Settings 手动改 | `CHANGELOG.md:144,147-148` |
 | Android / Desktop 侧的 1.2.0 确实写进了 gradle 属性（若要提「其他端也已改号」，只有这一行撑得住） | `apps/multiplatform/gradle.properties:28,31` |
@@ -386,7 +388,7 @@ EOF
 | **摘要卡片回传什么是字段级的**：`WorkspaceDigest` 带 `headings`/`bullets`，渲染成「章节：」与项目符号，响应里是 bytes、headings、bullets 加 `"uploadedToCloud": false` 与 `"egress": "仅回环 / loopback only (127.0.0.1)"`（日程域那套响应同样带 `redaction`/`egress`）；目录是主人手工列的，四条路径检查在前，注释原话「only the digest goes into the response」 | `../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/WorkspaceSandbox.swift:5-7,114-115,241-249,421-422,640-644`、`../PopopxMacNode/Sources/PopopxMacNode/PrivacyBridges/PrivacyToolEngine.swift:89-92,841-853` |
 | **信封逐字节一致的证据等级要照抄它自己的说法**：iOS 信封是 4 个标量字段、JSON 走 `.sortedKeys`；Kotlin 自述「an envelope has four scalar fields」「copied field for field … 28 values, verified」，向量测试 `assertEquals(28, rows.size)`。测试向量头部自述证据等级：由 iOS 那套代码用 Apple Swift 6.4.2 **为 macOS 编译**后打出来、2026-11-26 铸造，且「Nothing here proves BLE behaviour on hardware」——所以只能说「从 iOS 代码打出来的向量证明」，不能说「真机验证过」 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Events/PopopxMeshEvents.swift:46,54-58`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Engine/PopopxMeshEngine.swift:1203-1204`、`apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/mesh/PopopxMeshEnvelope.kt:164`、`apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/mesh/PopopxMeshConfig.kt:4-5`、`apps/multiplatform/common/src/desktopTest/kotlin/chat/popopx/app/mesh/PopopxMeshConfigVectorTest.kt:25`、`apps/multiplatform/common/src/desktopTest/kotlin/chat/popopx/app/mesh/PopopxMeshSwiftVectors.kt:5-7,16-19` |
 | **网格参数与寻址（支柱一那两句的落点）**：TTL 默认 7、稠密广播上限 5、去重命中就整包丢弃、否则 `ttl - 1` 再转；双角色 GATT 注释「so a neighbour can dial us while we dial it」；那 8 字节 id 是 `SHA256(pubkey)` 的前 8 字节、注释写明「not chosen by the peer」，且 `peerID alone is not enough to build a session`——所以面板写「绝不靠那 8 字节线上 id 单独定位」 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Core/PopopxMeshConfig.swift:22,28`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Engine/PopopxMeshEngine.swift:536,941,950`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/BLE/PopopxBLETransport.swift:28,48`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Protocol/PopopxMeshProtocol.swift:49,51,61`、`apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Events/PopopxMeshEvents.swift:32-33` |
-| **跨端少的两端各是哪一端**：桌面 Compose 客户端存在且 `TargetFormat.Dmg` 出 macOS 包，但它的蓝牙 actual 是 `PopopxNoBLETransport`，状态直接 `UNSUPPORTED`；iOS 侧主 App 的 `TARGETED_DEVICE_FAMILY = 1`（同一文件里另有 6 处 `"1,2"` 属于其他 target，所以口径只能落在主 App）且 `SUPPORTS_MACCATALYST = NO` | `apps/multiplatform/desktop/build.gradle.kts:64,80`、`apps/multiplatform/common/src/desktopMain/kotlin/chat/popopx/common/mesh/PopopxBLETransport.desktop.kt:4,18,42`、`apps/ios/POPOPX.xcodeproj/project.pbxproj:2790,2839,2996` |
+| **跨端少的两端各是哪一端**：桌面 Compose 客户端存在且 `TargetFormat.Dmg` 出 macOS 包，但它的蓝牙 actual 是 `PopopxNoBLETransport`，状态直接 `UNSUPPORTED`；iOS 侧主 App 的 `TARGETED_DEVICE_FAMILY = 1`（同一文件里另有 6 处 `"1,2"` 属于其他 target，所以口径只能落在主 App）且 `SUPPORTS_MACCATALYST = NO` | `apps/multiplatform/desktop/build.gradle.kts:64,80`、`apps/multiplatform/common/src/desktopMain/kotlin/chat/popopx/common/mesh/PopopxBLETransport.desktop.kt:4,18,42`、`apps/ios/POPOPX.xcodeproj/project.pbxproj:2800,2849,3006` |
 | **SMP Agent 协议是库，不是守护进程**：规范头一行 `Version 7, 2025-01-24`，命令类型 `data ACommand` 与「receives commands and sends responses via TBQueue」的客户端实例都在仓库里，README 原话「in the application's process; it is not a daemon and binds no port」；PAP 仍按 §16 记为 0 命中 | `../popopxmq/protocol/agent-protocol.md:1`、`../popopxmq/src/Popopx/Messaging/Agent/Protocol.hs:472`、`../popopxmq/src/Popopx/Messaging/Agent/Client.hs:518`、`../popopxmq/README.md:43` |
 | **两处「不是全部」的偏离，必须留在台账里**：服务套件网关默认 `gateway_host=… "0.0.0.0"` 且 `forwarded_allow_ips="*"`，README.en.md 自己记了与 Ubuntu 的 bind 差异；套件确有 session/epoch/membership 三种 revoke。结论：任何「全都只绑回环」的全称句只能限到 Studio 控制台与 Mac 节点控制台 | `../popopx-service-suite/gateway/app/config.py:494`、`../popopx-service-suite/gateway/app/main.py:704,1730,2162,7124,7130`、`../popopx-service-suite/README.en.md:157-163` |
 | 两块面板零外部请求、零图片：两文件 `fetch(`/`<img`/`http` 三种写法各 0 命中，图标是页内 `<svg>`；面板状态只有四个 `useState` 单元（场景、步序、批准、撤销），点击只推进本页计数 | `./src/components/ConnectionDemo.tsx:1-20,793-796`、`./src/components/ConnectionPillars.tsx:1-20` |
@@ -413,7 +415,7 @@ grep -n "noiseTransportOverhead" apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Co
 # 4) 设备族：主 App 是 1，其他 target 有 1,2 —— 口径只能落在主 App
 grep -c "TARGETED_DEVICE_FAMILY = 1;" apps/ios/POPOPX.xcodeproj/project.pbxproj
 grep -c 'TARGETED_DEVICE_FAMILY = "1,2"' apps/ios/POPOPX.xcodeproj/project.pbxproj
-sed -n '2790p;2839p;2996p' apps/ios/POPOPX.xcodeproj/project.pbxproj
+sed -n '2800p;2849p;3006p' apps/ios/POPOPX.xcodeproj/project.pbxproj
 
 # 5) 面板零外部请求
 cd .. && grep -cE "fetch\(|<img|https?://" popopx-chat-web/src/components/ConnectionDemo.tsx \
@@ -521,7 +523,7 @@ curl -s "https://api.github.com/repos/popopx-chat/popopxmq/contents/protocol?ref
 
 | 事实 | 出处 |
 | --- | --- |
-| **iOS 的 AppID 只有一个**：Team ID `PDBA6XRBQT`（同文件 4 处 `DEVELOPMENT_TEAM` 全等）配主 App 的 `com.popopxchat.popopx`（Debug 与 Release 各一处；同文件另有 `.Tests-iOS`、`.SimpleX-NSE` 等带后缀的 target，它们不进 AASA）。entitlements 声明的域是 `applinks:popopx.chat`、`applinks:www.popopx.chat`、`applinks:*.popopx.im`，前两条各带一个 `?mode=developer` 副本 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2659,2784,2834`、`apps/ios/POPOPX (iOS).entitlements:9-13` |
+| **iOS 的 AppID 只有一个**：Team ID `PDBA6XRBQT`（同文件 4 处 `DEVELOPMENT_TEAM` 全等）配主 App 的 `com.popopxchat.popopx`（Debug 与 Release 各一处；同文件另有 `.Tests-iOS`、`.notification-service` 等带后缀的 target，它们不进 AASA）。entitlements 声明的域是 `applinks:popopx.chat`、`applinks:www.popopx.chat`、`applinks:*.popopx.im`；两条 `?mode=developer` 副本已随客户端 `3d91fd9da`（2026-11-28）删除 | `apps/ios/POPOPX.xcodeproj/project.pbxproj:2669,2794,2844`、`apps/ios/POPOPX (iOS).entitlements:9-11` |
 | **Android 的包名取 applicationId，不取源码包**：`applicationId` 与 `namespace` 都是 `com.popopxchat.popopx`；任务书写的 `chat.popopx.app` 是 `commonMain` 的 Kotlin 源码包路径，不是安装标识，写进 `assetlinks.json` 会让校验对不上任何已安装应用。debug 变体靠根工程的 `application_id.suffix` 追加后缀与发布版并存，所以校验文件里只能出现不带后缀的那个 id | `apps/multiplatform/android/build.gradle.kts:15-16,55`、`apps/multiplatform/build.gradle.kts:22-25` |
 | **签名指纹只有一个，且这是写进规则的**：值来自发布证书（`subject= /CN=com.popopxchat.popopx`），配方在下一节的 `openssl` 行；先前站点目录的 README 原话「The fingerprint list has **one** entry」——上游列三把是因为 Play、GitHub APK、F-Droid 是三把不同的密钥，本站只有一把发布密钥、不发 APK，写第三把等于替本站不持有的授权背书。将来若用第二把密钥签 Play 上传，才往数组里加，否则安卓链路校验只对这把密钥签出的包生效 | `../popopx.chat/.well-known/README.md:13-18` |
 | **邀请地址的出厂写法只有一种，可读写法有三种**：铸造端是 Swift 的 `linkPrefix` 与 Kotlin 的 `LINK_PREFIX`，同为 `https://popopx.chat/i/v1/`；打开端接受该前缀加 `popopx:/i/v1/` 与 `popopx://popopx.chat/i/v1/` 三种拼法，注释的理由是「只认铸造写法会让同一条链接粘贴能用、点击失败」。Kotlin 测试把三条字面量写死而不是遍历生产列表，注释明说这是为了抓住列表缩水这种回归。落地页的复制按钮产出的必须是铸造写法 | `apps/ios/PopopxMeshKit/Sources/PopopxMeshKit/Invite/PopopxOpaqueInviteCodec.swift:71,193-195`、`apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/invite/PopopxOpaqueInviteCodec.kt:53,141-142`、`apps/multiplatform/common/src/desktopTest/kotlin/chat/popopx/app/invite/PopopxOpaqueInviteCodecTest.kt:236-239,248` |
