@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactElement } from "react";
 import { LtrText } from "@/components/Ltr";
 import { LOCALE_COUNT, LOCALES, pick, useCopy, useLocale, type Localized } from "@/lib/i18n";
@@ -170,6 +171,59 @@ export const H_LEGAL: Localized<string> = {
   tr: "Lisans ve markalar",
   hu: "Licenc és védjegyek",
 };
+
+export const L_PRIVACY: Localized<string> = {
+  en: "Privacy Policy",
+  "pt-BR": "Política de Privacidade",
+  ko: "개인정보 처리방침",
+  ar: "سياسة الخصوصية",
+  ru: "Политика конфиденциальности",
+  de: "Datenschutzerklärung",
+  fr: "Politique de confidentialité",
+  it: "Informativa sulla privacy",
+  nl: "Privacybeleid",
+  cs: "Zásady ochrany osobních údajů",
+  "zh-Hans": "隐私政策",
+  "zh-Hant": "隱私政策",
+  es: "Política de privacidad",
+  pl: "Polityka prywatności",
+  ja: "プライバシーポリシー",
+  th: "นโยบายความเป็นส่วนตัว",
+  fi: "Tietosuojakäytäntö",
+  uk: "Політика конфіденційності",
+  bg: "Политика за поверителност",
+  tr: "Gizlilik Politikası",
+  hu: "Adatvédelmi irányelvek",
+};
+
+export const L_TERMS: Localized<string> = {
+  en: "Terms of Use",
+  "pt-BR": "Termos de Uso",
+  ko: "이용약관",
+  ar: "شروط الاستخدام",
+  ru: "Условия использования",
+  de: "Nutzungsbedingungen",
+  fr: "Conditions d’utilisation",
+  it: "Termini di utilizzo",
+  nl: "Gebruiksvoorwaarden",
+  cs: "Podmínky použití",
+  "zh-Hans": "服务条款",
+  "zh-Hant": "服務條款",
+  es: "Términos de uso",
+  pl: "Warunki korzystania",
+  ja: "利用規約",
+  th: "ข้อกำหนดการใช้งาน",
+  fi: "Käyttöehdot",
+  uk: "Умови використання",
+  bg: "Условия за ползване",
+  tr: "Kullanım Koşulları",
+  hu: "Felhasználási feltételek",
+};
+
+const LEGAL_LINKS: readonly { href: string; label: Localized<string> }[] = [
+  { href: "/privacy/", label: L_PRIVACY },
+  { href: "/terms/", label: L_TERMS },
+];
 
 const H_LANGUAGES: Localized<string> = {
   en: "Languages",
@@ -1054,6 +1108,19 @@ export function Footer(): ReactElement {
               </span>
               <LtrText text={licensed} />
             </p>
+            <ul className="flex flex-wrap gap-x-4 gap-y-1">
+              {LEGAL_LINKS.map((entry) => (
+                <li key={entry.href}>
+                  <Link
+                    href={entry.href}
+                    prefetch={false}
+                    className={`${LINK_CLASS} ${FOCUS}`}
+                  >
+                    <LtrText text={pick(entry.label, locale)} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
           <ul className="mt-5 grid gap-3 md:grid-cols-3">
             {LEGAL_NOTES.map((note) => (

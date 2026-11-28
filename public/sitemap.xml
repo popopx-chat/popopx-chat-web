@@ -2,12 +2,14 @@
 <!--
   POPOPX main portal sitemap.
 
-  Seven indexed routes, seven entries (`ROUTES` in `src/lib/site.ts`, one
-  `out/<route>/index.html` each). Paths carry the trailing slash because
+  Nine indexed routes: the seven in `ROUTES` (`src/lib/site.ts`, one
+  `out/<route>/index.html` each) plus the two legal pages, which are linked from
+  the footer rather than the navbar. Paths carry the trailing slash because
   `next.config.mjs` sets `trailingSlash: true` — without it the URL costs a
-  redirect. The 18 languages are switched client-side from `localStorage`, not by
-  URL, so there are no per-language entries and no `hreflang` alternates here:
-  listing them would point crawlers at addresses the export does not produce.
+  redirect. The 21 languages are switched client-side from `localStorage`, not
+  by URL, so there are no per-language entries and no `hreflang` alternates
+  here: listing them would point crawlers at addresses the export does not
+  produce.
 
   The built `/i/v1/` document is deliberately absent: it is an invitation bridge
   with `robots: { index: false }` and a `Disallow` line in robots.txt, not
@@ -50,5 +52,15 @@
     <loc>https://popopx.chat/resources/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/privacy/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://popopx.chat/terms/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>
